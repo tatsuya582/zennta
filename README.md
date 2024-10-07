@@ -50,3 +50,6 @@ ZennやQiitaのAPIを利用して記事一覧や検索を同時にできるサ�
 | データベース    | PostgreSQL（Supabase内で管理）                 |
 | 環境構築        | Docker                                         |
 | インフラ        | vercel                                         |
+
+## 画面遷移図
+https://www.figma.com/design/5evzupEZ7y4RxCet1o9ZMV/%E7%84%A1%E9%A1%8C?node-id=0-1&t=zDD4M3SYHiwxHWOB-1
