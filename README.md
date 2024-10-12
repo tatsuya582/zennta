@@ -55,4 +55,4 @@ ZennやQiitaのAPIを利用して記事一覧や検索を同時にできるサ�
 https://www.figma.com/design/5evzupEZ7y4RxCet1o9ZMV/%E7%84%A1%E9%A1%8C?node-id=0-1&t=zDD4M3SYHiwxHWOB-1
 
 ## ER図
-[![ER図](https://i.gyazo.com/9bf69056dbf21d0c727d1a3c89af1cd1.png)](https://gyazo.com/9bf69056dbf21d0c727d1a3c89af1cd1)
+[![ER図](https://i.gyazo.com/b511f24d7e0883895ac02a9f173b7415.png)](https://gyazo.com/b511f24d7e0883895ac02a9f173b7415)
