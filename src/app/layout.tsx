@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import React from "react";
+import Header from "@/components/layout/header";
 
 export const metadata: Metadata = {
   title: {
     template: "%s | Zennta",
-    default: "Zennta"
+    default: "Zennta",
   },
   description:
     "ZennやQiitaのAPIを利用して記事一覧や検索を同時にできるサービスです。読んだ履歴や後で読む、お気に入りなどができます。",
@@ -32,7 +32,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body>{children}</body>
+      <body>
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }
