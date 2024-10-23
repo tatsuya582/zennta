@@ -23,13 +23,13 @@ const config: Config = {
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
   collectCoverageFrom: [
-    '**/*.{js,jsx,ts,tsx}',
-    '!**/*.d.ts',
-    '!**/node_modules/**',
-    '!<rootDir>/out/**',
-    '!<rootDir>/.next/**',
-    '!<rootDir>/*.config.ts',
-    '!<rootDir>/coverage/**',
+    "**/*.{js,jsx,ts,tsx}",
+    "!**/*.d.ts",
+    "!**/node_modules/**",
+    "!<rootDir>/out/**",
+    "!<rootDir>/.next/**",
+    "!<rootDir>/*.config.ts",
+    "!<rootDir>/coverage/**",
   ],
 
   // The directory where Jest should output its coverage files
@@ -41,7 +41,7 @@ const config: Config = {
   // ],
 
   // Indicates which provider should be used to instrument code for coverage
-  coverageProvider: 'v8',
+  coverageProvider: "v8",
 
   // A list of reporter names that Jest uses when writing coverage reports
   // coverageReporters: [
@@ -101,24 +101,24 @@ const config: Config = {
   moduleNameMapper: {
     // Handle CSS imports (with CSS modules)
     // https://jestjs.io/docs/webpack#mocking-css-modules
-    '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
- 
+    "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
+
     // Handle CSS imports (without CSS modules)
-    '^.+\\.(css|sass|scss)$': '<rootDir>/__mocks__/styleMock.js',
- 
+    "^.+\\.(css|sass|scss)$": "<rootDir>/__mocks__/styleMock.js",
+
     // Handle image imports
     // https://jestjs.io/docs/webpack#handling-static-assets
-    '^.+\\.(png|jpg|jpeg|gif|webp|avif|ico|bmp|svg)$/i': `<rootDir>/__mocks__/fileMock.js`,
- 
+    "^.+\\.(png|jpg|jpeg|gif|webp|avif|ico|bmp|svg)$/i": `<rootDir>/__mocks__/fileMock.js`,
+
     // Handle module aliases
     "^@/(.*)$": "<rootDir>/src/$1",
- 
+
     // Handle @next/font
-    '@next/font/(.*)': `<rootDir>/__mocks__/nextFontMock.js`,
+    "@next/font/(.*)": `<rootDir>/__mocks__/nextFontMock.js`,
     // Handle next/font
-    'next/font/(.*)': `<rootDir>/__mocks__/nextFontMock.js`,
+    "next/font/(.*)": `<rootDir>/__mocks__/nextFontMock.js`,
     // Disable server-only
-    'server-only': `<rootDir>/__mocks__/empty.js`,
+    "server-only": `<rootDir>/__mocks__/empty.js`,
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
@@ -190,7 +190,7 @@ const config: Config = {
   // ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-  testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/.next/'],
+  testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.next/"],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
   // testRegex: [],
@@ -205,23 +205,23 @@ const config: Config = {
   transform: {
     // Use babel-jest to transpile tests with the next/babel preset
     // https://jestjs.io/docs/configuration#transform-objectstring-pathtotransformer--pathtotransformer-object
-    '^.+\\.(js|jsx|ts|tsx)$': ['babel-jest', {
-      sourceType: 'unambiguous',
-      targets: { node: process.versions.node },
-      presets: [
-        '@babel/preset-env',
-        "@babel/preset-typescript",
-        // or runtime: 'classic', depending on which one you are using
-        ['@babel/preset-react', { development: true, runtime: 'automatic' }]
-      ]
-    }]
+    "^.+\\.(js|jsx|ts|tsx)$": [
+      "babel-jest",
+      {
+        sourceType: "unambiguous",
+        targets: { node: process.versions.node },
+        presets: [
+          "@babel/preset-env",
+          "@babel/preset-typescript",
+          // or runtime: 'classic', depending on which one you are using
+          ["@babel/preset-react", { development: true, runtime: "automatic" }],
+        ],
+      },
+    ],
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
-  transformIgnorePatterns: [
-    '/node_modules/',
-    '^.+\\.module\\.(css|sass|scss)$',
-  ],
+  transformIgnorePatterns: ["/node_modules/", "^.+\\.module\\.(css|sass|scss)$"],
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
   // unmockedModulePathPatterns: undefined,
