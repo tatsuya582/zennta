@@ -76,3 +76,20 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.sidebar::-webkit-scrollbar,
+.main-content::-webkit-scrollbar {
+  width: 10px; /* スクロールバーの幅 */
+}
+
+.sidebar::-webkit-scrollbar-track,
+.main-content::-webkit-scrollbar-track {
+  background: #f4f4f4; /* スクロールバーの背景色 */
+}
+
+.sidebar::-webkit-scrollbar-thumb,
+.main-content::-webkit-scrollbar-thumb {
+  background-color: #bbb9b9; /* スクロールバーのつまみの色 */
+  border-radius: 10px; /* スクロールバーのつまみの角を丸く */
+  border: 2px solid #f4f4f4; /* つまみの外側に余白を作る */
+}
