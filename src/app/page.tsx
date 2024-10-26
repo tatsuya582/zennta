@@ -10,5 +10,6 @@ export default function Home() {
         <h2>Zenn一覧</h2>
         <div className="w-full border rounded-lg p-2 mt-2 border-gray-300">List</div>
       </div>
-    </div>);
+    </div>
+  );
 }
