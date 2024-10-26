@@ -11,3 +11,9 @@ test("Navigation links should be clickabel", async ({ page }) => {
   const navLinks = page.locator("nav a");
   await expect(navLinks).toHaveCount(5);
 });
+
+test("Sidebar should display the crrect history section", async ({ page }) => {
+  await page.goto("/");
+  const historySection = await page.locator("text=履歴");
+  await expect(historySection).toBeVisible();
+});
