@@ -17,7 +17,7 @@ export default function AuthNavigation() {
               <Link href="/" legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>ログイン</NavigationMenuLink>
               </Link>
-              <Link href="/" legacyBehavior passHref>
+              <Link href="/signup" legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>会員登録</NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
