@@ -40,9 +40,7 @@ export default function RootLayout({
           </header>
           <div className="flex flex-1 max-w-screen-2xl w-full mx-auto">
             <Sidebar />
-            <div className="w-full md:ml-auto md:w-3/4 md:p-12 p-4 md:mt-24 mt-12">
-              {children}
-            </div>
+            <div className="w-full md:ml-auto md:w-3/4 md:p-12 p-4 md:mt-24 mt-12">{children}</div>
           </div>
         </div>
       </body>
