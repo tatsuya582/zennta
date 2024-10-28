@@ -1,13 +1,9 @@
 "use client";
 import { signinWithOAuthAction } from "@/actions/auth";
 import { Button } from "@/components/ui/button";
-import { type Provider } from "@supabase/supabase-js";
+import { SigninButtonProps } from "@/types/types";
 
-type SigninButtonProps = {
-  provider: Provider;
-};
-
-export function SigninButton({ provider }: SigninButtonProps) {
+export function SigninButton({ provider, children }: SigninButtonProps) {
   return (
     <Button
       size="lg"
@@ -15,7 +11,7 @@ export function SigninButton({ provider }: SigninButtonProps) {
         signinWithOAuthAction(provider);
       }}
     >
-      {provider}で会員登録
+      {children}
     </Button>
   );
 }
