@@ -6,15 +6,12 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import Link from "next/link";
-import { createClient } from "@/utils/supabase/server";
 import { logout } from "@/actions/auth";
 import { Suspense } from "react";
+import { getUser } from "@/lib/auth/getUser/server";
 
 export default async function AuthNavigation() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUser();
 
   return (
     <>
