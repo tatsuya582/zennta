@@ -5,17 +5,21 @@ import { render, screen } from "@testing-library/react";
 
 jest.mock("@/components/layout/header/AuthNavigation", () => ({
   __esModule: true,
-  default: jest.fn(() => {<div></div>})
+  default: jest.fn(() => {
+    <div></div>;
+  }),
 }));
 
 jest.mock("@/components/layout/header/MobileNavigation", () => ({
   __esModule: true,
-  default: jest.fn(() => {<div></div>})
+  default: jest.fn(() => {
+    <div></div>;
+  }),
 }));
 
 beforeEach(() => {
   jest.clearAllMocks();
-})
+});
 
 describe("Header Component", () => {
   test("should display Zennta logo in the Header component", () => {

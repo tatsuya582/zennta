@@ -8,7 +8,7 @@ jest.mock("@/lib/auth/getUser/server", () => ({
 
 beforeEach(() => {
   jest.clearAllMocks();
-})
+});
 
 describe("AuthNavigation Component", () => {
   test("should display login screen when AuthNavigation is called with no user logged in", async () => {
