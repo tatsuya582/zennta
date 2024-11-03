@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { signinWithOAuthAction } from "@/lib/auth/login";
 import { SigninButtonProps } from "@/types/types";
 
-export function SigninButton({ provider, children }: SigninButtonProps) {
+export function AuthButton({ provider, children }: SigninButtonProps) {
   return (
     <Button
       size="lg"

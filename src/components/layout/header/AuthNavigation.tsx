@@ -28,7 +28,7 @@ export default async function AuthNavigation() {
                   </form>
                 ) : (
                   <>
-                    <Link href="/" legacyBehavior passHref>
+                    <Link href="/login" legacyBehavior passHref>
                       <NavigationMenuLink className={navigationMenuTriggerStyle()}>ログイン</NavigationMenuLink>
                     </Link>
                     <Link href="/signup" legacyBehavior passHref>
