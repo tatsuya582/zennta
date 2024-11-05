@@ -5,19 +5,19 @@ export type Database = {
     Tables: {
       users: {
         Row: {
-          avatarUrl: string;
+          avatarUrl: string | null;
           createdAt: string;
           id: string;
           name: string;
         };
         Insert: {
-          avatarUrl: string;
+          avatarUrl?: string | null;
           createdAt?: string;
           id?: string;
           name: string;
         };
         Update: {
-          avatarUrl?: string;
+          avatarUrl?: string | null;
           createdAt?: string;
           id?: string;
           name?: string;
