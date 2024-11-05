@@ -8,10 +8,10 @@ import {
 import Link from "next/link";
 import { logout } from "@/actions/auth";
 import { Suspense } from "react";
-import { getUser } from "@/lib/auth/getUser/server";
+import { currentUser } from "@/lib/auth/currentUser/server";
 
 export default async function AuthNavigation() {
-  const user = await getUser();
+  const user = await currentUser();
 
   return (
     <>
