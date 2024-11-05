@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Sidebar from "@/components/layout/sidebar/Sidebar";
 import Header from "@/components/layout/header/Header";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: {
@@ -38,10 +39,11 @@ export default function RootLayout({
           <header>
             <Header />
           </header>
-          <div className="flex flex-1 max-w-screen-2xl w-full mx-auto">
+          <main className="flex flex-1 max-w-screen-2xl w-full mx-auto">
             <Sidebar />
             <div className="w-full md:ml-auto md:w-3/4 md:p-12 p-4 md:mt-24 mt-12">{children}</div>
-          </div>
+          </main>
+          <Toaster />
         </div>
       </body>
     </html>

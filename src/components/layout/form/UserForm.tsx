@@ -1,8 +1,10 @@
 "use client";
 
+import { updateUser } from "@/actions/user";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
@@ -27,8 +29,17 @@ export default function UserForm({ name, edit }: { name: string; edit: boolean }
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const { toast } = useToast();
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      await updateUser(values.name);
+      toast({
+        description: "名前を変更しました",
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -55,11 +66,17 @@ export default function UserForm({ name, edit }: { name: string; edit: boolean }
         />
         <div className="flex justify-end">
           {edit ? (
-            <div className="space-x-2">
-              <Link href="/profile">
-                <Button type="button">戻る</Button>
-              </Link>
-              <Button type="submit">編集</Button>
+            <div className="flex gap-2">
+              <div>
+                <Link href="/profile">
+                  <Button type="button" variant="outline">
+                    戻る
+                  </Button>
+                </Link>
+              </div>
+              <div>
+                <Button type="submit">編集</Button>
+              </div>
             </div>
           ) : (
             <Link href="/profile/edit">
