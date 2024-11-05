@@ -9,6 +9,13 @@ const nextConfig = {
     }
     return config;
   },
+  images: {
+    domains: [
+      "avatars.githubusercontent.com", // GitHubのアバター画像
+      "lh3.googleusercontent.com", // Googleのアバター画像
+      "pbs.twimg.com", // Twitterのアバター画像
+    ],
+  },
 };
 
 export default nextConfig;
