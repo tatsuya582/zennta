@@ -36,7 +36,7 @@ describe("AuthNavigation Component", () => {
     console.error = jest.fn();
     console.warn = jest.fn();
 
-    (getUser as jest.Mock).mockResolvedValueOnce({ id: "test" });
+    (getUser as jest.Mock).mockResolvedValueOnce({ name: "test" });
     const ui = await AuthNavigation();
     render(ui);
     const logout = screen.getByText(/ログアウト/i);
