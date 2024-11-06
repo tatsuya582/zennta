@@ -7,7 +7,7 @@ test("Header should display the crrect logo", async ({ page }) => {
 
 test("Navigation links should be clickabel", async ({ page }) => {
   await page.goto("/");
-  await expect(page.locator("nav a")).toHaveCount(4);
+  await expect(page.locator("nav a")).toHaveCount(5);
 });
 
 test("Sidebar should display the crrect history section", async ({ page }) => {
