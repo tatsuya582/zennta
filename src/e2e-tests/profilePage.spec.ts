@@ -3,11 +3,11 @@ import test, { expect } from "@playwright/test";
 test("Profile page UI elements and functionality", async ({ page }) => {
   await page.goto("/profile");
 
-  await expect(page.getByRole('heading', { name: 'マイページ' })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "マイページ" })).toBeVisible();
 
   const profileImage = page.locator('img[alt="user image"]');
   await expect(profileImage).toBeVisible();
-  await expect(profileImage).toHaveAttribute('src', /avatars\.githubusercontent\.com/);
+  await expect(profileImage).toHaveAttribute("src", /avatars\.githubusercontent\.com/);
 
   const nameInput = page.locator('input[name="name"]');
   await expect(nameInput).toHaveValue(process.env.NEXT_PUBLIC_TEST_USER!);

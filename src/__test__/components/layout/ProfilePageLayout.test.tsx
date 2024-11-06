@@ -15,8 +15,8 @@ beforeEach(() => {
 });
 
 describe("ProfilePageLayout Component", () => {
-  test("renders profile page with name input disabled and title displayed", async() => {
-    const ui = await ProfilePageLayout({title:"マイページ", isEdit:false})
+  test("renders profile page with name input disabled and title displayed", async () => {
+    const ui = await ProfilePageLayout({ title: "マイページ", isEdit: false });
     render(ui);
     const input = screen.getByDisplayValue(name);
     expect(input).toBeInTheDocument();
@@ -24,8 +24,8 @@ describe("ProfilePageLayout Component", () => {
     expect(screen.getByText(/マイページ/i)).toBeInTheDocument();
   });
 
-  test("renders edit profile page with back button and title displayed", async() => {
-    const ui = await ProfilePageLayout({title:"マイページ編集", isEdit:true})
+  test("renders edit profile page with back button and title displayed", async () => {
+    const ui = await ProfilePageLayout({ title: "マイページ編集", isEdit: true });
     render(ui);
     const backButton = screen.getByRole("button", { name: "戻る" });
     expect(backButton.closest("a")).toHaveAttribute("href", "/profile");
