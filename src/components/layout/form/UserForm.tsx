@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -30,15 +31,22 @@ export default function UserForm({ name, edit }: { name: string; edit: boolean }
   });
 
   const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    if (name === values.name) {
+      return;
+    }
     try {
+      setIsLoading(true);
       await updateUser(values.name);
       toast({
         description: "名前を変更しました",
       });
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -74,9 +82,17 @@ export default function UserForm({ name, edit }: { name: string; edit: boolean }
                   </Button>
                 </Link>
               </div>
-              <div>
-                <Button type="submit">編集</Button>
-              </div>
+              {isLoading ? (
+                <div>
+                  <Button type="submit">
+                    <span className="loader mx-1"></span>
+                  </Button>
+                </div>
+              ) : (
+                <div>
+                  <Button type="submit">編集</Button>
+                </div>
+              )}
             </div>
           ) : (
             <Link href="/profile/edit">

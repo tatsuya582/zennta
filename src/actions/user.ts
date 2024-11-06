@@ -25,14 +25,9 @@ export const getUser = cache(async () => {
 export const updateUser = async (name: string) => {
   const supabase = await createClient();
   const user = await currentUser();
-  const current = await getUser();
 
   if (!user) {
     redirect("/login");
-  }
-
-  if (current?.name === name || name.length < 2 || name.length > 50) {
-    throw new Error("名前の更新に失敗しました");
   }
 
   const { error } = await supabase.from("users").update({ name }).eq("id", user.id);
