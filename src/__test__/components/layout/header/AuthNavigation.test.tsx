@@ -1,9 +1,9 @@
 import AuthNavigation from "@/components/layout/header/AuthNavigation";
-import { currentUser } from "@/lib/auth/currentUser/server";
+import { getUser } from "@/actions/user";
 import { render, screen } from "@testing-library/react";
 
-jest.mock("@/lib/auth/currentUser/server", () => ({
-  currentUser: jest.fn(),
+jest.mock("@/actions/user", () => ({
+  getUser: jest.fn(),
 }));
 
 beforeEach(() => {
@@ -12,7 +12,7 @@ beforeEach(() => {
 
 describe("AuthNavigation Component", () => {
   test("should display login screen when AuthNavigation is called with no user logged in", async () => {
-    (currentUser as jest.Mock).mockResolvedValueOnce(null);
+    (getUser as jest.Mock).mockResolvedValueOnce(null);
     const ui = await AuthNavigation();
     render(ui);
     const login = screen.getByText(/ログイン/i);
@@ -20,7 +20,7 @@ describe("AuthNavigation Component", () => {
   });
 
   test("should display navigation links when AuthNavigation is called with no user logged in", async () => {
-    (currentUser as jest.Mock).mockResolvedValueOnce(null);
+    (getUser as jest.Mock).mockResolvedValueOnce(null);
     const ui = await AuthNavigation();
     render(ui);
     const navLinks = screen.getAllByRole("link");
@@ -36,7 +36,7 @@ describe("AuthNavigation Component", () => {
     console.error = jest.fn();
     console.warn = jest.fn();
 
-    (currentUser as jest.Mock).mockResolvedValueOnce({ id: "test" });
+    (getUser as jest.Mock).mockResolvedValueOnce({ id: "test" });
     const ui = await AuthNavigation();
     render(ui);
     const logout = screen.getByText(/ログアウト/i);
