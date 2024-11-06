@@ -8,10 +8,10 @@ import {
 import Link from "next/link";
 import { logout } from "@/actions/auth";
 import { Suspense } from "react";
-import { currentUser } from "@/lib/auth/currentUser/server";
+import { getUser } from "@/actions/user";
 
 export default async function AuthNavigation() {
-  const user = await currentUser();
+  const user = await getUser();
 
   return (
     <>
@@ -21,11 +21,18 @@ export default async function AuthNavigation() {
             <NavigationMenuItem>
               <Suspense fallback={<div>Loading...</div>}>
                 {user ? (
-                  <form action={logout}>
-                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                      <button type="submit">ログアウト</button>
-                    </NavigationMenuLink>
-                  </form>
+                  <div className="flex md:flex-row flex-col">
+                    <div>
+                      <Link href="/profile" legacyBehavior passHref>
+                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>マイページ</NavigationMenuLink>
+                      </Link>
+                    </div>
+                    <form action={logout}>
+                      <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                        <button type="submit">ログアウト</button>
+                      </NavigationMenuLink>
+                    </form>
+                  </div>
                 ) : (
                   <>
                     <Link href="/login" legacyBehavior passHref>
