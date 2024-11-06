@@ -1,5 +1,5 @@
 import { getUser } from "@/actions/user";
-import UserForm from "@/components/layout/form/UserForm";
+import UserForm from "@/components/layout/form/UserForm/UserForm";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
