@@ -20,7 +20,7 @@ type UseUserFormReturn = {
   form: UseFormReturn<z.infer<typeof formSchema>>;
   onSubmit: (values: z.infer<typeof formSchema>) => Promise<void>;
   isLoading: boolean;
-}
+};
 
 export const useUserForm = (initialName: string): UseUserFormReturn => {
   const form = useForm<z.infer<typeof formSchema>>({
