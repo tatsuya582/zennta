@@ -59,3 +59,29 @@ export const getZennArticles = async ({ page }: { page: string }) => {
     throw new Error("Failed to fetch articles");
   }
 };
+
+export const searchZennArticles = async ({ page, query }: { page: string; query: string }) => {
+  const url = query
+    ? `https://zenn.dev/api/search?q=${query}&order=latest&source=articles&page=${page}`
+    : `https://zenn.dev/api/articles?page=${page}&order=latest`;
+
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_QIITA_API_TOKEN!}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch data: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching Qiita items:", error);
+    throw new Error("Failed to fetch articles");
+  }
+};

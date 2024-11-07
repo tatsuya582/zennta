@@ -18,3 +18,15 @@ type qiitaItem = {
   tags: [];
   created_at: string; // ISO 8601 format, e.g., "2000-01-01T00:00:00+00:00"
 };
+
+type zennItem = {
+  id: number;
+  title: string;
+  path: string;
+  published_at: string;
+};
+
+type zennResponse = {
+  articles: zennItem[];
+  next_page: number;
+};
