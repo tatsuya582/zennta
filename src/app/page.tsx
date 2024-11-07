@@ -1,4 +1,4 @@
-export default function Home() {
+export default async function Home() {
   return (
     <>
       <div className="w-full flex justify-center items-center flex-col md:mt-2 mt-8">
