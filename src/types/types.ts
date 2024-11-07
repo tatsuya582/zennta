@@ -5,3 +5,8 @@ export type SigninButtonProps = {
   provider: Provider;
   children: ReactNode;
 };
+
+export type ProfilePageLayoutProps = {
+  title: string;
+  isEdit: boolean;
+};

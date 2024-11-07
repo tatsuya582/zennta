@@ -33,6 +33,7 @@ const config: Config = {
     "!<rootDir>/src/e2e-tests/**",
     "!<rootDir>/src/utils/supabase/**",
     "!<rootDir>/src/middleware.ts",
+    "!<rootDir>/src/types/**",
   ],
 
   // The directory where Jest should output its coverage files

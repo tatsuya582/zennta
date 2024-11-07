@@ -1,5 +1,3 @@
-import AuthNavigation from "@/components/layout/header/AuthNavigation";
-import MobileNavigation from "@/components/layout/header/MobileNavigation";
 import Header from "@/components/layout/header/Header";
 import { render, screen } from "@testing-library/react";
 

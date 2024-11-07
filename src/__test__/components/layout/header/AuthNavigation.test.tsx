@@ -1,8 +1,8 @@
 import AuthNavigation from "@/components/layout/header/AuthNavigation";
-import { getUser } from "@/lib/auth/getUser/server";
+import { getUser } from "@/actions/user";
 import { render, screen } from "@testing-library/react";
 
-jest.mock("@/lib/auth/getUser/server", () => ({
+jest.mock("@/actions/user", () => ({
   getUser: jest.fn(),
 }));
 
@@ -36,7 +36,7 @@ describe("AuthNavigation Component", () => {
     console.error = jest.fn();
     console.warn = jest.fn();
 
-    (getUser as jest.Mock).mockResolvedValueOnce({ id: "test" });
+    (getUser as jest.Mock).mockResolvedValueOnce({ name: "test" });
     const ui = await AuthNavigation();
     render(ui);
     const logout = screen.getByText(/ログアウト/i);

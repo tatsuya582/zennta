@@ -93,3 +93,22 @@ body {
   border-radius: 10px; /* スクロールバーのつまみの角を丸く */
   border: 2px solid #f4f4f4; /* つまみの外側に余白を作る */
 }
+
+/* ローディングスピナー */
+.loader {
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 3px solid white;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
