@@ -1,16 +1,4 @@
-import { getQiitaArticles } from "@/actions/article";
-
-type qiitaItem = {
-  id: string;
-  title: string;
-  url: string;
-  tags: [];
-  created_at: string; // ISO 8601 format, e.g., "2000-01-01T00:00:00+00:00"
-};
-
 export default async function Home() {
-  const qiitaArticles: qiitaItem[] = await getQiitaArticles({ page: "2" });
-  qiitaArticles.map((item) => console.log(item.url));
   return (
     <>
       <div className="w-full flex justify-center items-center flex-col md:mt-2 mt-8">
