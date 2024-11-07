@@ -2,7 +2,7 @@ import { updateUser } from "@/actions/user";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 
 const formSchema = z.object({
@@ -16,7 +16,13 @@ const formSchema = z.object({
     }),
 });
 
-export const useUserForm = (initialName: string) => {
+type UseUserFormReturn = {
+  form: UseFormReturn<z.infer<typeof formSchema>>;
+  onSubmit: (values: z.infer<typeof formSchema>) => Promise<void>;
+  isLoading: boolean;
+}
+
+export const useUserForm = (initialName: string): UseUserFormReturn => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
