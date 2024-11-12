@@ -1,4 +1,6 @@
-export const getQiitaArticles = async ({ page }: { page: string }) => {
+import { type qiitaItem } from "@/types/types";
+
+export const getQiitaArticles = async ({ page }: { page: string }): Promise<qiitaItem[]> => {
   try {
     const response = await fetch(`https://qiita.com/api/v2/items?page=${page}&per_page=30`, {
       method: "GET",
