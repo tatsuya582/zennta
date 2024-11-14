@@ -29,7 +29,7 @@ export default async function QiitaPagiNation({ currentPage, totalPage }: { curr
             <PaginationItem>
               <PaginationPrevious href={`/?page=${currentPage - 1}`} />
             </PaginationItem>
-            {currentPage >= 3 && <PaginationEllipsis className="hidden md:block"/>}
+            {currentPage >= 3 && <PaginationEllipsis className="hidden md:block" />}
             {currentPage === totalPage && (
               <PaginationItem>
                 <PaginationLink href={`/?page=${currentPage - 2}`}>{currentPage - 2}</PaginationLink>
@@ -55,7 +55,9 @@ export default async function QiitaPagiNation({ currentPage, totalPage }: { curr
                 <PaginationLink href={`/?page=${currentPage + 2}`}>{currentPage + 2}</PaginationLink>
               </PaginationItem>
             )}
-            <PaginationItem>{currentPage + 1 < totalPage && <PaginationEllipsis className="hidden md:block"/>}</PaginationItem>
+            <PaginationItem>
+              {currentPage + 1 < totalPage && <PaginationEllipsis className="hidden md:block" />}
+            </PaginationItem>
             <PaginationItem>
               <PaginationNext href={`/?page=${currentPage + 1}`} />
             </PaginationItem>
