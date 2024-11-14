@@ -24,6 +24,5 @@ export default async function QiitaArticleList({ page }: { page: string }) {
         </div>
       ))}
     </div>
-    
   );
 }
