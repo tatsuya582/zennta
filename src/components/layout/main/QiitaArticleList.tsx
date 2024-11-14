@@ -21,7 +21,7 @@ export default async function QiitaArticleList({ page }: { page: string }) {
           >
             {item.title}
           </a>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             {item.tags.map((tag) => (
               <p key={tag.name}>{tag.name}</p>
             ))}
