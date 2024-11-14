@@ -1,4 +1,5 @@
 import QiitaArticleList from "@/components/layout/main/QiitaArticleList";
+import QiitaArticleListSkeleton from "@/components/layout/main/QiitaArticleListSkeleton";
 import { Suspense } from "react";
 
 export default async function Home({
@@ -15,7 +16,7 @@ export default async function Home({
       <div className="w-full flex justify-center items-center flex-col md:mt-2 mt-8">
         <h2>Qiita一覧</h2>
         <div className="w-full border rounded-lg p-2 mt-2 border-gray-300">
-          <Suspense>
+          <Suspense fallback={<QiitaArticleListSkeleton />}>
             <QiitaArticleList page={page} />
           </Suspense>
         </div>
