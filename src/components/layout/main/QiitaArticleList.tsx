@@ -1,14 +1,5 @@
 import { getQiitaArticles } from "@/actions/article";
 import QiitaPagiNation from "@/components/layout/main/QiitaPagiNation";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 
 export default async function QiitaArticleList({ page }: { page: string }) {
   const qiitaFetch = await getQiitaArticles({ page });

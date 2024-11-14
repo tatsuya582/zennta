@@ -1,4 +1,3 @@
-import { getQiitaArticles } from "@/actions/article";
 import {
   Pagination,
   PaginationContent,
