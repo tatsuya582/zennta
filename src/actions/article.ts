@@ -1,6 +1,6 @@
-import { type qiitaItem } from "@/types/types";
+import { type QiitaArticlesResponse } from "@/types/types";
 
-export const getQiitaArticles = async ({ page }: { page: string }): Promise<qiitaItem[]> => {
+export const getQiitaArticles = async ({ page }: { page: string }): Promise<QiitaArticlesResponse> => {
   try {
     const response = await fetch(`https://qiita.com/api/v2/items?page=${page}&per_page=30`, {
       method: "GET",
@@ -15,7 +15,10 @@ export const getQiitaArticles = async ({ page }: { page: string }): Promise<qiit
     }
 
     const data = await response.json();
-    return data;
+    const totalCount = response.headers.get("Total-Count");
+    const maxPage = totalCount ? Math.ceil(Number(totalCount) / 30) : 1;
+
+    return { articles: data, totalPage: maxPage };
   } catch (error) {
     console.error("Error fetching Qiita items:", error);
     throw new Error("Failed to fetch articles");

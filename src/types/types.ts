@@ -21,12 +21,12 @@ type QiitaItem = {
 
 type tags = {
   name: string;
-}
+};
 
 export type QiitaArticlesResponse = {
   articles: QiitaItem[];
   totalPage: number;
-}
+};
 
 type zennItem = {
   id: number;
