@@ -1,6 +1,7 @@
 import QiitaArticleList from "@/components/layout/main/QiitaArticleList";
 import QiitaArticleListSkeleton from "@/components/layout/main/QiitaArticleListSkeleton";
 import ZennArticleList from "@/components/layout/main/ZennArticleList";
+import ZennArticleListSkeleton from "@/components/layout/main/ZennArticleListSkeleton";
 import { Suspense } from "react";
 
 export default async function Home({
@@ -30,7 +31,7 @@ export default async function Home({
           Zenn一覧
         </h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
-          <Suspense fallback={<QiitaArticleListSkeleton />}>
+          <Suspense fallback={<ZennArticleListSkeleton />}>
             <ZennArticleList qiitaPage={qiitaPage} zennPage={zennPage} />
           </Suspense>
         </div>
