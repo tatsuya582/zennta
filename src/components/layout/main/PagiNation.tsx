@@ -41,7 +41,7 @@ export default async function PagiNation({
               {currentSite === "Qiita" ? (
                 <PaginationPrevious href={`/?qiitapage=${qiitaPage - 1}&zennpage=${zennPage}`} />
               ) : (
-                <PaginationPrevious href={`/?qiitapage=${qiitaPage}&zennpage=${zennPage - 1}`} />
+                <PaginationPrevious href={`/?qiitapage=${qiitaPage}&zennpage=${zennPage - 1}#zennarticles`} />
               )}
             </PaginationItem>
             {currentPage >= 3 && <PaginationEllipsis className="hidden md:flex" />}
@@ -52,7 +52,7 @@ export default async function PagiNation({
                     {currentPage - 2}
                   </PaginationLink>
                 ) : (
-                  <PaginationLink href={`/?qiitapage=${qiitaPage}&zennpage=${zennPage - 2}`}>
+                  <PaginationLink href={`/?qiitapage=${qiitaPage}&zennpage=${zennPage - 2}#zennarticles`}>
                     {currentPage - 2}
                   </PaginationLink>
                 )}
@@ -64,7 +64,7 @@ export default async function PagiNation({
                   {currentPage - 1}
                 </PaginationLink>
               ) : (
-                <PaginationLink href={`/?qiitapage=${qiitaPage}&zennpage=${zennPage - 1}`}>
+                <PaginationLink href={`/?qiitapage=${qiitaPage}&zennpage=${zennPage - 1}#zennarticles`}>
                   {currentPage - 1}
                 </PaginationLink>
               )}
@@ -84,7 +84,7 @@ export default async function PagiNation({
                   {currentPage + 1}
                 </PaginationLink>
               ) : (
-                <PaginationLink href={`/?qiitapage=${qiitaPage}&zennpage=${zennPage + 1}`}>
+                <PaginationLink href={`/?qiitapage=${qiitaPage}&zennpage=${zennPage + 1}#zennarticles`}>
                   {currentPage + 1}
                 </PaginationLink>
               )}
@@ -96,7 +96,7 @@ export default async function PagiNation({
                     {currentPage + 2}
                   </PaginationLink>
                 ) : (
-                  <PaginationLink href={`/?qiitapage=${qiitaPage}&zennpage=${zennPage + 2}`}>
+                  <PaginationLink href={`/?qiitapage=${qiitaPage}&zennpage=${zennPage + 2}#zennarticles`}>
                     {currentPage + 2}
                   </PaginationLink>
                 )}
@@ -109,7 +109,7 @@ export default async function PagiNation({
               {currentSite === "Qiita" ? (
                 <PaginationNext href={`/?qiitapage=${qiitaPage + 1}&zennpage=${zennPage}`} />
               ) : (
-                <PaginationNext href={`/?qiitapage=${qiitaPage}&zennpage=${zennPage + 1}`} />
+                <PaginationNext href={`/?qiitapage=${qiitaPage}&zennpage=${zennPage + 1}#zennarticles`} />
               )}
             </PaginationItem>
             <PaginationItem>
