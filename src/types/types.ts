@@ -35,7 +35,7 @@ type zennItem = {
   published_at: string;
 };
 
-type zennResponse = {
+export type zennArticlesResponse = {
   articles: zennItem[];
   next_page: number;
 };

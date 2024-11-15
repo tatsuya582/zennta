@@ -1,4 +1,4 @@
-import { type QiitaArticlesResponse } from "@/types/types";
+import { type zennArticlesResponse, type QiitaArticlesResponse } from "@/types/types";
 
 export const getQiitaArticles = async ({ page }: { page: string }): Promise<QiitaArticlesResponse> => {
   try {
@@ -49,7 +49,7 @@ export const searchQiitaArticles = async ({ page, query }: { page: string; query
   }
 };
 
-export const getZennArticles = async ({ page }: { page: string }) => {
+export const getZennArticles = async ({ page }: { page: string }): Promise<zennArticlesResponse> => {
   try {
     const response = await fetch(`https://zenn.dev/api/articles?page=${page}&order=latest`);
 
