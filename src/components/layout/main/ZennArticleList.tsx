@@ -1,8 +1,12 @@
 import { getZennArticles } from "@/actions/article";
+import NotArticleError from "@/components/layout/main/NotArticleError";
 import PagiNation from "@/components/layout/main/PagiNation";
 
 export default async function ZennArticleList({ qiitaPage, zennPage }: { qiitaPage: string; zennPage: string }) {
   const zennFetch = await getZennArticles({ page: zennPage });
+  if (!zennFetch) {
+    return <NotArticleError />;
+  }
   const zennArticles = zennFetch.articles;
   const qiitaCurrentPage = parseInt(qiitaPage);
   const zennCurrentPage = parseInt(zennPage);

@@ -1,8 +1,13 @@
 import { getQiitaArticles } from "@/actions/article";
+import NotArticleError from "@/components/layout/main/NotArticleError";
 import PagiNation from "@/components/layout/main/PagiNation";
 
 export default async function QiitaArticleList({ qiitaPage, zennPage }: { qiitaPage: string; zennPage: string }) {
   const qiitaFetch = await getQiitaArticles({ page: qiitaPage });
+
+  if (!qiitaFetch) {
+    return <NotArticleError />;
+  }
   const qiitaArtcles = qiitaFetch.articles;
   const qiitaCurrentPage = parseInt(qiitaPage);
   const zennCurrentPage = parseInt(zennPage);

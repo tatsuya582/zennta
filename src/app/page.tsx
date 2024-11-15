@@ -26,7 +26,9 @@ export default async function Home({
       </div>
 
       <div className="w-full flex justify-center items-center flex-col mt-16">
-        <h2 className="linked-section" id="zennarticles">Zenn一覧</h2>
+        <h2 className="linked-section" id="zennarticles">
+          Zenn一覧
+        </h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
           <Suspense fallback={<QiitaArticleListSkeleton />}>
             <ZennArticleList qiitaPage={qiitaPage} zennPage={zennPage} />
