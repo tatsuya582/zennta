@@ -1,6 +1,6 @@
-import { type QiitaArticlesResponse } from "@/types/types";
+import { type zennArticlesResponse, type QiitaArticlesResponse } from "@/types/types";
 
-export const getQiitaArticles = async ({ page }: { page: string }): Promise<QiitaArticlesResponse> => {
+export const getQiitaArticles = async ({ page }: { page: string }): Promise<QiitaArticlesResponse | null> => {
   try {
     const response = await fetch(`https://qiita.com/api/v2/items?page=${page}&per_page=30`, {
       method: "GET",
@@ -11,7 +11,7 @@ export const getQiitaArticles = async ({ page }: { page: string }): Promise<Qiit
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch data: ${response.statusText}`);
+      return null;
     }
 
     const data = await response.json();
@@ -21,7 +21,7 @@ export const getQiitaArticles = async ({ page }: { page: string }): Promise<Qiit
     return { articles: data, totalPage: maxPage };
   } catch (error) {
     console.error("Error fetching Qiita items:", error);
-    throw new Error("Failed to fetch articles");
+    return null;
   }
 };
 
@@ -49,19 +49,19 @@ export const searchQiitaArticles = async ({ page, query }: { page: string; query
   }
 };
 
-export const getZennArticles = async ({ page }: { page: string }) => {
+export const getZennArticles = async ({ page }: { page: string }): Promise<zennArticlesResponse | null> => {
   try {
     const response = await fetch(`https://zenn.dev/api/articles?page=${page}&order=latest`);
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch data: ${response.statusText}`);
+      return null;
     }
 
     const data = await response.json();
     return data;
   } catch (error) {
     console.error("Error fetching Qiita items:", error);
-    throw new Error("Failed to fetch articles");
+    return null;
   }
 };
 
