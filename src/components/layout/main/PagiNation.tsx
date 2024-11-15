@@ -8,7 +8,18 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
-export default async function QiitaPagiNation({ currentPage, totalPage }: { currentPage: number; totalPage: number }) {
+export default async function PagiNation({
+  qiitaPage,
+  zennPage,
+  totalPage,
+  currentSite,
+}: {
+  qiitaPage: number;
+  zennPage: number;
+  totalPage: number;
+  currentSite: "Zenn" | "Qiita";
+}) {
+  const currentPage = currentSite === "Qiita" ? qiitaPage : zennPage;
   return (
     <Pagination>
       <PaginationContent>
@@ -27,16 +38,36 @@ export default async function QiitaPagiNation({ currentPage, totalPage }: { curr
               </PaginationLink>
             </PaginationItem>
             <PaginationItem>
-              <PaginationPrevious href={`/?page=${currentPage - 1}`} />
+              {currentSite === "Qiita" ? (
+                <PaginationPrevious href={`/?qiitapage=${qiitaPage - 1}&zennpage=${zennPage}`} />
+              ) : (
+                <PaginationPrevious href={`/?qiitapage=${qiitaPage}&zennpage=${zennPage - 1}`} />
+              )}
             </PaginationItem>
-            {currentPage >= 3 && <PaginationEllipsis className="hidden md:block" />}
+            {currentPage >= 3 && <PaginationEllipsis className="hidden md:flex" />}
             {currentPage === totalPage && (
               <PaginationItem>
-                <PaginationLink href={`/?page=${currentPage - 2}`}>{currentPage - 2}</PaginationLink>
+                {currentSite === "Qiita" ? (
+                  <PaginationLink href={`/?qiitapage=${qiitaPage - 2}&zennpage=${zennPage}`}>
+                    {currentPage - 2}
+                  </PaginationLink>
+                ) : (
+                  <PaginationLink href={`/?qiitapage=${qiitaPage}&zennpage=${zennPage - 2}`}>
+                    {currentPage - 2}
+                  </PaginationLink>
+                )}
               </PaginationItem>
             )}
             <PaginationItem>
-              <PaginationLink href={`/?page=${currentPage - 1}`}>{currentPage - 1}</PaginationLink>
+              {currentSite === "Qiita" ? (
+                <PaginationLink href={`/?qiitapage=${qiitaPage - 1}&zennpage=${zennPage}`}>
+                  {currentPage - 1}
+                </PaginationLink>
+              ) : (
+                <PaginationLink href={`/?qiitapage=${qiitaPage}&zennpage=${zennPage - 1}`}>
+                  {currentPage - 1}
+                </PaginationLink>
+              )}
             </PaginationItem>
           </>
         )}
@@ -48,18 +79,38 @@ export default async function QiitaPagiNation({ currentPage, totalPage }: { curr
         {currentPage !== totalPage && (
           <>
             <PaginationItem>
-              <PaginationLink href={`/?page=${currentPage + 1}`}>{currentPage + 1}</PaginationLink>
+              {currentSite === "Qiita" ? (
+                <PaginationLink href={`/?qiitapage=${qiitaPage + 1}&zennpage=${zennPage}`}>
+                  {currentPage + 1}
+                </PaginationLink>
+              ) : (
+                <PaginationLink href={`/?qiitapage=${qiitaPage}&zennpage=${zennPage + 1}`}>
+                  {currentPage + 1}
+                </PaginationLink>
+              )}
             </PaginationItem>
             {currentPage === 1 && (
               <PaginationItem>
-                <PaginationLink href={`/?page=${currentPage + 2}`}>{currentPage + 2}</PaginationLink>
+                {currentSite === "Qiita" ? (
+                  <PaginationLink href={`/?qiitapage=${qiitaPage + 2}&zennpage=${zennPage}`}>
+                    {currentPage + 2}
+                  </PaginationLink>
+                ) : (
+                  <PaginationLink href={`/?qiitapage=${qiitaPage}&zennpage=${zennPage + 2}`}>
+                    {currentPage + 2}
+                  </PaginationLink>
+                )}
               </PaginationItem>
             )}
             <PaginationItem>
-              {currentPage + 1 < totalPage && <PaginationEllipsis className="hidden md:block" />}
+              {currentPage + 1 < totalPage && <PaginationEllipsis className="hidden md:flex" />}
             </PaginationItem>
             <PaginationItem>
-              <PaginationNext href={`/?page=${currentPage + 1}`} />
+              {currentSite === "Qiita" ? (
+                <PaginationNext href={`/?qiitapage=${qiitaPage + 1}&zennpage=${zennPage}`} />
+              ) : (
+                <PaginationNext href={`/?qiitapage=${qiitaPage}&zennpage=${zennPage + 1}`} />
+              )}
             </PaginationItem>
             <PaginationItem>
               <PaginationLink href={`/?page=${totalPage}`}>

@@ -1,15 +1,16 @@
 import { getQiitaArticles } from "@/actions/article";
-import QiitaPagiNation from "@/components/layout/main/QiitaPagiNation";
+import PagiNation from "@/components/layout/main/PagiNation";
 
-export default async function QiitaArticleList({ page }: { page: string }) {
-  const qiitaFetch = await getQiitaArticles({ page });
+export default async function QiitaArticleList({ qiitaPage, zennPage }: { qiitaPage: string; zennPage: string }) {
+  const qiitaFetch = await getQiitaArticles({ page: qiitaPage });
   const qiitaArtcles = qiitaFetch.articles;
-  const currentPage = parseInt(page);
+  const qiitaCurrentPage = parseInt(qiitaPage);
+  const zennCurrentPage = parseInt(zennPage);
   const totalPage = Math.min(qiitaFetch.totalPage, 100);
   return (
     <div className="mt-4">
       <div className="border-b border-gray-300 mb-2 pb-4">
-        <QiitaPagiNation currentPage={currentPage} totalPage={totalPage} />
+        <PagiNation qiitaPage={qiitaCurrentPage} zennPage={zennCurrentPage} totalPage={totalPage} currentSite="Qiita" />
       </div>
       {qiitaArtcles.map((item) => (
         <div key={item.id} className="border-b border-gray-300 mb-2 mx-2 pb-1">
@@ -28,7 +29,7 @@ export default async function QiitaArticleList({ page }: { page: string }) {
           </div>
         </div>
       ))}
-      <QiitaPagiNation currentPage={currentPage} totalPage={totalPage} />
+      <PagiNation qiitaPage={qiitaCurrentPage} zennPage={zennCurrentPage} totalPage={totalPage} currentSite="Qiita" />
     </div>
   );
 }
