@@ -17,7 +17,7 @@ export default async function ZennArticleList({ qiitaPage, zennPage }: { qiitaPa
         <PagiNation qiitaPage={qiitaCurrentPage} zennPage={zennCurrentPage} totalPage={totalPage} currentSite="Zenn" />
       </div>
       {zennArticles.map((item) => (
-        <div key={item.id} className="border-b border-gray-300 mb-2 mx-2 pb-1">
+        <div key={item.id} className="border-b border-gray-300 my-4 mx-2 pb-1">
           <a
             href={`https://zenn.dev${item.path}`}
             target="_blank"
