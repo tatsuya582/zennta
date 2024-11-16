@@ -26,7 +26,7 @@ export default async function PagiNation({
         {currentPage !== 1 && (
           <>
             <PaginationItem>
-            {currentSite === "Qiita" ? (
+              {currentSite === "Qiita" ? (
                 <PaginationLink href={`/?qiitapage=1&zennpage=${zennPage}`}>
                   <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -149,7 +149,6 @@ export default async function PagiNation({
                   </svg>
                 </PaginationLink>
               )}
-              
             </PaginationItem>
           </>
         )}
