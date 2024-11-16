@@ -25,7 +25,7 @@ export const getQiitaArticles = async ({ page }: { page: string }): Promise<Qiit
   }
 };
 
-export const searchQiitaArticles = async ({ page, query }: { page: string; query: string }) => {
+export const searchQiitaArticles = async ({ page, query }: { page: string; query: string }): Promise<QiitaArticlesResponse | null> => {
   const url = `https://qiita.com/api/v2/items?page=${page}&per_page=30${query ? `&query=${query}` : ""}`;
 
   try {
@@ -38,14 +38,17 @@ export const searchQiitaArticles = async ({ page, query }: { page: string; query
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch data: ${response.statusText}`);
+      return null;
     }
 
     const data = await response.json();
-    return data;
+    const totalCount = response.headers.get("Total-Count");
+    const maxPage = totalCount ? Math.ceil(Number(totalCount) / 30) : 1;
+
+    return { articles: data, totalPage: maxPage };
   } catch (error) {
     console.error("Error fetching Qiita items:", error);
-    throw new Error("Failed to fetch articles");
+    return null;
   }
 };
 
