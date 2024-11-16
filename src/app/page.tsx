@@ -26,7 +26,7 @@ export default async function Home({
         </div>
       </div>
 
-      <div className="w-full flex justify-center items-center flex-col mt-16">
+      <div className="w-full flex justify-center items-center flex-col my-16">
         <h2 className="linked-section" id="zennarticles">
           Zenn一覧
         </h2>
