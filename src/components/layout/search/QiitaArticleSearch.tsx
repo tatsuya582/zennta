@@ -1,6 +1,5 @@
 import { searchQiitaArticles } from "@/actions/article";
 import NotArticleError from "@/components/layout/main/NotArticleError";
-import PagiNation from "@/components/layout/main/PagiNation";
 import SearchPagiNation from "@/components/layout/search/SearchPagiNation";
 
 export default async function QiitaArticleSearch({
