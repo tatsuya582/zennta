@@ -25,7 +25,13 @@ export const getQiitaArticles = async ({ page }: { page: string }): Promise<Qiit
   }
 };
 
-export const searchQiitaArticles = async ({ page, query }: { page: string; query: string }): Promise<QiitaArticlesResponse | null> => {
+export const searchQiitaArticles = async ({
+  page,
+  query,
+}: {
+  page: string;
+  query: string;
+}): Promise<QiitaArticlesResponse | null> => {
   const url = `https://qiita.com/api/v2/items?page=${page}&per_page=30${query ? `&query=${query}` : ""}`;
 
   try {
