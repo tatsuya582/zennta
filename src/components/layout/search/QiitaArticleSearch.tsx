@@ -1,5 +1,6 @@
 import { searchQiitaArticles } from "@/actions/article";
 import NotArticleError from "@/components/layout/main/NotArticleError";
+import LessSearchPagiNation from "@/components/layout/search/LessSearchPagiNation";
 import SearchPagiNation from "@/components/layout/search/SearchPagiNation";
 
 export default async function QiitaArticleSearch({
@@ -23,13 +24,22 @@ export default async function QiitaArticleSearch({
   return (
     <div className="mt-4">
       <div className="border-b border-gray-300 mb-2 pb-4">
-        <SearchPagiNation
-          query={query}
-          qiitaPage={qiitaCurrentPage}
-          zennPage={zennCurrentPage}
-          totalPage={totalPage}
-          currentSite="Qiita"
-        />
+        {totalPage <= 5 ? (
+          <LessSearchPagiNation
+            query={query}
+            qiitaPage={qiitaCurrentPage}
+            zennPage={zennCurrentPage}
+            totalPage={totalPage}
+          />
+        ) : (
+          <SearchPagiNation
+            query={query}
+            qiitaPage={qiitaCurrentPage}
+            zennPage={zennCurrentPage}
+            totalPage={totalPage}
+            currentSite="Qiita"
+          />
+        )}
       </div>
       {qiitaArtcles.map((item) => (
         <div key={item.id} className="border-b border-gray-300 m-2 pb-1">
@@ -76,13 +86,22 @@ export default async function QiitaArticleSearch({
           </div>
         </div>
       ))}
-      <SearchPagiNation
-        query={query}
-        qiitaPage={qiitaCurrentPage}
-        zennPage={zennCurrentPage}
-        totalPage={totalPage}
-        currentSite="Qiita"
-      />
+      {totalPage <= 5 ? (
+        <LessSearchPagiNation
+          query={query}
+          qiitaPage={qiitaCurrentPage}
+          zennPage={zennCurrentPage}
+          totalPage={totalPage}
+        />
+      ) : (
+        <SearchPagiNation
+          query={query}
+          qiitaPage={qiitaCurrentPage}
+          zennPage={zennCurrentPage}
+          totalPage={totalPage}
+          currentSite="Qiita"
+        />
+      )}
     </div>
   );
 }
