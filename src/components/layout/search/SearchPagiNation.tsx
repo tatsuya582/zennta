@@ -98,7 +98,10 @@ export default async function SearchPagiNation({
               {currentPage}
             </PaginationLink>
           ) : (
-            <PaginationLink href={`/search?query=${query}&qiitapage=${qiitaPage}&zennpage=${zennPage}#zennarticles`} isActive>
+            <PaginationLink
+              href={`/search?query=${query}&qiitapage=${qiitaPage}&zennpage=${zennPage}#zennarticles`}
+              isActive
+            >
               {currentPage}
             </PaginationLink>
           )}
