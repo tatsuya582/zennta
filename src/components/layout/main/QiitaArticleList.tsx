@@ -1,6 +1,7 @@
 import { getQiitaArticles } from "@/actions/article";
 import NotArticleError from "@/components/layout/main/NotArticleError";
 import PagiNation from "@/components/layout/main/PagiNation";
+import { QiitaArticle } from "@/components/layout/main/QiitaArticle";
 
 export default async function QiitaArticleList({ qiitaPage, zennPage }: { qiitaPage: string; zennPage: string }) {
   const qiitaFetch = await getQiitaArticles({ page: qiitaPage });
@@ -20,23 +21,7 @@ export default async function QiitaArticleList({ qiitaPage, zennPage }: { qiitaP
       {qiitaArtcles.map((item) => (
         <div key={item.id} className="border-b border-gray-300 m-2 pb-1">
           <div className="flex justify-between">
-            <div>
-              <a
-                href={item.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="visited:text-gray-400 hover:underline transition-colors block"
-              >
-                {item.title}
-              </a>
-              <div className="flex gap-2 flex-wrap my-2">
-                {item.tags.map((tag) => (
-                  <div key={tag.name} className="border border-lime-300 rounded-lg bg-lime-50 px-3">
-                    {tag.name}
-                  </div>
-                ))}
-              </div>
-            </div>
+            <QiitaArticle item={item}/>
             <div className="flex items-center">
               <div className="mx-2">
                 <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
