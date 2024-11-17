@@ -74,7 +74,13 @@ export const getZennArticles = async ({ page }: { page: string }): Promise<zennA
   }
 };
 
-export const searchZennArticles = async ({ page, query }: { page: string; query: string }) => {
+export const searchZennArticles = async ({
+  page,
+  query,
+}: {
+  page: string;
+  query: string;
+}): Promise<zennArticlesResponse | null> => {
   const url = query
     ? `https://zenn.dev/api/search?q=${query}&order=latest&source=articles&page=${page}`
     : `https://zenn.dev/api/articles?page=${page}&order=latest`;

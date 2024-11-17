@@ -1,5 +1,7 @@
 import QiitaArticleListSkeleton from "@/components/layout/main/QiitaArticleListSkeleton";
+import ZennArticleListSkeleton from "@/components/layout/main/ZennArticleListSkeleton";
 import QiitaArticleSearch from "@/components/layout/search/QiitaArticleSearch";
+import ZennArticleSearch from "@/components/layout/search/ZennArticleSearch";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { redirect } from "next/navigation";
@@ -22,7 +24,6 @@ export default async function SearchPage({
     "use server";
     const name = formData.get("name")?.toString().trim() || "";
     const encodedName = encodeURIComponent(name);
-    console.log(encodedName);
     redirect(`/search?query=${encodedName}`);
   };
 
@@ -50,7 +51,7 @@ export default async function SearchPage({
       <div className="w-full flex justify-center items-center flex-col md:mt-2 mt-8">
         <h2>Qiita一覧</h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
-          <Suspense fallback={<QiitaArticleListSkeleton />}>
+          <Suspense key={JSON.stringify(searchParams)} fallback={<QiitaArticleListSkeleton />}>
             <QiitaArticleSearch query={query} qiitaPage={qiitaPage} zennPage={zennPage} />
           </Suspense>
         </div>
@@ -61,9 +62,9 @@ export default async function SearchPage({
           Zenn一覧
         </h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
-          {/* <Suspense fallback={<ZennArticleListSkeleton />}>
-            <ZennArticleList qiitaPage={qiitaPage} zennPage={zennPage} />
-          </Suspense> */}
+          <Suspense key={JSON.stringify(searchParams)} fallback={<ZennArticleListSkeleton />}>
+            <ZennArticleSearch query={query} qiitaPage={qiitaPage} zennPage={zennPage} />
+          </Suspense>
         </div>
       </div>
     </>

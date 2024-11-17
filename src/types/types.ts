@@ -37,5 +37,5 @@ type zennItem = {
 
 export type zennArticlesResponse = {
   articles: zennItem[];
-  next_page: number;
+  next_page: number | null;
 };

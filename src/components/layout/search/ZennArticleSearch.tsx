@@ -1,20 +1,28 @@
-import { getZennArticles } from "@/actions/article";
+import { searchZennArticles } from "@/actions/article";
 import NotArticleError from "@/components/layout/main/NotArticleError";
-import PagiNation from "@/components/layout/main/PagiNation";
+import ZennSearchPagiNation from "@/components/layout/search/ZennSearchPagiNation";
 
-export default async function ZennArticleList({ qiitaPage, zennPage }: { qiitaPage: string; zennPage: string }) {
-  const zennFetch = await getZennArticles({ page: zennPage });
+export default async function ZennArticleSearch({
+  query,
+  qiitaPage,
+  zennPage,
+}: {
+  query: string;
+  qiitaPage: string;
+  zennPage: string;
+}) {
+  const zennFetch = await searchZennArticles({ page: zennPage, query });
   if (!zennFetch || zennFetch.articles.length === 0) {
     return <NotArticleError />;
   }
   const zennArticles = zennFetch.articles;
   const qiitaCurrentPage = parseInt(qiitaPage);
   const zennCurrentPage = parseInt(zennPage);
-  const totalPage = 100;
+  const next = zennFetch.next_page;
   return (
     <div className="mt-4">
       <div className="border-b border-gray-300 mb-2 pb-4">
-        <PagiNation qiitaPage={qiitaCurrentPage} zennPage={zennCurrentPage} totalPage={totalPage} currentSite="Zenn" />
+        <ZennSearchPagiNation query={query} qiitaPage={qiitaCurrentPage} zennPage={zennCurrentPage} next={next} />
       </div>
       {zennArticles.map((item) => (
         <div key={item.id} className="flex justify-between border-b border-gray-300 my-4 mx-2 pb-1">
@@ -50,7 +58,7 @@ export default async function ZennArticleList({ qiitaPage, zennPage }: { qiitaPa
           </div>
         </div>
       ))}
-      <PagiNation qiitaPage={qiitaCurrentPage} zennPage={zennCurrentPage} totalPage={totalPage} currentSite="Zenn" />
+      <ZennSearchPagiNation query={query} qiitaPage={qiitaCurrentPage} zennPage={zennCurrentPage} next={next} />
     </div>
   );
 }
