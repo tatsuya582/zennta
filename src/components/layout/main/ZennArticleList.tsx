@@ -4,7 +4,7 @@ import PagiNation from "@/components/layout/main/PagiNation";
 
 export default async function ZennArticleList({ qiitaPage, zennPage }: { qiitaPage: string; zennPage: string }) {
   const zennFetch = await getZennArticles({ page: zennPage });
-  if (!zennFetch) {
+  if (!zennFetch || zennFetch.articles.length === 0) {
     return <NotArticleError />;
   }
   const zennArticles = zennFetch.articles;
