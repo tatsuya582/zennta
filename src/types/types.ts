@@ -11,7 +11,7 @@ export type ProfilePageLayoutProps = {
   isEdit: boolean;
 };
 
-type QiitaItem = {
+export type QiitaItem = {
   id: string;
   title: string;
   url: string;
