@@ -85,9 +85,15 @@ export default async function PagiNation({
           </>
         )}
         <PaginationItem>
-          <PaginationLink href="#" isActive>
-            {currentPage}
-          </PaginationLink>
+          {currentSite === "Qiita" ? (
+            <PaginationLink href={`/?qiitapage=${qiitaPage}&zennpage=${zennPage}`} isActive>
+              {currentPage}
+            </PaginationLink>
+          ) : (
+            <PaginationLink href={`/?qiitapage=${qiitaPage}&zennpage=${zennPage}#zennarticles`} isActive>
+              {currentPage}
+            </PaginationLink>
+          )}
         </PaginationItem>
         {currentPage !== totalPage && (
           <>
