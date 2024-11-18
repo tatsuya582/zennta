@@ -1,5 +1,6 @@
 import { searchZennArticles } from "@/actions/article";
 import NotArticleError from "@/components/layout/main/NotArticleError";
+import { ZennArticle } from "@/components/layout/main/ZennArticle";
 import ZennSearchPagiNation from "@/components/layout/search/ZennSearchPagiNation";
 
 export default async function ZennArticleSearch({
@@ -26,14 +27,7 @@ export default async function ZennArticleSearch({
       </div>
       {zennArticles.map((item) => (
         <div key={item.id} className="flex justify-between border-b border-gray-300 my-4 mx-2 pb-1">
-          <a
-            href={`https://zenn.dev${item.path}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="visited:text-gray-400 hover:underline transition-colors block"
-          >
-            {item.title}
-          </a>
+          <ZennArticle item={item} />
           <div className="flex items-center">
             <div className="mx-2">
               <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
