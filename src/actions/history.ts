@@ -4,7 +4,7 @@ import { currentUser } from "@/lib/auth/currentUser/server";
 import { type History, type QiitaItem } from "@/types/types";
 import { createClient } from "@/utils/supabase/server";
 
-export const addHistory = async (item: QiitaItem) => {
+export const addHistoryQiita = async (item: QiitaItem) => {
   try {
     const supabase = await createClient();
     const user = await currentUser();
