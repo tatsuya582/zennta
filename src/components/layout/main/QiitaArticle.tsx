@@ -2,11 +2,14 @@
 
 import { addHistory } from "@/actions/history";
 import { type QiitaItem } from "@/types/types";
+import { useRouter } from "next/navigation";
 
 export const QiitaArticle = ({ item }: { item: QiitaItem }) => {
-  const onSubmit = async(item: QiitaItem) => {
-    await addHistory(item)
-  }
+  const router = useRouter();
+  const onSubmit = async (item: QiitaItem) => {
+    await addHistory(item);
+    router.refresh();
+  };
   return (
     <div>
       <a
