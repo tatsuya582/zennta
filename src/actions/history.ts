@@ -73,7 +73,7 @@ export const updateHistory = async (item: Article) => {
       .from("histories")
       .update({ updatedAt: new Date().toISOString() })
       .eq("userId", user.id)
-      .eq("articleId", item.id)
+      .eq("articleId", item.id);
 
     if (error) {
       console.error("Error adding article:", error);
