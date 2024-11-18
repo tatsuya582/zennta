@@ -3,6 +3,69 @@ export type Json = string | number | boolean | null | { [key: string]: Json | un
 export type Database = {
   public: {
     Tables: {
+      articles: {
+        Row: {
+          id: string;
+          provider: string;
+          sourceCreatedAt: string;
+          tags: Json | null;
+          title: string;
+          url: string;
+        };
+        Insert: {
+          id?: string;
+          provider: string;
+          sourceCreatedAt: string;
+          tags?: Json | null;
+          title: string;
+          url: string;
+        };
+        Update: {
+          id?: string;
+          provider?: string;
+          sourceCreatedAt?: string;
+          tags?: Json | null;
+          title?: string;
+          url?: string;
+        };
+        Relationships: [];
+      };
+      histories: {
+        Row: {
+          articleId: string;
+          id: string;
+          updatedAt: string;
+          userId: string;
+        };
+        Insert: {
+          articleId: string;
+          id?: string;
+          updatedAt?: string;
+          userId: string;
+        };
+        Update: {
+          articleId?: string;
+          id?: string;
+          updatedAt?: string;
+          userId?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "histories_articleId_fkey";
+            columns: ["articleId"];
+            isOneToOne: false;
+            referencedRelation: "articles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "histories_userId_fkey";
+            columns: ["userId"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       users: {
         Row: {
           avatarUrl: string | null;
@@ -29,7 +92,17 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      insert_history_with_article: {
+        Args: {
+          userid: string;
+          articleprovider: string;
+          articleurl: string;
+          articletitle: string;
+          articlesourcecreatedat?: string;
+          tags?: Json;
+        };
+        Returns: undefined;
+      };
     };
     Enums: {
       [_ in never]: never;

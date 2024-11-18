@@ -1,3 +1,5 @@
+"use server";
+
 import { type zennArticlesResponse, type QiitaArticlesResponse } from "@/types/types";
 
 export const getQiitaArticles = async ({ page }: { page: string }): Promise<QiitaArticlesResponse | null> => {

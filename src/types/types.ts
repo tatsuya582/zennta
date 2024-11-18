@@ -11,15 +11,15 @@ export type ProfilePageLayoutProps = {
   isEdit: boolean;
 };
 
-type QiitaItem = {
+export type QiitaItem = {
   id: string;
   title: string;
   url: string;
-  tags: tags[];
+  tags: Tag[];
   created_at: string; // ISO 8601 format, e.g., "2000-01-01T00:00:00+00:00"
 };
 
-type tags = {
+type Tag = {
   name: string;
 };
 
@@ -28,7 +28,7 @@ export type QiitaArticlesResponse = {
   totalPage: number;
 };
 
-type zennItem = {
+export type zennItem = {
   id: number;
   title: string;
   path: string;
@@ -38,4 +38,18 @@ type zennItem = {
 export type zennArticlesResponse = {
   articles: zennItem[];
   next_page: number | null;
+};
+
+export type Article = {
+  id: string;
+  provider: string;
+  sourceCreatedAt: string;
+  url: string;
+  title: string;
+  tags?: Tag[];
+};
+
+export type History = {
+  updatedAt: string;
+  articles: Article;
 };

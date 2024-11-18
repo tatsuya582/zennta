@@ -1,5 +1,10 @@
 import ProfilePageLayout from "@/components/layout/ProfilePageLayout";
+import { Suspense } from "react";
 
 export default function ProfilePage() {
-  return <ProfilePageLayout title="マイページ" isEdit={false} />;
+  return (
+  <Suspense>
+    <ProfilePageLayout title="マイページ" isEdit={false} />;
+  </Suspense>
+  )
 }
