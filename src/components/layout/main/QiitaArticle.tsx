@@ -1,11 +1,11 @@
 "use client";
 
-import { serverAction } from "@/components/layout/main/kari";
+import { addHistory } from "@/actions/history";
 import { type QiitaItem } from "@/types/types";
 
 export const QiitaArticle = ({ item }: { item: QiitaItem }) => {
   const onSubmit = async(item: QiitaItem) => {
-    await serverAction(item)
+    await addHistory(item)
   }
   return (
     <div>
