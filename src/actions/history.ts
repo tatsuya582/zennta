@@ -1,7 +1,7 @@
 "use server";
 
 import { currentUser } from "@/lib/auth/currentUser/server";
-import { type History, type QiitaItem } from "@/types/types";
+import { type Article, type History, type QiitaItem } from "@/types/types";
 import { createClient } from "@/utils/supabase/server";
 
 export const addHistoryQiita = async (item: QiitaItem) => {
@@ -21,6 +21,31 @@ export const addHistoryQiita = async (item: QiitaItem) => {
       tags: item.tags,
       userid: user.id,
     });
+
+    if (error) {
+      console.error("Error adding article:", error);
+      throw error;
+    }
+  } catch (err) {
+    console.error("Unexpected error:", err);
+    throw err;
+  }
+};
+
+export const updateHistory = async (item: Article) => {
+  try {
+    const supabase = await createClient();
+    const user = await currentUser();
+
+    if (!user) {
+      return null;
+    }
+
+    const { error } = await supabase
+      .from("histories")
+      .update({ updatedAt: new Date().toISOString() })
+      .eq("userId", user.id)
+      .eq("articleId", item.id)
 
     if (error) {
       console.error("Error adding article:", error);
