@@ -6,9 +6,6 @@ export const ArticleHistory = async () => {
   if (!history) {
     return <div>履歴がありません</div>;
   }
-  history.map((item) => {
-    console.log(item);
-  });
   return (
     <>
       {history.map((item) => (
