@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { type zennArticlesResponse, type QiitaArticlesResponse } from "@/types/types";
 

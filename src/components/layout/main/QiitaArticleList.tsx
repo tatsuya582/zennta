@@ -21,7 +21,7 @@ export default async function QiitaArticleList({ qiitaPage, zennPage }: { qiitaP
       {qiitaArtcles.map((item) => (
         <div key={item.id} className="border-b border-gray-300 m-2 pb-1">
           <div className="flex justify-between">
-            <QiitaArticle item={item}/>
+            <QiitaArticle item={item} />
             <div className="flex items-center">
               <div className="mx-2">
                 <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
