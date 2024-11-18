@@ -104,7 +104,7 @@ export const getHistory = async (): Promise<History[] | null> => {
       )
       .eq("userId", user.id)
       .order("updatedAt", { ascending: false })
-      .limit(300);
+      .limit(20);
 
     return data as History[] | null;
   } catch (error) {
