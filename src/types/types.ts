@@ -28,7 +28,7 @@ export type QiitaArticlesResponse = {
   totalPage: number;
 };
 
-type zennItem = {
+export type zennItem = {
   id: number;
   title: string;
   path: string;
