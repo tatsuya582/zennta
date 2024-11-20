@@ -19,7 +19,6 @@ export default async function QiitaArticleList({ qiitaPage, zennPage }: { qiitaP
       ? await getReadLater(readLaterRange.start, readLaterRange.end)
       : new Map();
 
-  console.log(readLaterUrls);
   const qiitaCurrentPage = parseInt(qiitaPage);
   const zennCurrentPage = parseInt(zennPage);
   const totalPage = Math.min(qiitaFetch.totalPage, 100);
