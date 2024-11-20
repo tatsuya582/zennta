@@ -20,7 +20,7 @@ BEGIN
   END IF;
 
   -- 3. readLatersテーブルに挿入
-  INSERT INTO readLaters ("userId", "articleId")
+  INSERT INTO "readLaters" ("userId", "articleId")
   VALUES (userId, article_id);
 
   -- 4. 作成または取得したarticle_idを返す
