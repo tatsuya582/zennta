@@ -2,10 +2,10 @@
 
 import { currentUser } from "@/lib/auth/currentUser/server";
 import { ReadLaterArticle } from "@/types/databaseCustom.types";
-import { type QiitaItem } from "@/types/types";
+import { type zennItem, type QiitaItem } from "@/types/types";
 import { createClient } from "@/utils/supabase/server";
 
-export const addreadLaterQiita = async (item: QiitaItem) => {
+export const addreadLater = async (item: QiitaItem | zennItem) => {
   try {
     const supabase = await createClient();
     const user = await currentUser();
@@ -14,12 +14,16 @@ export const addreadLaterQiita = async (item: QiitaItem) => {
       return null;
     }
 
+    const isQiitaItem = (item: QiitaItem | zennItem): item is QiitaItem => {
+      return "url" in item;
+    }
+
     const { data, error } = await supabase.rpc("insert_read_later_with_article", {
-      articleprovider: "Qiita",
-      articlesourcecreatedat: item.created_at,
+      articleprovider: isQiitaItem(item) ? "Qiita" : "Zenn",
+      articlesourcecreatedat: isQiitaItem(item) ? item.created_at : item.published_at,
       articletitle: item.title,
-      articleurl: item.url,
-      tags: item.tags,
+      articleurl: isQiitaItem(item) ? item.url : `https://zenn.dev${item.path}`,
+      tags: isQiitaItem(item) ? item.tags : null,
       userid: user.id,
     });
 
