@@ -1,21 +1,47 @@
 "use client";
 
-import { addreadLaterQiita } from "@/actions/readLater";
+import { addreadLaterQiita, deleteReadLater } from "@/actions/readLater";
 import { Button } from "@/components/ui/button";
 import { QiitaItem } from "@/types/types";
 import { useState } from "react";
 
-export const QiitaReadLaterButton = ({ item, readLaterUrls }: { item: QiitaItem; readLaterUrls: Set<unknown> }) => {
+export const QiitaReadLaterButton = ({
+  item,
+  readLaterUrls,
+}: {
+  item: QiitaItem;
+  readLaterUrls: Map<string | undefined, string | undefined>;
+}) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isReadLater, setIsReadLater] = useState(readLaterUrls.has(item.url))
-  const onSubmit = async (item: QiitaItem) => {
+  const [isReadLater, setIsReadLater] = useState(readLaterUrls.has(item.url));
+  const onSubmitAdd = async (item: QiitaItem) => {
     try {
-      setIsLoading(true)
-      await addreadLaterQiita(item);
+      setIsLoading(true);
+      const articleId = await addreadLaterQiita(item);
+      if (articleId) {
+        readLaterUrls.set(item.url, articleId);
+        setIsReadLater(true);
+      }
     } catch (error) {
       console.error(error);
     } finally {
-      setIsReadLater(!isReadLater);
+      setIsLoading(false);
+    }
+  };
+  const onSubmitDelete = async (item: QiitaItem) => {
+    try {
+      setIsLoading(true);
+      const articleId = readLaterUrls.get(item.url);
+      if (articleId) {
+        await deleteReadLater(articleId);
+        readLaterUrls.delete(item.url);
+        setIsReadLater(false);
+      } else {
+        console.error("Article ID not found for the URL");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
       setIsLoading(false);
     }
   };
@@ -23,19 +49,15 @@ export const QiitaReadLaterButton = ({ item, readLaterUrls }: { item: QiitaItem;
     <div>
       {isReadLater ? (
         <div>
-          {isLoading ? (
-            <Button variant="outline"><span className="loader mx-1"></span></Button>
-          ): (
-            <Button variant="outline">登録済み</Button>
-          )}
+          <Button variant="outline" onClick={() => onSubmitDelete(item)} disabled={isLoading}>
+            {isLoading ? <span className="loader mx-5 block"></span> : "登録済み"}
+          </Button>
         </div>
       ) : (
         <div>
-          {isLoading ? (
-            <Button variant="outline" onClick={(e) => e.preventDefault()}><span className="loader mx-1"></span></Button>
-          ): (
-            <Button variant="outline" onClick={() => onSubmit(item)}>後で読む</Button>
-          )}
+          <Button variant="outline" onClick={() => onSubmitAdd(item)} disabled={isLoading}>
+            {isLoading ? <span className="loader mx-5 block"></span> : "後で読む"}
+          </Button>
         </div>
       )}
     </div>
