@@ -32,7 +32,7 @@ export const ReadLaterButton = ({
       setIsLoading(false);
     }
   };
-  const onSubmitDelete = async (item: QiitaItem | ZennItem) => {
+  const onSubmitDelete = async () => {
     try {
       setIsLoading(true);
       const articleId = readLaterUrls.get(url);
@@ -53,7 +53,7 @@ export const ReadLaterButton = ({
     <div>
       {isReadLater ? (
         <div>
-          <Button variant="outline" onClick={() => onSubmitDelete(item)} disabled={isLoading}>
+          <Button variant="outline" onClick={() => onSubmitDelete()} disabled={isLoading}>
             {isLoading ? <span className="loader mx-5 block"></span> : "登録済み"}
           </Button>
         </div>
