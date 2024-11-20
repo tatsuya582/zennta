@@ -33,33 +33,34 @@ export const addreadLaterQiita = async (item: QiitaItem) => {
   }
 };
 
-export const getReadLater = async (start: string, end: string): Promise<Set<string>> => {
+export const getReadLater = async (
+  start: string,
+  end: string
+): Promise<Map<string | undefined, string | undefined>> => {
   try {
     const supabase = await createClient();
     const user = await currentUser();
 
     if (!user) {
-      return new Set();
+      return new Map();
     }
 
-    const { data } = await supabase
+    const { data } = (await supabase
       .from("readLaters")
-      .select(`articles:articleId (sourceCreatedAt, url)`)
+      .select(`articles:articleId (id, sourceCreatedAt, url)`)
       .eq("userId", user.id)
       .gte("articles.sourceCreatedAt", start)
       .lte("articles.sourceCreatedAt", end)
-      .not("articles", "is", null) as unknown as { data: ReadLaterArticle[] };
+      .not("articles", "is", null)) as unknown as { data: ReadLaterArticle[] };
 
     if (!data) {
-      return new Set();
+      return new Map();
     }
 
-    const readLaterUrls = new Set(
-      data.map((item) => item.articles?.url).filter((url): url is string => !!url)
-    )
-    return readLaterUrls
+    const readLaterMap = new Map(data.map((item) => [item.articles?.url, item.articles?.id]));
+    return readLaterMap;
   } catch (err) {
     console.error("Unexpected error:", err);
     throw err;
   }
-}
+};
