@@ -14,11 +14,11 @@ export const ReadLaterButton = ({
 }) => {
   const isQiitaItem = (item: QiitaItem | ZennItem): item is QiitaItem => {
     return "url" in item;
-  }
-  const url = isQiitaItem(item) ? item.url : `https://zenn.dev${item.path}`
+  };
+  const url = isQiitaItem(item) ? item.url : `https://zenn.dev${item.path}`;
   const [isLoading, setIsLoading] = useState(false);
   const [isReadLater, setIsReadLater] = useState(readLaterUrls.has(url));
-  const onSubmitAdd = async (item: QiitaItem | ZennItem ) => {
+  const onSubmitAdd = async (item: QiitaItem | ZennItem) => {
     try {
       setIsLoading(true);
       const articleId = await addreadLater(item);

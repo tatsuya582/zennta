@@ -16,7 +16,7 @@ export const addreadLater = async (item: QiitaItem | ZennItem) => {
 
     const isQiitaItem = (item: QiitaItem | ZennItem): item is QiitaItem => {
       return "url" in item;
-    }
+    };
 
     const { data, error } = await supabase.rpc("insert_read_later_with_article", {
       articleprovider: isQiitaItem(item) ? "Qiita" : "Zenn",
