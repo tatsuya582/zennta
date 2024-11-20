@@ -28,7 +28,7 @@ export type QiitaArticlesResponse = {
   totalPage: number;
 };
 
-export type zennItem = {
+export type ZennItem = {
   id: number;
   title: string;
   path: string;
@@ -36,7 +36,7 @@ export type zennItem = {
 };
 
 export type zennArticlesResponse = {
-  articles: zennItem[];
+  articles: ZennItem[];
   next_page: number | null;
 };
 

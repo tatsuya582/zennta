@@ -1,12 +1,12 @@
 "use client";
 
 import { addHistoryZenn } from "@/actions/history";
-import { type zennItem } from "@/types/types";
+import { type ZennItem } from "@/types/types";
 import { useRouter } from "next/navigation";
 
-export const ZennArticle = ({ item }: { item: zennItem }) => {
+export const ZennArticle = ({ item }: { item: ZennItem }) => {
   const router = useRouter();
-  const onSubmit = async (item: zennItem) => {
+  const onSubmit = async (item: ZennItem) => {
     await addHistoryZenn(item);
     router.refresh();
   };

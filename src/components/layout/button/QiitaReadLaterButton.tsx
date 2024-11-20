@@ -1,8 +1,8 @@
 "use client";
 
-import { addreadLaterQiita, deleteReadLater } from "@/actions/readLater";
+import { addreadLater, deleteReadLater } from "@/actions/readLater";
 import { Button } from "@/components/ui/button";
-import { QiitaItem } from "@/types/types";
+import { QiitaItem, ZennItem } from "@/types/types";
 import { useState } from "react";
 
 export const QiitaReadLaterButton = ({
@@ -17,7 +17,7 @@ export const QiitaReadLaterButton = ({
   const onSubmitAdd = async (item: QiitaItem) => {
     try {
       setIsLoading(true);
-      const articleId = await addreadLaterQiita(item);
+      const articleId = await addreadLater(item);
       if (articleId) {
         readLaterUrls.set(item.url, articleId);
         setIsReadLater(true);

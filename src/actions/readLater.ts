@@ -2,10 +2,10 @@
 
 import { currentUser } from "@/lib/auth/currentUser/server";
 import { ReadLaterArticle } from "@/types/databaseCustom.types";
-import { type zennItem, type QiitaItem } from "@/types/types";
+import { type ZennItem, type QiitaItem } from "@/types/types";
 import { createClient } from "@/utils/supabase/server";
 
-export const addreadLater = async (item: QiitaItem | zennItem) => {
+export const addreadLater = async (item: QiitaItem | ZennItem) => {
   try {
     const supabase = await createClient();
     const user = await currentUser();
@@ -14,7 +14,7 @@ export const addreadLater = async (item: QiitaItem | zennItem) => {
       return null;
     }
 
-    const isQiitaItem = (item: QiitaItem | zennItem): item is QiitaItem => {
+    const isQiitaItem = (item: QiitaItem | ZennItem): item is QiitaItem => {
       return "url" in item;
     }
 
