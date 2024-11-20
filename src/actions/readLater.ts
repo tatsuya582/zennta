@@ -14,7 +14,7 @@ export const addreadLaterQiita = async (item: QiitaItem) => {
       return null;
     }
 
-    const { error } = await supabase.rpc("insert_read_later_with_article", {
+    const { data, error } = await supabase.rpc("insert_read_later_with_article", {
       articleprovider: "Qiita",
       articlesourcecreatedat: item.created_at,
       articletitle: item.title,
@@ -27,6 +27,8 @@ export const addreadLaterQiita = async (item: QiitaItem) => {
       console.error("Error adding article:", error);
       throw error;
     }
+
+    return data;
   } catch (err) {
     console.error("Unexpected error:", err);
     throw err;
