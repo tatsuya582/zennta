@@ -148,7 +148,7 @@ export type Database = {
           articlesourcecreatedat?: string;
           tags?: Json;
         };
-        Returns: undefined;
+        Returns: string;
       };
     };
     Enums: {
