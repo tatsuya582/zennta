@@ -66,3 +66,23 @@ export const getReadLater = async (
     throw err;
   }
 };
+
+export const deleteReadLater = async (articleId: string) => {
+  try {
+    const supabase = await createClient();
+    const user = await currentUser();
+
+    if (!user) {
+      return null;
+    }
+
+    const { error } = await supabase.from("readLaters").delete().eq("userId", user.id).eq("articleId", articleId);
+
+    if (error) {
+      throw new Error(`Failed to delete record: ${error.message}`);
+    }
+    console.log("Record successfully deleted.");
+  } catch (error) {
+    console.error("Error deleting read later entry:", error);
+  }
+};
