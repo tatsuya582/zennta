@@ -5,21 +5,25 @@ import { Button } from "@/components/ui/button";
 import { QiitaItem, ZennItem } from "@/types/types";
 import { useState } from "react";
 
-export const QiitaReadLaterButton = ({
+export const ReadLaterButton = ({
   item,
   readLaterUrls,
 }: {
-  item: QiitaItem;
+  item: QiitaItem | ZennItem;
   readLaterUrls: Map<string | undefined, string | undefined>;
 }) => {
+  const isQiitaItem = (item: QiitaItem | ZennItem): item is QiitaItem => {
+    return "url" in item;
+  }
+  const url = isQiitaItem(item) ? item.url : `https://zenn.dev${item.path}`
   const [isLoading, setIsLoading] = useState(false);
-  const [isReadLater, setIsReadLater] = useState(readLaterUrls.has(item.url));
-  const onSubmitAdd = async (item: QiitaItem) => {
+  const [isReadLater, setIsReadLater] = useState(readLaterUrls.has(url));
+  const onSubmitAdd = async (item: QiitaItem | ZennItem ) => {
     try {
       setIsLoading(true);
       const articleId = await addreadLater(item);
       if (articleId) {
-        readLaterUrls.set(item.url, articleId);
+        readLaterUrls.set(url, articleId);
         setIsReadLater(true);
       }
     } catch (error) {
@@ -28,13 +32,13 @@ export const QiitaReadLaterButton = ({
       setIsLoading(false);
     }
   };
-  const onSubmitDelete = async (item: QiitaItem) => {
+  const onSubmitDelete = async (item: QiitaItem | ZennItem) => {
     try {
       setIsLoading(true);
-      const articleId = readLaterUrls.get(item.url);
+      const articleId = readLaterUrls.get(url);
       if (articleId) {
         await deleteReadLater(articleId);
-        readLaterUrls.delete(item.url);
+        readLaterUrls.delete(url);
         setIsReadLater(false);
       } else {
         console.error("Article ID not found for the URL");

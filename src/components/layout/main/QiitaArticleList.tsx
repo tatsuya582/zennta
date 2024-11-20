@@ -1,6 +1,6 @@
 import { getQiitaArticles } from "@/actions/article";
 import { getReadLater } from "@/actions/readLater";
-import { QiitaReadLaterButton } from "@/components/layout/button/QiitaReadLaterButton";
+import { ReadLaterButton } from "@/components/layout/button/ReadLaterButton";
 import NotArticleError from "@/components/layout/main/NotArticleError";
 import PagiNation from "@/components/layout/main/PagiNation";
 import { QiitaArticle } from "@/components/layout/main/QiitaArticle";
@@ -45,7 +45,7 @@ export default async function QiitaArticleList({ qiitaPage, zennPage }: { qiitaP
                 </svg>
               </div> */}
                 <div className="mx-2">
-                  <QiitaReadLaterButton item={item} readLaterUrls={readLaterUrls} />
+                  <ReadLaterButton item={item} readLaterUrls={readLaterUrls} />
                 </div>
                 <div className="mx-2">
                   <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
