@@ -19,7 +19,7 @@ export type QiitaItem = {
   created_at: string; // ISO 8601 format, e.g., "2000-01-01T00:00:00+00:00"
 };
 
-type Tag = {
+export type Tag = {
   name: string;
 };
 
@@ -52,4 +52,11 @@ export type Article = {
 export type History = {
   updatedAt: string;
   articles: Article;
+};
+
+export type DisplayItem = {
+  id: string;
+  url: string;
+  tags: Tag[] | null;
+  title: string;
 };
