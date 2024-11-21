@@ -1,6 +1,6 @@
 "use client";
 
-import { addHistoryDisplay, addHistoryQiita } from "@/actions/history";
+import { addHistoryDisplay } from "@/actions/history";
 import { DisplayItem } from "@/types/types";
 import { useRouter } from "next/navigation";
 
