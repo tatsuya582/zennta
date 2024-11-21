@@ -3,6 +3,7 @@
 import { addreadLater, deleteReadLater } from "@/actions/readLater";
 import { Button } from "@/components/ui/button";
 import { QiitaItem, ZennItem } from "@/types/types";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export const ReadLaterButton = ({
@@ -18,6 +19,7 @@ export const ReadLaterButton = ({
   const url = isQiitaItem(item) ? item.url : `https://zenn.dev${item.path}`;
   const [isLoading, setIsLoading] = useState(false);
   const [isReadLater, setIsReadLater] = useState(readLaterUrls.has(url));
+  const router = useRouter()
   const onSubmitAdd = async (item: QiitaItem | ZennItem) => {
     try {
       setIsLoading(true);
@@ -30,6 +32,7 @@ export const ReadLaterButton = ({
       console.error(error);
     } finally {
       setIsLoading(false);
+      router.refresh();
     }
   };
   const onSubmitDelete = async () => {
@@ -47,6 +50,7 @@ export const ReadLaterButton = ({
       console.error(error);
     } finally {
       setIsLoading(false);
+      router.refresh();
     }
   };
   return (
