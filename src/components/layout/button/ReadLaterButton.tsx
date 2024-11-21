@@ -19,7 +19,7 @@ export const ReadLaterButton = ({
   const url = isQiitaItem(item) ? item.url : `https://zenn.dev${item.path}`;
   const [isLoading, setIsLoading] = useState(false);
   const [isReadLater, setIsReadLater] = useState(readLaterUrls.has(url));
-  const router = useRouter()
+  const router = useRouter();
   const onSubmitAdd = async (item: QiitaItem | ZennItem) => {
     try {
       setIsLoading(true);

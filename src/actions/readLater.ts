@@ -85,7 +85,6 @@ export const deleteReadLater = async (articleId: string) => {
     if (error) {
       throw new Error(`Failed to delete record: ${error.message}`);
     }
-    console.log("Record successfully deleted.");
   } catch (error) {
     console.error("Error deleting read later entry:", error);
   }
@@ -96,13 +95,13 @@ export const getReadLaterArticles = async (page: number) => {
     const supabase = await createClient();
     const user = await currentUser();
     const start = 30 * (page - 1);
-    const end = 30 * page - 1
+    const end = 30 * page - 1;
 
     if (!user) {
       return null;
     }
 
-    const { data } = await supabase
+    const { data } = (await supabase
       .from("readLaters")
       .select(
         `
@@ -111,9 +110,7 @@ export const getReadLaterArticles = async (page: number) => {
       )
       .eq("userId", user.id)
       .order("createdAt", { ascending: false })
-      .range(start, end) as unknown as { data: ReadLaterArticles[] };
-
-    console.log(start, end)
+      .range(start, end)) as unknown as { data: ReadLaterArticles[] };
 
     return data;
   } catch (error) {
