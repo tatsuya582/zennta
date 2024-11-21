@@ -1,7 +1,7 @@
 "use server";
 
 import { currentUser } from "@/lib/auth/currentUser/server";
-import { ReadLaterArticle } from "@/types/databaseCustom.types";
+import { ReadLaterArticle, ReadLaterArticles } from "@/types/databaseCustom.types";
 import { type ZennItem, type QiitaItem } from "@/types/types";
 import { createClient } from "@/utils/supabase/server";
 
@@ -88,5 +88,36 @@ export const deleteReadLater = async (articleId: string) => {
     console.log("Record successfully deleted.");
   } catch (error) {
     console.error("Error deleting read later entry:", error);
+  }
+};
+
+export const getReadLaterArticles = async (page: number) => {
+  try {
+    const supabase = await createClient();
+    const user = await currentUser();
+    const start = 30 * (page - 1);
+    const end = 30 * page - 1
+
+    if (!user) {
+      return null;
+    }
+
+    const { data } = await supabase
+      .from("readLaters")
+      .select(
+        `
+        articles:articleId (id, title, url, tags)
+        `
+      )
+      .eq("userId", user.id)
+      .order("createdAt", { ascending: false })
+      .range(start, end) as unknown as { data: ReadLaterArticles[] };
+
+    console.log(start, end)
+
+    return data;
+  } catch (error) {
+    console.error("Unexpected error:", error);
+    throw error;
   }
 };
