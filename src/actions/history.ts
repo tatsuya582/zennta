@@ -60,6 +60,27 @@ export const addHistoryZenn = async (item: ZennItem) => {
   }
 };
 
+export const addHistoryDisplay = async (id: string) => {
+  try {
+    const supabase = await createClient();
+    const user = await currentUser();
+
+    if (!user) {
+      return null;
+    }
+
+    const { error } = await supabase.from("histories").insert({ userId: user.id, articleId: id });
+
+    if (error) {
+      console.error("Error adding article:", error);
+      throw error;
+    }
+  } catch (error) {
+    console.error("Unexpected error:", error);
+    throw error;
+  }
+};
+
 export const updateHistory = async (item: Article) => {
   try {
     const supabase = await createClient();
