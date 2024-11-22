@@ -39,6 +39,27 @@ export const addreadLater = async (item: QiitaItem | ZennItem) => {
   }
 };
 
+export const addDisplayreadLater = async (articleId: string) => {
+  try {
+    const supabase = await createClient();
+    const user = await currentUser();
+
+    if (!user) {
+      return null;
+    }
+
+    const { error } = await supabase.from("readLaters").insert({ userId: user.id, articleId: articleId });
+
+    if (error) {
+      console.error("Error adding article:", error);
+      throw error;
+    }
+  } catch (err) {
+    console.error("Unexpected error:", err);
+    throw err;
+  }
+};
+
 export const getReadLater = async (
   start: string,
   end: string
@@ -85,6 +106,7 @@ export const deleteReadLater = async (articleId: string) => {
     if (error) {
       throw new Error(`Failed to delete record: ${error.message}`);
     }
+    console.log("delete ok");
   } catch (error) {
     console.error("Error deleting read later entry:", error);
   }
