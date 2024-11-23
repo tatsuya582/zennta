@@ -106,7 +106,6 @@ export const deleteReadLater = async (articleId: string) => {
     if (error) {
       throw new Error(`Failed to delete record: ${error.message}`);
     }
-    console.log("delete ok");
   } catch (error) {
     console.error("Error deleting read later entry:", error);
   }

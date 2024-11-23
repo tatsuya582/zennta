@@ -17,7 +17,6 @@ import { revalidatePath } from "next/cache";
 export const DisplayReadLaterButton = ({ item }: { item: DisplayItem }) => {
   const onSubmitDelete = async () => {
     "use server";
-    console.log("start", item.id);
     try {
       await deleteReadLater(item.id);
       revalidatePath("/readlater");
