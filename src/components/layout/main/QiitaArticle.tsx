@@ -21,9 +21,9 @@ export const QiitaArticle = ({ item }: { item: QiitaItem }) => {
       >
         {item.title}
       </a>
-      <div className="flex gap-2 flex-wrap my-2">
+      <div className="flex gap-x-2 flex-wrap my-1">
         {item.tags.map((tag) => (
-          <div key={tag.name} className="border border-lime-300 rounded-lg bg-lime-50 px-3">
+          <div key={tag.name} className="border border-lime-300 rounded-lg bg-lime-50 px-3 my-1">
             {tag.name}
           </div>
         ))}

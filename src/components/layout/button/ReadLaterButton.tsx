@@ -54,16 +54,16 @@ export const ReadLaterButton = ({
     }
   };
   return (
-    <div>
+    <div className="flex-1">
       {isReadLater ? (
         <div>
-          <Button variant="outline" onClick={() => onSubmitDelete()} disabled={isLoading}>
+          <Button variant="outline" className="w-full" onClick={() => onSubmitDelete()} disabled={isLoading}>
             {isLoading ? <span className="loader mx-5 block"></span> : "登録済み"}
           </Button>
         </div>
       ) : (
         <div>
-          <Button variant="outline" onClick={() => onSubmitAdd(item)} disabled={isLoading}>
+          <Button variant="outline" className="w-full" onClick={() => onSubmitAdd(item)} disabled={isLoading}>
             {isLoading ? <span className="loader mx-5 block"></span> : "後で読む"}
           </Button>
         </div>
