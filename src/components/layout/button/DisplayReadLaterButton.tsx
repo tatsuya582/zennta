@@ -38,10 +38,18 @@ export const DisplayReadLaterButton = ({ item }: { item: DisplayItem }) => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>キャンセル</AlertDialogCancel>
-            <form action={onSubmitDelete}>
-              <AlertDialogAction type="submit">削除</AlertDialogAction>
-            </form>
-            <AlertDialogAction>お気に入り登録</AlertDialogAction>
+            <div className="flex md:flex-row flex-col gap-2">
+              <form action={onSubmitDelete}>
+                <AlertDialogAction type="submit" className="w-full">
+                  削除
+                </AlertDialogAction>
+              </form>
+              <form>
+                <AlertDialogAction type="submit" className="w-full">
+                  お気に入り登録
+                </AlertDialogAction>
+              </form>
+            </div>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
