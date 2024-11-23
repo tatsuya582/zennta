@@ -39,15 +39,6 @@ export default async function QiitaArticleList({ qiitaPage, zennPage }: { qiitaP
               </div>
             </div>
           </div>
-        //   <div key={item.articles.id} className="border-b border-gray-300 m-2 pb-1">
-        //   <div className="flex md:flex-row flex-col justify-between gap-1">
-        //     <Article item={item.articles} />
-        //     <div className="flex items-center gap-2">
-        //       <DisplayReadLaterButton item={item.articles} />
-        //       <Button className="flex-1">お気に入り</Button>
-        //     </div>
-        //   </div>
-        // </div>
         );
       })}
       <PagiNation qiitaPage={qiitaCurrentPage} zennPage={zennCurrentPage} totalPage={totalPage} currentSite="Qiita" />

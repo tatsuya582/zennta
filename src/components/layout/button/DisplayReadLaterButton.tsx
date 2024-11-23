@@ -28,7 +28,9 @@ export const DisplayReadLaterButton = ({ item }: { item: DisplayItem }) => {
     <div key={item.id} className="flex-1">
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button variant="outline" className="w-full">読了</Button>
+          <Button variant="outline" className="w-full">
+            読了
+          </Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
