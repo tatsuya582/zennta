@@ -25,10 +25,10 @@ export const DisplayReadLaterButton = ({ item }: { item: DisplayItem }) => {
     }
   };
   return (
-    <div key={item.id}>
+    <div key={item.id} className="flex-1">
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button variant="outline">読了</Button>
+          <Button variant="outline" className="w-full">読了</Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
