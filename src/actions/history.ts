@@ -1,7 +1,7 @@
 "use server";
 
 import { currentUser } from "@/lib/auth/currentUser/server";
-import { type ZennItem, type Article, type History, type QiitaItem } from "@/types/types";
+import { type ZennItem, type History, type QiitaItem, DisplayItem } from "@/types/types";
 import { createClient } from "@/utils/supabase/server";
 
 export const addHistoryQiita = async (item: QiitaItem) => {
@@ -81,7 +81,7 @@ export const addHistoryDisplay = async (id: string) => {
   }
 };
 
-export const updateHistory = async (item: Article) => {
+export const updateHistory = async (item: DisplayItem) => {
   try {
     const supabase = await createClient();
     const user = await currentUser();
@@ -120,7 +120,7 @@ export const getHistory = async (): Promise<History[] | null> => {
       .select(
         `
         updatedAt,
-        articles:articleId (id, provider, sourceCreatedAt, url, title, tags)
+        articles:articleId (id, title, url, tags)
       `
       )
       .eq("userId", user.id)

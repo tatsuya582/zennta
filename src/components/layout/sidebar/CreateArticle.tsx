@@ -1,12 +1,12 @@
 "use client";
 
 import { updateHistory } from "@/actions/history";
-import { type Article } from "@/types/types";
+import { DisplayItem} from "@/types/types";
 import { useRouter } from "next/navigation";
 
-export const CreateArticle = ({ item }: { item: Article }) => {
+export const CreateArticle = ({ item }: { item: DisplayItem }) => {
   const router = useRouter();
-  const onSubmit = async (item: Article) => {
+  const onSubmit = async (item: DisplayItem) => {
     await updateHistory(item);
     router.refresh();
   };

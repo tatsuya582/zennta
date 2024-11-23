@@ -40,18 +40,9 @@ export type zennArticlesResponse = {
   next_page: number | null;
 };
 
-export type Article = {
-  id: string;
-  provider: string;
-  sourceCreatedAt: string;
-  url: string;
-  title: string;
-  tags?: Tag[];
-};
-
 export type History = {
   updatedAt: string;
-  articles: Article;
+  articles: DisplayItem;
 };
 
 export type DisplayItem = {
