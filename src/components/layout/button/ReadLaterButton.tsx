@@ -1,10 +1,7 @@
-"use client";
-
 import { addreadLater, deleteReadLater } from "@/actions/readLater";
 import { Button } from "@/components/ui/button";
 import { QiitaItem, ZennItem } from "@/types/types";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { revalidatePath } from "next/cache";
 
 export const ReadLaterButton = ({
   item,
@@ -17,56 +14,40 @@ export const ReadLaterButton = ({
     return "url" in item;
   };
   const url = isQiitaItem(item) ? item.url : `https://zenn.dev${item.path}`;
-  const [isLoading, setIsLoading] = useState(false);
-  const [isReadLater, setIsReadLater] = useState(readLaterUrls.has(url));
-  const router = useRouter();
-  const onSubmitAdd = async (item: QiitaItem | ZennItem) => {
+  const id = isQiitaItem(item) ? item.id : item.id.toString();
+  const isReadLater = readLaterUrls.has(url);
+  const onSubmitDelete = async () => {
+    "use server";
     try {
-      setIsLoading(true);
-      const articleId = await addreadLater(item);
-      if (articleId) {
-        readLaterUrls.set(url, articleId);
-        setIsReadLater(true);
-      }
+      await deleteReadLater(id);
+      revalidatePath("/");
     } catch (error) {
       console.error(error);
-    } finally {
-      setIsLoading(false);
-      router.refresh();
     }
   };
-  const onSubmitDelete = async () => {
+  const onSubmitAdd = async () => {
+    "use server";
     try {
-      setIsLoading(true);
-      const articleId = readLaterUrls.get(url);
-      if (articleId) {
-        await deleteReadLater(articleId);
-        readLaterUrls.delete(url);
-        setIsReadLater(false);
-      } else {
-        console.error("Article ID not found for the URL");
-      }
+      await addreadLater(item);
+      revalidatePath("/");
     } catch (error) {
       console.error(error);
-    } finally {
-      setIsLoading(false);
-      router.refresh();
     }
   };
   return (
     <div className="flex-1">
       {isReadLater ? (
-        <div>
-          <Button variant="outline" className="w-full" onClick={() => onSubmitDelete()} disabled={isLoading}>
-            {isLoading ? <span className="loader mx-5 block"></span> : "登録済み"}
+        <form action={onSubmitDelete}>
+          <Button variant="outline" className="w-full">
+            登録済み
           </Button>
-        </div>
+        </form>
       ) : (
-        <div>
-          <Button variant="outline" className="w-full" onClick={() => onSubmitAdd(item)} disabled={isLoading}>
-            {isLoading ? <span className="loader mx-5 block"></span> : "後で読む"}
+        <form action={onSubmitAdd}>
+          <Button variant="outline" className="w-full">
+            後で読む
           </Button>
-        </div>
+        </form>
       )}
     </div>
   );
