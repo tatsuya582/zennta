@@ -58,7 +58,7 @@ export default async function QiitaArticleSearch({
             </div>
             <div className="flex items-center">
               <div className="mx-2">
-                <ReadLaterButton item={item} readLaterUrls={readLaterUrls}/>
+                <ReadLaterButton item={item} readLaterUrls={readLaterUrls} />
               </div>
               <div className="mx-2">
                 <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
