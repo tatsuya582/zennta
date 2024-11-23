@@ -92,6 +92,33 @@ export const getReadLater = async (
   }
 };
 
+export const getReadLaterHistory = async (): Promise<Map<string | undefined, string | undefined>> => {
+  try {
+    const supabase = await createClient();
+    const user = await currentUser();
+
+    if (!user) {
+      return new Map();
+    }
+
+    const { data } = (await supabase
+      .from("readLaters")
+      .select(`articles:articleId (id, url)`)
+      .eq("userId", user.id)
+      .not("articles", "is", null)) as unknown as { data: ReadLaterArticle[] };
+
+    if (!data) {
+      return new Map();
+    }
+
+    const readLaterMap = new Map(data.map((item) => [item.articles?.url, item.articles?.id]));
+    return readLaterMap;
+  } catch (err) {
+    console.error("Unexpected error:", err);
+    throw err;
+  }
+};
+
 export const deleteReadLater = async (articleId: string) => {
   try {
     const supabase = await createClient();

@@ -1,7 +1,7 @@
 "use client";
 
 import { updateHistory } from "@/actions/history";
-import { DisplayItem} from "@/types/types";
+import { DisplayItem } from "@/types/types";
 import { useRouter } from "next/navigation";
 
 export const CreateArticle = ({ item }: { item: DisplayItem }) => {
