@@ -1,6 +1,5 @@
-import QiitaArticleList from "@/components/layout/main/QiitaArticleList";
+import ArticleList from "@/components/layout/main/ArticleList";
 import QiitaArticleListSkeleton from "@/components/layout/main/QiitaArticleListSkeleton";
-import ZennArticleList from "@/components/layout/main/ZennArticleList";
 import ZennArticleListSkeleton from "@/components/layout/main/ZennArticleListSkeleton";
 import { Suspense } from "react";
 
@@ -21,7 +20,7 @@ export default async function Home({
         <h2>Qiita一覧</h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
           <Suspense key={JSON.stringify(searchParams)} fallback={<QiitaArticleListSkeleton />}>
-            <QiitaArticleList qiitaPage={qiitaPage} zennPage={zennPage} />
+            <ArticleList qiitaPage={qiitaPage} zennPage={zennPage} currentSite="Qiita" />
           </Suspense>
         </div>
       </div>
@@ -32,7 +31,7 @@ export default async function Home({
         </h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
           <Suspense key={JSON.stringify(searchParams)} fallback={<ZennArticleListSkeleton />}>
-            <ZennArticleList qiitaPage={qiitaPage} zennPage={zennPage} />
+            <ArticleList qiitaPage={qiitaPage} zennPage={zennPage} currentSite="Zenn" />
           </Suspense>
         </div>
       </div>
