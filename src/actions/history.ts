@@ -4,7 +4,7 @@ import { currentUser } from "@/lib/auth/currentUser/server";
 import { type ZennItem, type History, type QiitaItem, StoredItem } from "@/types/types";
 import { createClient } from "@/utils/supabase/server";
 
-export const addHistoryQiita = async (item: QiitaItem) => {
+export const addHistory = async (item: QiitaItem | ZennItem) => {
   try {
     const supabase = await createClient();
     const user = await currentUser();
@@ -13,12 +13,29 @@ export const addHistoryQiita = async (item: QiitaItem) => {
       return null;
     }
 
+    const data =
+      "url" in item
+        ? {
+            provider: "Qiita",
+            sourceCreatedAt: item.created_at,
+            title: item.title,
+            url: item.url,
+            tags: item.tags,
+          }
+        : {
+            provider: "Zenn",
+            sourceCreatedAt: item.published_at,
+            title: item.title,
+            url: `https://zenn.dev${item.path}`,
+            tags: null,
+          };
+
     const { error } = await supabase.rpc("insert_history_with_article", {
-      articleprovider: "Qiita",
-      articlesourcecreatedat: item.created_at,
-      articletitle: item.title,
-      articleurl: item.url,
-      tags: item.tags,
+      articleprovider: data.provider,
+      articlesourcecreatedat: data.sourceCreatedAt,
+      articletitle: data.title,
+      articleurl: data.url,
+      tags: data.tags,
       userid: user.id,
     });
 
@@ -26,41 +43,13 @@ export const addHistoryQiita = async (item: QiitaItem) => {
       console.error("Error adding article:", error);
       throw error;
     }
-  } catch (err) {
-    console.error("Unexpected error:", err);
-    throw err;
+  } catch (error) {
+    console.error("Unexpected error:", error);
+    throw error;
   }
 };
 
-export const addHistoryZenn = async (item: ZennItem) => {
-  try {
-    const supabase = await createClient();
-    const user = await currentUser();
-
-    if (!user) {
-      return null;
-    }
-
-    const { error } = await supabase.rpc("insert_history_with_article", {
-      articleprovider: "Zenn",
-      articlesourcecreatedat: item.published_at,
-      articletitle: item.title,
-      articleurl: `https://zenn.dev${item.path}`,
-      tags: null,
-      userid: user.id,
-    });
-
-    if (error) {
-      console.error("Error adding article:", error);
-      throw error;
-    }
-  } catch (err) {
-    console.error("Unexpected error:", err);
-    throw err;
-  }
-};
-
-export const addHistory = async (id: string) => {
+export const addStoredItemHistory = async (id: string) => {
   try {
     const supabase = await createClient();
     const user = await currentUser();
