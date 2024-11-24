@@ -5,7 +5,7 @@ import NotArticleError from "@/components/layout/main/NotArticleError";
 import { ZennArticle } from "@/components/layout/main/ZennArticle";
 import ZennSearchPagiNation from "@/components/layout/search/ZennSearchPagiNation";
 import { Button } from "@/components/ui/button";
-import { getZennCreatedAtRange } from "@/lib/readLater/getReadLater";
+import { getArticleDateRange } from "@/lib/readLater/getReadLater";
 
 export default async function ZennArticleSearch({
   query,
@@ -21,7 +21,7 @@ export default async function ZennArticleSearch({
     return <NotArticleError />;
   }
   const zennArticles = zennFetch.articles;
-  const readLaterRange = getZennCreatedAtRange(zennArticles);
+  const readLaterRange = getArticleDateRange(zennArticles);
   const readLaterUrls =
     readLaterRange.start && readLaterRange.end
       ? await getReadLater(readLaterRange.start, readLaterRange.end)

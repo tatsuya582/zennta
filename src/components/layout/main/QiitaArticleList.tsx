@@ -5,7 +5,7 @@ import NotArticleError from "@/components/layout/main/NotArticleError";
 import PagiNation from "@/components/layout/main/PagiNation";
 import { QiitaArticle } from "@/components/layout/main/QiitaArticle";
 import { Button } from "@/components/ui/button";
-import { getQiitaCreatedAtRange } from "@/lib/readLater/getReadLater";
+import { getArticleDateRange } from "@/lib/readLater/getReadLater";
 
 export default async function QiitaArticleList({ qiitaPage, zennPage }: { qiitaPage: string; zennPage: string }) {
   const qiitaFetch = await getQiitaArticles({ page: qiitaPage });
@@ -14,7 +14,7 @@ export default async function QiitaArticleList({ qiitaPage, zennPage }: { qiitaP
     return <NotArticleError />;
   }
   const qiitaArtcles = qiitaFetch.articles;
-  const readLaterRange = getQiitaCreatedAtRange(qiitaArtcles);
+  const readLaterRange = getArticleDateRange(qiitaArtcles);
   const readLaterUrls =
     readLaterRange.start && readLaterRange.end
       ? await getReadLater(readLaterRange.start, readLaterRange.end)

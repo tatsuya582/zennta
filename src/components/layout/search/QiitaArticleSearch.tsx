@@ -6,7 +6,7 @@ import { QiitaArticle } from "@/components/layout/main/QiitaArticle";
 import LessSearchPagiNation from "@/components/layout/search/LessSearchPagiNation";
 import SearchPagiNation from "@/components/layout/search/SearchPagiNation";
 import { Button } from "@/components/ui/button";
-import { getQiitaCreatedAtRange } from "@/lib/readLater/getReadLater";
+import { getArticleDateRange } from "@/lib/readLater/getReadLater";
 
 export default async function QiitaArticleSearch({
   query,
@@ -23,7 +23,7 @@ export default async function QiitaArticleSearch({
     return <NotArticleError />;
   }
   const qiitaArtcles = qiitaFetch.articles;
-  const readLaterRange = getQiitaCreatedAtRange(qiitaArtcles);
+  const readLaterRange = getArticleDateRange(qiitaArtcles);
   const readLaterUrls =
     readLaterRange.start && readLaterRange.end
       ? await getReadLater(readLaterRange.start, readLaterRange.end)
