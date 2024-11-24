@@ -5,7 +5,7 @@ import PagiNation from "@/components/layout/main/PagiNation";
 import { Article } from "@/components/layout/readLater/Article";
 import { Button } from "@/components/ui/button";
 
-export default async function ArticleList({ page }: { page: number }) {
+export default async function ReadLsterArticleList({ page }: { page: number }) {
   const articles = await getReadLaterArticles(page);
 
   if (!articles) {
