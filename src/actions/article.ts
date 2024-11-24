@@ -15,10 +15,9 @@ const fetchQiitaArticles = async (page: string): Promise<QiitaArticlesResponse |
     if (!response.ok) {
       return null;
     }
-
     const data = await response.json();
 
-    return data;
+    return { articles: data, totalPage: null };
   } catch (error) {
     console.error("Error fetching Qiita items:", error);
     return null;
