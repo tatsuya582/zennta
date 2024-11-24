@@ -39,7 +39,7 @@ export const addreadLater = async (item: QiitaItem | ZennItem) => {
   }
 };
 
-export const addDisplayreadLater = async (articleId: string) => {
+export const addStoredreadLater = async (articleId: string) => {
   try {
     const supabase = await createClient();
     const user = await currentUser();

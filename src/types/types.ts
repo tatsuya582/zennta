@@ -42,10 +42,10 @@ export type ZennArticlesResponse = {
 
 export type History = {
   updatedAt: string;
-  articles: DisplayItem;
+  articles: StoredItem;
 };
 
-export type DisplayItem = {
+export type StoredItem = {
   id: string;
   url: string;
   tags: Tag[] | null;

@@ -1,5 +1,5 @@
-import { addDisplayreadLater, deleteReadLater } from "@/actions/readLater";
-import { DisplayItem } from "@/types/types";
+import { addStoredreadLater, deleteReadLater } from "@/actions/readLater";
+import { StoredItem } from "@/types/types";
 import { Button } from "@/components/ui/button";
 import { revalidatePath } from "next/cache";
 
@@ -7,7 +7,7 @@ export const HistoryButton = ({
   item,
   readLaterUrls,
 }: {
-  item: DisplayItem;
+  item: StoredItem;
   readLaterUrls: Map<string | undefined, string | undefined>;
 }) => {
   const isReadLater = readLaterUrls.has(item.url);
@@ -23,7 +23,7 @@ export const HistoryButton = ({
   const onSubmitAdd = async () => {
     "use server";
     try {
-      await addDisplayreadLater(item.id);
+      await addStoredreadLater(item.id);
       revalidatePath("/");
     } catch (error) {
       console.error(error);

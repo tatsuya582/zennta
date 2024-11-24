@@ -1,5 +1,5 @@
 import { deleteReadLater } from "@/actions/readLater";
-import { DisplayItem } from "@/types/types";
+import { StoredItem } from "@/types/types";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { revalidatePath } from "next/cache";
 
-export const DisplayReadLaterButton = ({ item }: { item: DisplayItem }) => {
+export const StoredReadLaterButton = ({ item }: { item: StoredItem }) => {
   const onSubmitDelete = async () => {
     "use server";
     try {

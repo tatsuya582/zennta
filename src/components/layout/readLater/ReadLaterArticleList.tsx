@@ -1,5 +1,5 @@
 import { getReadLaterArticles } from "@/actions/readLater";
-import { DisplayReadLaterButton } from "@/components/layout/button/DisplayReadLaterButton";
+import { StoredReadLaterButton } from "@/components/layout/button/StoredReadLaterButton";
 import NotArticleError from "@/components/layout/main/NotArticleError";
 import PagiNation from "@/components/layout/main/PagiNation";
 import { Article } from "@/components/layout/readLater/Article";
@@ -24,7 +24,7 @@ export default async function ReadLsterArticleList({ page }: { page: number }) {
             <div className="flex md:flex-row flex-col justify-between gap-1">
               <Article item={item.articles} />
               <div className="flex items-center gap-2">
-                <DisplayReadLaterButton item={item.articles} />
+                <StoredReadLaterButton item={item.articles} />
                 <Button className="flex-1">お気に入り</Button>
               </div>
             </div>

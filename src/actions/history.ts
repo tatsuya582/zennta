@@ -1,7 +1,7 @@
 "use server";
 
 import { currentUser } from "@/lib/auth/currentUser/server";
-import { type ZennItem, type History, type QiitaItem, DisplayItem } from "@/types/types";
+import { type ZennItem, type History, type QiitaItem, StoredItem } from "@/types/types";
 import { createClient } from "@/utils/supabase/server";
 
 export const addHistoryQiita = async (item: QiitaItem) => {
@@ -60,7 +60,7 @@ export const addHistoryZenn = async (item: ZennItem) => {
   }
 };
 
-export const addHistoryDisplay = async (id: string) => {
+export const addHistory = async (id: string) => {
   try {
     const supabase = await createClient();
     const user = await currentUser();
@@ -81,7 +81,7 @@ export const addHistoryDisplay = async (id: string) => {
   }
 };
 
-export const updateHistory = async (item: DisplayItem) => {
+export const updateHistory = async (item: StoredItem) => {
   try {
     const supabase = await createClient();
     const user = await currentUser();
