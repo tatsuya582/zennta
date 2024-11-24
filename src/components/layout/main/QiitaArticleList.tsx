@@ -1,4 +1,4 @@
-import { getQiitaArticles } from "@/actions/article";
+import { getArticles } from "@/actions/article";
 import { getReadLater } from "@/actions/readLater";
 import { ReadLaterButton } from "@/components/layout/button/ReadLaterButton";
 import NotArticleError from "@/components/layout/main/NotArticleError";
@@ -6,9 +6,10 @@ import PagiNation from "@/components/layout/main/PagiNation";
 import { QiitaArticle } from "@/components/layout/main/QiitaArticle";
 import { Button } from "@/components/ui/button";
 import { getArticleDateRange } from "@/lib/readLater/getReadLater";
+import { QiitaArticlesResponse } from "@/types/types";
 
 export default async function QiitaArticleList({ qiitaPage, zennPage }: { qiitaPage: string; zennPage: string }) {
-  const qiitaFetch = await getQiitaArticles({ page: qiitaPage });
+  const qiitaFetch = await getArticles<QiitaArticlesResponse>(qiitaPage, "Qiita");
 
   if (!qiitaFetch) {
     return <NotArticleError />;
@@ -22,7 +23,7 @@ export default async function QiitaArticleList({ qiitaPage, zennPage }: { qiitaP
 
   const qiitaCurrentPage = parseInt(qiitaPage);
   const zennCurrentPage = parseInt(zennPage);
-  const totalPage = Math.min(qiitaFetch.totalPage, 100);
+  const totalPage = 100;
   return (
     <div className="mt-4">
       <div className="border-b border-gray-300 mb-2 pb-4">

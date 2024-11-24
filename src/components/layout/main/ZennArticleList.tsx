@@ -1,4 +1,4 @@
-import { getZennArticles } from "@/actions/article";
+import { getArticles } from "@/actions/article";
 import { getReadLater } from "@/actions/readLater";
 import { ReadLaterButton } from "@/components/layout/button/ReadLaterButton";
 import NotArticleError from "@/components/layout/main/NotArticleError";
@@ -6,9 +6,10 @@ import PagiNation from "@/components/layout/main/PagiNation";
 import { ZennArticle } from "@/components/layout/main/ZennArticle";
 import { Button } from "@/components/ui/button";
 import { getArticleDateRange } from "@/lib/readLater/getReadLater";
+import { ZennArticlesResponse } from "@/types/types";
 
 export default async function ZennArticleList({ qiitaPage, zennPage }: { qiitaPage: string; zennPage: string }) {
-  const zennFetch = await getZennArticles({ page: zennPage });
+  const zennFetch = await getArticles<ZennArticlesResponse>(zennPage, "Zenn");
   if (!zennFetch || zennFetch.articles.length === 0) {
     return <NotArticleError />;
   }

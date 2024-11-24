@@ -25,7 +25,7 @@ export type Tag = {
 
 export type QiitaArticlesResponse = {
   articles: QiitaItem[];
-  totalPage: number;
+  totalPage: number | null;
 };
 
 export type ZennItem = {
@@ -35,7 +35,7 @@ export type ZennItem = {
   published_at: string;
 };
 
-export type zennArticlesResponse = {
+export type ZennArticlesResponse = {
   articles: ZennItem[];
   next_page: number | null;
 };

@@ -1,8 +1,8 @@
 "use server";
 
-import { type zennArticlesResponse, type QiitaArticlesResponse } from "@/types/types";
+import { type ZennArticlesResponse, type QiitaArticlesResponse } from "@/types/types";
 
-export const getQiitaArticles = async ({ page }: { page: string }): Promise<QiitaArticlesResponse | null> => {
+const fetchQiitaArticles = async (page: string): Promise<QiitaArticlesResponse | null> => {
   try {
     const response = await fetch(`https://qiita.com/api/v2/items?page=${page}&per_page=30`, {
       method: "GET",
@@ -17,14 +17,35 @@ export const getQiitaArticles = async ({ page }: { page: string }): Promise<Qiit
     }
 
     const data = await response.json();
-    const totalCount = response.headers.get("Total-Count");
-    const maxPage = totalCount ? Math.ceil(Number(totalCount) / 30) : 1;
 
-    return { articles: data, totalPage: maxPage };
+    return data;
   } catch (error) {
     console.error("Error fetching Qiita items:", error);
     return null;
   }
+};
+
+const fetchZennArticles = async (page: string): Promise<ZennArticlesResponse | null> => {
+  try {
+    const response = await fetch(`https://zenn.dev/api/articles?page=${page}&order=latest`);
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching Qiita items:", error);
+    return null;
+  }
+};
+
+export const getArticles = async <T extends QiitaArticlesResponse | ZennArticlesResponse>(
+  page: string,
+  site: "Qiita" | "Zenn"
+): Promise<T | null> => {
+  return (site === "Qiita" ? await fetchQiitaArticles(page) : await fetchZennArticles(page)) as T | null;
 };
 
 export const searchQiitaArticles = async ({
@@ -60,29 +81,13 @@ export const searchQiitaArticles = async ({
   }
 };
 
-export const getZennArticles = async ({ page }: { page: string }): Promise<zennArticlesResponse | null> => {
-  try {
-    const response = await fetch(`https://zenn.dev/api/articles?page=${page}&order=latest`);
-
-    if (!response.ok) {
-      return null;
-    }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching Qiita items:", error);
-    return null;
-  }
-};
-
 export const searchZennArticles = async ({
   page,
   query,
 }: {
   page: string;
   query: string;
-}): Promise<zennArticlesResponse | null> => {
+}): Promise<ZennArticlesResponse | null> => {
   const url = query
     ? `https://zenn.dev/api/search?q=${query}&order=latest&source=articles&page=${page}`
     : `https://zenn.dev/api/articles?page=${page}&order=latest`;
