@@ -1,8 +1,9 @@
+import { addStoredItemHistory } from "@/actions/history";
 import { getReadLaterArticles } from "@/actions/readLater";
 import { StoredReadLaterButton } from "@/components/layout/button/StoredReadLaterButton";
+import { Article } from "@/components/layout/main/Article";
 import NotArticleError from "@/components/layout/main/NotArticleError";
 import PagiNation from "@/components/layout/main/PagiNation";
-import { Article } from "@/components/layout/readLater/Article";
 import { Button } from "@/components/ui/button";
 
 export default async function ReadLsterArticleList({ page }: { page: number }) {
@@ -22,7 +23,7 @@ export default async function ReadLsterArticleList({ page }: { page: number }) {
         return (
           <div key={item.articles.id} className="border-b border-gray-300 m-2 pb-1">
             <div className="flex md:flex-row flex-col justify-between gap-1">
-              <Article item={item.articles} />
+              <Article item={item.articles} onSubmit={addStoredItemHistory} />
               <div className="flex items-center gap-2">
                 <StoredReadLaterButton item={item.articles} />
                 <Button className="flex-1">お気に入り</Button>

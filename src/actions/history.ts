@@ -58,11 +58,9 @@ export const addStoredItemHistory = async (item: StoredItem) => {
       return null;
     }
 
-    console.log("start addStoredItemHistory", item);
-
     const { data } = await supabase.from("histories").select("id").eq("articleId", item.id).eq("userId", user.id);
 
-    if (data) {
+    if (Array.isArray(data) && data.length > 0) {
       await updateHistory(item);
     } else {
       await supabase.from("histories").insert({ userId: user.id, articleId: item.id });

@@ -1,21 +1,18 @@
 "use client";
 
-import { QiitaItem, type ZennItem } from "@/types/types";
+import { QiitaItem, StoredItem, type ZennItem } from "@/types/types";
 import { useRouter } from "next/navigation";
 
-export const Article = ({
+export const Article = <T extends ZennItem | QiitaItem | StoredItem>({
   item,
   onSubmit,
 }: {
-  item: ZennItem | QiitaItem;
-  onSubmit: (item: ZennItem | QiitaItem) => Promise<null | undefined>;
+  item: T;
+  onSubmit: (item: T) => Promise<null | undefined>;
 }) => {
   const router = useRouter();
-  const isQiitaItem = (item: QiitaItem | ZennItem): item is QiitaItem => {
-    return "url" in item;
-  };
-  const url = isQiitaItem(item) ? item.url : `https://zenn.dev${item.path}`;
-  const handleClick = async (item: ZennItem | QiitaItem) => {
+  const url = "path" in item ? `https://zenn.dev${item.path}` : item.url;
+  const handleClick = async (item: T) => {
     await onSubmit(item);
     router.refresh();
   };
@@ -30,7 +27,7 @@ export const Article = ({
       >
         {item.title}
       </a>
-      {isQiitaItem(item) && (
+      {"tags" in item && (
         <div className="flex gap-x-2 flex-wrap my-1">
           {item.tags?.map((tag) => (
             <div key={tag.name} className="border border-lime-300 rounded-lg bg-lime-50 px-3 my-1">
