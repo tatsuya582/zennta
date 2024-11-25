@@ -11,6 +11,27 @@ export type ProfilePageLayoutProps = {
   isEdit: boolean;
 };
 
+export type QiitaSearchPagiNationProps = {
+  query: string;
+  qiitaPage: number;
+  zennPage: number;
+  totalPage: number;
+};
+
+export type ZennSearchPagiNationProps = {
+  query: string;
+  qiitaPage: number;
+  zennPage: number;
+  next: number | null;
+};
+
+export type ArticleSearchProps = {
+  query: string;
+  currentPage: string;
+  otherPage: string;
+  currentSite: "Qiita" | "Zenn";
+};
+
 export type QiitaItem = {
   id: string;
   title: string;

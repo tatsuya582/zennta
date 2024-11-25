@@ -7,18 +7,9 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { type ZennSearchPagiNationProps } from "@/types/types";
 
-export default async function ZennSearchPagiNation({
-  query,
-  qiitaPage,
-  zennPage,
-  next,
-}: {
-  query: string;
-  qiitaPage: number;
-  zennPage: number;
-  next: number | null;
-}) {
+export default async function ZennSearchPagiNation({ query, qiitaPage, zennPage, next }: ZennSearchPagiNationProps) {
   const currentPage = zennPage;
   return (
     <Pagination>

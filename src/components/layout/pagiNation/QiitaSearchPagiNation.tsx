@@ -7,18 +7,14 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { type QiitaSearchPagiNationProps } from "@/types/types";
 
 export default async function QiitaSearchPagiNation({
   query,
   qiitaPage,
   zennPage,
   totalPage,
-}: {
-  query: string;
-  qiitaPage: number;
-  zennPage: number;
-  totalPage: number;
-}) {
+}: QiitaSearchPagiNationProps) {
   return (
     <Pagination>
       <PaginationContent>
