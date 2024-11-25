@@ -49,7 +49,7 @@ export const addHistory = async (item: QiitaItem | ZennItem) => {
   }
 };
 
-export const addStoredItemHistory = async (id: string) => {
+export const addStoredItemHistory = async (item: StoredItem) => {
   try {
     const supabase = await createClient();
     const user = await currentUser();
@@ -58,11 +58,14 @@ export const addStoredItemHistory = async (id: string) => {
       return null;
     }
 
-    const { error } = await supabase.from("histories").insert({ userId: user.id, articleId: id });
+    console.log("start addStoredItemHistory", item);
 
-    if (error) {
-      console.error("Error adding article:", error);
-      throw error;
+    const { data } = await supabase.from("histories").select("id").eq("articleId", item.id).eq("userId", user.id);
+
+    if (data) {
+      await updateHistory(item);
+    } else {
+      await supabase.from("histories").insert({ userId: user.id, articleId: item.id });
     }
   } catch (error) {
     console.error("Unexpected error:", error);
