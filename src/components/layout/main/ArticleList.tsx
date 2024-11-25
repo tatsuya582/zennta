@@ -4,7 +4,7 @@ import { getReadLater } from "@/actions/readLater";
 import { ReadLaterButton } from "@/components/layout/button/ReadLaterButton";
 import { Article } from "@/components/layout/main/Article";
 import NotArticleError from "@/components/layout/main/NotArticleError";
-import PagiNation from "@/components/layout/main/PagiNation";
+import PagiNation from "@/components/layout/pagiNation/PagiNation";
 import { Button } from "@/components/ui/button";
 import { getArticleDateRange } from "@/lib/readLater/getReadLater";
 import { QiitaArticlesResponse, ZennArticlesResponse } from "@/types/types";

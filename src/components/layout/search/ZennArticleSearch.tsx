@@ -4,7 +4,7 @@ import { getReadLater } from "@/actions/readLater";
 import { ReadLaterButton } from "@/components/layout/button/ReadLaterButton";
 import { Article } from "@/components/layout/main/Article";
 import NotArticleError from "@/components/layout/main/NotArticleError";
-import ZennSearchPagiNation from "@/components/layout/search/ZennSearchPagiNation";
+import ZennSearchPagiNation from "@/components/layout/pagiNation/ZennSearchPagiNation";
 import { Button } from "@/components/ui/button";
 import { getArticleDateRange } from "@/lib/readLater/getReadLater";
 

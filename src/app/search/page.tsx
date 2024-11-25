@@ -1,5 +1,5 @@
-import QiitaArticleListSkeleton from "@/components/layout/main/QiitaArticleListSkeleton";
-import ZennArticleListSkeleton from "@/components/layout/main/ZennArticleListSkeleton";
+import QiitaArticleListSkeleton from "@/components/layout/skeleton/QiitaArticleListSkeleton";
+import ZennArticleListSkeleton from "@/components/layout/skeleton/ZennArticleListSkeleton";
 import QiitaArticleSearch from "@/components/layout/search/QiitaArticleSearch";
 import ZennArticleSearch from "@/components/layout/search/ZennArticleSearch";
 import { Button } from "@/components/ui/button";

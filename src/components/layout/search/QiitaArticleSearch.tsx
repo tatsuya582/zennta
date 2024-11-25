@@ -4,8 +4,8 @@ import { getReadLater } from "@/actions/readLater";
 import { ReadLaterButton } from "@/components/layout/button/ReadLaterButton";
 import { Article } from "@/components/layout/main/Article";
 import NotArticleError from "@/components/layout/main/NotArticleError";
-import LessSearchPagiNation from "@/components/layout/search/LessSearchPagiNation";
-import SearchPagiNation from "@/components/layout/search/SearchPagiNation";
+import LessSearchPagiNation from "@/components/layout/pagiNation/LessSearchPagiNation";
+import SearchPagiNation from "@/components/layout/pagiNation/SearchPagiNation";
 import { Button } from "@/components/ui/button";
 import { getArticleDateRange } from "@/lib/readLater/getReadLater";
 

@@ -1,6 +1,6 @@
 import ArticleList from "@/components/layout/main/ArticleList";
-import QiitaArticleListSkeleton from "@/components/layout/main/QiitaArticleListSkeleton";
-import ZennArticleListSkeleton from "@/components/layout/main/ZennArticleListSkeleton";
+import QiitaArticleListSkeleton from "@/components/layout/skeleton/QiitaArticleListSkeleton";
+import ZennArticleListSkeleton from "@/components/layout/skeleton/ZennArticleListSkeleton";
 import { Suspense } from "react";
 
 export default async function Home({

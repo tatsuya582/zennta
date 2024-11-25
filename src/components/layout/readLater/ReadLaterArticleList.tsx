@@ -3,7 +3,7 @@ import { getReadLaterArticles } from "@/actions/readLater";
 import { StoredReadLaterButton } from "@/components/layout/button/StoredReadLaterButton";
 import { Article } from "@/components/layout/main/Article";
 import NotArticleError from "@/components/layout/main/NotArticleError";
-import PagiNation from "@/components/layout/main/PagiNation";
+import PagiNation from "@/components/layout/pagiNation/PagiNation";
 import { Button } from "@/components/ui/button";
 
 export default async function ReadLsterArticleList({ page }: { page: number }) {
