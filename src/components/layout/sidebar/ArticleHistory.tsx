@@ -1,7 +1,7 @@
-import { getHistory } from "@/actions/history";
+import { getHistory, updateHistory } from "@/actions/history";
 import { getReadLaterHistory } from "@/actions/readLater";
 import { HistoryButton } from "@/components/layout/button/HistoryButton";
-import { CreateArticle } from "@/components/layout/sidebar/CreateArticle";
+import { Article } from "@/components/layout/main/Article";
 import { Button } from "@/components/ui/button";
 
 export const ArticleHistory = async () => {
@@ -14,7 +14,7 @@ export const ArticleHistory = async () => {
     <>
       {history.map((item) => (
         <div key={item.articles.id} className="my-2">
-          <CreateArticle item={item.articles} />
+          <Article item={item.articles} onSubmit={updateHistory} displayTags={false} />
           <div className="flex space-x-1">
             <HistoryButton item={item.articles} readLaterUrls={readLaterUrls} />
             <Button className="flex-1">お気に入り</Button>
