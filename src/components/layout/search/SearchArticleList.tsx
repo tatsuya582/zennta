@@ -9,7 +9,7 @@ import LessSearchPagiNation from "@/components/layout/pagiNation/LessSearchPagiN
 import QiitaSearchPagiNation from "@/components/layout/pagiNation/QiitaSearchPagiNation";
 import ZennSearchPagiNation from "@/components/layout/pagiNation/ZennSearchPagiNation";
 import { searchArticles } from "@/actions/article";
-import { type ArticleSearchProps, type QiitaArticlesResponse, type ZennArticlesResponse } from "@/types/types";
+import { type SearchPagiNationProps, type ArticleSearchProps, type QiitaArticlesResponse, type ZennArticlesResponse } from "@/types/types";
 
 export default async function SearchArticleList({ query, currentPage, otherPage, currentSite }: ArticleSearchProps) {
   const fetchResult =
@@ -36,18 +36,24 @@ export default async function SearchArticleList({ query, currentPage, otherPage,
   const PaginationComponent =
     currentSite === "Qiita"
       ? totalPage <= 5
-        ? (props: any) => <LessSearchPagiNation {...props} totalPage={totalPage} />
-        : (props: any) => <QiitaSearchPagiNation {...props} totalPage={totalPage} />
-      : (props: any) => <ZennSearchPagiNation {...props} next={next} />;
+        ? (props: SearchPagiNationProps) => <LessSearchPagiNation {...props} totalPage={totalPage} />
+        : (props: SearchPagiNationProps) => <QiitaSearchPagiNation {...props} totalPage={totalPage} />
+      : (props: SearchPagiNationProps) => <ZennSearchPagiNation {...props} next={next} />;
 
+
+  const renderPagination = () => {
+    return  (
+      <PaginationComponent
+        query={query}
+        qiitaPage={currentSite === "Qiita" ? currentPageNum : otherPageNum}
+        zennPage={currentSite === "Zenn" ? currentPageNum : otherPageNum}
+      />
+    );
+  }
   return (
     <div className="mt-4">
       <div className="border-b border-gray-300 mb-2 pb-4">
-        <PaginationComponent
-          query={query}
-          qiitaPage={currentSite === "Qiita" ? currentPageNum : otherPageNum}
-          zennPage={currentSite === "Zenn" ? currentPageNum : otherPageNum}
-        />
+        {renderPagination()}
       </div>
       {articles.map((item) => (
         <div key={item.id} className="border-b border-gray-300 m-2 pb-1">
@@ -60,11 +66,7 @@ export default async function SearchArticleList({ query, currentPage, otherPage,
           </div>
         </div>
       ))}
-      <PaginationComponent
-        query={query}
-        qiitaPage={currentSite === "Qiita" ? currentPageNum : otherPageNum}
-        zennPage={currentSite === "Zenn" ? currentPageNum : otherPageNum}
-      />
+      {renderPagination()}
     </div>
   );
 }

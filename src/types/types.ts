@@ -25,6 +25,12 @@ export type ZennSearchPagiNationProps = {
   next: number | null;
 };
 
+export type SearchPagiNationProps = {
+  query: string;
+  qiitaPage: number;
+  zennPage: number;
+};
+
 export type ArticleSearchProps = {
   query: string;
   currentPage: string;
