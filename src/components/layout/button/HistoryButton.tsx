@@ -1,4 +1,4 @@
-import { addStoredreadLater, deleteReadLater } from "@/actions/readLater";
+import { addStoredreadLater, deleteStoredReadLater } from "@/actions/readLater";
 import { StoredItem } from "@/types/types";
 import { Button } from "@/components/ui/button";
 import { revalidatePath } from "next/cache";
@@ -14,7 +14,7 @@ export const HistoryButton = ({
   const onSubmitDelete = async () => {
     "use server";
     try {
-      await deleteReadLater(item.id);
+      await deleteStoredReadLater(item.id);
       revalidatePath("/");
     } catch (error) {
       console.error(error);

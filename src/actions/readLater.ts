@@ -119,7 +119,7 @@ export const getReadLaterHistory = async (): Promise<Map<string | undefined, str
   }
 };
 
-export const deleteReadLater = async (articleId: string) => {
+export const deleteStoredReadLater = async (articleId: string) => {
   try {
     const supabase = await createClient();
     const user = await currentUser();
