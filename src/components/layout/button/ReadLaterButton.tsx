@@ -14,13 +14,15 @@ export const ReadLaterButton = ({
     return "url" in item;
   };
   const url = isQiitaItem(item) ? item.url : `https://zenn.dev${item.path}`;
-  const id = isQiitaItem(item) ? item.id : item.id.toString();
+  const id = readLaterUrls.get(url);
   const isReadLater = readLaterUrls.has(url);
   const onSubmitDelete = async () => {
     "use server";
     try {
-      await deleteReadLater(id);
-      revalidatePath("/");
+      if (id) {
+        await deleteReadLater(id);
+        revalidatePath("/");
+      }
     } catch (error) {
       console.error(error);
     }

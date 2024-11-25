@@ -1,4 +1,4 @@
-import { deleteStoredReadLater } from "@/actions/readLater";
+import { deleteReadLater } from "@/actions/readLater";
 import { StoredItem } from "@/types/types";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,7 +18,7 @@ export const StoredReadLaterButton = ({ item }: { item: StoredItem }) => {
   const onSubmitDelete = async () => {
     "use server";
     try {
-      await deleteStoredReadLater(item.id);
+      await deleteReadLater(item.id);
       revalidatePath("/readlater");
     } catch (error) {
       console.error(error);
