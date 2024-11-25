@@ -32,7 +32,7 @@ export const Article = ({
       </a>
       {isQiitaItem(item) && (
         <div className="flex gap-x-2 flex-wrap my-1">
-          {item.tags.map((tag) => (
+          {item.tags?.map((tag) => (
             <div key={tag.name} className="border border-lime-300 rounded-lg bg-lime-50 px-3 my-1">
               {tag.name}
             </div>

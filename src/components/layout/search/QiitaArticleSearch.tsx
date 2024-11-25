@@ -1,8 +1,9 @@
 import { searchQiitaArticles } from "@/actions/article";
+import { addHistory } from "@/actions/history";
 import { getReadLater } from "@/actions/readLater";
 import { ReadLaterButton } from "@/components/layout/button/ReadLaterButton";
+import { Article } from "@/components/layout/main/Article";
 import NotArticleError from "@/components/layout/main/NotArticleError";
-import { QiitaArticle } from "@/components/layout/main/QiitaArticle";
 import LessSearchPagiNation from "@/components/layout/search/LessSearchPagiNation";
 import SearchPagiNation from "@/components/layout/search/SearchPagiNation";
 import { Button } from "@/components/ui/button";
@@ -30,7 +31,7 @@ export default async function QiitaArticleSearch({
       : new Map();
   const qiitaCurrentPage = parseInt(qiitaPage);
   const zennCurrentPage = parseInt(zennPage);
-  const totalPage = Math.min(qiitaFetch.totalPage, 100);
+  const totalPage = Math.min(qiitaFetch?.totalPage ?? 0, 100);
   return (
     <div className="mt-4">
       <div className="border-b border-gray-300 mb-2 pb-4">
@@ -54,7 +55,7 @@ export default async function QiitaArticleSearch({
       {qiitaArtcles.map((item) => (
         <div key={item.id} className="border-b border-gray-300 m-2 pb-1">
           <div className="flex md:flex-row flex-col justify-between gap-1">
-            <QiitaArticle item={item} />
+            <Article item={item} onSubmit={addHistory} />
             <div className="flex items-center gap-2">
               <ReadLaterButton item={item} readLaterUrls={readLaterUrls} />
               <Button className="flex-1">お気に入り</Button>

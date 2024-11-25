@@ -1,8 +1,9 @@
 import { searchZennArticles } from "@/actions/article";
+import { addHistory } from "@/actions/history";
 import { getReadLater } from "@/actions/readLater";
 import { ReadLaterButton } from "@/components/layout/button/ReadLaterButton";
+import { Article } from "@/components/layout/main/Article";
 import NotArticleError from "@/components/layout/main/NotArticleError";
-import { ZennArticle } from "@/components/layout/main/ZennArticle";
 import ZennSearchPagiNation from "@/components/layout/search/ZennSearchPagiNation";
 import { Button } from "@/components/ui/button";
 import { getArticleDateRange } from "@/lib/readLater/getReadLater";
@@ -37,7 +38,7 @@ export default async function ZennArticleSearch({
       {zennArticles.map((item) => (
         <div key={item.id} className="border-b border-gray-300 m-2 pb-1">
           <div className="flex md:flex-row flex-col justify-between gap-1">
-            <ZennArticle item={item} />
+            <Article item={item} onSubmit={addHistory} />
             <div className="flex items-center gap-2">
               <ReadLaterButton item={item} readLaterUrls={readLaterUrls} />
               <Button className="flex-1">お気に入り</Button>
