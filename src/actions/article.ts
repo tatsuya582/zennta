@@ -1,6 +1,6 @@
 "use server";
 
-import { type ZennArticlesResponse, type QiitaArticlesResponse } from "@/types/types";
+import { type ZennArticlesResponse, type QiitaArticlesResponse, type QiitaItem, type ZennItem } from "@/types/types";
 
 const fetchQiitaArticles = async (page: string): Promise<QiitaArticlesResponse | null> => {
   try {
@@ -16,8 +16,15 @@ const fetchQiitaArticles = async (page: string): Promise<QiitaArticlesResponse |
       return null;
     }
     const data = await response.json();
+    const filteredData = data.map((item: QiitaItem) => ({
+      id: item.id,
+      title: item.title,
+      url: item.url,
+      tags: item.tags,
+      created_at: item.created_at,
+    }));
 
-    return { articles: data, totalPage: null };
+    return { articles: filteredData, totalPage: 100 };
   } catch (error) {
     console.error("Error fetching Qiita items:", error);
     return null;
@@ -33,7 +40,14 @@ const fetchZennArticles = async (page: string): Promise<ZennArticlesResponse | n
     }
 
     const data = await response.json();
-    return data;
+    const filteredData = data.articles.map((item: ZennItem) => ({
+      id: item.id,
+      title: item.title,
+      url: `https://zenn.dev${item.path}`,
+      tags: null,
+      created_at: item.published_at,
+    }));
+    return { articles: filteredData, next_page: data.next_page };
   } catch (error) {
     console.error("Error fetching Zenn items:", error);
     return null;
@@ -64,10 +78,17 @@ export const searchQiitaArticles = async (page: string, query: string): Promise<
     }
 
     const data = await response.json();
+    const filteredData = data.map((item: QiitaItem) => ({
+      id: item.id,
+      title: item.title,
+      url: item.url,
+      tags: item.tags,
+      created_at: item.created_at,
+    }));
     const totalCount = response.headers.get("Total-Count");
     const maxPage = totalCount ? Math.ceil(Number(totalCount) / 30) : 1;
 
-    return { articles: data, totalPage: maxPage };
+    return { articles: filteredData, totalPage: maxPage };
   } catch (error) {
     console.error("Error fetching Qiita items:", error);
     return null;
@@ -87,7 +108,14 @@ export const searchZennArticles = async (page: string, query: string): Promise<Z
     }
 
     const data = await response.json();
-    return data;
+    const filteredData = data.articles.map((item: ZennItem) => ({
+      id: item.id,
+      title: item.title,
+      url: `https://zenn.dev${item.path}`,
+      tags: null,
+      created_at: item.published_at,
+    }));
+    return { articles: filteredData, next_page: data.next_page };
   } catch (error) {
     console.error("Error fetching Zenn items:", error);
     return null;

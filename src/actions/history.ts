@@ -1,10 +1,10 @@
 "use server";
 
 import { currentUser } from "@/lib/auth/currentUser/server";
-import { type ZennItem, type History, type QiitaItem, StoredItem } from "@/types/types";
+import { type History, type StoredItem, type FetchedItem } from "@/types/types";
 import { createClient } from "@/utils/supabase/server";
 
-export const addHistory = async (item: QiitaItem | ZennItem) => {
+export const addHistory = async (item: FetchedItem) => {
   try {
     const supabase = await createClient();
     const user = await currentUser();
@@ -13,29 +13,11 @@ export const addHistory = async (item: QiitaItem | ZennItem) => {
       return null;
     }
 
-    const data =
-      "url" in item
-        ? {
-            provider: "Qiita",
-            sourceCreatedAt: item.created_at,
-            title: item.title,
-            url: item.url,
-            tags: item.tags,
-          }
-        : {
-            provider: "Zenn",
-            sourceCreatedAt: item.published_at,
-            title: item.title,
-            url: `https://zenn.dev${item.path}`,
-            tags: null,
-          };
-
     const { error } = await supabase.rpc("insert_history_with_article", {
-      articleprovider: data.provider,
-      articlesourcecreatedat: data.sourceCreatedAt,
-      articletitle: data.title,
-      articleurl: data.url,
-      tags: data.tags,
+      articlesourcecreatedat: item.created_at,
+      articletitle: item.title,
+      articleurl: item.url,
+      tags: item.tags,
       userid: user.id,
     });
 
@@ -58,12 +40,13 @@ export const addStoredItemHistory = async (item: StoredItem) => {
       return null;
     }
 
-    const { data } = await supabase.from("histories").select("id").eq("articleId", item.id).eq("userId", user.id);
-
-    if (Array.isArray(data) && data.length > 0) {
-      await updateHistory(item);
-    } else {
-      await supabase.from("histories").insert({ userId: user.id, articleId: item.id });
+    const { error } = await supabase.rpc("add_or_update_history", {
+      user_id: user.id,
+      article_id: item.id,
+    });
+    if (error) {
+      console.error("Error adding article:", error);
+      throw error;
     }
   } catch (error) {
     console.error("Unexpected error:", error);
@@ -105,7 +88,7 @@ export const getHistory = async (): Promise<History[] | null> => {
       return null;
     }
 
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("histories")
       .select(
         `

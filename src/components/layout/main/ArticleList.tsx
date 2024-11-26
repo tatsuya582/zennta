@@ -7,32 +7,28 @@ import NotArticleError from "@/components/layout/main/NotArticleError";
 import PagiNation from "@/components/layout/pagiNation/PagiNation";
 import { Button } from "@/components/ui/button";
 import { getArticleDateRange } from "@/lib/readLater/getReadLater";
-import { QiitaArticlesResponse, ZennArticlesResponse } from "@/types/types";
 
 export default async function ArticleList({
-  qiitaPage,
-  zennPage,
+  currentPage,
+  otherPage,
   currentSite,
 }: {
-  qiitaPage: string;
-  zennPage: string;
+  currentPage: string;
+  otherPage: string;
   currentSite: "Qiita" | "Zenn";
 }) {
-  const dataFetch =
-    currentSite === "Qiita"
-      ? await getArticles<QiitaArticlesResponse>(qiitaPage, currentSite)
-      : await getArticles<ZennArticlesResponse>(zennPage, currentSite);
-  if (!dataFetch || dataFetch.articles.length === 0) {
+  const fetchResult = await getArticles(currentPage, currentSite);
+  if (!fetchResult || fetchResult.articles.length === 0) {
     return <NotArticleError />;
   }
-  const articles = dataFetch.articles;
+  const articles = fetchResult.articles;
   const readLaterRange = getArticleDateRange(articles);
   const readLaterUrls =
     readLaterRange.start && readLaterRange.end
       ? await getReadLater(readLaterRange.start, readLaterRange.end)
       : new Map();
-  const qiitaCurrentPage = parseInt(qiitaPage);
-  const zennCurrentPage = parseInt(zennPage);
+  const qiitaCurrentPage = currentSite === "Qiita" ? parseInt(currentPage) : parseInt(otherPage);
+  const zennCurrentPage = currentSite === "Zenn" ? parseInt(currentPage) : parseInt(otherPage);
   const totalPage = 100;
   return (
     <div className="mt-4">

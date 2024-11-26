@@ -20,7 +20,7 @@ export default async function Home({
         <h2>Qiita一覧</h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
           <Suspense key={JSON.stringify(searchParams)} fallback={<QiitaArticleListSkeleton />}>
-            <ArticleList qiitaPage={qiitaPage} zennPage={zennPage} currentSite="Qiita" />
+            <ArticleList currentPage={qiitaPage} otherPage={zennPage} currentSite="Qiita" />
           </Suspense>
         </div>
       </div>
@@ -31,7 +31,7 @@ export default async function Home({
         </h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
           <Suspense key={JSON.stringify(searchParams)} fallback={<ZennArticleListSkeleton />}>
-            <ArticleList qiitaPage={qiitaPage} zennPage={zennPage} currentSite="Zenn" />
+            <ArticleList currentPage={zennPage} otherPage={qiitaPage} currentSite="Zenn" />
           </Suspense>
         </div>
       </div>

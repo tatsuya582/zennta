@@ -1,21 +1,17 @@
 import { addreadLater, deleteReadLater } from "@/actions/readLater";
 import { Button } from "@/components/ui/button";
-import { QiitaItem, ZennItem } from "@/types/types";
+import { type FetchedItem } from "@/types/types";
 import { revalidatePath } from "next/cache";
 
 export const ReadLaterButton = ({
   item,
   readLaterUrls,
 }: {
-  item: QiitaItem | ZennItem;
+  item: FetchedItem;
   readLaterUrls: Map<string | undefined, string | undefined>;
 }) => {
-  const isQiitaItem = (item: QiitaItem | ZennItem): item is QiitaItem => {
-    return "url" in item;
-  };
-  const url = isQiitaItem(item) ? item.url : `https://zenn.dev${item.path}`;
-  const id = readLaterUrls.get(url);
-  const isReadLater = readLaterUrls.has(url);
+  const id = readLaterUrls.get(item.url);
+  const isReadLater = readLaterUrls.has(item.url);
   const onSubmitDelete = async () => {
     "use server";
     try {

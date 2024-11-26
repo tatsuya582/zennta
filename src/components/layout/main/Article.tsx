@@ -1,9 +1,9 @@
 "use client";
 
-import { QiitaItem, StoredItem, type ZennItem } from "@/types/types";
+import { FetchedItem, StoredItem } from "@/types/types";
 import { useRouter } from "next/navigation";
 
-export const Article = <T extends ZennItem | QiitaItem | StoredItem>({
+export const Article = <T extends FetchedItem | StoredItem>({
   item,
   onSubmit,
   displayTags = true,
@@ -13,7 +13,6 @@ export const Article = <T extends ZennItem | QiitaItem | StoredItem>({
   displayTags?: boolean;
 }) => {
   const router = useRouter();
-  const url = "path" in item ? `https://zenn.dev${item.path}` : item.url;
   const handleClick = async (item: T) => {
     await onSubmit(item);
     router.refresh();
@@ -21,7 +20,7 @@ export const Article = <T extends ZennItem | QiitaItem | StoredItem>({
   return (
     <div>
       <a
-        href={url}
+        href={item.url}
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => handleClick(item)}
@@ -29,9 +28,9 @@ export const Article = <T extends ZennItem | QiitaItem | StoredItem>({
       >
         {item.title}
       </a>
-      {"tags" in item && displayTags && (
+      {item.tags && displayTags && (
         <div className="flex gap-x-2 flex-wrap my-1">
-          {item.tags?.map((tag) => (
+          {item.tags.map((tag) => (
             <div key={tag.name} className="border border-lime-300 rounded-lg bg-lime-50 px-3 my-1">
               {tag.name}
             </div>

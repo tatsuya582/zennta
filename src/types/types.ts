@@ -38,6 +38,21 @@ export type ArticleSearchProps = {
   currentSite: "Qiita" | "Zenn";
 };
 
+export type StoredItem = {
+  id: string;
+  url: string;
+  tags: Tag[] | null;
+  title: string;
+};
+
+export type FetchedItem = {
+  id: string;
+  title: string;
+  url: string;
+  tags: Tag[] | null;
+  created_at: string;
+};
+
 export type QiitaItem = {
   id: string;
   title: string;
@@ -51,8 +66,8 @@ export type Tag = {
 };
 
 export type QiitaArticlesResponse = {
-  articles: QiitaItem[];
-  totalPage: number | null;
+  articles: FetchedItem[];
+  totalPage: number;
 };
 
 export type ZennItem = {
@@ -63,18 +78,11 @@ export type ZennItem = {
 };
 
 export type ZennArticlesResponse = {
-  articles: ZennItem[];
+  articles: FetchedItem[];
   next_page: number | null;
 };
 
 export type History = {
   updatedAt: string;
   articles: StoredItem;
-};
-
-export type StoredItem = {
-  id: string;
-  url: string;
-  tags: Tag[] | null;
-  title: string;
 };
