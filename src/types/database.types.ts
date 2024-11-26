@@ -6,7 +6,6 @@ export type Database = {
       articles: {
         Row: {
           id: string;
-          provider: string;
           sourceCreatedAt: string;
           tags: Json | null;
           title: string;
@@ -14,7 +13,6 @@ export type Database = {
         };
         Insert: {
           id?: string;
-          provider: string;
           sourceCreatedAt: string;
           tags?: Json | null;
           title: string;
@@ -22,7 +20,6 @@ export type Database = {
         };
         Update: {
           id?: string;
-          provider?: string;
           sourceCreatedAt?: string;
           tags?: Json | null;
           title?: string;
@@ -128,10 +125,16 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      add_or_update_history: {
+        Args: {
+          user_id: string;
+          article_id: string;
+        };
+        Returns: undefined;
+      };
       insert_history_with_article: {
         Args: {
           userid: string;
-          articleprovider: string;
           articleurl: string;
           articletitle: string;
           articlesourcecreatedat?: string;
@@ -142,13 +145,12 @@ export type Database = {
       insert_read_later_with_article: {
         Args: {
           userid: string;
-          articleprovider: string;
           articleurl: string;
           articletitle: string;
           articlesourcecreatedat?: string;
           tags?: Json;
         };
-        Returns: string;
+        Returns: undefined;
       };
     };
     Enums: {

@@ -1,5 +1,9 @@
 set check_function_bodies = off;
 
+DROP FUNCTION IF EXISTS public.insert_read_later_with_article(
+  uuid, text, text, text, timestamp with time zone, json
+);
+
 CREATE OR REPLACE FUNCTION public.insert_read_later_with_article(userid uuid, articleprovider text, articleurl text, articletitle text, articlesourcecreatedat timestamp with time zone DEFAULT NULL::timestamp with time zone, tags json DEFAULT NULL::json)
  RETURNS uuid
  LANGUAGE plpgsql
@@ -34,5 +38,4 @@ EXCEPTION
 END;
 $function$
 ;
-
 
