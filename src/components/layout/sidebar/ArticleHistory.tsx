@@ -16,7 +16,7 @@ export const ArticleHistory = async () => {
         <div key={item.articles.id} className="my-2">
           <Article item={item.articles} onSubmit={updateHistory} displayTags={false} />
           <div className="flex space-x-1">
-            <ReadLaterButton item={item.articles} readLaterUrls={readLaterUrls} onSubmit={addStoredreadLater}/>
+            <ReadLaterButton item={item.articles} readLaterUrls={readLaterUrls} onSubmit={addStoredreadLater} />
             <Button className="flex-1">お気に入り</Button>
           </div>
         </div>

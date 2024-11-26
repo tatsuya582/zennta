@@ -144,18 +144,21 @@ export const getReadLaterArticles = async (page: number) => {
       return null;
     }
 
-    const { data } = (await supabase
+    const { data, count } = (await supabase
       .from("readLaters")
       .select(
         `
         articles:articleId (id, title, url, tags)
-        `
+        `,
+        { count: "exact" }
       )
       .eq("userId", user.id)
       .order("createdAt", { ascending: false })
-      .range(start, end)) as unknown as { data: ReadLaterArticles[] };
+      .range(start, end)) as unknown as { data: ReadLaterArticles[]; count: number | null };
 
-    return data;
+    const totalPage = count !== null ? Math.ceil(count / 30) : 1;
+
+    return { articles: data, totalPage };
   } catch (error) {
     console.error("Unexpected error:", error);
     throw error;

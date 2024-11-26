@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 export const ReadLaterButton = <T extends FetchedItem | StoredItem>({
   item,
   readLaterUrls,
-  onSubmit
+  onSubmit,
 }: {
   item: T;
   readLaterUrls: Map<string | undefined, string | undefined>;
