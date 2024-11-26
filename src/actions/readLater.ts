@@ -2,7 +2,7 @@
 
 import { currentUser } from "@/lib/auth/currentUser/server";
 import { ReadLaterArticle, ReadLaterArticles } from "@/types/databaseCustom.types";
-import { type FetchedItem } from "@/types/types";
+import { StoredItem, type FetchedItem } from "@/types/types";
 import { createClient } from "@/utils/supabase/server";
 
 export const addreadLater = async (item: FetchedItem) => {
@@ -34,7 +34,7 @@ export const addreadLater = async (item: FetchedItem) => {
   }
 };
 
-export const addStoredreadLater = async (articleId: string) => {
+export const addStoredreadLater = async (item: StoredItem) => {
   try {
     const supabase = await createClient();
     const user = await currentUser();
@@ -43,7 +43,7 @@ export const addStoredreadLater = async (articleId: string) => {
       return null;
     }
 
-    const { error } = await supabase.from("readLaters").insert({ userId: user.id, articleId: articleId });
+    const { error } = await supabase.from("readLaters").insert({ userId: user.id, articleId: item.id });
 
     if (error) {
       console.error("Error adding article:", error);

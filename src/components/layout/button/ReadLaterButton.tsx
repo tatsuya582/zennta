@@ -1,16 +1,18 @@
-import { addreadLater, deleteReadLater } from "@/actions/readLater";
+import { deleteReadLater } from "@/actions/readLater";
 import { Button } from "@/components/ui/button";
-import { type FetchedItem } from "@/types/types";
+import { type StoredItem, type FetchedItem } from "@/types/types";
 import { revalidatePath } from "next/cache";
 
-export const ReadLaterButton = ({
+export const ReadLaterButton = <T extends FetchedItem | StoredItem>({
   item,
   readLaterUrls,
+  onSubmit
 }: {
-  item: FetchedItem;
+  item: T;
   readLaterUrls: Map<string | undefined, string | undefined>;
+  onSubmit: (item: T) => Promise<null | undefined>;
 }) => {
-  const id = readLaterUrls.get(item.url);
+  const id = "created_at" in item ? readLaterUrls.get(item.url) : item.id;
   const isReadLater = readLaterUrls.has(item.url);
   const onSubmitDelete = async () => {
     "use server";
@@ -26,7 +28,7 @@ export const ReadLaterButton = ({
   const onSubmitAdd = async () => {
     "use server";
     try {
-      await addreadLater(item);
+      await onSubmit(item);
       revalidatePath("/");
     } catch (error) {
       console.error(error);

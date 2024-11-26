@@ -1,5 +1,5 @@
 import { addHistory } from "@/actions/history";
-import { getReadLater } from "@/actions/readLater";
+import { addreadLater, getReadLater } from "@/actions/readLater";
 import { ReadLaterButton } from "@/components/layout/button/ReadLaterButton";
 import { Article } from "@/components/layout/main/Article";
 import NotArticleError from "@/components/layout/main/NotArticleError";
@@ -54,7 +54,7 @@ export default async function SearchArticleList({ query, currentPage, otherPage,
           <div className="flex md:flex-row flex-col justify-between gap-1">
             <Article item={item} onSubmit={addHistory} />
             <div className="flex items-center gap-2">
-              <ReadLaterButton item={item} readLaterUrls={readLaterUrls} />
+              <ReadLaterButton item={item} readLaterUrls={readLaterUrls} onSubmit={addreadLater} />
               <Button className="flex-1">お気に入り</Button>
             </div>
           </div>
