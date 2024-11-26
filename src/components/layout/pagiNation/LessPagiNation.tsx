@@ -1,12 +1,14 @@
 import { Pagination, PaginationContent, PaginationItem, PaginationLink } from "@/components/ui/pagination";
-import { type QiitaSearchPagiNationProps } from "@/types/types";
 
-export default async function LessSearchPagiNation({
-  query,
-  qiitaPage,
-  zennPage,
+export default async function LessPagiNation({
+  currentPage,
   totalPage,
-}: QiitaSearchPagiNationProps) {
+  buildHref,
+}: {
+  currentPage: number;
+  totalPage: number;
+  buildHref: (pageNumber: number) => string;
+}) {
   return (
     <Pagination>
       <PaginationContent>
@@ -14,10 +16,7 @@ export default async function LessSearchPagiNation({
           const pageNumber = index + 1;
           return (
             <PaginationItem key={pageNumber}>
-              <PaginationLink
-                href={`/search?query=${query}&qiitapage=${pageNumber}&zennpage=${zennPage}`}
-                isActive={pageNumber === qiitaPage}
-              >
+              <PaginationLink href={buildHref(pageNumber)} isActive={pageNumber === currentPage}>
                 {pageNumber}
               </PaginationLink>
             </PaginationItem>
