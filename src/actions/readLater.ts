@@ -11,15 +11,12 @@ export const addStoredreadLater = async (item: StoredItem) => {
   addArticle("readLaters", item);
 };
 
-export const getReadLater = async (
-  start: string,
-  end: string
-): Promise<Map<string | undefined, string | undefined>> => {
-  return getArticle("readLaters", start, end);
+export const getReadLater = async (items: FetchedItem[]): Promise<Map<string | undefined, string | undefined>> => {
+  return getArticle("readLaters", items);
 };
 
 export const getReadLaterHistory = async (): Promise<Map<string | undefined, string | undefined>> => {
-  return getArticleHistory("readLaters")
+  return getArticleHistory("readLaters");
 };
 
 export const deleteReadLater = async (articleId: string) => {

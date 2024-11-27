@@ -6,7 +6,6 @@ import { Article } from "@/components/layout/main/Article";
 import NotArticleError from "@/components/layout/main/NotArticleError";
 import PagiNation from "@/components/layout/pagiNation/PagiNation";
 import { Button } from "@/components/ui/button";
-import { getArticleDateRange } from "@/lib/readLater/getReadLater";
 
 export default async function ArticleList({
   currentPage,
@@ -22,11 +21,7 @@ export default async function ArticleList({
     return <NotArticleError />;
   }
   const articles = fetchResult.articles;
-  const readLaterRange = getArticleDateRange(articles);
-  const readLaterUrls =
-    readLaterRange.start && readLaterRange.end
-      ? await getReadLater(readLaterRange.start, readLaterRange.end)
-      : new Map();
+  const readLaterUrls = await getReadLater(articles);
   const currentPageNum = parseInt(currentPage);
   const totalPage = 100;
   const buildHref = (page: number) =>

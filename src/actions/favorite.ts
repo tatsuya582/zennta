@@ -8,11 +8,11 @@ export const addFavorite = async (item: FetchedItem) => {
 };
 
 export const addStoredFavorite = async (item: StoredItem) => {
-  addArticle("favorites", item)
+  addArticle("favorites", item);
 };
 
-export const getFavorite = async (start: string, end: string): Promise<Map<string | undefined, string | undefined>> => {
-  return getArticle("favorites", start, end);
+export const getFavorite = async (items: FetchedItem[]): Promise<Map<string | undefined, string | undefined>> => {
+  return getArticle("favorites", items);
 };
 
 export const getFavoriteHistory = async (): Promise<Map<string | undefined, string | undefined>> => {

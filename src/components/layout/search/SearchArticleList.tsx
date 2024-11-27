@@ -4,7 +4,6 @@ import { ReadLaterButton } from "@/components/layout/button/ReadLaterButton";
 import { Article } from "@/components/layout/main/Article";
 import NotArticleError from "@/components/layout/main/NotArticleError";
 import { Button } from "@/components/ui/button";
-import { getArticleDateRange } from "@/lib/readLater/getReadLater";
 import ZennSearchPagiNation from "@/components/layout/pagiNation/ZennSearchPagiNation";
 import { searchArticles } from "@/actions/article";
 import LessPagiNation from "@/components/layout/pagiNation/LessPagiNation";
@@ -18,11 +17,7 @@ export default async function SearchArticleList({ query, currentPage, otherPage,
   }
 
   const articles = fetchResult.articles;
-  const readLaterRange = getArticleDateRange(articles);
-  const readLaterUrls =
-    readLaterRange.start && readLaterRange.end
-      ? await getReadLater(readLaterRange.start, readLaterRange.end)
-      : new Map();
+  const readLaterUrls = await getReadLater(articles);
 
   const qiitaPage = currentSite === "Qiita" ? parseInt(currentPage) : parseInt(otherPage);
   const zennPage = currentSite === "Qiita" ? parseInt(otherPage) : parseInt(currentPage);

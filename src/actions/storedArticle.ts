@@ -80,11 +80,13 @@ export const getArticles = async (tableName: "favorites" | "readLaters", page: n
 
 export const getArticle = async (
   tableName: "favorites" | "readLaters",
-  start: string,
-  end: string,
+  items: FetchedItem[]
 ): Promise<Map<string | undefined, string | undefined>> => {
   try {
     const { supabase, user } = await getSupabaseClientAndUser();
+
+    const start = items[items.length - 1].created_at;
+    const end = items[0].created_at;
 
     const { data } = (await supabase
       .from(tableName)
