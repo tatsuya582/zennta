@@ -10,7 +10,7 @@ export const ReadLaterButton = <T extends FetchedItem | StoredItem>({
 }: {
   item: T;
   readLaterUrls: Map<string | undefined, string | undefined>;
-  onSubmit: (item: T) => Promise<null | undefined>;
+  onSubmit: (item: T) => Promise<void>;
 }) => {
   const id = "created_at" in item ? readLaterUrls.get(item.url) : item.id;
   const isReadLater = readLaterUrls.has(item.url);

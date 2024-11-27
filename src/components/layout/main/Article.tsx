@@ -9,7 +9,7 @@ export const Article = <T extends FetchedItem | StoredItem>({
   displayTags = true,
 }: {
   item: T;
-  onSubmit: (item: T) => Promise<null | undefined>;
+  onSubmit: (item: T) => Promise<void>;
   displayTags?: boolean;
 }) => {
   const router = useRouter();

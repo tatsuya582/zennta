@@ -1,28 +1,11 @@
 "use server";
 
+import { addArticle } from "@/actions/storedArticle";
 import { getSupabaseClientAndUser } from "@/lib/supabase/server";
 import { type History, type StoredItem, type FetchedItem } from "@/types/types";
 
 export const addHistory = async (item: FetchedItem) => {
-  try {
-    const { supabase, user } = await getSupabaseClientAndUser();
-
-    const { error } = await supabase.rpc("insert_history_with_article", {
-      articlesourcecreatedat: item.created_at,
-      articletitle: item.title,
-      articleurl: item.url,
-      tags: item.tags,
-      userid: user.id,
-    });
-
-    if (error) {
-      console.error("Error adding article:", error);
-      throw error;
-    }
-  } catch (error) {
-    console.error("Unexpected error:", error);
-    throw error;
-  }
+  addArticle("histories", item, "insert_history_with_article");
 };
 
 export const addStoredItemHistory = async (item: StoredItem) => {
