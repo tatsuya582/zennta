@@ -1,4 +1,5 @@
-import ReadLsterArticleList from "@/components/layout/readLater/ReadLaterArticleList";
+import { getReadLaterArticles } from "@/actions/readLater";
+import StoredArticleList from "@/components/layout/main/StoredArticleList";
 import QiitaArticleListSkeleton from "@/components/layout/skeleton/QiitaArticleListSkeleton";
 import { Suspense } from "react";
 
@@ -10,6 +11,7 @@ export default async function ReadLaterPage({
   };
 }) {
   const page = searchParams?.page ? parseInt(searchParams.page, 10) || 1 : 1;
+  const buildHref = (pageNumber: number) => `/readlater?page=${pageNumber}`;
 
   return (
     <>
@@ -17,7 +19,7 @@ export default async function ReadLaterPage({
         <h2>後で読む</h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
           <Suspense key={JSON.stringify(searchParams)} fallback={<QiitaArticleListSkeleton />}>
-            <ReadLsterArticleList page={page} />
+            <StoredArticleList page={page} fetchArticles={getReadLaterArticles} buildHref={buildHref} />
           </Suspense>
         </div>
       </div>

@@ -1,4 +1,5 @@
-import FavoriteArticleList from "@/components/layout/favorite/FavoriteArticleList";
+import { getFavoriteArticles } from "@/actions/favorite";
+import StoredArticleList from "@/components/layout/main/StoredArticleList";
 import QiitaArticleListSkeleton from "@/components/layout/skeleton/QiitaArticleListSkeleton";
 import { Suspense } from "react";
 
@@ -10,6 +11,7 @@ export default async function FavoritePage({
   };
 }) {
   const page = searchParams?.page ? parseInt(searchParams.page, 10) || 1 : 1;
+  const buildHref = (pageNumber: number) => `/favorite?page=${pageNumber}`;
 
   return (
     <>
@@ -17,7 +19,7 @@ export default async function FavoritePage({
         <h2>お気に入り</h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
           <Suspense key={JSON.stringify(searchParams)} fallback={<QiitaArticleListSkeleton />}>
-            <FavoriteArticleList page={page} />
+            <StoredArticleList page={page} fetchArticles={getFavoriteArticles} buildHref={buildHref} />
           </Suspense>
         </div>
       </div>

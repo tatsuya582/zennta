@@ -6,9 +6,18 @@ import NotArticleError from "@/components/layout/main/NotArticleError";
 import LessPagiNation from "@/components/layout/pagiNation/LessPagiNation";
 import PagiNation from "@/components/layout/pagiNation/PagiNation";
 import { Button } from "@/components/ui/button";
+import { FetchedArticles } from "@/types/databaseCustom.types";
 
-export default async function FavoriteArticleList({ page }: { page: number }) {
-  const fetchResult = await getFavoriteArticles(page);
+export default async function StoredArticleList({
+  page,
+  fetchArticles,
+  buildHref,
+}: {
+  page: number;
+  fetchArticles: (page: number) => Promise<{ articles: FetchedArticles[]; totalPage: number }>;
+  buildHref: (pageNumber: number) => string;
+}) {
+  const fetchResult = await fetchArticles(page);
   const articles = fetchResult?.articles;
 
   if (!articles || articles.length === 0) {
@@ -16,7 +25,7 @@ export default async function FavoriteArticleList({ page }: { page: number }) {
   }
 
   const totalPage = fetchResult.totalPage;
-  const buildHref = (pageNumber: number) => `/favorite?page=${pageNumber}`;
+  // const buildHref = (pageNumber: number) => `/favorite?page=${pageNumber}`;
   return (
     <div className="mt-4">
       <div className="border-b border-gray-300 mb-2 pb-4">
