@@ -11,7 +11,7 @@ export default async function ReadLsterArticleList({ page }: { page: number }) {
   const fetchResult = await getReadLaterArticles(page);
   const articles = fetchResult?.articles;
 
-  if (!articles) {
+  if (!articles || articles.length === 0) {
     return <NotArticleError />;
   }
 
