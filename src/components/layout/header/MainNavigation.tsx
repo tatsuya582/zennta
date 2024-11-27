@@ -17,7 +17,7 @@ export default function MainNavigation() {
               <Link href="/search" legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>検索</NavigationMenuLink>
               </Link>
-              <Link href="/" legacyBehavior passHref>
+              <Link href="/readlater" legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>後で読む</NavigationMenuLink>
               </Link>
               <Link href="/" legacyBehavior passHref>

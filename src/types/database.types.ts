@@ -6,7 +6,6 @@ export type Database = {
       articles: {
         Row: {
           id: string;
-          provider: string;
           sourceCreatedAt: string;
           tags: Json | null;
           title: string;
@@ -14,7 +13,6 @@ export type Database = {
         };
         Insert: {
           id?: string;
-          provider: string;
           sourceCreatedAt: string;
           tags?: Json | null;
           title: string;
@@ -22,7 +20,6 @@ export type Database = {
         };
         Update: {
           id?: string;
-          provider?: string;
           sourceCreatedAt?: string;
           tags?: Json | null;
           title?: string;
@@ -66,6 +63,42 @@ export type Database = {
           },
         ];
       };
+      readLaters: {
+        Row: {
+          articleId: string | null;
+          createdAt: string;
+          id: string;
+          userId: string;
+        };
+        Insert: {
+          articleId?: string | null;
+          createdAt?: string;
+          id?: string;
+          userId: string;
+        };
+        Update: {
+          articleId?: string | null;
+          createdAt?: string;
+          id?: string;
+          userId?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "readLaters_articleId_fkey";
+            columns: ["articleId"];
+            isOneToOne: false;
+            referencedRelation: "articles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "readLaters_userId_fkey";
+            columns: ["userId"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       users: {
         Row: {
           avatarUrl: string | null;
@@ -92,10 +125,26 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      add_or_update_history: {
+        Args: {
+          user_id: string;
+          article_id: string;
+        };
+        Returns: undefined;
+      };
       insert_history_with_article: {
         Args: {
           userid: string;
-          articleprovider: string;
+          articleurl: string;
+          articletitle: string;
+          articlesourcecreatedat?: string;
+          tags?: Json;
+        };
+        Returns: undefined;
+      };
+      insert_read_later_with_article: {
+        Args: {
+          userid: string;
           articleurl: string;
           articletitle: string;
           articlesourcecreatedat?: string;

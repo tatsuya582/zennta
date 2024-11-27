@@ -6,5 +6,5 @@ export default function ProfileEditPage() {
     <Suspense>
       <ProfilePageLayout title="マイページ編集" isEdit={true} />;
     </Suspense>
-  )
+  );
 }

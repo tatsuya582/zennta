@@ -1,10 +1,10 @@
 "use server";
 
 import { currentUser } from "@/lib/auth/currentUser/server";
-import { type zennItem, type Article, type History, type QiitaItem } from "@/types/types";
+import { type History, type StoredItem, type FetchedItem } from "@/types/types";
 import { createClient } from "@/utils/supabase/server";
 
-export const addHistoryQiita = async (item: QiitaItem) => {
+export const addHistory = async (item: FetchedItem) => {
   try {
     const supabase = await createClient();
     const user = await currentUser();
@@ -14,7 +14,6 @@ export const addHistoryQiita = async (item: QiitaItem) => {
     }
 
     const { error } = await supabase.rpc("insert_history_with_article", {
-      articleprovider: "Qiita",
       articlesourcecreatedat: item.created_at,
       articletitle: item.title,
       articleurl: item.url,
@@ -26,13 +25,13 @@ export const addHistoryQiita = async (item: QiitaItem) => {
       console.error("Error adding article:", error);
       throw error;
     }
-  } catch (err) {
-    console.error("Unexpected error:", err);
-    throw err;
+  } catch (error) {
+    console.error("Unexpected error:", error);
+    throw error;
   }
 };
 
-export const addHistoryZenn = async (item: zennItem) => {
+export const addStoredItemHistory = async (item: StoredItem) => {
   try {
     const supabase = await createClient();
     const user = await currentUser();
@@ -41,26 +40,21 @@ export const addHistoryZenn = async (item: zennItem) => {
       return null;
     }
 
-    const { error } = await supabase.rpc("insert_history_with_article", {
-      articleprovider: "Zenn",
-      articlesourcecreatedat: item.published_at,
-      articletitle: item.title,
-      articleurl: `https://zenn.dev${item.path}`,
-      tags: null,
-      userid: user.id,
+    const { error } = await supabase.rpc("add_or_update_history", {
+      user_id: user.id,
+      article_id: item.id,
     });
-
     if (error) {
       console.error("Error adding article:", error);
       throw error;
     }
-  } catch (err) {
-    console.error("Unexpected error:", err);
-    throw err;
+  } catch (error) {
+    console.error("Unexpected error:", error);
+    throw error;
   }
 };
 
-export const updateHistory = async (item: Article) => {
+export const updateHistory = async (item: StoredItem) => {
   try {
     const supabase = await createClient();
     const user = await currentUser();
@@ -94,12 +88,12 @@ export const getHistory = async (): Promise<History[] | null> => {
       return null;
     }
 
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("histories")
       .select(
         `
         updatedAt,
-        articles:articleId (id, provider, sourceCreatedAt, url, title, tags)
+        articles:articleId (id, title, url, tags)
       `
       )
       .eq("userId", user.id)
