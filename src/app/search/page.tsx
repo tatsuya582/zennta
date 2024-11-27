@@ -1,6 +1,6 @@
 import QiitaArticleListSkeleton from "@/components/layout/skeleton/QiitaArticleListSkeleton";
 import ZennArticleListSkeleton from "@/components/layout/skeleton/ZennArticleListSkeleton";
-import SearchArticleList from "@/components/layout/search/SearchArticleList";
+import SearchArticleList from "@/components/layout/main/SearchArticleList";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { redirect } from "next/navigation";
