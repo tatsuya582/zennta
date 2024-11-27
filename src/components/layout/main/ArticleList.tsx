@@ -27,18 +27,16 @@ export default async function ArticleList({
     readLaterRange.start && readLaterRange.end
       ? await getReadLater(readLaterRange.start, readLaterRange.end)
       : new Map();
-  const qiitaCurrentPage = currentSite === "Qiita" ? parseInt(currentPage) : parseInt(otherPage);
-  const zennCurrentPage = currentSite === "Zenn" ? parseInt(currentPage) : parseInt(otherPage);
+  const currentPageNum = parseInt(currentPage);
   const totalPage = 100;
+  const buildHref = (page: number) =>
+    currentSite === "Qiita"
+      ? `/?qiitapage=${page}&zennpage=${otherPage}`
+      : `/?qiitapage=${otherPage}&zennpage=${page}#zennarticles`;
   return (
     <div className="mt-4">
       <div className="border-b border-gray-300 mb-2 pb-4">
-        <PagiNation
-          qiitaPage={qiitaCurrentPage}
-          zennPage={zennCurrentPage}
-          totalPage={totalPage}
-          currentSite={currentSite}
-        />
+        <PagiNation currentPage={currentPageNum} totalPage={totalPage} buildHref={buildHref} />
       </div>
       {articles.map((item) => (
         <div key={item.id} className="border-b border-gray-300 m-2 pb-1">
@@ -51,12 +49,7 @@ export default async function ArticleList({
           </div>
         </div>
       ))}
-      <PagiNation
-        qiitaPage={qiitaCurrentPage}
-        zennPage={zennCurrentPage}
-        totalPage={totalPage}
-        currentSite={currentSite}
-      />
+      <PagiNation currentPage={currentPageNum} totalPage={totalPage} buildHref={buildHref} />
     </div>
   );
 }
