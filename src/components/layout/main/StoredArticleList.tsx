@@ -1,4 +1,3 @@
-import { getFavoriteArticles } from "@/actions/favorite";
 import { addStoredItemHistory } from "@/actions/history";
 import { StoredReadLaterButton } from "@/components/layout/button/StoredReadLaterButton";
 import { Article } from "@/components/layout/main/Article";
@@ -25,7 +24,6 @@ export default async function StoredArticleList({
   }
 
   const totalPage = fetchResult.totalPage;
-  // const buildHref = (pageNumber: number) => `/favorite?page=${pageNumber}`;
   return (
     <div className="mt-4">
       <div className="border-b border-gray-300 mb-2 pb-4">
