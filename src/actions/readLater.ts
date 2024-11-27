@@ -1,7 +1,7 @@
 "use server";
 
 import { currentUser } from "@/lib/auth/currentUser/server";
-import { ReadLaterArticle, ReadLaterArticles } from "@/types/databaseCustom.types";
+import { FetchedArticle, FetchedArticles } from "@/types/databaseCustom.types";
 import { StoredItem, type FetchedItem } from "@/types/types";
 import { createClient } from "@/utils/supabase/server";
 
@@ -73,7 +73,7 @@ export const getReadLater = async (
       .eq("userId", user.id)
       .gte("articles.sourceCreatedAt", start)
       .lte("articles.sourceCreatedAt", end)
-      .not("articles", "is", null)) as unknown as { data: ReadLaterArticle[] };
+      .not("articles", "is", null)) as unknown as { data: FetchedArticle[] };
 
     if (!data) {
       return new Map();
@@ -100,7 +100,7 @@ export const getReadLaterHistory = async (): Promise<Map<string | undefined, str
       .from("readLaters")
       .select(`articles:articleId (id, url)`)
       .eq("userId", user.id)
-      .not("articles", "is", null)) as unknown as { data: ReadLaterArticle[] };
+      .not("articles", "is", null)) as unknown as { data: FetchedArticle[] };
 
     if (!data) {
       return new Map();
@@ -154,7 +154,7 @@ export const getReadLaterArticles = async (page: number) => {
       )
       .eq("userId", user.id)
       .order("createdAt", { ascending: false })
-      .range(start, end)) as unknown as { data: ReadLaterArticles[]; count: number | null };
+      .range(start, end)) as unknown as { data: FetchedArticles[]; count: number | null };
 
     const totalPage = count !== null ? Math.ceil(count / 30) : 1;
 
