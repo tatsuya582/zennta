@@ -1,17 +1,11 @@
 "use server";
 
-import { currentUser } from "@/lib/auth/currentUser/server";
-import { createClient } from "@/utils/supabase/server";
+import { getSupabaseClientAndUser } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { cache } from "react";
 
 export const getUser = cache(async () => {
-  const supabase = await createClient();
-  const user = await currentUser();
-
-  if (!user) {
-    return null;
-  }
+  const { supabase, user } = await getSupabaseClientAndUser();
 
   const { data, error } = await supabase.from("users").select("name, avatarUrl").eq("id", user.id).single();
 
@@ -23,8 +17,7 @@ export const getUser = cache(async () => {
 });
 
 export const updateUser = async (name: string) => {
-  const supabase = await createClient();
-  const user = await currentUser();
+  const { supabase, user } = await getSupabaseClientAndUser();
 
   if (!user) {
     redirect("/login");

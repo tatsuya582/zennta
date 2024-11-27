@@ -1,18 +1,12 @@
 "use server";
 
-import { currentUser } from "@/lib/auth/currentUser/server";
+import { getSupabaseClientAndUser } from "@/lib/supabase/server";
 import { FetchedArticle, FetchedArticles } from "@/types/databaseCustom.types";
 import { StoredItem, type FetchedItem } from "@/types/types";
-import { createClient } from "@/utils/supabase/server";
 
 export const addreadLater = async (item: FetchedItem) => {
   try {
-    const supabase = await createClient();
-    const user = await currentUser();
-
-    if (!user) {
-      return null;
-    }
+    const { supabase, user } = await getSupabaseClientAndUser();
 
     const { data, error } = await supabase.rpc("insert_read_later_with_article", {
       userid: user.id,
@@ -36,12 +30,7 @@ export const addreadLater = async (item: FetchedItem) => {
 
 export const addStoredreadLater = async (item: StoredItem) => {
   try {
-    const supabase = await createClient();
-    const user = await currentUser();
-
-    if (!user) {
-      return null;
-    }
+    const { supabase, user } = await getSupabaseClientAndUser();
 
     const { error } = await supabase.from("readLaters").insert({ userId: user.id, articleId: item.id });
 
@@ -60,12 +49,7 @@ export const getReadLater = async (
   end: string
 ): Promise<Map<string | undefined, string | undefined>> => {
   try {
-    const supabase = await createClient();
-    const user = await currentUser();
-
-    if (!user) {
-      return new Map();
-    }
+    const { supabase, user } = await getSupabaseClientAndUser();
 
     const { data } = (await supabase
       .from("readLaters")
@@ -89,12 +73,7 @@ export const getReadLater = async (
 
 export const getReadLaterHistory = async (): Promise<Map<string | undefined, string | undefined>> => {
   try {
-    const supabase = await createClient();
-    const user = await currentUser();
-
-    if (!user) {
-      return new Map();
-    }
+    const { supabase, user } = await getSupabaseClientAndUser();
 
     const { data } = (await supabase
       .from("readLaters")
@@ -116,12 +95,7 @@ export const getReadLaterHistory = async (): Promise<Map<string | undefined, str
 
 export const deleteReadLater = async (articleId: string) => {
   try {
-    const supabase = await createClient();
-    const user = await currentUser();
-
-    if (!user) {
-      return null;
-    }
+    const { supabase, user } = await getSupabaseClientAndUser();
 
     const { error } = await supabase.from("readLaters").delete().eq("userId", user.id).eq("articleId", articleId);
 
@@ -135,14 +109,9 @@ export const deleteReadLater = async (articleId: string) => {
 
 export const getReadLaterArticles = async (page: number) => {
   try {
-    const supabase = await createClient();
-    const user = await currentUser();
+    const { supabase, user } = await getSupabaseClientAndUser();
     const start = 30 * (page - 1);
     const end = 30 * page - 1;
-
-    if (!user) {
-      return null;
-    }
 
     const { data, count } = (await supabase
       .from("readLaters")

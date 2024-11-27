@@ -1,18 +1,12 @@
 "use server";
 
-import { currentUser } from "@/lib/auth/currentUser/server";
-import { FetchedArticle, FetchedArticles } from "@/types/databaseCustom.types";
-import { StoredItem, type FetchedItem } from "@/types/types";
-import { createClient } from "@/utils/supabase/server";
+import { getSupabaseClientAndUser } from "@/lib/supabase/server";
+import { type FetchedArticle, type FetchedArticles } from "@/types/databaseCustom.types";
+import { type StoredItem, type FetchedItem } from "@/types/types";
 
 export const addFavorite = async (item: FetchedItem) => {
   try {
-    const supabase = await createClient();
-    const user = await currentUser();
-
-    if (!user) {
-      return null;
-    }
+    const { supabase, user } = await getSupabaseClientAndUser();
 
     const { data, error } = await supabase.rpc("insert_favorite_with_article", {
       userid: user.id,
@@ -36,12 +30,7 @@ export const addFavorite = async (item: FetchedItem) => {
 
 export const addStoredFavorite = async (item: StoredItem) => {
   try {
-    const supabase = await createClient();
-    const user = await currentUser();
-
-    if (!user) {
-      return null;
-    }
+    const { supabase, user } = await getSupabaseClientAndUser();
 
     const { error } = await supabase.from("favorites").insert({ userId: user.id, articleId: item.id });
 
@@ -57,12 +46,7 @@ export const addStoredFavorite = async (item: StoredItem) => {
 
 export const getFavorite = async (start: string, end: string): Promise<Map<string | undefined, string | undefined>> => {
   try {
-    const supabase = await createClient();
-    const user = await currentUser();
-
-    if (!user) {
-      return new Map();
-    }
+    const { supabase, user } = await getSupabaseClientAndUser();
 
     const { data } = (await supabase
       .from("favorites")
@@ -86,12 +70,7 @@ export const getFavorite = async (start: string, end: string): Promise<Map<strin
 
 export const getFavoriteHistory = async (): Promise<Map<string | undefined, string | undefined>> => {
   try {
-    const supabase = await createClient();
-    const user = await currentUser();
-
-    if (!user) {
-      return new Map();
-    }
+    const { supabase, user } = await getSupabaseClientAndUser();
 
     const { data } = (await supabase
       .from("favorites")
@@ -113,12 +92,7 @@ export const getFavoriteHistory = async (): Promise<Map<string | undefined, stri
 
 export const deleteFavorite = async (articleId: string) => {
   try {
-    const supabase = await createClient();
-    const user = await currentUser();
-
-    if (!user) {
-      return null;
-    }
+    const { supabase, user } = await getSupabaseClientAndUser();
 
     const { error } = await supabase.from("favorites").delete().eq("userId", user.id).eq("articleId", articleId);
 
@@ -132,14 +106,9 @@ export const deleteFavorite = async (articleId: string) => {
 
 export const getFavoriteArticles = async (page: number) => {
   try {
-    const supabase = await createClient();
-    const user = await currentUser();
+    const { supabase, user } = await getSupabaseClientAndUser();
     const start = 30 * (page - 1);
     const end = 30 * page - 1;
-
-    if (!user) {
-      return null;
-    }
 
     const { data, count } = (await supabase
       .from("favorites")

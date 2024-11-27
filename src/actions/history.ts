@@ -1,17 +1,11 @@
 "use server";
 
-import { currentUser } from "@/lib/auth/currentUser/server";
+import { getSupabaseClientAndUser } from "@/lib/supabase/server";
 import { type History, type StoredItem, type FetchedItem } from "@/types/types";
-import { createClient } from "@/utils/supabase/server";
 
 export const addHistory = async (item: FetchedItem) => {
   try {
-    const supabase = await createClient();
-    const user = await currentUser();
-
-    if (!user) {
-      return null;
-    }
+    const { supabase, user } = await getSupabaseClientAndUser();
 
     const { error } = await supabase.rpc("insert_history_with_article", {
       articlesourcecreatedat: item.created_at,
@@ -33,12 +27,7 @@ export const addHistory = async (item: FetchedItem) => {
 
 export const addStoredItemHistory = async (item: StoredItem) => {
   try {
-    const supabase = await createClient();
-    const user = await currentUser();
-
-    if (!user) {
-      return null;
-    }
+    const { supabase, user } = await getSupabaseClientAndUser();
 
     const { error } = await supabase.rpc("add_or_update_history", {
       user_id: user.id,
@@ -56,12 +45,7 @@ export const addStoredItemHistory = async (item: StoredItem) => {
 
 export const updateHistory = async (item: StoredItem) => {
   try {
-    const supabase = await createClient();
-    const user = await currentUser();
-
-    if (!user) {
-      return null;
-    }
+    const { supabase, user } = await getSupabaseClientAndUser();
 
     const { error } = await supabase
       .from("histories")
@@ -81,12 +65,7 @@ export const updateHistory = async (item: StoredItem) => {
 
 export const getHistory = async (): Promise<History[] | null> => {
   try {
-    const supabase = await createClient();
-    const user = await currentUser();
-
-    if (!user) {
-      return null;
-    }
+    const { supabase, user } = await getSupabaseClientAndUser();
 
     const { data } = await supabase
       .from("histories")
