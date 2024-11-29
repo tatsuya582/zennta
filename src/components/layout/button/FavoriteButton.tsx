@@ -38,7 +38,7 @@ export const FavoriteButton = <T extends FetchedItem | StoredItem>({
     <div className="flex-1">
       {isFavorite ? (
         <form action={onSubmitDelete}>
-          <Button variant="outline" className="w-full px-[30px]">
+          <Button variant="outline" className="w-full">
             お気に入り済み
           </Button>
         </form>
