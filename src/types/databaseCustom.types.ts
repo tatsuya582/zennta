@@ -6,5 +6,14 @@ export type FetchedArticle = Database["public"]["Tables"]["readLaters"]["Row"] &
 };
 
 export type FetchedArticles = Database["public"]["Tables"]["readLaters"]["Row"] & {
-  articles: { id: string; url: string; tags: Tag[] | null; title: string };
+  id: string;
+  url: string;
+  tags: Tag[] | null;
+  title: string;
+  is_in_other_table: boolean;
+};
+
+export type FetchedArticlesWithCount = Database["public"]["Tables"]["readLaters"]["Row"] & {
+  articles: FetchedArticles[];
+  total_count: number;
 };

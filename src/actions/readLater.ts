@@ -24,5 +24,5 @@ export const deleteReadLater = async (articleId: string) => {
 };
 
 export const getReadLaterArticles = async (page: number) => {
-  return getArticles("readLaters", page);
+  return getArticles("fetch_read_laters_articles_with_count", page);
 };

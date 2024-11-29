@@ -1,5 +1,5 @@
 import { getSupabaseClientAndUser } from "@/lib/supabase/server";
-import { FetchedArticle, FetchedArticles } from "@/types/databaseCustom.types";
+import { FetchedArticle, FetchedArticlesWithCount } from "@/types/databaseCustom.types";
 import { FetchedItem, StoredItem } from "@/types/types";
 
 export const addArticle = async (
@@ -50,30 +50,23 @@ export const deleteArticle = async (tableName: "favorites" | "readLaters", artic
   }
 };
 
-export const getArticles = async (tableName: "favorites" | "readLaters", page: number) => {
+export const getArticles = async (
+  rpcName: "fetch_favorites_articles_with_count" | "fetch_read_laters_articles_with_count",
+  page: number
+) => {
   try {
     const { supabase, user } = await getSupabaseClientAndUser();
 
-    const start = 30 * (page - 1);
-    const end = 30 * page - 1;
+    const { data } = (await supabase.rpc(rpcName, {
+      user_id: user.id,
+      page: page,
+    })) as unknown as { data: FetchedArticlesWithCount };
 
-    const { data, count } = (await supabase
-      .from(tableName)
-      .select(
-        `
-        articles:articleId (id, title, url, tags)
-        `,
-        { count: "exact" }
-      )
-      .eq("userId", user.id)
-      .order("createdAt", { ascending: false })
-      .range(start, end)) as unknown as { data: FetchedArticles[]; count: number | null };
+    const totalPage = data?.total_count !== null ? Math.ceil(data.total_count / 30) : 1;
 
-    const totalPage = count !== null ? Math.ceil(count / 30) : 1;
-
-    return { articles: data, totalPage };
+    return { articles: data.articles, totalPage };
   } catch (err) {
-    console.error(`Error fetching articles from ${tableName}:`, err);
+    console.error(`Error fetching articles:`, err);
     throw err;
   }
 };

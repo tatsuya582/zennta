@@ -24,5 +24,5 @@ export const deleteFavorite = async (articleId: string) => {
 };
 
 export const getFavoriteArticles = async (page: number) => {
-  return getArticles("favorites", page);
+  return getArticles("fetch_favorites_articles_with_count", page);
 };
