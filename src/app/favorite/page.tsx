@@ -19,7 +19,7 @@ export default async function FavoritePage({
         <h2>お気に入り</h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
           <Suspense key={JSON.stringify(searchParams)} fallback={<QiitaArticleListSkeleton />}>
-            <StoredArticleList page={page} fetchArticles={getFavoriteArticles} buildHref={buildHref} />
+            <StoredArticleList page={page} fetchArticles={getFavoriteArticles} buildHref={buildHref} isFavorite />
           </Suspense>
         </div>
       </div>
