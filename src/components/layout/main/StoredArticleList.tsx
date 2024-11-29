@@ -1,20 +1,23 @@
 import { addStoredItemHistory } from "@/actions/history";
-import { StoredReadLaterButton } from "@/components/layout/button/StoredReadLaterButton";
+import { FavoritePageButton } from "@/components/layout/button/FavoritePageButton";
+import { OtherTableButton } from "@/components/layout/button/OtherTableButton";
+import { ReadLaterPageButton } from "@/components/layout/button/ReadLaterPageButton";
 import { Article } from "@/components/layout/main/Article";
 import NotArticleError from "@/components/layout/main/NotArticleError";
 import LessPagiNation from "@/components/layout/pagiNation/LessPagiNation";
 import PagiNation from "@/components/layout/pagiNation/PagiNation";
-import { Button } from "@/components/ui/button";
 import { FetchedArticles } from "@/types/databaseCustom.types";
 
 export default async function StoredArticleList({
   page,
   fetchArticles,
   buildHref,
+  isFavorite = false,
 }: {
   page: number;
   fetchArticles: (page: number) => Promise<{ articles: FetchedArticles[]; totalPage: number }>;
   buildHref: (pageNumber: number) => string;
+  isFavorite?: boolean;
 }) {
   const fetchResult = await fetchArticles(page);
   const articles = fetchResult?.articles;
@@ -35,13 +38,19 @@ export default async function StoredArticleList({
       </div>
       {articles.map((item) => {
         return (
-          <div key={item.articles.id} className="border-b border-gray-300 m-2 pb-1">
+          <div key={item.id} className="border-b border-gray-300 m-2 pb-1">
             <div className="flex md:flex-row flex-col justify-between gap-1">
-              <Article item={item.articles} onSubmit={addStoredItemHistory} />
-              <div className="flex items-center gap-2">
-                <StoredReadLaterButton item={item.articles} />
-                <Button className="flex-1">お気に入り</Button>
-              </div>
+              <Article item={item} onSubmit={addStoredItemHistory} />
+              {isFavorite ? (
+                <div className="flex items-center">
+                  <FavoritePageButton item={item} />
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <ReadLaterPageButton item={item} />
+                  <OtherTableButton item={item} isOtherTable={item.is_in_other_table} />
+                </div>
+              )}
             </div>
           </div>
         );
