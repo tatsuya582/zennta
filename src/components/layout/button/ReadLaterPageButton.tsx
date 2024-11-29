@@ -1,5 +1,5 @@
 import { deleteReadLater } from "@/actions/readLater";
-import { StoredItem } from "@/types/types";
+import { type FetchedArticles } from "@/types/databaseCustom.types";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -15,7 +15,7 @@ import {
 import { revalidatePath } from "next/cache";
 import { addStoredFavorite } from "@/actions/favorite";
 
-export const ReadLaterPageButton = ({ item }: { item: StoredItem }) => {
+export const ReadLaterPageButton = ({ item }: { item: FetchedArticles }) => {
   const onSubmitDelete = async () => {
     "use server";
     try {
@@ -49,18 +49,28 @@ export const ReadLaterPageButton = ({ item }: { item: StoredItem }) => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>キャンセル</AlertDialogCancel>
-            <div className="flex md:flex-row flex-col gap-2">
-              <form action={onSubmitDelete}>
-                <AlertDialogAction type="submit" className="w-full">
-                  削除
-                </AlertDialogAction>
-              </form>
-              <form action={onSubmitAdd}>
-                <AlertDialogAction type="submit" className="w-full">
-                  お気に入り登録
-                </AlertDialogAction>
-              </form>
-            </div>
+            {item.is_in_other_table ? (
+              <div>
+                <form action={onSubmitDelete}>
+                  <AlertDialogAction type="submit" className="w-full">
+                    削除
+                  </AlertDialogAction>
+                </form>
+              </div>
+            ) : (
+              <div className="flex md:flex-row flex-col gap-2">
+                <form action={onSubmitDelete}>
+                  <AlertDialogAction type="submit" className="w-full">
+                    削除
+                  </AlertDialogAction>
+                </form>
+                <form action={onSubmitAdd}>
+                  <AlertDialogAction type="submit" className="w-full">
+                    お気に入り登録
+                  </AlertDialogAction>
+                </form>
+              </div>
+            )}
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
