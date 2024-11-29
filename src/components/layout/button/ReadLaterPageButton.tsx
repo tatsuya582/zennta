@@ -13,12 +13,22 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { revalidatePath } from "next/cache";
+import { addStoredFavorite } from "@/actions/favorite";
 
-export const StoredReadLaterButton = ({ item }: { item: StoredItem }) => {
+export const ReadLaterPageButton = ({ item }: { item: StoredItem }) => {
   const onSubmitDelete = async () => {
     "use server";
     try {
       await deleteReadLater(item.id);
+      revalidatePath("/readlater");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const onSubmitAdd = async () => {
+    "use server";
+    try {
+      await addStoredFavorite(item);
       revalidatePath("/readlater");
     } catch (error) {
       console.error(error);
@@ -45,7 +55,7 @@ export const StoredReadLaterButton = ({ item }: { item: StoredItem }) => {
                   削除
                 </AlertDialogAction>
               </form>
-              <form>
+              <form action={onSubmitAdd}>
                 <AlertDialogAction type="submit" className="w-full">
                   お気に入り登録
                 </AlertDialogAction>
