@@ -168,6 +168,22 @@ export type Database = {
         };
         Returns: undefined;
       };
+      fetch_favorites_articles_with_count: {
+        Args: {
+          user_id: string;
+          page?: number;
+          page_size?: number;
+        };
+        Returns: Json;
+      };
+      fetch_read_laters_articles_with_count: {
+        Args: {
+          user_id: string;
+          page?: number;
+          page_size?: number;
+        };
+        Returns: Json;
+      };
       insert_favorite_with_article: {
         Args: {
           userid: string;
