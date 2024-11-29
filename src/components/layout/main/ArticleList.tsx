@@ -1,11 +1,12 @@
 import { getArticles } from "@/actions/article";
+import { addFavorite, getFavorite } from "@/actions/favorite";
 import { addHistory } from "@/actions/history";
 import { addreadLater, getReadLater } from "@/actions/readLater";
+import { FavoriteButton } from "@/components/layout/button/FavoriteButton";
 import { ReadLaterButton } from "@/components/layout/button/ReadLaterButton";
 import { Article } from "@/components/layout/main/Article";
 import NotArticleError from "@/components/layout/main/NotArticleError";
 import PagiNation from "@/components/layout/pagiNation/PagiNation";
-import { Button } from "@/components/ui/button";
 
 export default async function ArticleList({
   currentPage,
@@ -22,6 +23,7 @@ export default async function ArticleList({
   }
   const articles = fetchResult.articles;
   const readLaterUrls = await getReadLater(articles);
+  const favoriteUrls = await getFavorite(articles);
   const currentPageNum = parseInt(currentPage);
   const totalPage = 100;
   const buildHref = (page: number) =>
@@ -39,7 +41,7 @@ export default async function ArticleList({
             <Article item={item} onSubmit={addHistory} />
             <div className="flex items-center gap-2">
               <ReadLaterButton item={item} readLaterUrls={readLaterUrls} onSubmit={addreadLater} />
-              <Button className="flex-1">お気に入り</Button>
+              <FavoriteButton item={item} favoriteUrls={favoriteUrls} onSubmit={addFavorite} />
             </div>
           </div>
         </div>

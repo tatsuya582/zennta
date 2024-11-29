@@ -3,12 +3,13 @@ import { addreadLater, getReadLater } from "@/actions/readLater";
 import { ReadLaterButton } from "@/components/layout/button/ReadLaterButton";
 import { Article } from "@/components/layout/main/Article";
 import NotArticleError from "@/components/layout/main/NotArticleError";
-import { Button } from "@/components/ui/button";
 import ZennSearchPagiNation from "@/components/layout/pagiNation/ZennSearchPagiNation";
 import { searchArticles } from "@/actions/article";
 import LessPagiNation from "@/components/layout/pagiNation/LessPagiNation";
 import PagiNation from "@/components/layout/pagiNation/PagiNation";
 import { type ArticleSearchProps } from "@/types/types";
+import { addFavorite, getFavorite } from "@/actions/favorite";
+import { FavoriteButton } from "@/components/layout/button/FavoriteButton";
 
 export default async function SearchArticleList({ query, currentPage, otherPage, currentSite }: ArticleSearchProps) {
   const fetchResult = await searchArticles(currentPage, query, currentSite);
@@ -18,6 +19,7 @@ export default async function SearchArticleList({ query, currentPage, otherPage,
 
   const articles = fetchResult.articles;
   const readLaterUrls = await getReadLater(articles);
+  const favoriteUrls = await getFavorite(articles);
 
   const qiitaPage = currentSite === "Qiita" ? parseInt(currentPage) : parseInt(otherPage);
   const zennPage = currentSite === "Qiita" ? parseInt(otherPage) : parseInt(currentPage);
@@ -46,7 +48,7 @@ export default async function SearchArticleList({ query, currentPage, otherPage,
             <Article item={item} onSubmit={addHistory} />
             <div className="flex items-center gap-2">
               <ReadLaterButton item={item} readLaterUrls={readLaterUrls} onSubmit={addreadLater} />
-              <Button className="flex-1">お気に入り</Button>
+              <FavoriteButton item={item} favoriteUrls={favoriteUrls} onSubmit={addFavorite} />
             </div>
           </div>
         </div>
