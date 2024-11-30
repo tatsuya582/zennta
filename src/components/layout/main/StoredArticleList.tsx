@@ -1,6 +1,7 @@
+import { addStoredFavorite, deleteFavorite } from "@/actions/favorite";
 import { addStoredItemHistory } from "@/actions/history";
+import { ActionButton } from "@/components/layout/button/ActionButton";
 import { FavoritePageButton } from "@/components/layout/button/FavoritePageButton";
-import { OtherTableButton } from "@/components/layout/button/OtherTableButton";
 import { ReadLaterPageButton } from "@/components/layout/button/ReadLaterPageButton";
 import { Article } from "@/components/layout/main/Article";
 import NotArticleError from "@/components/layout/main/NotArticleError";
@@ -48,7 +49,15 @@ export default async function StoredArticleList({
               ) : (
                 <div className="flex items-center gap-2">
                   <ReadLaterPageButton item={item} />
-                  <OtherTableButton item={item} isOtherTable={item.is_in_other_table} />
+                  <ActionButton
+                    item={item}
+                    id={item.id}
+                    isOtherTable={item.is_in_other_table}
+                    addLabel="お気に入り登録"
+                    deleteLabel="お気に入り済み"
+                    deleteAction={deleteFavorite}
+                    addAction={addStoredFavorite}
+                  />
                 </div>
               )}
             </div>
