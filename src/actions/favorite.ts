@@ -23,6 +23,6 @@ export const deleteFavorite = async (articleId: string) => {
   deleteArticle("favorites", articleId);
 };
 
-export const getFavoriteArticles = async (page: number) => {
-  return getArticles("fetch_favorites_articles_with_count", page);
+export const getFavoriteArticles = async (page: number, query: string | undefined) => {
+  return getArticles("fetch_favorites_articles_with_count", page, query);
 };

@@ -23,6 +23,6 @@ export const deleteReadLater = async (articleId: string) => {
   deleteArticle("readLaters", articleId);
 };
 
-export const getReadLaterArticles = async (page: number) => {
-  return getArticles("fetch_read_laters_articles_with_count", page);
+export const getReadLaterArticles = async (page: number, query: string | undefined) => {
+  return getArticles("fetch_read_laters_articles_with_count", page, query);
 };

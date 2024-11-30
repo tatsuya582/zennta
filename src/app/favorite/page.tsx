@@ -8,9 +8,11 @@ export default async function FavoritePage({
 }: {
   searchParams?: {
     page?: string;
+    query?: string;
   };
 }) {
   const page = searchParams?.page ? parseInt(searchParams.page, 10) || 1 : 1;
+  const query = searchParams?.query ? searchParams.query : undefined;
   const buildHref = (pageNumber: number) => `/favorite?page=${pageNumber}`;
 
   return (
@@ -19,7 +21,13 @@ export default async function FavoritePage({
         <h2>お気に入り</h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
           <Suspense key={JSON.stringify(searchParams)} fallback={<QiitaArticleListSkeleton />}>
-            <StoredArticleList page={page} fetchArticles={getFavoriteArticles} buildHref={buildHref} isFavorite />
+            <StoredArticleList
+              page={page}
+              query={query}
+              fetchArticles={getFavoriteArticles}
+              buildHref={buildHref}
+              isFavorite
+            />
           </Suspense>
         </div>
       </div>

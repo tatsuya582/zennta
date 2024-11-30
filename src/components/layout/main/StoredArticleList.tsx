@@ -11,16 +11,21 @@ import { FetchedArticles } from "@/types/databaseCustom.types";
 
 export default async function StoredArticleList({
   page,
+  query,
   fetchArticles,
   buildHref,
   isFavorite = false,
 }: {
   page: number;
-  fetchArticles: (page: number) => Promise<{ articles: FetchedArticles[]; totalPage: number }>;
+  query: string | undefined;
+  fetchArticles: (
+    page: number,
+    query: string | undefined
+  ) => Promise<{ articles: FetchedArticles[]; totalPage: number }>;
   buildHref: (pageNumber: number) => string;
   isFavorite?: boolean;
 }) {
-  const fetchResult = await fetchArticles(page);
+  const fetchResult = await fetchArticles(page, query);
   const articles = fetchResult?.articles;
 
   if (!articles || articles.length === 0) {

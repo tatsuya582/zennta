@@ -52,7 +52,8 @@ export const deleteArticle = async (tableName: "favorites" | "readLaters", artic
 
 export const getArticles = async (
   rpcName: "fetch_favorites_articles_with_count" | "fetch_read_laters_articles_with_count",
-  page: number
+  page: number,
+  query: string | undefined
 ) => {
   try {
     const { supabase, user } = await getSupabaseClientAndUser();
@@ -60,6 +61,7 @@ export const getArticles = async (
     const { data } = (await supabase.rpc(rpcName, {
       user_id: user.id,
       page: page,
+      query: query,
     })) as unknown as { data: FetchedArticlesWithCount };
 
     const totalPage = data?.total_count !== null ? Math.ceil(data.total_count / 30) : 1;
