@@ -181,6 +181,7 @@ export type Database = {
           user_id: string;
           page?: number;
           page_size?: number;
+          query?: string;
         };
         Returns: Json;
       };
