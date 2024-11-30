@@ -18,7 +18,10 @@ export default async function StoredArticleList({
 }: {
   page: number;
   query: string | undefined;
-  fetchArticles: (page: number, query: string | undefined) => Promise<{ articles: FetchedArticles[]; totalPage: number }>;
+  fetchArticles: (
+    page: number,
+    query: string | undefined
+  ) => Promise<{ articles: FetchedArticles[]; totalPage: number }>;
   buildHref: (pageNumber: number) => string;
   isFavorite?: boolean;
 }) {
