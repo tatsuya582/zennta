@@ -32,18 +32,24 @@ export type Database = {
           articleId: string;
           createdAt: string;
           id: string;
+          memo: string | null;
+          tags: Json | null;
           userId: string;
         };
         Insert: {
           articleId: string;
           createdAt?: string;
           id?: string;
+          memo?: string | null;
+          tags?: Json | null;
           userId: string;
         };
         Update: {
           articleId?: string;
           createdAt?: string;
           id?: string;
+          memo?: string | null;
+          tags?: Json | null;
           userId?: string;
         };
         Relationships: [
