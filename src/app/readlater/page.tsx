@@ -16,7 +16,7 @@ export default async function ReadLaterPage({
 }) {
   const page = searchParams?.page ? parseInt(searchParams.page, 10) || 1 : 1;
   const query = searchParams?.query ? searchParams.query : undefined;
-  const queryParam = query ? `query=${encodeURIComponent(query)}&` : '';
+  const queryParam = query ? `query=${encodeURIComponent(query)}&` : "";
   const buildHref = (pageNumber: number) => `/readlater?${queryParam}page=${pageNumber}`;
   const onsubmit = async (formData: FormData) => {
     "use server";
