@@ -1,15 +1,14 @@
+import { type ArticleSearchProps } from "@/types/types";
 import { addHistory } from "@/actions/history";
-import { addreadLater, getReadLater } from "@/actions/readLater";
-import { ReadLaterButton } from "@/components/layout/button/ReadLaterButton";
+import { addreadLater, deleteReadLater, getReadLater } from "@/actions/readLater";
 import { Article } from "@/components/layout/main/Article";
 import NotArticleError from "@/components/layout/main/NotArticleError";
-import { Button } from "@/components/ui/button";
-import { getArticleDateRange } from "@/lib/readLater/getReadLater";
 import ZennSearchPagiNation from "@/components/layout/pagiNation/ZennSearchPagiNation";
 import { searchArticles } from "@/actions/article";
 import LessPagiNation from "@/components/layout/pagiNation/LessPagiNation";
 import PagiNation from "@/components/layout/pagiNation/PagiNation";
-import { type ArticleSearchProps } from "@/types/types";
+import { addFavorite, deleteFavorite, getFavorite } from "@/actions/favorite";
+import { ActionButton } from "@/components/layout/button/ActionButton";
 
 export default async function SearchArticleList({ query, currentPage, otherPage, currentSite }: ArticleSearchProps) {
   const fetchResult = await searchArticles(currentPage, query, currentSite);
@@ -18,11 +17,8 @@ export default async function SearchArticleList({ query, currentPage, otherPage,
   }
 
   const articles = fetchResult.articles;
-  const readLaterRange = getArticleDateRange(articles);
-  const readLaterUrls =
-    readLaterRange.start && readLaterRange.end
-      ? await getReadLater(readLaterRange.start, readLaterRange.end)
-      : new Map();
+  const readLaterUrls = await getReadLater(articles);
+  const favoriteUrls = await getFavorite(articles);
 
   const qiitaPage = currentSite === "Qiita" ? parseInt(currentPage) : parseInt(otherPage);
   const zennPage = currentSite === "Qiita" ? parseInt(otherPage) : parseInt(currentPage);
@@ -50,8 +46,24 @@ export default async function SearchArticleList({ query, currentPage, otherPage,
           <div className="flex md:flex-row flex-col justify-between gap-1">
             <Article item={item} onSubmit={addHistory} />
             <div className="flex items-center gap-2">
-              <ReadLaterButton item={item} readLaterUrls={readLaterUrls} onSubmit={addreadLater} />
-              <Button className="flex-1">お気に入り</Button>
+              <ActionButton
+                item={item}
+                id={readLaterUrls.get(item.url)}
+                isOtherTable={readLaterUrls.has(item.url)}
+                addLabel="後で読む"
+                deleteLabel="登録済み"
+                deleteAction={deleteReadLater}
+                addAction={addreadLater}
+              />
+              <ActionButton
+                item={item}
+                id={favoriteUrls.get(item.url)}
+                isOtherTable={favoriteUrls.has(item.url)}
+                addLabel="お気に入り登録"
+                deleteLabel="お気に入り済み"
+                deleteAction={deleteFavorite}
+                addAction={addFavorite}
+              />
             </div>
           </div>
         </div>

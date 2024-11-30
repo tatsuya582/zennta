@@ -27,6 +27,42 @@ export type Database = {
         };
         Relationships: [];
       };
+      favorites: {
+        Row: {
+          articleId: string;
+          createdAt: string;
+          id: string;
+          userId: string;
+        };
+        Insert: {
+          articleId: string;
+          createdAt?: string;
+          id?: string;
+          userId: string;
+        };
+        Update: {
+          articleId?: string;
+          createdAt?: string;
+          id?: string;
+          userId?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "favorites_articleId_fkey";
+            columns: ["articleId"];
+            isOneToOne: false;
+            referencedRelation: "articles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "favorites_userId_fkey";
+            columns: ["userId"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       histories: {
         Row: {
           articleId: string;
@@ -129,6 +165,32 @@ export type Database = {
         Args: {
           user_id: string;
           article_id: string;
+        };
+        Returns: undefined;
+      };
+      fetch_favorites_articles_with_count: {
+        Args: {
+          user_id: string;
+          page?: number;
+          page_size?: number;
+        };
+        Returns: Json;
+      };
+      fetch_read_laters_articles_with_count: {
+        Args: {
+          user_id: string;
+          page?: number;
+          page_size?: number;
+        };
+        Returns: Json;
+      };
+      insert_favorite_with_article: {
+        Args: {
+          userid: string;
+          articleurl: string;
+          articletitle: string;
+          articlesourcecreatedat?: string;
+          tags?: Json;
         };
         Returns: undefined;
       };

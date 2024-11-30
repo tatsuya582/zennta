@@ -20,7 +20,7 @@ export default function MainNavigation() {
               <Link href="/readlater" legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>後で読む</NavigationMenuLink>
               </Link>
-              <Link href="/" legacyBehavior passHref>
+              <Link href="/favorite" legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>お気に入り</NavigationMenuLink>
               </Link>
             </NavigationMenuItem>

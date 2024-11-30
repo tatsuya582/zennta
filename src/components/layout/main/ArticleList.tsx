@@ -1,12 +1,11 @@
 import { getArticles } from "@/actions/article";
+import { addFavorite, deleteFavorite, getFavorite } from "@/actions/favorite";
 import { addHistory } from "@/actions/history";
-import { addreadLater, getReadLater } from "@/actions/readLater";
-import { ReadLaterButton } from "@/components/layout/button/ReadLaterButton";
+import { addreadLater, deleteReadLater, getReadLater } from "@/actions/readLater";
+import { ActionButton } from "@/components/layout/button/ActionButton";
 import { Article } from "@/components/layout/main/Article";
 import NotArticleError from "@/components/layout/main/NotArticleError";
 import PagiNation from "@/components/layout/pagiNation/PagiNation";
-import { Button } from "@/components/ui/button";
-import { getArticleDateRange } from "@/lib/readLater/getReadLater";
 
 export default async function ArticleList({
   currentPage,
@@ -22,11 +21,8 @@ export default async function ArticleList({
     return <NotArticleError />;
   }
   const articles = fetchResult.articles;
-  const readLaterRange = getArticleDateRange(articles);
-  const readLaterUrls =
-    readLaterRange.start && readLaterRange.end
-      ? await getReadLater(readLaterRange.start, readLaterRange.end)
-      : new Map();
+  const readLaterUrls = await getReadLater(articles);
+  const favoriteUrls = await getFavorite(articles);
   const currentPageNum = parseInt(currentPage);
   const totalPage = 100;
   const buildHref = (page: number) =>
@@ -43,8 +39,24 @@ export default async function ArticleList({
           <div className="flex md:flex-row flex-col justify-between gap-1">
             <Article item={item} onSubmit={addHistory} />
             <div className="flex items-center gap-2">
-              <ReadLaterButton item={item} readLaterUrls={readLaterUrls} onSubmit={addreadLater} />
-              <Button className="flex-1">お気に入り</Button>
+              <ActionButton
+                item={item}
+                id={readLaterUrls.get(item.url)}
+                isOtherTable={readLaterUrls.has(item.url)}
+                addLabel="後で読む"
+                deleteLabel="登録済み"
+                deleteAction={deleteReadLater}
+                addAction={addreadLater}
+              />
+              <ActionButton
+                item={item}
+                id={favoriteUrls.get(item.url)}
+                isOtherTable={favoriteUrls.has(item.url)}
+                addLabel="お気に入り登録"
+                deleteLabel="お気に入り済み"
+                deleteAction={deleteFavorite}
+                addAction={addFavorite}
+              />
             </div>
           </div>
         </div>

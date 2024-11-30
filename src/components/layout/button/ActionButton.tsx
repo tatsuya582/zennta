@@ -1,24 +1,29 @@
-import { deleteReadLater } from "@/actions/readLater";
 import { Button } from "@/components/ui/button";
 import { type StoredItem, type FetchedItem } from "@/types/types";
 import { revalidatePath } from "next/cache";
 
-export const ReadLaterButton = <T extends FetchedItem | StoredItem>({
+export const ActionButton = <T extends FetchedItem | StoredItem>({
   item,
-  readLaterUrls,
-  onSubmit,
+  id,
+  isOtherTable,
+  addLabel,
+  deleteLabel,
+  deleteAction,
+  addAction,
 }: {
   item: T;
-  readLaterUrls: Map<string | undefined, string | undefined>;
-  onSubmit: (item: T) => Promise<null | undefined>;
+  id: string | undefined;
+  isOtherTable: boolean;
+  addLabel: string;
+  deleteLabel: string;
+  deleteAction: (id: string) => Promise<void>;
+  addAction: (item: T) => Promise<void>;
 }) => {
-  const id = "created_at" in item ? readLaterUrls.get(item.url) : item.id;
-  const isReadLater = readLaterUrls.has(item.url);
   const onSubmitDelete = async () => {
     "use server";
     try {
       if (id) {
-        await deleteReadLater(id);
+        await deleteAction(id);
         revalidatePath("/");
       }
     } catch (error) {
@@ -28,7 +33,7 @@ export const ReadLaterButton = <T extends FetchedItem | StoredItem>({
   const onSubmitAdd = async () => {
     "use server";
     try {
-      await onSubmit(item);
+      await addAction(item);
       revalidatePath("/");
     } catch (error) {
       console.error(error);
@@ -36,16 +41,16 @@ export const ReadLaterButton = <T extends FetchedItem | StoredItem>({
   };
   return (
     <div className="flex-1">
-      {isReadLater ? (
+      {isOtherTable ? (
         <form action={onSubmitDelete}>
           <Button variant="outline" className="w-full">
-            登録済み
+            {deleteLabel}
           </Button>
         </form>
       ) : (
         <form action={onSubmitAdd}>
           <Button variant="outline" className="w-full">
-            後で読む
+            {addLabel}
           </Button>
         </form>
       )}

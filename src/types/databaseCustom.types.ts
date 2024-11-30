@@ -1,10 +1,19 @@
 import { Database } from "@/types/database.types";
 import { Tag } from "@/types/types";
 
-export type ReadLaterArticle = Database["public"]["Tables"]["readLaters"]["Row"] & {
+export type FetchedArticle = Database["public"]["Tables"]["readLaters"]["Row"] & {
   articles: { url: string; id: string } | null;
 };
 
-export type ReadLaterArticles = Database["public"]["Tables"]["readLaters"]["Row"] & {
-  articles: { id: string; url: string; tags: Tag[] | null; title: string };
+export type FetchedArticles = Database["public"]["Tables"]["readLaters"]["Row"] & {
+  id: string;
+  url: string;
+  tags: Tag[] | null;
+  title: string;
+  is_in_other_table: boolean;
+};
+
+export type FetchedArticlesWithCount = Database["public"]["Tables"]["readLaters"]["Row"] & {
+  articles: FetchedArticles[];
+  total_count: number;
 };
