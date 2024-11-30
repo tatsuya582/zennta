@@ -8,9 +8,11 @@ export default async function ReadLaterPage({
 }: {
   searchParams?: {
     page?: string;
+    query?: string;
   };
 }) {
   const page = searchParams?.page ? parseInt(searchParams.page, 10) || 1 : 1;
+  const query = searchParams?.query ? searchParams.query : null;
   const buildHref = (pageNumber: number) => `/readlater?page=${pageNumber}`;
 
   return (
@@ -19,7 +21,7 @@ export default async function ReadLaterPage({
         <h2>後で読む</h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
           <Suspense key={JSON.stringify(searchParams)} fallback={<QiitaArticleListSkeleton />}>
-            <StoredArticleList page={page} fetchArticles={getReadLaterArticles} buildHref={buildHref} />
+            <StoredArticleList page={page} query={query} fetchArticles={getReadLaterArticles} buildHref={buildHref} />
           </Suspense>
         </div>
       </div>
