@@ -18,7 +18,7 @@ export const FavoritePageButton = ({ item }: { item: FetchedArticles }) => {
     "use server";
     try {
       await deleteFavorite(item.id);
-      revalidatePath("/readlater");
+      revalidatePath("/favorite");
     } catch (error) {
       console.error(error);
     }
