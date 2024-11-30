@@ -1,9 +1,8 @@
 import { getArticles } from "@/actions/article";
 import { addFavorite, deleteFavorite, getFavorite } from "@/actions/favorite";
 import { addHistory } from "@/actions/history";
-import { addreadLater, getReadLater } from "@/actions/readLater";
+import { addreadLater, deleteReadLater, getReadLater } from "@/actions/readLater";
 import { ActionButton } from "@/components/layout/button/ActionButton";
-import { ReadLaterButton } from "@/components/layout/button/ReadLaterButton";
 import { Article } from "@/components/layout/main/Article";
 import NotArticleError from "@/components/layout/main/NotArticleError";
 import PagiNation from "@/components/layout/pagiNation/PagiNation";
@@ -40,7 +39,15 @@ export default async function ArticleList({
           <div className="flex md:flex-row flex-col justify-between gap-1">
             <Article item={item} onSubmit={addHistory} />
             <div className="flex items-center gap-2">
-              <ReadLaterButton item={item} readLaterUrls={readLaterUrls} onSubmit={addreadLater} />
+              <ActionButton
+                item={item}
+                id={readLaterUrls.get(item.url)}
+                isOtherTable={readLaterUrls.has(item.url)}
+                addLabel="後で読む"
+                deleteLabel="登録済み"
+                deleteAction={deleteReadLater}
+                addAction={addreadLater}
+              />
               <ActionButton
                 item={item}
                 id={favoriteUrls.get(item.url)}
