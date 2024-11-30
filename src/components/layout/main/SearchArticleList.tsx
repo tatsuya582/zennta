@@ -1,3 +1,4 @@
+import { type ArticleSearchProps } from "@/types/types";
 import { addHistory } from "@/actions/history";
 import { addreadLater, getReadLater } from "@/actions/readLater";
 import { ReadLaterButton } from "@/components/layout/button/ReadLaterButton";
@@ -7,9 +8,8 @@ import ZennSearchPagiNation from "@/components/layout/pagiNation/ZennSearchPagiN
 import { searchArticles } from "@/actions/article";
 import LessPagiNation from "@/components/layout/pagiNation/LessPagiNation";
 import PagiNation from "@/components/layout/pagiNation/PagiNation";
-import { type ArticleSearchProps } from "@/types/types";
-import { addFavorite, getFavorite } from "@/actions/favorite";
-import { FavoriteButton } from "@/components/layout/button/FavoriteButton";
+import { addFavorite, deleteFavorite, getFavorite } from "@/actions/favorite";
+import { ActionButton } from "@/components/layout/button/ActionButton";
 
 export default async function SearchArticleList({ query, currentPage, otherPage, currentSite }: ArticleSearchProps) {
   const fetchResult = await searchArticles(currentPage, query, currentSite);
@@ -48,7 +48,15 @@ export default async function SearchArticleList({ query, currentPage, otherPage,
             <Article item={item} onSubmit={addHistory} />
             <div className="flex items-center gap-2">
               <ReadLaterButton item={item} readLaterUrls={readLaterUrls} onSubmit={addreadLater} />
-              <FavoriteButton item={item} favoriteUrls={favoriteUrls} onSubmit={addFavorite} />
+              <ActionButton
+                item={item}
+                id={favoriteUrls.get(item.url)}
+                isOtherTable={favoriteUrls.has(item.url)}
+                addLabel="お気に入り登録"
+                deleteLabel="お気に入り済み"
+                deleteAction={deleteFavorite}
+                addAction={addFavorite}
+              />
             </div>
           </div>
         </div>

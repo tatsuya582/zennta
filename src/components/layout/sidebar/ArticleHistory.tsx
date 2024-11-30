@@ -1,7 +1,7 @@
-import { addStoredFavorite, getFavoriteHistory } from "@/actions/favorite";
+import { addStoredFavorite, deleteFavorite, getFavoriteHistory } from "@/actions/favorite";
 import { getHistory, updateHistory } from "@/actions/history";
 import { addStoredreadLater, getReadLaterHistory } from "@/actions/readLater";
-import { FavoriteButton } from "@/components/layout/button/FavoriteButton";
+import { ActionButton } from "@/components/layout/button/ActionButton";
 import { ReadLaterButton } from "@/components/layout/button/ReadLaterButton";
 import { Article } from "@/components/layout/main/Article";
 
@@ -19,7 +19,15 @@ export const ArticleHistory = async () => {
           <Article item={item.articles} onSubmit={updateHistory} displayTags={false} />
           <div className="flex space-x-1">
             <ReadLaterButton item={item.articles} readLaterUrls={readLaterUrls} onSubmit={addStoredreadLater} />
-            <FavoriteButton item={item.articles} favoriteUrls={favoriteUrls} onSubmit={addStoredFavorite} />
+            <ActionButton
+              item={item.articles}
+              id={item.articles.id}
+              isOtherTable={favoriteUrls.has(item.articles.url)}
+              addLabel="お気に入り登録"
+              deleteLabel="お気に入り済み"
+              deleteAction={deleteFavorite}
+              addAction={addStoredFavorite}
+            />
           </div>
         </div>
       ))}

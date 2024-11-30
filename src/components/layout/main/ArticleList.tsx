@@ -1,8 +1,8 @@
 import { getArticles } from "@/actions/article";
-import { addFavorite, getFavorite } from "@/actions/favorite";
+import { addFavorite, deleteFavorite, getFavorite } from "@/actions/favorite";
 import { addHistory } from "@/actions/history";
 import { addreadLater, getReadLater } from "@/actions/readLater";
-import { FavoriteButton } from "@/components/layout/button/FavoriteButton";
+import { ActionButton } from "@/components/layout/button/ActionButton";
 import { ReadLaterButton } from "@/components/layout/button/ReadLaterButton";
 import { Article } from "@/components/layout/main/Article";
 import NotArticleError from "@/components/layout/main/NotArticleError";
@@ -41,7 +41,15 @@ export default async function ArticleList({
             <Article item={item} onSubmit={addHistory} />
             <div className="flex items-center gap-2">
               <ReadLaterButton item={item} readLaterUrls={readLaterUrls} onSubmit={addreadLater} />
-              <FavoriteButton item={item} favoriteUrls={favoriteUrls} onSubmit={addFavorite} />
+              <ActionButton
+                item={item}
+                id={favoriteUrls.get(item.url)}
+                isOtherTable={favoriteUrls.has(item.url)}
+                addLabel="お気に入り登録"
+                deleteLabel="お気に入り済み"
+                deleteAction={deleteFavorite}
+                addAction={addFavorite}
+              />
             </div>
           </div>
         </div>
