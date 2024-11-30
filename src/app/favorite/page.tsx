@@ -12,7 +12,7 @@ export default async function FavoritePage({
   };
 }) {
   const page = searchParams?.page ? parseInt(searchParams.page, 10) || 1 : 1;
-  const query = searchParams?.query ? searchParams.query : null;
+  const query = searchParams?.query ? searchParams.query : undefined;
   const buildHref = (pageNumber: number) => `/favorite?page=${pageNumber}`;
 
   return (
