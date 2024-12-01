@@ -42,6 +42,7 @@ export const useFavoriteMemoForm = (
       setIsLoading(true);
       await updateFavoriteColumn(favoriteId, values.value);
       router.refresh();
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       toast({
         description: toastStr,
       });

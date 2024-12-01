@@ -31,6 +31,7 @@ export const FavoritePageDeleteButton = ({ item, isMemo = false }: { item: Fetch
         await deleteFavorite(item.id);
       }
       router.refresh();
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       toast({
         description: "削除しました",
       });
