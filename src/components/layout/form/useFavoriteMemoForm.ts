@@ -17,7 +17,7 @@ const formSchema = z.object({
     }),
 });
 
-export const useFavoriteMemoForm = (favoriteId: string, setIsOpen: any) => {
+export const useFavoriteMemoForm = (favoriteId: string, setIsOpen: React.Dispatch<React.SetStateAction<boolean>>) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
