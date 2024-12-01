@@ -48,7 +48,7 @@ export default async function StoredArticleList({
         return (
           <div key={item.id} className="border-b border-gray-300 m-2 pb-1">
             <div className="flex md:flex-row flex-col justify-between gap-1">
-              <div className="w-full">
+              <div className="flex flex-col justify-center w-full">
                 <Article item={item} onSubmit={addStoredItemHistory} />
                 {item.memo && (
                   <div className="flex justify-start w-full ml-4 my-2">
@@ -58,7 +58,7 @@ export default async function StoredArticleList({
                     >
                       <div>{item.memo}</div>
                       <div className="flex justify-end gap-2">
-                        <Button variant="outline">メモを削除</Button>
+                        <FavoritePageButton item={item} isMemo />
                       </div>
                     </div>
                   </div>
@@ -66,8 +66,14 @@ export default async function StoredArticleList({
               </div>
               {isFavorite ? (
                 <div className="flex flex-col justify-center items-center gap-2">
-                  {item.memo ? <Button className="w-full" variant="outline">メモを編集</Button> : <AddFavoriteColumnButton item={item} />}
-                  <FavoritePageButton item={item} />
+                  {item.memo ? (
+                    <AddFavoriteColumnButton item={item} column="メモ" isEdit />
+                  ) : (
+                    <AddFavoriteColumnButton item={item} column="メモ" />
+                  )}
+                  <div className="w-full">
+                    <FavoritePageButton item={item} />
+                  </div>
                 </div>
               ) : (
                 <div className="flex items-center gap-2">

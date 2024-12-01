@@ -16,20 +16,28 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { useFavoriteMemoForm } from "@/components/layout/form/useFavoriteMemoForm";
 
-export const AddFavoriteColumnButton = ({ item }: { item: FetchedArticles }) => {
+export const AddFavoriteColumnButton = ({
+  item,
+  column,
+  isEdit = false,
+}: {
+  item: FetchedArticles;
+  column: "メモ" | "タグ";
+  isEdit?: boolean;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { form, onSubmit, isLoading } = useFavoriteMemoForm(item.favorite_id, setIsOpen);
+  const { form, onSubmit, isLoading } = useFavoriteMemoForm(item.favorite_id, item.memo || "", setIsOpen, isEdit);
   return (
-    <div key={item.favorite_id} className="flex-1">
+    <div key={item.favorite_id} className="w-full">
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
           <Button variant="outline" className="w-full">
-            メモを追加
+            {column}を{isEdit ? "編集" : "追加"}
           </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>メモを入力してください</DialogTitle>
+            <DialogTitle>{column}を入力してください</DialogTitle>
             <DialogDescription>280文字まで入力できます。</DialogDescription>
           </DialogHeader>
           <div className="w-full">
@@ -57,7 +65,7 @@ export const AddFavoriteColumnButton = ({ item }: { item: FetchedArticles }) => 
                   ) : (
                     <div className="md:w-1/3 w-full">
                       <Button type="submit" className="w-full">
-                        追加
+                        {isEdit ? "編集" : "追加"}
                       </Button>
                     </div>
                   )}
