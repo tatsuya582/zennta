@@ -24,7 +24,7 @@ export const FavoritePageButton = ({ item }: { item: FetchedArticles }) => {
     }
   };
   return (
-    <div key={item.id} className="flex-1">
+    <div key={item.id} className="w-full">
       <AlertDialog>
         <AlertDialogTrigger asChild>
           <Button variant="outline" className="w-full">
