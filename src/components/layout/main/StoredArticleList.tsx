@@ -6,6 +6,7 @@ import { FavoritePageDeleteButton } from "@/components/layout/button/FavoritePag
 import { ReadLaterPageButton } from "@/components/layout/button/ReadLaterPageButton";
 import { Article } from "@/components/layout/main/Article";
 import NotArticleError from "@/components/layout/main/NotArticleError";
+import MemoDisplay from "@/components/layout/memo/MemoDisplay";
 import LessPagiNation from "@/components/layout/pagiNation/LessPagiNation";
 import PagiNation from "@/components/layout/pagiNation/PagiNation";
 import { FetchedArticles } from "@/types/databaseCustom.types";
@@ -49,19 +50,7 @@ export default async function StoredArticleList({
             <div className="flex md:flex-row flex-col justify-between gap-1">
               <div className="flex flex-col justify-center w-full">
                 <Article item={item} onSubmit={addStoredItemHistory} />
-                {item.memo && (
-                  <div className="flex justify-start w-full ml-4 my-2">
-                    <div
-                      className="w-11/12 border rounded-lg border-gray-300 px-4 py-2"
-                      style={{ whiteSpace: "pre-wrap" }}
-                    >
-                      <div>{item.memo}</div>
-                      <div className="flex justify-end gap-2">
-                        <FavoritePageDeleteButton item={item} isMemo />
-                      </div>
-                    </div>
-                  </div>
-                )}
+                {item.memo && <MemoDisplay item={item} />}
               </div>
               {isFavorite ? (
                 <div className="flex flex-col justify-center items-center gap-2">
