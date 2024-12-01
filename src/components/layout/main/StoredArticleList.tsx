@@ -2,13 +2,12 @@ import { addStoredFavorite, deleteFavorite } from "@/actions/favorite";
 import { addStoredItemHistory } from "@/actions/history";
 import { ActionButton } from "@/components/layout/button/ActionButton";
 import { AddFavoriteColumnButton } from "@/components/layout/button/AddFavoriteColumnButton";
-import { FavoritePageButton } from "@/components/layout/button/FavoritePageButton";
+import { FavoritePageDeleteButton } from "@/components/layout/button/FavoritePageDeleteButton";
 import { ReadLaterPageButton } from "@/components/layout/button/ReadLaterPageButton";
 import { Article } from "@/components/layout/main/Article";
 import NotArticleError from "@/components/layout/main/NotArticleError";
 import LessPagiNation from "@/components/layout/pagiNation/LessPagiNation";
 import PagiNation from "@/components/layout/pagiNation/PagiNation";
-import { Button } from "@/components/ui/button";
 import { FetchedArticles } from "@/types/databaseCustom.types";
 
 export default async function StoredArticleList({
@@ -58,7 +57,7 @@ export default async function StoredArticleList({
                     >
                       <div>{item.memo}</div>
                       <div className="flex justify-end gap-2">
-                        <FavoritePageButton item={item} isMemo />
+                        <FavoritePageDeleteButton item={item} isMemo />
                       </div>
                     </div>
                   </div>
@@ -72,7 +71,7 @@ export default async function StoredArticleList({
                     <AddFavoriteColumnButton item={item} column="メモ" />
                   )}
                   <div className="w-full">
-                    <FavoritePageButton item={item} />
+                    <FavoritePageDeleteButton item={item} />
                   </div>
                 </div>
               ) : (
