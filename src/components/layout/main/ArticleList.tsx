@@ -11,10 +11,12 @@ export default async function ArticleList({
   currentPage,
   otherPage,
   currentSite,
+  isLogin,
 }: {
   currentPage: string;
   otherPage: string;
   currentSite: "Qiita" | "Zenn";
+  isLogin: boolean;
 }) {
   const fetchResult = await getArticles(currentPage, currentSite);
   if (!fetchResult || fetchResult.articles.length === 0) {
@@ -38,26 +40,28 @@ export default async function ArticleList({
         <div key={item.id} className="border-b border-gray-300 m-2 pb-1">
           <div className="flex md:flex-row flex-col justify-between gap-1">
             <Article item={item} onSubmit={addHistory} />
-            <div className="flex items-center gap-2">
-              <ActionButton
-                item={item}
-                id={readLaterUrls.get(item.url)}
-                isOtherTable={readLaterUrls.has(item.url)}
-                addLabel="後で読む"
-                deleteLabel="登録済み"
-                deleteAction={deleteReadLater}
-                addAction={addreadLater}
-              />
-              <ActionButton
-                item={item}
-                id={favoriteUrls.get(item.url)}
-                isOtherTable={favoriteUrls.has(item.url)}
-                addLabel="お気に入り登録"
-                deleteLabel="お気に入り済み"
-                deleteAction={deleteFavorite}
-                addAction={addFavorite}
-              />
-            </div>
+            {isLogin && (
+              <div className="flex items-center gap-2">
+                <ActionButton
+                  item={item}
+                  id={readLaterUrls.get(item.url)}
+                  isOtherTable={readLaterUrls.has(item.url)}
+                  addLabel="後で読む"
+                  deleteLabel="登録済み"
+                  deleteAction={deleteReadLater}
+                  addAction={addreadLater}
+                />
+                <ActionButton
+                  item={item}
+                  id={favoriteUrls.get(item.url)}
+                  isOtherTable={favoriteUrls.has(item.url)}
+                  addLabel="お気に入り登録"
+                  deleteLabel="お気に入り済み"
+                  deleteAction={deleteFavorite}
+                  addAction={addFavorite}
+                />
+              </div>
+            )}
           </div>
         </div>
       ))}

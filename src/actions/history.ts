@@ -12,6 +12,10 @@ export const addStoredItemHistory = async (item: StoredItem) => {
   try {
     const { supabase, user } = await getSupabaseClientAndUser();
 
+    if (!user) {
+      return;
+    }
+
     const { error } = await supabase.rpc("add_or_update_history", {
       user_id: user.id,
       article_id: item.id,
@@ -29,6 +33,10 @@ export const addStoredItemHistory = async (item: StoredItem) => {
 export const updateHistory = async (item: StoredItem) => {
   try {
     const { supabase, user } = await getSupabaseClientAndUser();
+
+    if (!user) {
+      return;
+    }
 
     const { error } = await supabase
       .from("histories")
@@ -49,6 +57,10 @@ export const updateHistory = async (item: StoredItem) => {
 export const getHistory = async (): Promise<History[] | null> => {
   try {
     const { supabase, user } = await getSupabaseClientAndUser();
+
+    if (!user) {
+      return null;
+    }
 
     const { data } = await supabase
       .from("histories")

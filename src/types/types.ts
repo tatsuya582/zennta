@@ -23,6 +23,7 @@ export type ArticleSearchProps = {
   currentPage: string;
   otherPage: string;
   currentSite: "Qiita" | "Zenn";
+  isLogin: boolean;
 };
 
 export type StoredItem = {

@@ -2,6 +2,7 @@ import SearchForm from "@/components/layout/form/searchForm";
 import ArticleList from "@/components/layout/main/ArticleList";
 import QiitaArticleListSkeleton from "@/components/layout/skeleton/QiitaArticleListSkeleton";
 import ZennArticleListSkeleton from "@/components/layout/skeleton/ZennArticleListSkeleton";
+import { currentUser } from "@/lib/auth/currentUser/server";
 import { Suspense } from "react";
 
 export default async function Home({
@@ -12,6 +13,7 @@ export default async function Home({
     zennpage?: string;
   };
 }) {
+  const { user } = await currentUser();
   const qiitaPage = searchParams?.qiitapage || "1";
   const zennPage = searchParams?.zennpage || "1";
   return (
@@ -21,7 +23,7 @@ export default async function Home({
         <h2>Qiita一覧</h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
           <Suspense key={JSON.stringify(searchParams)} fallback={<QiitaArticleListSkeleton />}>
-            <ArticleList currentPage={qiitaPage} otherPage={zennPage} currentSite="Qiita" />
+            <ArticleList currentPage={qiitaPage} otherPage={zennPage} currentSite="Qiita" isLogin={!!user} />
           </Suspense>
         </div>
       </div>
@@ -32,7 +34,7 @@ export default async function Home({
         </h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
           <Suspense key={JSON.stringify(searchParams)} fallback={<ZennArticleListSkeleton />}>
-            <ArticleList currentPage={zennPage} otherPage={qiitaPage} currentSite="Zenn" />
+            <ArticleList currentPage={zennPage} otherPage={qiitaPage} currentSite="Zenn" isLogin={!!user} />
           </Suspense>
         </div>
       </div>

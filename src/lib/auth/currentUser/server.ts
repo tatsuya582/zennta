@@ -7,5 +7,5 @@ export const currentUser = cache(async () => {
     data: { user },
   } = await supabase.auth.getUser();
 
-  return user;
+  return { supabase, user };
 });
