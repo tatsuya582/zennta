@@ -11,12 +11,12 @@ export default async function ArticleList({
   currentPage,
   otherPage,
   currentSite,
-  user,
+  isLogin,
 }: {
   currentPage: string;
   otherPage: string;
   currentSite: "Qiita" | "Zenn";
-  user: boolean;
+  isLogin: boolean;
 }) {
   const fetchResult = await getArticles(currentPage, currentSite);
   if (!fetchResult || fetchResult.articles.length === 0) {
@@ -40,7 +40,7 @@ export default async function ArticleList({
         <div key={item.id} className="border-b border-gray-300 m-2 pb-1">
           <div className="flex md:flex-row flex-col justify-between gap-1">
             <Article item={item} onSubmit={addHistory} />
-            {user && (
+            {isLogin && (
               <div className="flex items-center gap-2">
                 <ActionButton
                   item={item}
