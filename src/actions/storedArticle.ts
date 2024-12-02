@@ -40,7 +40,6 @@ export const deleteArticle = async (tableName: "favorites" | "readLaters", table
     const { supabase, user } = await getSupabaseClientAndUser();
 
     const { error } = await supabase.from(tableName).delete().eq("id", tableId);
-    // .eq("userId", user.id).eq("articleId", articleId);
 
     if (error) {
       throw new Error(`Failed to delete record from ${tableName}: ${error.message}`);
