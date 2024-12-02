@@ -40,6 +40,10 @@ export const useFavoriteMemoForm = (
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setIsLoading(true);
+      if (initialValue === values.value) {
+        setIsLoading(false);
+        return;
+      }
       await updateFavoriteColumn(favoriteId, values.value);
       router.refresh();
       await new Promise((resolve) => setTimeout(resolve, 2000));
