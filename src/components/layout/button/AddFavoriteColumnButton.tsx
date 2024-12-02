@@ -18,11 +18,9 @@ import { useFavoriteMemoForm } from "@/components/layout/form/useFavoriteMemoFor
 
 export const AddFavoriteColumnButton = ({
   item,
-  column,
   isEdit = false,
 }: {
   item: FetchedArticles;
-  column: "メモ" | "タグ";
   isEdit?: boolean;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,12 +30,12 @@ export const AddFavoriteColumnButton = ({
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
           <Button variant="outline" className="w-full">
-            {column}を{isEdit ? "編集" : "追加"}
+            メモを{isEdit ? "編集" : "追加"}
           </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{column}を入力してください</DialogTitle>
+            <DialogTitle>メモを入力してください</DialogTitle>
             <DialogDescription>280文字まで入力できます。</DialogDescription>
           </DialogHeader>
           <div className="w-full">
