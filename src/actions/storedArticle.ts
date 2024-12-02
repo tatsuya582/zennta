@@ -10,6 +10,10 @@ export const addArticle = async (
   try {
     const { supabase, user } = await getSupabaseClientAndUser();
 
+    if (!user) {
+      return;
+    }
+
     if (rpcName && "created_at" in item) {
       const { error } = await supabase.rpc(rpcName, {
         userid: user.id,
@@ -37,7 +41,7 @@ export const addArticle = async (
 
 export const deleteArticle = async (tableName: "favorites" | "readLaters", tableId: string) => {
   try {
-    const { supabase, user } = await getSupabaseClientAndUser();
+    const { supabase } = await getSupabaseClientAndUser();
 
     const { error } = await supabase.from(tableName).delete().eq("id", tableId);
 
@@ -57,6 +61,10 @@ export const getArticles = async (
 ) => {
   try {
     const { supabase, user } = await getSupabaseClientAndUser();
+
+    if (!user) {
+      return;
+    }
 
     const { data } = (await supabase.rpc(rpcName, {
       user_id: user.id,
@@ -79,6 +87,10 @@ export const getArticle = async (
 ): Promise<Map<string | undefined, string | undefined>> => {
   try {
     const { supabase, user } = await getSupabaseClientAndUser();
+
+    if (!user) {
+      return new Map();
+    }
 
     const start = items[items.length - 1].created_at;
     const end = items[0].created_at;
@@ -113,6 +125,10 @@ export const getArticleHistory = async (
 ): Promise<Map<string | undefined, string | undefined>> => {
   try {
     const { supabase, user } = await getSupabaseClientAndUser();
+
+    if (!user) {
+      return new Map();
+    }
 
     const { data } = (await supabase
       .from(tableName)
