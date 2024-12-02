@@ -35,11 +35,11 @@ export const addArticle = async (
   }
 };
 
-export const deleteArticle = async (tableName: "favorites" | "readLaters", articleId: string) => {
+export const deleteArticle = async (tableName: "favorites" | "readLaters", tableId: string) => {
   try {
     const { supabase, user } = await getSupabaseClientAndUser();
 
-    const { error } = await supabase.from(tableName).delete().eq("userId", user.id).eq("articleId", articleId);
+    const { error } = await supabase.from(tableName).delete().eq("id", tableId);
 
     if (error) {
       throw new Error(`Failed to delete record from ${tableName}: ${error.message}`);
@@ -85,7 +85,12 @@ export const getArticle = async (
 
     const { data } = (await supabase
       .from(tableName)
-      .select(`articles:articleId (id, sourceCreatedAt, url)`)
+      .select(
+        `
+        id,
+        articles:articleId (id, sourceCreatedAt, url)
+      `
+      )
       .eq("userId", user.id)
       .gte("articles.sourceCreatedAt", start)
       .lte("articles.sourceCreatedAt", end)
@@ -95,7 +100,7 @@ export const getArticle = async (
       return new Map();
     }
 
-    const articlesMap = new Map(data.map((item) => [item.articles?.url, item.articles?.id]));
+    const articlesMap = new Map(data.map((item) => [item.articles?.url, item.id]));
     return articlesMap;
   } catch (error) {
     console.error("Unexpected error:", error);
@@ -111,7 +116,12 @@ export const getArticleHistory = async (
 
     const { data } = (await supabase
       .from(tableName)
-      .select(`articles:articleId (id, url)`)
+      .select(
+        `
+        id,
+        articles:articleId (id, url)
+      `
+      )
       .eq("userId", user.id)
       .not("articles", "is", null)) as unknown as { data: FetchedArticle[] };
 
@@ -119,7 +129,7 @@ export const getArticleHistory = async (
       return new Map();
     }
 
-    const articlesMap = new Map(data.map((item) => [item.articles?.url, item.articles?.id]));
+    const articlesMap = new Map(data.map((item) => [item.articles?.url, item.id]));
     return articlesMap;
   } catch (err) {
     console.error("Unexpected error:", err);

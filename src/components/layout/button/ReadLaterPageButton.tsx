@@ -1,9 +1,10 @@
+"use client";
+
 import { deleteReadLater } from "@/actions/readLater";
 import { type FetchedArticles } from "@/types/databaseCustom.types";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -12,31 +13,51 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { revalidatePath } from "next/cache";
 import { addStoredFavorite } from "@/actions/favorite";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 export const ReadLaterPageButton = ({ item }: { item: FetchedArticles }) => {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFavoriteLoading, setIsFavoriteLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const { toast } = useToast();
   const onSubmitDelete = async () => {
-    "use server";
     try {
-      await deleteReadLater(item.id);
-      revalidatePath("/readlater");
+      setIsLoading(true);
+      await deleteReadLater(item.column_id);
+      router.refresh();
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      toast({
+        description: "削除しました",
+      });
+      setIsOpen(false);
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
   const onSubmitAdd = async () => {
-    "use server";
     try {
+      setIsFavoriteLoading(true);
       await addStoredFavorite(item);
-      revalidatePath("/readlater");
+      router.refresh();
+      toast({
+        description: "お気に入り登録しました",
+      });
+      setIsOpen(false);
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsFavoriteLoading(false);
     }
   };
   return (
     <div key={item.id} className="flex-1">
-      <AlertDialog>
+      <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
         <AlertDialogTrigger asChild>
           <Button variant="outline" className="w-full">
             読了
@@ -48,29 +69,41 @@ export const ReadLaterPageButton = ({ item }: { item: FetchedArticles }) => {
             <AlertDialogDescription>削除するか、お気に入りに登録するか選択してください</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>キャンセル</AlertDialogCancel>
-            {item.is_in_other_table ? (
-              <div>
-                <form action={onSubmitDelete}>
-                  <AlertDialogAction type="submit" className="w-full">
+            <div className="flex flex-col-reverse md:flex-row gap-2 justify-around w-full items-end">
+              <AlertDialogCancel className="mt-0 w-full">キャンセル</AlertDialogCancel>
+              {item.is_in_other_table ? (
+                isLoading ? (
+                  <Button className="w-full" disabled>
+                    <span className="loader mx-1"></span>
+                  </Button>
+                ) : (
+                  <Button onClick={onSubmitDelete} className="w-full">
                     削除
-                  </AlertDialogAction>
-                </form>
-              </div>
-            ) : (
-              <div className="flex md:flex-row flex-col gap-2">
-                <form action={onSubmitDelete}>
-                  <AlertDialogAction type="submit" className="w-full">
-                    削除
-                  </AlertDialogAction>
-                </form>
-                <form action={onSubmitAdd}>
-                  <AlertDialogAction type="submit" className="w-full">
-                    お気に入り登録
-                  </AlertDialogAction>
-                </form>
-              </div>
-            )}
+                  </Button>
+                )
+              ) : (
+                <div className="flex flex-col gap-2 w-full">
+                  {isFavoriteLoading ? (
+                    <Button className="flex-1 w-full" disabled>
+                      <span className="loader mx-[38px]"></span>
+                    </Button>
+                  ) : (
+                    <Button onClick={onSubmitAdd} className="flex-1 w-full">
+                      お気に入り登録
+                    </Button>
+                  )}
+                  {isLoading ? (
+                    <Button className="flex-1 w-full" disabled>
+                      <span className="loader mx-1"></span>
+                    </Button>
+                  ) : (
+                    <Button onClick={onSubmitDelete} className="flex-1 w-full">
+                      削除
+                    </Button>
+                  )}
+                </div>
+              )}
+            </div>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

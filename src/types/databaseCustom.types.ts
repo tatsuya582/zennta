@@ -7,8 +7,12 @@ export type FetchedArticle = Database["public"]["Tables"]["readLaters"]["Row"] &
 
 export type FetchedArticles = Database["public"]["Tables"]["readLaters"]["Row"] & {
   id: string;
+  column_id: string;
+  other_column_id: string | null;
   url: string;
   tags: Tag[] | null;
+  custom_tags: Tag[] | null;
+  memo: string | null;
   title: string;
   is_in_other_table: boolean;
 };

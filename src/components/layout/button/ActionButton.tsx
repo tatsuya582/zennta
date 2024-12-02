@@ -12,7 +12,7 @@ export const ActionButton = <T extends FetchedItem | StoredItem>({
   addAction,
 }: {
   item: T;
-  id: string | undefined;
+  id: string | undefined | null;
   isOtherTable: boolean;
   addLabel: string;
   deleteLabel: string;
