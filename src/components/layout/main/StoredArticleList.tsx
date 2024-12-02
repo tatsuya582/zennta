@@ -68,7 +68,7 @@ export default async function StoredArticleList({
                   <ReadLaterPageButton item={item} />
                   <ActionButton
                     item={item}
-                    id={item.id}
+                    id={item.other_column_id}
                     isOtherTable={item.is_in_other_table}
                     addLabel="お気に入り登録"
                     deleteLabel="お気に入り済み"

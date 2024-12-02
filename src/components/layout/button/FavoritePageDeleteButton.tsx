@@ -26,9 +26,9 @@ export const FavoritePageDeleteButton = ({ item, isMemo = false }: { item: Fetch
     try {
       setIsLoading(true);
       if (isMemo) {
-        await updateFavoriteColumn(item.favorite_id, "");
+        await updateFavoriteColumn(item.column_id, "");
       } else {
-        await deleteFavorite(item.id);
+        await deleteFavorite(item.column_id);
       }
       router.refresh();
       await new Promise((resolve) => setTimeout(resolve, 2000));

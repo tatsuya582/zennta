@@ -26,9 +26,9 @@ export const AddFavoriteColumnButton = ({
   isEdit?: boolean;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { form, onSubmit, isLoading } = useFavoriteMemoForm(item.favorite_id, item.memo || "", setIsOpen, isEdit);
+  const { form, onSubmit, isLoading } = useFavoriteMemoForm(item.column_id, item.memo || "", setIsOpen, isEdit);
   return (
-    <div key={item.favorite_id} className="w-full">
+    <div key={item.column_id} className="w-full">
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
           <Button variant="outline" className="w-full">

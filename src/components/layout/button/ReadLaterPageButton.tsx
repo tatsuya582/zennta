@@ -19,7 +19,7 @@ export const ReadLaterPageButton = ({ item }: { item: FetchedArticles }) => {
   const onSubmitDelete = async () => {
     "use server";
     try {
-      await deleteReadLater(item.id);
+      await deleteReadLater(item.column_id);
       revalidatePath("/readlater");
     } catch (error) {
       console.error(error);
