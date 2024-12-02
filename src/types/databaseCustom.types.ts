@@ -7,7 +7,7 @@ export type FetchedArticle = Database["public"]["Tables"]["readLaters"]["Row"] &
 
 export type FetchedArticles = Database["public"]["Tables"]["readLaters"]["Row"] & {
   id: string;
-  favorite_id: string;
+  column_id: string;
   url: string;
   tags: Tag[] | null;
   custom_tags: Tag[] | null;
