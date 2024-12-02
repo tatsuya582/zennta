@@ -1,3 +1,4 @@
+import SearchForm from "@/components/layout/form/searchForm";
 import ArticleList from "@/components/layout/main/ArticleList";
 import QiitaArticleListSkeleton from "@/components/layout/skeleton/QiitaArticleListSkeleton";
 import ZennArticleListSkeleton from "@/components/layout/skeleton/ZennArticleListSkeleton";
@@ -13,9 +14,9 @@ export default async function Home({
 }) {
   const qiitaPage = searchParams?.qiitapage || "1";
   const zennPage = searchParams?.zennpage || "1";
-
   return (
     <>
+      <SearchForm linkPage="search" />
       <div className="w-full flex justify-center items-center flex-col md:mt-2 mt-8">
         <h2>Qiita一覧</h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
