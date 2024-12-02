@@ -54,11 +54,7 @@ export default async function StoredArticleList({
               </div>
               {isFavorite ? (
                 <div className="flex flex-col justify-center items-center gap-2">
-                  {item.memo ? (
-                    <AddFavoriteColumnButton item={item} isEdit />
-                  ) : (
-                    <AddFavoriteColumnButton item={item} />
-                  )}
+                  {item.memo ? <AddFavoriteColumnButton item={item} isEdit /> : <AddFavoriteColumnButton item={item} />}
                   <div className="w-full">
                     <FavoritePageDeleteButton item={item} />
                   </div>

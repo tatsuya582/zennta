@@ -16,13 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { useFavoriteMemoForm } from "@/components/layout/form/useFavoriteMemoForm";
 
-export const AddFavoriteColumnButton = ({
-  item,
-  isEdit = false,
-}: {
-  item: FetchedArticles;
-  isEdit?: boolean;
-}) => {
+export const AddFavoriteColumnButton = ({ item, isEdit = false }: { item: FetchedArticles; isEdit?: boolean }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { form, onSubmit, isLoading } = useFavoriteMemoForm(item.column_id, item.memo || "", setIsOpen, isEdit);
   return (

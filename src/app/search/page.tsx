@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
+import SearchForm from "@/components/layout/form/searchForm";
 
 export default async function SearchPage({
   searchParams,
@@ -41,12 +42,7 @@ export default async function SearchPage({
 
   return (
     <>
-      <div className="flex items-center justify-center my-12">
-        <form action={onsubmit} className="flex gap-4 w-9/12 max-w-screen-sm">
-          <Input type="name" name="name" defaultValue={query} />
-          <Button>検索</Button>
-        </form>
-      </div>
+      <SearchForm query={query} linkPage="search" />
       <div className="w-full flex justify-center items-center flex-col md:mt-2 mt-8">
         <h2>Qiita一覧</h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
