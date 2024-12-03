@@ -1,19 +1,11 @@
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 
 export default function EditButtons({ isLoading }: { isLoading: boolean }) {
   return (
-    <div className="flex gap-2">
-      <div>
-        <Link href="/profile">
-          <Button type="button" variant="outline">
-            戻る
-          </Button>
-        </Link>
-      </div>
+    <div>
       {isLoading ? (
         <div>
-          <Button type="submit">
+          <Button type="submit" disabled>
             <span className="loader mx-1"></span>
           </Button>
         </div>

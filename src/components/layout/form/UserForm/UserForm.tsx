@@ -1,29 +1,55 @@
 "use client";
 
 import EditButtons from "@/components/layout/form/UserForm/EditButtons";
-import NameInputField from "@/components/layout/form/UserForm/NameInputField";
 import { useUserForm } from "@/components/layout/form/UserForm/useUserForm";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
-import Link from "next/link";
+import { Input } from "@/components/ui/input";
+import NameInputField from "@/components/layout/form/UserForm/NameInputField";
 
-export default function UserForm({ name, edit }: { name: string; edit: boolean }) {
-  const { form, onSubmit, isLoading } = useUserForm(name);
+export default function UserForm({ name }: { name: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [displayName, setDisplayName] = useState(name);
+  const { form, onSubmit, isLoading } = useUserForm(name, setIsOpen, setDisplayName);
 
   return (
-    <Form {...form}>
-      <form onSubmit={edit ? form.handleSubmit(onSubmit) : (e) => e.preventDefault()} className="space-y-4">
-        <NameInputField control={form.control} edit={edit} />
-        <div className="flex justify-end">
-          {edit ? (
-            <EditButtons isLoading={isLoading} />
-          ) : (
-            <Link href="/profile/edit">
-              <Button type="button">編集</Button>
-            </Link>
-          )}
-        </div>
-      </form>
-    </Form>
+    <>
+      <div className="space-y-2">
+        <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+          名前
+        </label>
+        <Input value={displayName} disabled />
+      </div>
+      <div className="flex justify-end mt-2">
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+          <DialogTrigger asChild>
+            <Button>編集</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>名前を変更しますか？</DialogTitle>
+              <DialogDescription>2文字以上50文字以内で入力してください。</DialogDescription>
+            </DialogHeader>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <NameInputField control={form.control} />
+                <div className="flex justify-end">
+                  <EditButtons isLoading={isLoading} />
+                </div>
+              </form>
+            </Form>
+          </DialogContent>
+        </Dialog>
+      </div>
+    </>
   );
 }

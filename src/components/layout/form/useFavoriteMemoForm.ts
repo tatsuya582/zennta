@@ -13,10 +13,8 @@ const formSchema = z.object({
 });
 
 type useFavoriteMemoFormProps = {
-  form: UseFormReturn<{
-    value: string;
-  }>;
-  onSubmit: (values: { value: string }) => Promise<void>;
+  form: UseFormReturn<z.infer<typeof formSchema>>;
+  onSubmit: (values: z.infer<typeof formSchema>) => Promise<void>;
   isLoading: boolean;
 };
 
@@ -39,11 +37,10 @@ export const useFavoriteMemoForm = (
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      setIsLoading(true);
       if (initialValue === values.value) {
-        setIsLoading(false);
         return;
       }
+      setIsLoading(true);
       await updateFavoriteColumn(favoriteId, values.value);
       router.refresh();
       await new Promise((resolve) => setTimeout(resolve, 2000));
