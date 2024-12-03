@@ -32,8 +32,13 @@ export const Article = <T extends FetchedItem | StoredItem>({
       {item.tags && displayTags && (
         <div className="flex gap-x-2 flex-wrap my-1">
           {item.tags.map((tag) => (
-            <div key={tag.name} className="border border-lime-300 rounded-lg bg-lime-50 px-3 my-1">
-              <Link href={`/search?query=${tag.name}`} prefetch={false}>{tag.name}</Link>
+            <div
+              key={tag.name}
+              className="border border-lime-300 rounded-lg bg-lime-50 hover:bg-lime-100 px-3 py-[2px] my-1"
+            >
+              <Link href={`/search?query=${tag.name}`} prefetch={false}>
+                {tag.name}
+              </Link>
             </div>
           ))}
         </div>
