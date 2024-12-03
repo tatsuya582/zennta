@@ -32,40 +32,44 @@ export default async function ArticleList({
       ? `/?qiitapage=${page}&zennpage=${otherPage}`
       : `/?qiitapage=${otherPage}&zennpage=${page}#zennarticles`;
   return (
-    <div className="mt-4">
-      <div className="border-b border-gray-300 mb-2 pb-4">
+    <div>
+      <div className="border-b border-gray-300 my-2 pb-4">
         <PagiNation currentPage={currentPageNum} totalPage={totalPage} buildHref={buildHref} />
       </div>
-      {articles.map((item) => (
-        <div key={item.id} className="border-b border-gray-300 m-2 pb-1">
-          <div className="flex md:flex-row flex-col justify-between gap-1">
-            <Article item={item} onSubmit={addHistory} />
-            {isLogin && (
-              <div className="flex items-center gap-2">
-                <ActionButton
-                  item={item}
-                  id={readLaterUrls.get(item.url)}
-                  isOtherTable={readLaterUrls.has(item.url)}
-                  addLabel="後で読む"
-                  deleteLabel="登録済み"
-                  deleteAction={deleteReadLater}
-                  addAction={addreadLater}
-                />
-                <ActionButton
-                  item={item}
-                  id={favoriteUrls.get(item.url)}
-                  isOtherTable={favoriteUrls.has(item.url)}
-                  addLabel="お気に入り登録"
-                  deleteLabel="お気に入り済み"
-                  deleteAction={deleteFavorite}
-                  addAction={addFavorite}
-                />
-              </div>
-            )}
+      <div className="mt-2 h-screen overflow-y-auto scrollbar">
+        {articles.map((item) => (
+          <div key={item.id} className="border-b border-gray-300 m-2 pb-1">
+            <div className="flex md:flex-row flex-col justify-between gap-1">
+              <Article item={item} onSubmit={addHistory} />
+              {isLogin && (
+                <div className="flex items-center gap-2">
+                  <ActionButton
+                    item={item}
+                    id={readLaterUrls.get(item.url)}
+                    isOtherTable={readLaterUrls.has(item.url)}
+                    addLabel="後で読む"
+                    deleteLabel="登録済み"
+                    deleteAction={deleteReadLater}
+                    addAction={addreadLater}
+                  />
+                  <ActionButton
+                    item={item}
+                    id={favoriteUrls.get(item.url)}
+                    isOtherTable={favoriteUrls.has(item.url)}
+                    addLabel="お気に入り登録"
+                    deleteLabel="お気に入り済み"
+                    deleteAction={deleteFavorite}
+                    addAction={addFavorite}
+                  />
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      ))}
-      <PagiNation currentPage={currentPageNum} totalPage={totalPage} buildHref={buildHref} />
+        ))}
+      </div>
+      <div className="mt-4 mb-2">
+        <PagiNation currentPage={currentPageNum} totalPage={totalPage} buildHref={buildHref} />
+      </div>
     </div>
   );
 }

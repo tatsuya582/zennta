@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body {
+  height: 100%;
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -77,17 +82,17 @@ body {
   }
 }
 
-.sidebar::-webkit-scrollbar,
+.scrollbar::-webkit-scrollbar,
 .main-content::-webkit-scrollbar {
-  width: 10px; /* スクロールバーの幅 */
+  width: 6px; /* スクロールバーの幅 */
 }
 
-.sidebar::-webkit-scrollbar-track,
+.scrollbar::-webkit-scrollbar-track,
 .main-content::-webkit-scrollbar-track {
   background: #f4f4f4; /* スクロールバーの背景色 */
 }
 
-.sidebar::-webkit-scrollbar-thumb,
+.scrollbar::-webkit-scrollbar-thumb,
 .main-content::-webkit-scrollbar-thumb {
   background-color: #bbb9b9; /* スクロールバーのつまみの色 */
   border-radius: 10px; /* スクロールバーのつまみの角を丸く */
@@ -102,10 +107,6 @@ body {
   width: 20px;
   height: 20px;
   animation: spin 1s linear infinite;
-}
-
-.linked-section {
-  scroll-margin-top: 100px;
 }
 
 input,
