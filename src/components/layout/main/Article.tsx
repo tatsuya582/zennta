@@ -1,6 +1,7 @@
 "use client";
 
 import { FetchedItem, StoredItem } from "@/types/types";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export const Article = <T extends FetchedItem | StoredItem>({
@@ -32,7 +33,7 @@ export const Article = <T extends FetchedItem | StoredItem>({
         <div className="flex gap-x-2 flex-wrap my-1">
           {item.tags.map((tag) => (
             <div key={tag.name} className="border border-lime-300 rounded-lg bg-lime-50 px-3 my-1">
-              {tag.name}
+              <Link href={`/search?query=${tag.name}`} prefetch={false}>{tag.name}</Link>
             </div>
           ))}
         </div>
