@@ -1,5 +1,6 @@
 import { getUser } from "@/actions/user";
 import UserForm from "@/components/layout/form/UserForm/UserForm";
+import ProfilePageSkeleton from "@/components/layout/skeleton/ProfilePageSkeleton";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -11,7 +12,7 @@ export default async function ProfilePage() {
     redirect("/login");
   }
   return (
-    <Suspense>
+    <Suspense fallback={<ProfilePageSkeleton />}>
       <div className="flex justify-center">
         <div className="flex flex-col gap-6 items-center md:w-2/3 max-w-lg w-full md:p-12 p-6 md:mt-2 mt-6 md:border rounded-lg border-gray-300">
           <h2 className="text-center">マイページ</h2>
