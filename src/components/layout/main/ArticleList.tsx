@@ -32,7 +32,7 @@ export default async function ArticleList({
       ? `/?qiitapage=${page}&zennpage=${otherPage}`
       : `/?qiitapage=${otherPage}&zennpage=${page}#zennarticles`;
   return (
-    <div className="mt-4 h-screen md:h-full overflow-y-auto">
+    <div className="mt-4 h-screen overflow-y-auto scrollbar">
       <div className="border-b border-gray-300 mb-2 pb-4">
         <PagiNation currentPage={currentPageNum} totalPage={totalPage} buildHref={buildHref} />
       </div>

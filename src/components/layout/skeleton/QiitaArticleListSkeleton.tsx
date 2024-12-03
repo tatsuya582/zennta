@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default async function QiitaArticleListSkeleton() {
   return (
-    <div className="mt-4 h-screen md:h-full overflow-y-auto">
+    <div className="mt-4 h-screen overflow-y-auto scrollbar">
       <div className="flex justify-center border-b border-gray-300 mb-2 pb-4 gap-4">
         <Skeleton className="w-8 h-8" />
         <Skeleton className="w-8 h-8" />
