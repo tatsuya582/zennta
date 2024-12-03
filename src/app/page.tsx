@@ -29,7 +29,7 @@ export default async function Home({
       </div>
 
       <div className="w-full flex justify-center items-center flex-col my-16">
-        <h2 className="linked-section" id="zennarticles">
+        <h2 className="scroll-mt-20 md:scroll-mt-28" id="zennarticles">
           Zenn一覧
         </h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
