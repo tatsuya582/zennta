@@ -22,7 +22,11 @@ type UseUserFormReturn = {
   isLoading: boolean;
 };
 
-export const useUserForm = (initialName: string): UseUserFormReturn => {
+export const useUserForm = (
+  initialName: string,
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>,
+  setDisplayName: React.Dispatch<React.SetStateAction<string>>
+): UseUserFormReturn => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -39,9 +43,11 @@ export const useUserForm = (initialName: string): UseUserFormReturn => {
     try {
       setIsLoading(true);
       await updateUser(values.name);
+      setDisplayName(values.name);
       toast({
         description: "名前を変更しました",
       });
+      setIsOpen(false);
     } catch (error) {
       console.error(error);
     } finally {
