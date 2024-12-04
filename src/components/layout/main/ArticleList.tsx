@@ -50,6 +50,7 @@ export default async function ArticleList({
                     tableName="readLater"
                     deleteAction={deleteReadLater}
                     addAction={addreadLater}
+                    key={readLaterUrls.get(item.url)}
                   />
                   <ActionButton
                     item={item}
@@ -58,6 +59,7 @@ export default async function ArticleList({
                     tableName="favorite"
                     deleteAction={deleteFavorite}
                     addAction={addFavorite}
+                    key={favoriteUrls.get(item.url)}
                   />
                 </div>
               )}
