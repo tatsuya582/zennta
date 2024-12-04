@@ -66,8 +66,7 @@ export default async function StoredArticleList({
                     item={item}
                     id={item.other_column_id}
                     isOtherTable={item.is_in_other_table}
-                    addLabel="お気に入り登録"
-                    deleteLabel="お気に入り済み"
+                    tableName="favorite"
                     deleteAction={deleteFavorite}
                     addAction={addStoredFavorite}
                   />

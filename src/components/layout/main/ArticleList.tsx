@@ -47,8 +47,7 @@ export default async function ArticleList({
                     item={item}
                     id={readLaterUrls.get(item.url)}
                     isOtherTable={readLaterUrls.has(item.url)}
-                    addLabel="後で読む"
-                    deleteLabel="登録済み"
+                    tableName="readLater"
                     deleteAction={deleteReadLater}
                     addAction={addreadLater}
                   />
@@ -56,8 +55,7 @@ export default async function ArticleList({
                     item={item}
                     id={favoriteUrls.get(item.url)}
                     isOtherTable={favoriteUrls.has(item.url)}
-                    addLabel="お気に入り登録"
-                    deleteLabel="お気に入り済み"
+                    tableName="favorite"
                     deleteAction={deleteFavorite}
                     addAction={addFavorite}
                   />

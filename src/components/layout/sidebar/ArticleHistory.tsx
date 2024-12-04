@@ -21,8 +21,7 @@ export const ArticleHistory = async () => {
               item={item.articles}
               id={readLaterUrls.get(item.articles.url)}
               isOtherTable={readLaterUrls.has(item.articles.url)}
-              addLabel="後で読む"
-              deleteLabel="登録済み"
+              tableName="readLater"
               deleteAction={deleteReadLater}
               addAction={addStoredreadLater}
             />
@@ -30,8 +29,7 @@ export const ArticleHistory = async () => {
               item={item.articles}
               id={favoriteUrls.get(item.articles.url)}
               isOtherTable={favoriteUrls.has(item.articles.url)}
-              addLabel="お気に入り登録"
-              deleteLabel="お気に入り済み"
+              tableName="favorite"
               deleteAction={deleteFavorite}
               addAction={addStoredFavorite}
             />
