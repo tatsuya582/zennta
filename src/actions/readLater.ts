@@ -4,11 +4,11 @@ import { addArticle, deleteArticle, getArticle, getArticleHistory, getArticles }
 import { StoredItem, type FetchedItem } from "@/types/types";
 
 export const addreadLater = async (item: FetchedItem) => {
-  addArticle("readLaters", item, "insert_read_later_with_article");
+  return addArticle("readLaters", item, "insert_read_later_with_article");
 };
 
 export const addStoredreadLater = async (item: StoredItem) => {
-  addArticle("readLaters", item);
+  return addArticle("readLaters", item);
 };
 
 export const getReadLater = async (items: FetchedItem[]): Promise<Map<string | undefined, string | undefined>> => {
