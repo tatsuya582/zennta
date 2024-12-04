@@ -200,7 +200,7 @@ export type Database = {
           articlesourcecreatedat?: string;
           tags?: Json;
         };
-        Returns: undefined;
+        Returns: string;
       };
       insert_history_with_article: {
         Args: {
@@ -210,7 +210,7 @@ export type Database = {
           articlesourcecreatedat?: string;
           tags?: Json;
         };
-        Returns: undefined;
+        Returns: string;
       };
       insert_read_later_with_article: {
         Args: {
@@ -220,7 +220,7 @@ export type Database = {
           articlesourcecreatedat?: string;
           tags?: Json;
         };
-        Returns: undefined;
+        Returns: string;
       };
     };
     Enums: {
