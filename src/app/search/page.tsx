@@ -29,7 +29,7 @@ export default async function SearchPage({
       <div className="w-full flex justify-center items-center flex-col md:mt-2 mt-8">
         <h2>Qiita一覧</h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
-          <Suspense key={JSON.stringify(searchParams)} fallback={<QiitaArticleListSkeleton />}>
+          <Suspense fallback={<QiitaArticleListSkeleton />}>
             <SearchArticleList
               query={query}
               currentPage={qiitaPage}
@@ -46,7 +46,7 @@ export default async function SearchPage({
           Zenn一覧
         </h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
-          <Suspense key={JSON.stringify(searchParams)} fallback={<ZennArticleListSkeleton />}>
+          <Suspense fallback={<ZennArticleListSkeleton />}>
             <SearchArticleList
               query={query}
               currentPage={zennPage}

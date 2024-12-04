@@ -44,7 +44,9 @@ export default function UserForm({ name }: { name: string }) {
                 <NameInputField control={form.control} />
                 <div className="flex justify-end">
                   <div>
-                    <LoadingButton isLoading={isLoading} loadingMx="mx-1" >編集</LoadingButton>
+                    <LoadingButton isLoading={isLoading} loadingMx="mx-1">
+                      編集
+                    </LoadingButton>
                   </div>
                 </div>
               </form>

@@ -47,7 +47,7 @@ export default async function SearchArticleList({
   return (
     <div>
       <div className="border-b border-gray-300 my-2 pb-4">{pagination}</div>
-      <div className="mt-2 h-screen overflow-y-auto scrollbar">
+      <div className="mt-2">
         {articles.map((item) => (
           <div key={item.id} className="border-b border-gray-300 m-2 pb-1">
             <div className="flex md:flex-row flex-col justify-between gap-1">

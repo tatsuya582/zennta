@@ -36,7 +36,7 @@ export default async function ArticleList({
       <div className="border-b border-gray-300 my-2 pb-4">
         <PagiNation currentPage={currentPageNum} totalPage={totalPage} buildHref={buildHref} />
       </div>
-      <div className="mt-2 h-screen overflow-y-auto scrollbar">
+      <div className="mt-2">
         {articles.map((item) => (
           <div key={item.id} className="border-b border-gray-300 m-2 pb-1">
             <div className="flex md:flex-row flex-col justify-between gap-1">
