@@ -57,7 +57,7 @@ export default async function SearchArticleList({
                   <ActionButton
                     item={item}
                     id={readLaterUrls.get(item.url)}
-                    isOtherTable={readLaterUrls.has(item.url)}
+                    isTable={readLaterUrls.has(item.url)}
                     tableName="readLater"
                     deleteAction={deleteReadLater}
                     addAction={addreadLater}
@@ -65,7 +65,7 @@ export default async function SearchArticleList({
                   <ActionButton
                     item={item}
                     id={favoriteUrls.get(item.url)}
-                    isOtherTable={favoriteUrls.has(item.url)}
+                    isTable={favoriteUrls.has(item.url)}
                     tableName="favorite"
                     deleteAction={deleteFavorite}
                     addAction={addFavorite}

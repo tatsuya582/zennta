@@ -65,7 +65,7 @@ export default async function StoredArticleList({
                   <ActionButton
                     item={item}
                     id={item.other_column_id}
-                    isOtherTable={item.is_in_other_table}
+                    isTable={item.is_in_other_table}
                     tableName="favorite"
                     deleteAction={deleteFavorite}
                     addAction={addStoredFavorite}

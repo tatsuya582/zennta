@@ -20,7 +20,7 @@ export const ArticleHistory = async () => {
             <ActionButton
               item={item.articles}
               id={readLaterUrls.get(item.articles.url)}
-              isOtherTable={readLaterUrls.has(item.articles.url)}
+              isTable={readLaterUrls.has(item.articles.url)}
               tableName="readLater"
               deleteAction={deleteReadLater}
               addAction={addStoredreadLater}
@@ -28,7 +28,7 @@ export const ArticleHistory = async () => {
             <ActionButton
               item={item.articles}
               id={favoriteUrls.get(item.articles.url)}
-              isOtherTable={favoriteUrls.has(item.articles.url)}
+              isTable={favoriteUrls.has(item.articles.url)}
               tableName="favorite"
               deleteAction={deleteFavorite}
               addAction={addStoredFavorite}
