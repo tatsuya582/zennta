@@ -16,6 +16,7 @@ import { deleteFavorite, updateFavoriteColumn } from "@/actions/favorite";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import LoadingButton from "@/components/layout/button/LoadingButton";
 
 export const FavoritePageDeleteButton = ({ item, isMemo = false }: { item: FetchedArticles; isMemo?: boolean }) => {
   const router = useRouter();
@@ -58,15 +59,9 @@ export const FavoritePageDeleteButton = ({ item, isMemo = false }: { item: Fetch
           <AlertDialogFooter>
             <AlertDialogCancel>キャンセル</AlertDialogCancel>
             <div>
-              {isLoading ? (
-                <Button className="w-full" disabled>
-                  <span className="loader mx-1"></span>
-                </Button>
-              ) : (
-                <Button onClick={onSubmitDelete} className="w-full">
-                  削除
-                </Button>
-              )}
+              <LoadingButton isLoading={isLoading} loadingMx="mx-1" onSubmit={onSubmitDelete}>
+                削除
+              </LoadingButton>
             </div>
           </AlertDialogFooter>
         </AlertDialogContent>

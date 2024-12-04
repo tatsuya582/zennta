@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { ActionButton } from "@/components/layout/button/ActionButton";
+import LoadingButton from "@/components/layout/button/LoadingButton";
 
 export const ReadLaterPageButton = ({ item }: { item: FetchedArticles }) => {
   const router = useRouter();
@@ -80,35 +81,17 @@ export const ReadLaterPageButton = ({ item }: { item: FetchedArticles }) => {
               <div className="flex flex-col-reverse md:flex-row gap-2 justify-around w-full items-end">
                 <AlertDialogCancel className="mt-0 w-full">キャンセル</AlertDialogCancel>
                 {item.is_in_other_table ? (
-                  isLoading ? (
-                    <Button className="w-full" disabled>
-                      <span className="loader mx-1"></span>
-                    </Button>
-                  ) : (
-                    <Button onClick={onSubmitDelete} className="w-full">
-                      削除
-                    </Button>
-                  )
+                  <LoadingButton isLoading={isLoading} loadingMx="mx-1" onSubmit={onSubmitDelete}>
+                    削除
+                  </LoadingButton>
                 ) : (
                   <div className="flex flex-col gap-2 w-full">
-                    {isFavoriteLoading ? (
-                      <Button className="flex-1 w-full" disabled>
-                        <span className="loader mx-[38px]"></span>
-                      </Button>
-                    ) : (
-                      <Button onClick={onSubmitAdd} className="flex-1 w-full">
-                        お気に入り登録
-                      </Button>
-                    )}
-                    {isLoading ? (
-                      <Button className="flex-1 w-full" disabled>
-                        <span className="loader mx-1"></span>
-                      </Button>
-                    ) : (
-                      <Button onClick={onSubmitDelete} className="flex-1 w-full">
-                        削除
-                      </Button>
-                    )}
+                    <LoadingButton isLoading={isFavoriteLoading} loadingMx="mx-[39px]" onSubmit={onSubmitAdd}>
+                      お気に入り登録
+                    </LoadingButton>
+                    <LoadingButton isLoading={isLoading} loadingMx="mx-1" onSubmit={onSubmitDelete}>
+                      削除
+                    </LoadingButton>
                   </div>
                 )}
               </div>

@@ -1,6 +1,5 @@
 "use client";
 
-import EditButtons from "@/components/layout/form/UserForm/EditButtons";
 import { useUserForm } from "@/components/layout/form/UserForm/useUserForm";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
@@ -15,6 +14,7 @@ import {
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import NameInputField from "@/components/layout/form/UserForm/NameInputField";
+import LoadingButton from "@/components/layout/button/LoadingButton";
 
 export default function UserForm({ name }: { name: string }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,7 +43,9 @@ export default function UserForm({ name }: { name: string }) {
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <NameInputField control={form.control} />
                 <div className="flex justify-end">
-                  <EditButtons isLoading={isLoading} />
+                  <div>
+                    <LoadingButton isLoading={isLoading} loadingMx="mx-1" >編集</LoadingButton>
+                  </div>
                 </div>
               </form>
             </Form>

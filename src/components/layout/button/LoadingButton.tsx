@@ -3,19 +3,19 @@ import { MouseEventHandler, ReactNode } from "react";
 
 export default function LoadingButton({
   isLoading,
-  variant,
   loadingMx,
   children,
+  variant = "default",
   onSubmit = null,
 }: {
   isLoading: boolean;
-  variant: "default" | "outline";
   loadingMx: string;
   children: ReactNode;
+  variant?: "default" | "outline";
   onSubmit?: (MouseEventHandler<HTMLButtonElement> | undefined) | null;
 }) {
   return (
-    <div>
+    <div className="w-full">
       {isLoading ? (
         <Button variant={variant} className="w-full" disabled>
           <span className={`loader-outline-button ${loadingMx}`}></span>

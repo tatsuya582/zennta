@@ -1,5 +1,6 @@
 "use client";
 
+import LoadingButton from "@/components/layout/button/LoadingButton";
 import { Button } from "@/components/ui/button";
 import { type StoredItem, type FetchedItem } from "@/types/types";
 import { useRouter } from "next/navigation";
@@ -66,18 +67,14 @@ export const ActionButton = <T extends FetchedItem | StoredItem>({
   };
   return (
     <div className="flex-1">
-      {isLoading ? (
-        <Button variant="outline" disabled>
-          <span className={`loader-outline-button ${className}`}></span>
-        </Button>
-      ) : isTable ? (
-        <Button onClick={onSubmitDelete} variant="outline" className="w-full">
+      {isTable ? (
+        <LoadingButton isLoading={isLoading} loadingMx={className} variant="outline" onSubmit={onSubmitDelete}>
           {deleteLabel}
-        </Button>
+        </LoadingButton>
       ) : (
-        <Button onClick={onSubmitAdd} variant="outline" className="w-full">
+        <LoadingButton isLoading={isLoading} loadingMx={className} variant="outline" onSubmit={onSubmitAdd}>
           {addLabel}
-        </Button>
+        </LoadingButton>
       )}
     </div>
   );
