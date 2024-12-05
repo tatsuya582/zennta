@@ -31,7 +31,8 @@ export default async function SearchArticleList({
 
   const totalPage = "totalPage" in fetchResult ? Math.min(fetchResult.totalPage, 100) : 0;
   const next = "next_page" in fetchResult ? fetchResult.next_page : null;
-  const buildHref = (pageNumber: number) => `/search?query=${query}&qiitapage=${pageNumber}&zennpage=${zennPage}`;
+  const buildHref = (pageNumber: number) =>
+    `/search?query=${query}&qiitapage=${pageNumber}&zennpage=${zennPage}#qiitaarticles`;
 
   const pagination =
     currentSite === "Qiita" ? (
@@ -47,7 +48,7 @@ export default async function SearchArticleList({
   return (
     <div>
       <div className="border-b border-gray-300 my-2 pb-4">{pagination}</div>
-      <div className="mt-2 h-screen overflow-y-auto scrollbar">
+      <div className="mt-2">
         {articles.map((item) => (
           <div key={item.id} className="border-b border-gray-300 m-2 pb-1">
             <div className="flex md:flex-row flex-col justify-between gap-1">
@@ -57,20 +58,20 @@ export default async function SearchArticleList({
                   <ActionButton
                     item={item}
                     id={readLaterUrls.get(item.url)}
-                    isOtherTable={readLaterUrls.has(item.url)}
-                    addLabel="後で読む"
-                    deleteLabel="登録済み"
+                    isTable={readLaterUrls.has(item.url)}
+                    tableName="readLater"
                     deleteAction={deleteReadLater}
                     addAction={addreadLater}
+                    key={readLaterUrls.get(item.url)}
                   />
                   <ActionButton
                     item={item}
                     id={favoriteUrls.get(item.url)}
-                    isOtherTable={favoriteUrls.has(item.url)}
-                    addLabel="お気に入り登録"
-                    deleteLabel="お気に入り済み"
+                    isTable={favoriteUrls.has(item.url)}
+                    tableName="favorite"
                     deleteAction={deleteFavorite}
                     addAction={addFavorite}
+                    key={favoriteUrls.get(item.url)}
                   />
                 </div>
               )}

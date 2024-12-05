@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default async function QiitaArticleListSkeleton() {
+export default async function ArticleListSkeleton() {
   return (
     <div>
       <div className="flex justify-center border-b border-gray-300 mb-2 pb-4 gap-4">
@@ -11,7 +11,7 @@ export default async function QiitaArticleListSkeleton() {
         <Skeleton className="w-8 h-8" />
         <Skeleton className="w-8 h-8" />
       </div>
-      <div className="mt-4 h-screen overflow-y-auto scrollbar">
+      <div className="mt-4">
         {[...Array(29)].map((_, index) => (
           <div key={index} className="border-b border-gray-300 mb-2 pb-1">
             <Skeleton className="w-11/12 h-8 mx-auto my-2" />

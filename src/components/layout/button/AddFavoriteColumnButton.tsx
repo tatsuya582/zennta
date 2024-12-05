@@ -15,6 +15,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { useFavoriteMemoForm } from "@/components/layout/form/useFavoriteMemoForm";
+import LoadingButton from "@/components/layout/button/LoadingButton";
 
 export const AddFavoriteColumnButton = ({ item, isEdit = false }: { item: FetchedArticles; isEdit?: boolean }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -48,19 +49,11 @@ export const AddFavoriteColumnButton = ({ item, isEdit = false }: { item: Fetche
                   )}
                 />
                 <div className="flex md:flex-row-reverse flex-col gap-2 mt-4 ">
-                  {isLoading ? (
-                    <div className="md:w-1/3 w-full">
-                      <Button type="submit" className="w-full" disabled>
-                        <span className="loader mx-1"></span>
-                      </Button>
-                    </div>
-                  ) : (
-                    <div className="md:w-1/3 w-full">
-                      <Button type="submit" className="w-full">
-                        {isEdit ? "編集" : "追加"}
-                      </Button>
-                    </div>
-                  )}
+                  <div className="md:w-1/3 w-full">
+                    <LoadingButton isLoading={isLoading} loadingMx="mx-1">
+                      {isEdit ? "編集" : "追加"}
+                    </LoadingButton>
+                  </div>
                   <DialogClose className="mt-0 border" asChild>
                     <Button type="button" variant="outline">
                       キャンセル

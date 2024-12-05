@@ -29,14 +29,14 @@ export default async function ArticleList({
   const totalPage = 100;
   const buildHref = (page: number) =>
     currentSite === "Qiita"
-      ? `/?qiitapage=${page}&zennpage=${otherPage}`
+      ? `/?qiitapage=${page}&zennpage=${otherPage}#qiitaarticles`
       : `/?qiitapage=${otherPage}&zennpage=${page}#zennarticles`;
   return (
     <div>
       <div className="border-b border-gray-300 my-2 pb-4">
         <PagiNation currentPage={currentPageNum} totalPage={totalPage} buildHref={buildHref} />
       </div>
-      <div className="mt-2 h-screen overflow-y-auto scrollbar">
+      <div className="mt-2">
         {articles.map((item) => (
           <div key={item.id} className="border-b border-gray-300 m-2 pb-1">
             <div className="flex md:flex-row flex-col justify-between gap-1">
@@ -46,20 +46,20 @@ export default async function ArticleList({
                   <ActionButton
                     item={item}
                     id={readLaterUrls.get(item.url)}
-                    isOtherTable={readLaterUrls.has(item.url)}
-                    addLabel="後で読む"
-                    deleteLabel="登録済み"
+                    isTable={readLaterUrls.has(item.url)}
+                    tableName="readLater"
                     deleteAction={deleteReadLater}
                     addAction={addreadLater}
+                    key={readLaterUrls.get(item.url)}
                   />
                   <ActionButton
                     item={item}
                     id={favoriteUrls.get(item.url)}
-                    isOtherTable={favoriteUrls.has(item.url)}
-                    addLabel="お気に入り登録"
-                    deleteLabel="お気に入り済み"
+                    isTable={favoriteUrls.has(item.url)}
+                    tableName="favorite"
                     deleteAction={deleteFavorite}
                     addAction={addFavorite}
+                    key={favoriteUrls.get(item.url)}
                   />
                 </div>
               )}

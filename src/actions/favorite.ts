@@ -5,11 +5,11 @@ import { getSupabaseClientAndUser } from "@/lib/supabase/server";
 import { type StoredItem, type FetchedItem, Tag } from "@/types/types";
 
 export const addFavorite = async (item: FetchedItem) => {
-  addArticle("favorites", item, "insert_favorite_with_article");
+  return addArticle("favorites", item, "insert_favorite_with_article");
 };
 
 export const addStoredFavorite = async (item: StoredItem) => {
-  addArticle("favorites", item);
+  return addArticle("favorites", item);
 };
 
 export const getFavorite = async (items: FetchedItem[]): Promise<Map<string | undefined, string | undefined>> => {

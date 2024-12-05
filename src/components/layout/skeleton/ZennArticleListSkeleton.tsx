@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default async function ZennArticleListSkeleton() {
   return (
-    <div className="mt-4 h-screen overflow-y-auto scrollbar">
+    <div className="mt-4">
       <div className="flex justify-center border-b border-gray-300 mb-2 pb-4 gap-4">
         <Skeleton className="w-8 h-6" />
         <Skeleton className="w-8 h-6" />

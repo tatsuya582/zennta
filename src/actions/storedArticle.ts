@@ -15,7 +15,7 @@ export const addArticle = async (
     }
 
     if (rpcName && "created_at" in item) {
-      const { error } = await supabase.rpc(rpcName, {
+      const { data, error } = await supabase.rpc(rpcName, {
         userid: user.id,
         articleurl: item.url,
         articletitle: item.title,
@@ -26,12 +26,17 @@ export const addArticle = async (
       if (error) {
         throw error;
       }
+      return data;
     } else {
-      const { error } = await supabase.from(tableName).insert({ userId: user.id, articleId: item.id });
+      const { data, error } = await supabase
+        .from(tableName)
+        .insert({ userId: user.id, articleId: item.id })
+        .select("id");
 
       if (error) {
         throw error;
       }
+      return data[0].id;
     }
   } catch (err) {
     console.error(`Error adding article to ${tableName}:`, err);
@@ -66,10 +71,12 @@ export const getArticles = async (
       return;
     }
 
+    const normalizeQuery = query ? query.replace(/　/g, " ").replace(/\s+/g, " ").trim() : "";
+
     const { data } = (await supabase.rpc(rpcName, {
       user_id: user.id,
       page: page,
-      query: query,
+      query: normalizeQuery,
     })) as unknown as { data: FetchedArticlesWithCount };
 
     const totalPage = data?.total_count !== null ? Math.ceil(data.total_count / 30) : 1;

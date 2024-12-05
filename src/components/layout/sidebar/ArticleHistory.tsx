@@ -20,20 +20,20 @@ export const ArticleHistory = async () => {
             <ActionButton
               item={item.articles}
               id={readLaterUrls.get(item.articles.url)}
-              isOtherTable={readLaterUrls.has(item.articles.url)}
-              addLabel="後で読む"
-              deleteLabel="登録済み"
+              isTable={readLaterUrls.has(item.articles.url)}
+              tableName="readLater"
               deleteAction={deleteReadLater}
               addAction={addStoredreadLater}
+              key={readLaterUrls.get(item.articles.url)}
             />
             <ActionButton
               item={item.articles}
               id={favoriteUrls.get(item.articles.url)}
-              isOtherTable={favoriteUrls.has(item.articles.url)}
-              addLabel="お気に入り登録"
-              deleteLabel="お気に入り済み"
+              isTable={favoriteUrls.has(item.articles.url)}
+              tableName="favorite"
               deleteAction={deleteFavorite}
               addAction={addStoredFavorite}
+              key={favoriteUrls.get(item.articles.url)}
             />
           </div>
         </div>
