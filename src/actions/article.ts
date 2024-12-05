@@ -61,7 +61,7 @@ export const getArticles = async <T extends QiitaArticlesResponse | ZennArticles
   return (site === "Qiita" ? await fetchQiitaArticles(page) : await fetchZennArticles(page)) as T | null;
 };
 
-export const searchQiitaArticles = async (page: string, query: string): Promise<QiitaArticlesResponse | null> => {
+const searchQiitaArticles = async (page: string, query: string): Promise<QiitaArticlesResponse | null> => {
   const url = `https://qiita.com/api/v2/items?page=${page}&per_page=30${query ? `&query=${query}` : ""}`;
 
   try {
