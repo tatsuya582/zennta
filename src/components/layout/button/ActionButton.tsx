@@ -1,7 +1,6 @@
 "use client";
 
 import LoadingButton from "@/components/layout/button/LoadingButton";
-import { Button } from "@/components/ui/button";
 import { type StoredItem, type FetchedItem } from "@/types/types";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -23,6 +22,7 @@ export const ActionButton = <T extends FetchedItem | StoredItem>({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [deleteId, setDeleteId] = useState(id);
+  const [displayLabel, setDisplayLabel] = useState(isTable);
   const router = useRouter();
 
   const labels = {
@@ -50,6 +50,7 @@ export const ActionButton = <T extends FetchedItem | StoredItem>({
     } catch (error) {
       console.error(error);
     } finally {
+      setDisplayLabel(!displayLabel);
       setIsLoading(false);
     }
   };
@@ -62,12 +63,13 @@ export const ActionButton = <T extends FetchedItem | StoredItem>({
     } catch (error) {
       console.error(error);
     } finally {
+      setDisplayLabel(!displayLabel);
       setIsLoading(false);
     }
   };
   return (
     <div className="flex-1">
-      {isTable ? (
+      {displayLabel ? (
         <LoadingButton isLoading={isLoading} loadingMx={className} variant={tableName} onSubmit={onSubmitDelete}>
           {deleteLabel}
         </LoadingButton>
