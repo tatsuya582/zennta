@@ -1,4 +1,4 @@
-import QiitaArticleListSkeleton from "@/components/layout/skeleton/QiitaArticleListSkeleton";
+import ArticleListSkeleton from "@/components/layout/skeleton/ArticleListSkeleton";
 import ZennArticleListSkeleton from "@/components/layout/skeleton/ZennArticleListSkeleton";
 import SearchArticleList from "@/components/layout/main/SearchArticleList";
 import { Suspense } from "react";
@@ -29,7 +29,7 @@ export default async function SearchPage({
       <div className="w-full flex justify-center items-center flex-col md:mt-2 mt-8">
         <h2>Qiita一覧</h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
-          <Suspense fallback={<QiitaArticleListSkeleton />}>
+          <Suspense fallback={<ArticleListSkeleton />}>
             <SearchArticleList
               query={query}
               currentPage={qiitaPage}
