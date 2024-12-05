@@ -1,4 +1,8 @@
 set check_function_bodies = off;
+DROP FUNCTION public.insert_favorite_with_article;
+DROP FUNCTION public.insert_history_with_article;
+DROP FUNCTION public.insert_read_later_with_article;
+
 
 CREATE OR REPLACE FUNCTION public.insert_favorite_with_article(userid uuid, articleurl text, articletitle text, articlesourcecreatedat timestamp with time zone DEFAULT NULL::timestamp with time zone, tags json DEFAULT NULL::json)
  RETURNS uuid
