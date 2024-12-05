@@ -11,7 +11,7 @@ export default function LoadingButton({
   isLoading: boolean;
   loadingMx: string;
   children: ReactNode;
-  variant?: "default" | "outline";
+  variant?: "default" | "outline" | "readLater" | "favorite";
   onSubmit?: (MouseEventHandler<HTMLButtonElement> | undefined) | null;
 }) {
   return (

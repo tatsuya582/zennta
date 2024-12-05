@@ -68,7 +68,7 @@ export const ActionButton = <T extends FetchedItem | StoredItem>({
   return (
     <div className="flex-1">
       {isTable ? (
-        <LoadingButton isLoading={isLoading} loadingMx={className} variant="outline" onSubmit={onSubmitDelete}>
+        <LoadingButton isLoading={isLoading} loadingMx={className} variant={tableName} onSubmit={onSubmitDelete}>
           {deleteLabel}
         </LoadingButton>
       ) : (
