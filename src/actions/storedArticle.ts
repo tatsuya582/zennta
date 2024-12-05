@@ -71,10 +71,12 @@ export const getArticles = async (
       return;
     }
 
+    const normalizeQuery = query ? query.replace(/　/g, " ").replace(/\s+/g, " ").trim() : "";
+
     const { data } = (await supabase.rpc(rpcName, {
       user_id: user.id,
       page: page,
-      query: query,
+      query: normalizeQuery,
     })) as unknown as { data: FetchedArticlesWithCount };
 
     const totalPage = data?.total_count !== null ? Math.ceil(data.total_count / 30) : 1;
