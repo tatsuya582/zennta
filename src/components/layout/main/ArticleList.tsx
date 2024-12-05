@@ -29,7 +29,7 @@ export default async function ArticleList({
   const totalPage = 100;
   const buildHref = (page: number) =>
     currentSite === "Qiita"
-      ? `/?qiitapage=${page}&zennpage=${otherPage}`
+      ? `/?qiitapage=${page}&zennpage=${otherPage}#qiitaarticles`
       : `/?qiitapage=${otherPage}&zennpage=${page}#zennarticles`;
   return (
     <div>

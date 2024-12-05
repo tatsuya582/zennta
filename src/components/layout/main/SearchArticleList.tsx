@@ -31,7 +31,8 @@ export default async function SearchArticleList({
 
   const totalPage = "totalPage" in fetchResult ? Math.min(fetchResult.totalPage, 100) : 0;
   const next = "next_page" in fetchResult ? fetchResult.next_page : null;
-  const buildHref = (pageNumber: number) => `/search?query=${query}&qiitapage=${pageNumber}&zennpage=${zennPage}`;
+  const buildHref = (pageNumber: number) =>
+    `/search?query=${query}&qiitapage=${pageNumber}&zennpage=${zennPage}#qiitaarticles`;
 
   const pagination =
     currentSite === "Qiita" ? (
