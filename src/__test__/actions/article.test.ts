@@ -1,4 +1,4 @@
-import { getArticles, searchArticles} from "@/actions/article";
+import { getArticles, searchArticles } from "@/actions/article";
 
 describe("Article fetchers", () => {
   beforeEach(() => {
@@ -140,7 +140,6 @@ describe("Article fetchers", () => {
     });
   });
 
-
   test("searchQiitaArticles handles API errors", async () => {
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: false,
@@ -170,9 +169,7 @@ describe("Article fetchers", () => {
     });
 
     const result = await searchArticles("1", "test", "Zenn");
-    expect(global.fetch).toHaveBeenCalledWith(
-      "https://zenn.dev/api/search?q=test&order=latest&source=articles&page=1"
-    );
+    expect(global.fetch).toHaveBeenCalledWith("https://zenn.dev/api/search?q=test&order=latest&source=articles&page=1");
     expect(result).toEqual({
       articles: [
         {
