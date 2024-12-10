@@ -8,13 +8,14 @@ export const getUser = cache(async () => {
   const { supabase, user } = await getSupabaseClientAndUser();
 
   if (!user) {
-    return;
+    return undefined;
   }
 
   const { data, error } = await supabase.from("users").select("name, avatarUrl").eq("id", user.id).single();
 
   if (error) {
     console.error("Error fetching user:", error);
+    return undefined;
   }
 
   return data;
