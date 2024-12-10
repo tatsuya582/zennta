@@ -19,23 +19,6 @@ const storedItem = {
   tags: [{ name: "tag1" }, { name: "tag2" }],
 };
 
-const fetchedItems = [
-  {
-    id: "1",
-    url: "https://example.com/1",
-    title: "Example Article",
-    created_at: "2024-01-01",
-    tags: [{ name: "tag1" }, { name: "tag2" }],
-  },
-  {
-    id: "2",
-    url: "https://example.com/2",
-    title: "Example Article",
-    created_at: "2024-01-01",
-    tags: [{ name: "tag1" }, { name: "tag2" }],
-  },
-];
-
 describe("historyActions", () => {
   beforeEach(() => {
     jest.clearAllMocks();
