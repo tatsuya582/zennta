@@ -25,7 +25,7 @@ export const updateUser = async (name: string) => {
   const { supabase, user } = await getSupabaseClientAndUser();
 
   if (!user) {
-    redirect("/login");
+    return redirect("/login");
   }
 
   const { error } = await supabase.from("users").update({ name }).eq("id", user.id);
