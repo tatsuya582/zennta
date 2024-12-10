@@ -44,7 +44,7 @@ const fetchedItems = [
   },
 ];
 
-describe("addFavorite", () => {
+describe("favoriteActions", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     (getSupabaseClientAndUser as jest.Mock).mockResolvedValue({
