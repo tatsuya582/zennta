@@ -20,9 +20,9 @@ export const addStoredItemHistory = async (item: StoredItem) => {
       user_id: user.id,
       article_id: item.id,
     });
+
     if (error) {
-      console.error("Error adding article:", error);
-      throw error;
+      throw new Error(error.message);
     }
   } catch (error) {
     console.error("Unexpected error:", error);
@@ -45,8 +45,7 @@ export const updateHistory = async (item: StoredItem) => {
       .eq("articleId", item.id);
 
     if (error) {
-      console.error("Error adding article:", error);
-      throw error;
+      throw new Error(error.message);
     }
   } catch (err) {
     console.error("Unexpected error:", err);

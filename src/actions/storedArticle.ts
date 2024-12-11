@@ -24,7 +24,7 @@ export const addArticle = async (
       });
 
       if (error) {
-        throw error;
+        throw new Error(error.message);
       }
       return data;
     } else {
@@ -34,7 +34,7 @@ export const addArticle = async (
         .select("id");
 
       if (error) {
-        throw error;
+        throw new Error(error.message);
       }
       return data[0].id;
     }
@@ -79,7 +79,7 @@ export const getArticles = async (
       query: normalizeQuery,
     })) as unknown as { data: FetchedArticlesWithCount };
 
-    const totalPage = data?.total_count !== null ? Math.ceil(data.total_count / 30) : 1;
+    const totalPage = data?.total_count ? Math.ceil(data.total_count / 30) : 1;
 
     return { articles: data.articles, totalPage };
   } catch (err) {
