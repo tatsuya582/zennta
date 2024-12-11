@@ -1,9 +1,14 @@
 import { getUser } from "@/actions/user";
 import UserForm from "@/components/layout/form/UserForm/UserForm";
 import ProfilePageSkeleton from "@/components/layout/skeleton/ProfilePageSkeleton";
+import { Metadata } from "next";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "マイページ",
+};
 
 export default async function ProfilePage() {
   const user = await getUser();
