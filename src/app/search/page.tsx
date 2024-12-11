@@ -4,6 +4,11 @@ import SearchArticleList from "@/components/layout/main/SearchArticleList";
 import { Suspense } from "react";
 import SearchForm from "@/components/layout/form/searchForm";
 import { currentUser } from "@/lib/auth/currentUser/server";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "検索",
+};
 
 export default async function SearchPage({
   searchParams,

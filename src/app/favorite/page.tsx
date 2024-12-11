@@ -2,7 +2,12 @@ import { getFavoriteArticles } from "@/actions/favorite";
 import SearchForm from "@/components/layout/form/searchForm";
 import StoredArticleList from "@/components/layout/main/StoredArticleList";
 import ArticleListSkeleton from "@/components/layout/skeleton/ArticleListSkeleton";
+import { Metadata } from "next";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "お気に入り",
+};
 
 export default async function FavoritePage({
   searchParams,
