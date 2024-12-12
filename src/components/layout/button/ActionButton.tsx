@@ -40,30 +40,29 @@ export const ActionButton = <T extends FetchedItem | StoredItem>({
 
   const { addLabel, deleteLabel, className } = labels[tableName];
   const onSubmitDelete = async () => {
+    if (!deleteId) return;
+    setIsLoading(true);
     try {
-      if (deleteId) {
-        setIsLoading(true);
-        await deleteAction(deleteId);
-        router.refresh();
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setDisplayLabel(!displayLabel);
-      setIsLoading(false);
-    }
-  };
-  const onSubmitAdd = async () => {
-    try {
-      setIsLoading(true);
-      setDeleteId(await addAction(item));
+      await deleteAction(deleteId);
       router.refresh();
+      setDisplayLabel(!displayLabel);
       await new Promise((resolve) => setTimeout(resolve, 2000));
     } catch (error) {
       console.error(error);
     } finally {
+      setIsLoading(false);
+    }
+  };
+  const onSubmitAdd = async () => {
+    setIsLoading(true);
+    try {
+      setDeleteId(await addAction(item));
+      router.refresh();
       setDisplayLabel(!displayLabel);
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+    } catch (error) {
+      console.error(error);
+    } finally {
       setIsLoading(false);
     }
   };

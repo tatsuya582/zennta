@@ -17,15 +17,15 @@ export default function LoadingButton({
   return (
     <div className="w-full">
       {isLoading ? (
-        <Button variant={variant} className="w-full" disabled>
+        <Button variant={variant} className="w-full" aria-label="loading" disabled>
           <span className={`loader-outline-button ${loadingMx}`}></span>
         </Button>
       ) : onSubmit ? (
-        <Button onClick={onSubmit} variant={variant} className="w-full">
+        <Button onClick={onSubmit} variant={variant} className="w-full" aria-label="delete">
           {children}
         </Button>
       ) : (
-        <Button type="submit" variant={variant} className="w-full">
+        <Button type="submit" variant={variant} className="w-full" aria-label="delete">
           {children}
         </Button>
       )}

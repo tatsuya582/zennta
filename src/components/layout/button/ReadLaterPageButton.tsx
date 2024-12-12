@@ -33,7 +33,6 @@ export const ReadLaterPageButton = ({ item }: { item: FetchedArticles }) => {
       setIsLoading(true);
       await deleteReadLater(item.column_id);
       router.refresh();
-      await new Promise((resolve) => setTimeout(resolve, 2000));
       toast({
         description: "削除しました",
       });
@@ -49,7 +48,6 @@ export const ReadLaterPageButton = ({ item }: { item: FetchedArticles }) => {
       setIsFavoriteLoading(true);
       fetchFavoriteId = await addStoredFavorite(item);
       if (fetchFavoriteId) {
-        console.log("setFavoriteId:", fetchFavoriteId);
         setFavoriteId(fetchFavoriteId);
       }
       router.refresh();
