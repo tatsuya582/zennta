@@ -94,7 +94,7 @@ describe("ActionButton Component", () => {
   it("should call deleteAction and refresh the page when '登録済み' is clicked", async () => {
     jest.useFakeTimers();
     mockDeleteAction.mockResolvedValue(undefined);
-    const { container } = render(
+    render(
       <ActionButton
         item={testItem}
         id="123"
