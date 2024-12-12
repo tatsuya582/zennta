@@ -1,5 +1,5 @@
 import { getReadLaterArticles } from "@/actions/readLater";
-import SearchForm from "@/components/layout/form/searchForm";
+import SearchForm from "@/components/layout/form/SearchForm";
 import StoredArticleList from "@/components/layout/main/StoredArticleList";
 import ArticleListSkeleton from "@/components/layout/skeleton/ArticleListSkeleton";
 import { Metadata } from "next";

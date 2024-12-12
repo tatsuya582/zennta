@@ -2,7 +2,7 @@ import ArticleListSkeleton from "@/components/layout/skeleton/ArticleListSkeleto
 import ZennArticleListSkeleton from "@/components/layout/skeleton/ZennArticleListSkeleton";
 import SearchArticleList from "@/components/layout/main/SearchArticleList";
 import { Suspense } from "react";
-import SearchForm from "@/components/layout/form/searchForm";
+import SearchForm from "@/components/layout/form/SearchForm";
 import { currentUser } from "@/lib/auth/currentUser/server";
 import { Metadata } from "next";
 

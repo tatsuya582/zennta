@@ -1,4 +1,4 @@
-import SearchForm from "@/components/layout/form/searchForm";
+import SearchForm from "@/components/layout/form/SearchForm";
 import ArticleList from "@/components/layout/main/ArticleList";
 import ArticleListSkeleton from "@/components/layout/skeleton/ArticleListSkeleton";
 import ZennArticleListSkeleton from "@/components/layout/skeleton/ZennArticleListSkeleton";
