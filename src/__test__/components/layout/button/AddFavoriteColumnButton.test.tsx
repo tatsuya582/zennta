@@ -91,7 +91,7 @@ describe("AddFavoriteColumnButton", () => {
     const textarea = screen.getByRole("textbox");
     fireEvent.change(textarea, { target: { value: "Test Memo" } });
 
-    const submitButton = screen.getByRole("button", { name: "追加" });
+    const submitButton = screen.getByText("追加");
     // JSDOM が HTMLFormElement.prototype.requestSubmitをサポートしていないので下のようにやる
     const form = submitButton.closest("form");
     if (form) fireEvent.submit(form);
@@ -122,7 +122,7 @@ describe("AddFavoriteColumnButton", () => {
     const textarea = screen.getByRole("textbox");
     fireEvent.change(textarea, { target: { value: "Test Memo" } });
 
-    const submitButton = screen.getByRole("button", { name: "編集" });
+    const submitButton = screen.getByText("編集");
     const form = submitButton.closest("form");
     if (form) fireEvent.submit(form);
 
