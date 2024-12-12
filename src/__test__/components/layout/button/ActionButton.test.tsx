@@ -113,8 +113,8 @@ describe("ActionButton Component", () => {
     await waitFor(() => expect(mockRouter.refresh).toHaveBeenCalled());
 
     await waitFor(() => {
-      const loader = container.querySelector(".loader-outline-button.mx-\\[18px\\]");
-      expect(loader).toBeInTheDocument();
+      const loadingButton = screen.getByRole("button", { name: "loading" });
+      expect(loadingButton).toHaveAttribute("disabled");
     });
 
     jest.advanceTimersByTime(2000); //タイムアウトになってしまうので追加
