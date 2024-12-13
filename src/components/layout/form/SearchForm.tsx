@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { type FormEvent, useState } from "react";
 
+// setIsLoadingをfalseにしないためkeyを設定する必要がある
 export default function SearchForm({
   query = "",
   linkPage,
