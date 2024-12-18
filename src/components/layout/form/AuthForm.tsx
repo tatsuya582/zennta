@@ -1,4 +1,4 @@
-import { AuthButton } from "@/components/ui/authButton";
+import { AuthButton } from "@/components/layout/button/AuthButton";
 
 export const AuthForm = ({ type }: { type: string }) => {
   const isLogin = type === "login";
