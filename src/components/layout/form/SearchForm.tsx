@@ -34,8 +34,8 @@ export default function SearchForm({
 
   return (
     <div className={layoutClass}>
-      {isNoQuery && <h2>検索</h2>}
-      <form onSubmit={handleSubmit} className="flex gap-2 md:w-9/12 w-full mx-2 max-w-screen-sm">
+      {isNoQuery && <h2 data-testid="search-heading">検索</h2>}
+      <form onSubmit={handleSubmit} role="form" className="flex gap-2 md:w-9/12 w-full mx-2 max-w-screen-sm">
         <Input
           type="text"
           name="name"
