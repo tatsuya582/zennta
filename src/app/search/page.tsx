@@ -19,7 +19,6 @@ export default async function SearchPage({
     zennpage?: string;
   };
 }) {
-  const { user } = await currentUser();
   const qiitaPage = searchParams?.qiitapage || "1";
   const zennPage = searchParams?.zennpage || "1";
   const query = searchParams?.query ? decodeURIComponent(searchParams.query) : "";
@@ -37,13 +36,7 @@ export default async function SearchPage({
         </h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
           <Suspense fallback={<ArticleListSkeleton />}>
-            <SearchArticleList
-              query={query}
-              currentPage={qiitaPage}
-              otherPage={zennPage}
-              currentSite="Qiita"
-              isLogin={!!user}
-            />
+            <SearchArticleList query={query} currentPage={qiitaPage} otherPage={zennPage} currentSite="Qiita" />
           </Suspense>
         </div>
       </div>
@@ -54,13 +47,7 @@ export default async function SearchPage({
         </h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
           <Suspense fallback={<ZennArticleListSkeleton />}>
-            <SearchArticleList
-              query={query}
-              currentPage={zennPage}
-              otherPage={qiitaPage}
-              currentSite="Zenn"
-              isLogin={!!user}
-            />
+            <SearchArticleList query={query} currentPage={zennPage} otherPage={qiitaPage} currentSite="Zenn" />
           </Suspense>
         </div>
       </div>

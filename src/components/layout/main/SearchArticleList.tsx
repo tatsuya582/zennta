@@ -1,22 +1,15 @@
 import { type ArticleSearchProps } from "@/types/types";
-import { addHistory } from "@/actions/history";
-import { addreadLater, deleteReadLater, getReadLater } from "@/actions/readLater";
-import { Article } from "@/components/layout/main/Article";
+import { getReadLater } from "@/actions/readLater";
 import NotArticleError from "@/components/layout/main/NotArticleError";
 import ZennSearchPagiNation from "@/components/layout/pagiNation/ZennSearchPagiNation";
 import { searchArticles } from "@/actions/article";
 import LessPagiNation from "@/components/layout/pagiNation/LessPagiNation";
 import PagiNation from "@/components/layout/pagiNation/PagiNation";
-import { addFavorite, deleteFavorite, getFavorite } from "@/actions/favorite";
-import { ActionButton } from "@/components/layout/button/ActionButton";
+import { getFavorite } from "@/actions/favorite";
+import ArticleListPresentation from "@/components/layout/main/ArticleListPresentation";
+import { currentUser } from "@/lib/auth/currentUser/server";
 
-export default async function SearchArticleList({
-  query,
-  currentPage,
-  otherPage,
-  currentSite,
-  isLogin,
-}: ArticleSearchProps) {
+export default async function SearchArticleList({ query, currentPage, otherPage, currentSite }: ArticleSearchProps) {
   const fetchResult = await searchArticles(currentPage, query, currentSite);
   if (!fetchResult || fetchResult.articles.length === 0) {
     return <NotArticleError />;
@@ -25,6 +18,7 @@ export default async function SearchArticleList({
   const articles = fetchResult.articles;
   const readLaterUrls = await getReadLater(articles);
   const favoriteUrls = await getFavorite(articles);
+  const { user } = await currentUser();
 
   const qiitaPage = currentSite === "Qiita" ? parseInt(currentPage) : parseInt(otherPage);
   const zennPage = currentSite === "Qiita" ? parseInt(otherPage) : parseInt(currentPage);
@@ -46,40 +40,47 @@ export default async function SearchArticleList({
     );
 
   return (
-    <div>
-      <div className="border-b border-gray-300 my-2 pb-4">{pagination}</div>
-      <div className="mt-2">
-        {articles.map((item) => (
-          <div key={item.id} className="border-b border-gray-300 m-2 pb-1">
-            <div className="flex md:flex-row flex-col justify-between gap-1">
-              <Article item={item} onSubmit={addHistory} />
-              {isLogin && (
-                <div className="flex items-center gap-2">
-                  <ActionButton
-                    item={item}
-                    id={readLaterUrls.get(item.url)}
-                    isTable={readLaterUrls.has(item.url)}
-                    tableName="readLater"
-                    deleteAction={deleteReadLater}
-                    addAction={addreadLater}
-                    key={readLaterUrls.get(item.url)}
-                  />
-                  <ActionButton
-                    item={item}
-                    id={favoriteUrls.get(item.url)}
-                    isTable={favoriteUrls.has(item.url)}
-                    tableName="favorite"
-                    deleteAction={deleteFavorite}
-                    addAction={addFavorite}
-                    key={favoriteUrls.get(item.url)}
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className="mt-4 mb-2">{pagination}</div>
-    </div>
+    <ArticleListPresentation
+      pagination={pagination}
+      articles={articles}
+      readLaterUrls={readLaterUrls}
+      favoriteUrls={favoriteUrls}
+      isLogin={!!user}
+    />
+    // <div>
+    //   <div className="border-b border-gray-300 my-2 pb-4">{pagination}</div>
+    //   <div className="mt-2">
+    //     {articles.map((item) => (
+    //       <div key={item.id} className="border-b border-gray-300 m-2 pb-1">
+    //         <div className="flex md:flex-row flex-col justify-between gap-1">
+    //           <Article item={item} onSubmit={addHistory} />
+    //           {isLogin && (
+    //             <div className="flex items-center gap-2">
+    //               <ActionButton
+    //                 item={item}
+    //                 id={readLaterUrls.get(item.url)}
+    //                 isTable={readLaterUrls.has(item.url)}
+    //                 tableName="readLater"
+    //                 deleteAction={deleteReadLater}
+    //                 addAction={addreadLater}
+    //                 key={readLaterUrls.get(item.url)}
+    //               />
+    //               <ActionButton
+    //                 item={item}
+    //                 id={favoriteUrls.get(item.url)}
+    //                 isTable={favoriteUrls.has(item.url)}
+    //                 tableName="favorite"
+    //                 deleteAction={deleteFavorite}
+    //                 addAction={addFavorite}
+    //                 key={favoriteUrls.get(item.url)}
+    //               />
+    //             </div>
+    //           )}
+    //         </div>
+    //       </div>
+    //     ))}
+    //   </div>
+    //   <div className="mt-4 mb-2">{pagination}</div>
+    // </div>
   );
 }
