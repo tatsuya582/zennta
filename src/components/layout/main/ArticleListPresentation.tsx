@@ -12,7 +12,7 @@ export default async function ArticleListPresentation({
   favoriteUrls,
   isLogin,
 }: {
-  pagination: any;
+  pagination: React.ReactNode;
   articles: FetchedItem[];
   readLaterUrls: Map<string | undefined, string | undefined>;
   favoriteUrls: Map<string | undefined, string | undefined>;
