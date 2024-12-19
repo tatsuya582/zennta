@@ -2,7 +2,7 @@ import { getArticles } from "@/actions/article";
 import { getFavorite } from "@/actions/favorite";
 import { getReadLater } from "@/actions/readLater";
 import ArticleListPresentation from "@/components/layout/main/ArticleListPresentation";
-import NotArticleError from "@/components/layout/main/NotArticleError";
+import { NotArticleError } from "@/components/layout/main/NotArticleError";
 import PagiNation from "@/components/layout/pagiNation/PagiNation";
 import { currentUser } from "@/lib/auth/currentUser/server";
 

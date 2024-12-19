@@ -1,6 +1,6 @@
 import { type ArticleSearchProps } from "@/types/types";
 import { getReadLater } from "@/actions/readLater";
-import NotArticleError from "@/components/layout/main/NotArticleError";
+import { NotArticleError } from "@/components/layout/main/NotArticleError";
 import ZennSearchPagiNation from "@/components/layout/pagiNation/ZennSearchPagiNation";
 import { searchArticles } from "@/actions/article";
 import LessPagiNation from "@/components/layout/pagiNation/LessPagiNation";

@@ -3,7 +3,7 @@ import { AddFavoriteColumnButton } from "@/components/layout/button/AddFavoriteC
 import { FavoritePageDeleteButton } from "@/components/layout/button/FavoritePageDeleteButton";
 import { ReadLaterPageButton } from "@/components/layout/button/ReadLaterPageButton";
 import { Article } from "@/components/layout/main/Article";
-import NotArticleError from "@/components/layout/main/NotArticleError";
+import { NotArticleError } from "@/components/layout/main/NotArticleError";
 import MemoDisplay from "@/components/layout/memo/MemoDisplay";
 import LessPagiNation from "@/components/layout/pagiNation/LessPagiNation";
 import PagiNation from "@/components/layout/pagiNation/PagiNation";
