@@ -3,18 +3,19 @@ import { getFavorite } from "@/actions/favorite";
 import { getReadLater } from "@/actions/readLater";
 import ArticleListPresentation from "@/components/layout/main/ArticleListPresentation";
 import NotArticleError from "@/components/layout/main/NotArticleError";
+import PagiNation from "@/components/layout/pagiNation/PagiNation";
+import { currentUser } from "@/lib/auth/currentUser/server";
 
 export default async function ArticleList({
   currentPage,
   otherPage,
   currentSite,
-  isLogin,
 }: {
   currentPage: string;
   otherPage: string;
   currentSite: "Qiita" | "Zenn";
-  isLogin: boolean;
 }) {
+  const { user } = await currentUser();
   const fetchResult = await getArticles(currentPage, currentSite);
   if (!fetchResult || fetchResult.articles.length === 0) {
     return <NotArticleError />;
@@ -28,15 +29,14 @@ export default async function ArticleList({
     currentSite === "Qiita"
       ? `/?qiitapage=${page}&zennpage=${otherPage}#qiitaarticles`
       : `/?qiitapage=${otherPage}&zennpage=${page}#zennarticles`;
+  const pagination = <PagiNation currentPage={currentPageNum} totalPage={totalPage} buildHref={buildHref} />;
   return (
     <ArticleListPresentation
-      currentPage={currentPageNum}
-      totalPage={totalPage}
-      buildHref={buildHref}
+      pagination={pagination}
       articles={articles}
       readLaterUrls={readLaterUrls}
       favoriteUrls={favoriteUrls}
-      isLogin={isLogin}
+      isLogin={!!user}
     />
   );
 }

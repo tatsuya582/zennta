@@ -3,21 +3,16 @@ import { addHistory } from "@/actions/history";
 import { addreadLater, deleteReadLater } from "@/actions/readLater";
 import { ActionButton } from "@/components/layout/button/ActionButton";
 import { Article } from "@/components/layout/main/Article";
-import PagiNation from "@/components/layout/pagiNation/PagiNation";
 import { FetchedItem } from "@/types/types";
 
 export default async function ArticleListPresentation({
-  currentPage,
-  totalPage,
-  buildHref,
+  pagination,
   articles,
   readLaterUrls,
   favoriteUrls,
   isLogin,
 }: {
-  currentPage: number;
-  totalPage: number;
-  buildHref: (pageNumber: number) => string;
+  pagination: any;
   articles: FetchedItem[];
   readLaterUrls: Map<string | undefined, string | undefined>;
   favoriteUrls: Map<string | undefined, string | undefined>;
@@ -25,9 +20,7 @@ export default async function ArticleListPresentation({
 }) {
   return (
     <div>
-      <div className="border-b border-gray-300 my-2 pb-4">
-        <PagiNation currentPage={currentPage} totalPage={totalPage} buildHref={buildHref} />
-      </div>
+      <div className="border-b border-gray-300 my-2 pb-4">{pagination}</div>
       <div className="mt-2">
         {articles.map((item) => (
           <div key={item.id} className="border-b border-gray-300 m-2 pb-1">
@@ -59,9 +52,7 @@ export default async function ArticleListPresentation({
           </div>
         ))}
       </div>
-      <div className="mt-4 mb-2">
-        <PagiNation currentPage={currentPage} totalPage={totalPage} buildHref={buildHref} />
-      </div>
+      <div className="mt-4 mb-2">{pagination}</div>
     </div>
   );
 }
