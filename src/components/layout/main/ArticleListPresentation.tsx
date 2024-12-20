@@ -5,7 +5,7 @@ import { ActionButton } from "@/components/layout/button/ActionButton";
 import { Article } from "@/components/layout/main/Article";
 import { FetchedItem } from "@/types/types";
 
-export default async function ArticleListPresentation({
+export default function ArticleListPresentation({
   pagination,
   articles,
   readLaterUrls,

@@ -46,14 +46,15 @@ describe("ArticleListPresentation Component", () => {
   const mockFavoriteUrls = new Map([["https://example.com/2", "2"]]);
 
   it("renders pagination and articles correctly", async () => {
-    const ui = await ArticleListPresentation({
-      pagination: mockPagination,
-      articles: mockArticles,
-      readLaterUrls: mockReadLaterUrls,
-      favoriteUrls: mockFavoriteUrls,
-      isLogin: false,
-    });
-    render(ui);
+    render(
+      <ArticleListPresentation
+        pagination={mockPagination}
+        articles={mockArticles}
+        readLaterUrls={mockReadLaterUrls}
+        favoriteUrls={mockFavoriteUrls}
+        isLogin={false}
+      />
+    );
     const paginations = screen.getAllByText("Pagination");
 
     expect(paginations[0]).toBeInTheDocument();
@@ -64,29 +65,29 @@ describe("ArticleListPresentation Component", () => {
   });
 
   it("does not show action buttons when not logged in", async () => {
-    const ui = await ArticleListPresentation({
-      pagination: mockPagination,
-      articles: mockArticles,
-      readLaterUrls: mockReadLaterUrls,
-      favoriteUrls: mockFavoriteUrls,
-      isLogin: false,
-    });
-    render(ui);
-
+    render(
+      <ArticleListPresentation
+        pagination={mockPagination}
+        articles={mockArticles}
+        readLaterUrls={mockReadLaterUrls}
+        favoriteUrls={mockFavoriteUrls}
+        isLogin={false}
+      />
+    );
     expect(screen.queryByText(/後で読む/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/お気に入り登録/i)).not.toBeInTheDocument();
   });
 
   it("shows action buttons when logged in", async () => {
-    const ui = await ArticleListPresentation({
-      pagination: mockPagination,
-      articles: mockArticles,
-      readLaterUrls: mockReadLaterUrls,
-      favoriteUrls: mockFavoriteUrls,
-      isLogin: true,
-    });
-    render(ui);
-
+    render(
+      <ArticleListPresentation
+        pagination={mockPagination}
+        articles={mockArticles}
+        readLaterUrls={mockReadLaterUrls}
+        favoriteUrls={mockFavoriteUrls}
+        isLogin={true}
+      />
+    );
     expect(screen.getByText(/後で読む/i)).toBeInTheDocument();
     expect(screen.getByText(/お気に入り登録/i)).toBeInTheDocument();
     expect(screen.getByText(/登録済み/i)).toBeInTheDocument();
@@ -94,15 +95,15 @@ describe("ArticleListPresentation Component", () => {
   });
 
   it("calls the correct actions on button click", async () => {
-    const ui = await ArticleListPresentation({
-      pagination: mockPagination,
-      articles: mockArticles,
-      readLaterUrls: mockReadLaterUrls,
-      favoriteUrls: mockFavoriteUrls,
-      isLogin: true,
-    });
-    render(ui);
-
+    render(
+      <ArticleListPresentation
+        pagination={mockPagination}
+        articles={mockArticles}
+        readLaterUrls={mockReadLaterUrls}
+        favoriteUrls={mockFavoriteUrls}
+        isLogin={true}
+      />
+    );
     const readLaterButton = screen.getByText(/後で読む/i);
     const favoriteButton = screen.getByText(/お気に入り済み/i);
 
