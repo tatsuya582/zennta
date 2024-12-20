@@ -28,7 +28,7 @@ export default function StoredArticleListPresentation({
               </div>
               {isFavorite ? (
                 <div className="flex flex-col justify-center items-center gap-2">
-                  {item.memo ? <AddFavoriteColumnButton item={item} isEdit /> : <AddFavoriteColumnButton item={item} />}
+                  <AddFavoriteColumnButton item={item} isEdit={!!item.memo} />
                   <div className="w-full">
                     <FavoritePageDeleteButton item={item} />
                   </div>

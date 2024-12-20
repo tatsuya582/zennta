@@ -12,4 +12,4 @@ export const MemoDisplay = ({ item }: { item: FetchedArticles }) => {
       </div>
     </div>
   );
-}
+};
