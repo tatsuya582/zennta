@@ -1,5 +1,5 @@
 import { Database } from "@/types/database.types";
-import { Tag } from "@/types/types";
+import { type Tag } from "@/types/types";
 
 export type FetchedArticle = Database["public"]["Tables"]["readLaters"]["Row"] & {
   articles: { url: string; id: string } | null;

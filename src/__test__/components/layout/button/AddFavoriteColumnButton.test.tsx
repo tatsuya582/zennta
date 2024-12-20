@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { useFavoriteMemoForm } from "@/components/layout/form/useFavoriteMemoForm";
 import { AddFavoriteColumnButton } from "@/components/layout/button/AddFavoriteColumnButton";
-import { FetchedArticles } from "@/types/databaseCustom.types";
+import { type FetchedArticles } from "@/types/databaseCustom.types";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";

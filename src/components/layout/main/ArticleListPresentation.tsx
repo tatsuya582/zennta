@@ -3,7 +3,7 @@ import { addHistory } from "@/actions/history";
 import { addreadLater, deleteReadLater } from "@/actions/readLater";
 import { ActionButton } from "@/components/layout/button/ActionButton";
 import { Article } from "@/components/layout/main/Article";
-import { FetchedItem } from "@/types/types";
+import { type FetchedItem } from "@/types/types";
 
 export const ArticleListPresentation = ({
   pagination,

@@ -7,7 +7,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { PagiNationProps } from "@/types/types";
+import { type PagiNationProps } from "@/types/types";
 
 export const PagiNation = ({ currentPage, totalPage, buildHref }: PagiNationProps) => {
   return (

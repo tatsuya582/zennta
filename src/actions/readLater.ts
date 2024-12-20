@@ -1,7 +1,7 @@
 "use server";
 
 import { addArticle, deleteArticle, getArticle, getArticleHistory, getArticles } from "@/actions/storedArticle";
-import { StoredItem, type FetchedItem } from "@/types/types";
+import { type StoredItem, type FetchedItem } from "@/types/types";
 
 export const addreadLater = async (item: FetchedItem) => {
   return addArticle("readLaters", item, "insert_read_later_with_article");
