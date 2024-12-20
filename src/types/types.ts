@@ -57,7 +57,7 @@ export type Tag = {
   name: string;
 };
 
-export type QiitaArticlesResponse = {
+export type ArticlesResponse = {
   articles: FetchedItem[];
   totalPage: number;
 };

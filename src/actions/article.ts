@@ -1,8 +1,8 @@
 "use server";
 
-import { type ZennArticlesResponse, type QiitaArticlesResponse, type QiitaItem, type ZennItem } from "@/types/types";
+import { type ZennArticlesResponse, type ArticlesResponse, type QiitaItem, type ZennItem } from "@/types/types";
 
-const fetchQiitaArticles = async (page: number): Promise<QiitaArticlesResponse | null> => {
+const fetchQiitaArticles = async (page: number): Promise<ArticlesResponse | null> => {
   try {
     const response = await fetch(`https://qiita.com/api/v2/items?page=${page}&per_page=30`, {
       method: "GET",
@@ -31,7 +31,7 @@ const fetchQiitaArticles = async (page: number): Promise<QiitaArticlesResponse |
   }
 };
 
-const fetchZennArticles = async (page: number): Promise<ZennArticlesResponse | null> => {
+const fetchZennArticles = async (page: number): Promise<ArticlesResponse | null> => {
   try {
     const response = await fetch(`https://zenn.dev/api/articles?page=${page}&order=latest`);
 
@@ -47,21 +47,18 @@ const fetchZennArticles = async (page: number): Promise<ZennArticlesResponse | n
       tags: null,
       created_at: item.published_at,
     }));
-    return { articles: filteredData, next_page: data.next_page };
+    return { articles: filteredData, totalPage: 100 };
   } catch (error) {
     console.error("Error fetching Zenn items:", error);
     return null;
   }
 };
 
-export const getArticles = async <T extends QiitaArticlesResponse | ZennArticlesResponse>(
-  page: number,
-  site: "Qiita" | "Zenn"
-): Promise<T | null> => {
-  return (site === "Qiita" ? await fetchQiitaArticles(page) : await fetchZennArticles(page)) as T | null;
+export const getArticles = async (page: number, site: "Qiita" | "Zenn"): Promise<ArticlesResponse | null> => {
+  return site === "Qiita" ? await fetchQiitaArticles(page) : await fetchZennArticles(page);
 };
 
-const searchQiitaArticles = async (page: number, query: string): Promise<QiitaArticlesResponse | null> => {
+const searchQiitaArticles = async (page: number, query: string): Promise<ArticlesResponse | null> => {
   const url = `https://qiita.com/api/v2/items?page=${page}&per_page=30${query ? `&query=${query}` : ""}`;
 
   try {
@@ -122,7 +119,7 @@ const searchZennArticles = async (page: number, query: string): Promise<ZennArti
   }
 };
 
-export const searchArticles = async <T extends QiitaArticlesResponse | ZennArticlesResponse>(
+export const searchArticles = async <T extends ArticlesResponse | ZennArticlesResponse>(
   page: number,
   query: string,
   site: "Qiita" | "Zenn"
