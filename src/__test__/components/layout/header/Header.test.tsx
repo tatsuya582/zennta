@@ -1,18 +1,11 @@
-import Header from "@/components/layout/header/Header";
+import { Header } from "@/components/layout/header/Header";
 import { render, screen } from "@testing-library/react";
 
 jest.mock("@/components/layout/header/AuthNavigation", () => ({
-  __esModule: true,
-  default: jest.fn(() => {
-    <div></div>;
-  }),
+  AuthNavigation: () => <div>AuthNavigation</div>,
 }));
-
 jest.mock("@/components/layout/header/MobileNavigation", () => ({
-  __esModule: true,
-  default: jest.fn(() => {
-    <div></div>;
-  }),
+  MobileNavigation: () => <div>MobileNavigation</div>,
 }));
 
 beforeEach(() => {
@@ -24,5 +17,7 @@ describe("Header Component", () => {
     render(<Header />);
     const logoElement = screen.getByText(/Zennta/i);
     expect(logoElement).toBeInTheDocument();
+    expect(screen.getByText("AuthNavigation")).toBeInTheDocument();
+    expect(screen.getByText("MobileNavigation")).toBeInTheDocument();
   });
 });

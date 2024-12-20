@@ -1,4 +1,4 @@
-import AuthNavigation from "@/components/layout/header/AuthNavigation";
+import { AuthNavigation } from "@/components/layout/header/AuthNavigation";
 import { getUser } from "@/actions/user";
 import { render, screen } from "@testing-library/react";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import LoadingButton from "@/components/layout/button/LoadingButton";
+import { LoadingButton } from "@/components/layout/button/LoadingButton";
 import { type StoredItem, type FetchedItem } from "@/types/types";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

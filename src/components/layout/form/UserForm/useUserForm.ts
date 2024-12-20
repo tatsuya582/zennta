@@ -44,7 +44,6 @@ export const useUserForm = (
       setIsLoading(true);
       await updateUser(values.name);
       setDisplayName(values.name);
-      document.body.style.transform = "scale(1)";
       toast({
         description: "名前を変更しました",
       });

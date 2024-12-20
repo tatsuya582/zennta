@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import "@testing-library/jest-dom";
 import { useRouter } from "next/router";
-import MainNavigation from "@/components/layout/header/MainNavigation";
+import { MainNavigation } from "@/components/layout/header/MainNavigation";
 import { getUser } from "@/actions/user";
 
 jest.mock("@/actions/user", () => ({

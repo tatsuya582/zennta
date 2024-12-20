@@ -1,7 +1,7 @@
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-export default function NameInputField({ control }: { control: any }) {
+export const NameInputField = ({ control }: { control: any }) => {
   return (
     <FormField
       control={control}
@@ -17,4 +17,4 @@ export default function NameInputField({ control }: { control: any }) {
       )}
     />
   );
-}
+};

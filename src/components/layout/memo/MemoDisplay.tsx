@@ -1,7 +1,7 @@
 import { FavoritePageDeleteButton } from "@/components/layout/button/FavoritePageDeleteButton";
 import { type FetchedArticles } from "@/types/databaseCustom.types";
 
-export default function MemoDisplay({ item }: { item: FetchedArticles }) {
+export const MemoDisplay = ({ item }: { item: FetchedArticles }) => {
   return (
     <div className="flex justify-start w-full ml-4 my-2">
       <div className="w-11/12 border rounded-lg border-gray-300 px-4 py-2" style={{ whiteSpace: "pre-wrap" }}>
@@ -12,4 +12,4 @@ export default function MemoDisplay({ item }: { item: FetchedArticles }) {
       </div>
     </div>
   );
-}
+};

@@ -25,7 +25,7 @@ describe("Article fetchers", () => {
       json: async () => mockResponse,
     });
 
-    const result = await getArticles("1", "Qiita");
+    const result = await getArticles(1, "Qiita");
     expect(global.fetch).toHaveBeenCalledWith(
       "https://qiita.com/api/v2/items?page=1&per_page=30",
       expect.objectContaining({
@@ -51,7 +51,7 @@ describe("Article fetchers", () => {
       ok: false,
     });
 
-    const result = await getArticles("1", "Qiita");
+    const result = await getArticles(1, "Qiita");
     expect(global.fetch).toHaveBeenCalled();
     expect(result).toBeNull();
   });
@@ -74,7 +74,7 @@ describe("Article fetchers", () => {
       json: async () => mockResponse,
     });
 
-    const result = await getArticles("1", "Zenn");
+    const result = await getArticles(1, "Zenn");
     expect(global.fetch).toHaveBeenCalledWith("https://zenn.dev/api/articles?page=1&order=latest");
     expect(result).toEqual({
       articles: [
@@ -86,7 +86,7 @@ describe("Article fetchers", () => {
           created_at: "2024-12-02T12:00:00Z",
         },
       ],
-      next_page: 2,
+      totalPage: 100,
     });
   });
 
@@ -95,7 +95,7 @@ describe("Article fetchers", () => {
       ok: false,
     });
 
-    const result = await getArticles("1", "Zenn");
+    const result = await getArticles(1, "Zenn");
     expect(global.fetch).toHaveBeenCalled();
     expect(result).toBeNull();
   });
@@ -119,7 +119,7 @@ describe("Article fetchers", () => {
       },
     });
 
-    const result = await searchArticles("1", "test", "Qiita");
+    const result = await searchArticles(1, "test", "Qiita");
     expect(global.fetch).toHaveBeenCalledWith(
       "https://qiita.com/api/v2/items?page=1&per_page=30&query=test",
       expect.objectContaining({
@@ -145,7 +145,7 @@ describe("Article fetchers", () => {
       ok: false,
     });
 
-    const result = await searchArticles("1", "test", "Qiita");
+    const result = await searchArticles(1, "test", "Qiita");
     expect(global.fetch).toHaveBeenCalled();
     expect(result).toBeNull();
   });
@@ -168,7 +168,7 @@ describe("Article fetchers", () => {
       json: async () => mockResponse,
     });
 
-    const result = await searchArticles("1", "test", "Zenn");
+    const result = await searchArticles(1, "test", "Zenn");
     expect(global.fetch).toHaveBeenCalledWith("https://zenn.dev/api/search?q=test&order=latest&source=articles&page=1");
     expect(result).toEqual({
       articles: [
@@ -189,7 +189,7 @@ describe("Article fetchers", () => {
       ok: false,
     });
 
-    const result = await searchArticles("1", "test", "Zenn");
+    const result = await searchArticles(1, "test", "Zenn");
     expect(global.fetch).toHaveBeenCalled();
     expect(result).toBeNull();
   });

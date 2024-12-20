@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor, within } from "@testing-library/react";
 import { useUserForm } from "@/components/layout/form/UserForm/useUserForm";
-import UserForm from "@/components/layout/form/UserForm/UserForm";
+import { UserForm } from "@/components/layout/form/UserForm/UserForm";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";

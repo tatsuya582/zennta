@@ -1,10 +1,9 @@
-import ArticleListSkeleton from "@/components/layout/skeleton/ArticleListSkeleton";
-import ZennArticleListSkeleton from "@/components/layout/skeleton/ZennArticleListSkeleton";
-import SearchArticleList from "@/components/layout/main/SearchArticleList";
+import { ArticleListSkeleton } from "@/components/layout/skeleton/ArticleListSkeleton";
+import { ZennArticleListSkeleton } from "@/components/layout/skeleton/ZennArticleListSkeleton";
 import { Suspense } from "react";
-import SearchForm from "@/components/layout/form/SearchForm";
-import { currentUser } from "@/lib/auth/currentUser/server";
+import { SearchForm } from "@/components/layout/form/SearchForm";
 import { Metadata } from "next";
+import { ArticleList } from "@/components/layout/main/ArticleList";
 
 export const metadata: Metadata = {
   title: "検索",
@@ -19,9 +18,8 @@ export default async function SearchPage({
     zennpage?: string;
   };
 }) {
-  const { user } = await currentUser();
-  const qiitaPage = searchParams?.qiitapage || "1";
-  const zennPage = searchParams?.zennpage || "1";
+  const qiitaPage = searchParams?.qiitapage ? Number(searchParams.qiitapage) : 1;
+  const zennPage = searchParams?.zennpage ? Number(searchParams.zennpage) : 1;
   const query = searchParams?.query ? decodeURIComponent(searchParams.query) : "";
 
   if (!query) {
@@ -37,13 +35,7 @@ export default async function SearchPage({
         </h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
           <Suspense fallback={<ArticleListSkeleton />}>
-            <SearchArticleList
-              query={query}
-              currentPage={qiitaPage}
-              otherPage={zennPage}
-              currentSite="Qiita"
-              isLogin={!!user}
-            />
+            <ArticleList currentPage={qiitaPage} otherPage={zennPage} currentSite="Qiita" query={query} isSearch/>
           </Suspense>
         </div>
       </div>
@@ -54,13 +46,7 @@ export default async function SearchPage({
         </h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
           <Suspense fallback={<ZennArticleListSkeleton />}>
-            <SearchArticleList
-              query={query}
-              currentPage={zennPage}
-              otherPage={qiitaPage}
-              currentSite="Zenn"
-              isLogin={!!user}
-            />
+            <ArticleList currentPage={zennPage} otherPage={qiitaPage} currentSite="Zenn" query={query} isSearch/>
           </Suspense>
         </div>
       </div>

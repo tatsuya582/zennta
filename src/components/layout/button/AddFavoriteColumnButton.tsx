@@ -15,7 +15,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { useFavoriteMemoForm } from "@/components/layout/form/useFavoriteMemoForm";
-import LoadingButton from "@/components/layout/button/LoadingButton";
+import { LoadingButton } from "@/components/layout/button/LoadingButton";
 
 export const AddFavoriteColumnButton = ({ item, isEdit = false }: { item: FetchedArticles; isEdit?: boolean }) => {
   const [isOpen, setIsOpen] = useState(false);

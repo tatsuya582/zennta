@@ -1,8 +1,7 @@
-import SearchForm from "@/components/layout/form/SearchForm";
-import ArticleList from "@/components/layout/main/ArticleList";
-import ArticleListSkeleton from "@/components/layout/skeleton/ArticleListSkeleton";
-import ZennArticleListSkeleton from "@/components/layout/skeleton/ZennArticleListSkeleton";
-import { currentUser } from "@/lib/auth/currentUser/server";
+import { SearchForm } from "@/components/layout/form/SearchForm";
+import { ArticleList } from "@/components/layout/main/ArticleList";
+import { ArticleListSkeleton } from "@/components/layout/skeleton/ArticleListSkeleton";
+import { ZennArticleListSkeleton } from "@/components/layout/skeleton/ZennArticleListSkeleton";
 import { Suspense } from "react";
 
 export default async function Home({
@@ -13,9 +12,8 @@ export default async function Home({
     zennpage?: string;
   };
 }) {
-  const { user } = await currentUser();
-  const qiitaPage = searchParams?.qiitapage || "1";
-  const zennPage = searchParams?.zennpage || "1";
+  const qiitaPage = searchParams?.qiitapage ? Number(searchParams.qiitapage) : 1;
+  const zennPage = searchParams?.zennpage ? Number(searchParams.zennpage) : 1;
   return (
     <>
       <SearchForm linkPage="search" />
@@ -25,7 +23,7 @@ export default async function Home({
         </h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
           <Suspense fallback={<ArticleListSkeleton />}>
-            <ArticleList currentPage={qiitaPage} otherPage={zennPage} currentSite="Qiita" isLogin={!!user} />
+            <ArticleList currentPage={qiitaPage} otherPage={zennPage} currentSite="Qiita" />
           </Suspense>
         </div>
       </div>
@@ -36,7 +34,7 @@ export default async function Home({
         </h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
           <Suspense fallback={<ZennArticleListSkeleton />}>
-            <ArticleList currentPage={zennPage} otherPage={qiitaPage} currentSite="Zenn" isLogin={!!user} />
+            <ArticleList currentPage={zennPage} otherPage={qiitaPage} currentSite="Zenn" />
           </Suspense>
         </div>
       </div>
