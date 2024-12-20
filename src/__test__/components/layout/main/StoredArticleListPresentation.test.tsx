@@ -1,5 +1,4 @@
 import { render, screen } from "@testing-library/react";
-import { FetchedArticles } from "@/types/databaseCustom.types";
 import StoredArticleListPresentation from "@/components/layout/main/StoredArticleListPresentation";
 
 jest.mock("@/actions/history", () => ({
