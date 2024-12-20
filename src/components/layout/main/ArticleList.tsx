@@ -11,8 +11,8 @@ export const ArticleList = async ({
   otherPage,
   currentSite,
 }: {
-  currentPage: string;
-  otherPage: string;
+  currentPage: number;
+  otherPage: number;
   currentSite: "Qiita" | "Zenn";
 }) => {
   const { user } = await currentUser();
@@ -23,13 +23,12 @@ export const ArticleList = async ({
   const articles = fetchResult.articles;
   const readLaterUrls = await getReadLater(articles);
   const favoriteUrls = await getFavorite(articles);
-  const currentPageNum = parseInt(currentPage);
   const totalPage = 100;
   const buildHref = (page: number) =>
     currentSite === "Qiita"
       ? `/?qiitapage=${page}&zennpage=${otherPage}#qiitaarticles`
       : `/?qiitapage=${otherPage}&zennpage=${page}#zennarticles`;
-  const pagination = <PagiNation currentPage={currentPageNum} totalPage={totalPage} buildHref={buildHref} />;
+  const pagination = <PagiNation currentPage={currentPage} totalPage={totalPage} buildHref={buildHref} />;
   return (
     <ArticleListPresentation
       pagination={pagination}

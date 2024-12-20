@@ -2,7 +2,7 @@
 
 import { type ZennArticlesResponse, type QiitaArticlesResponse, type QiitaItem, type ZennItem } from "@/types/types";
 
-const fetchQiitaArticles = async (page: string): Promise<QiitaArticlesResponse | null> => {
+const fetchQiitaArticles = async (page: number): Promise<QiitaArticlesResponse | null> => {
   try {
     const response = await fetch(`https://qiita.com/api/v2/items?page=${page}&per_page=30`, {
       method: "GET",
@@ -31,7 +31,7 @@ const fetchQiitaArticles = async (page: string): Promise<QiitaArticlesResponse |
   }
 };
 
-const fetchZennArticles = async (page: string): Promise<ZennArticlesResponse | null> => {
+const fetchZennArticles = async (page: number): Promise<ZennArticlesResponse | null> => {
   try {
     const response = await fetch(`https://zenn.dev/api/articles?page=${page}&order=latest`);
 
@@ -55,7 +55,7 @@ const fetchZennArticles = async (page: string): Promise<ZennArticlesResponse | n
 };
 
 export const getArticles = async <T extends QiitaArticlesResponse | ZennArticlesResponse>(
-  page: string,
+  page: number,
   site: "Qiita" | "Zenn"
 ): Promise<T | null> => {
   return (site === "Qiita" ? await fetchQiitaArticles(page) : await fetchZennArticles(page)) as T | null;

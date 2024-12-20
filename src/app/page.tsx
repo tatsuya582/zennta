@@ -12,8 +12,8 @@ export default async function Home({
     zennpage?: string;
   };
 }) {
-  const qiitaPage = searchParams?.qiitapage || "1";
-  const zennPage = searchParams?.zennpage || "1";
+  const qiitaPage = searchParams?.qiitapage ? Number(searchParams.qiitapage) : 1;
+  const zennPage = searchParams?.zennpage ? Number(searchParams.zennpage) : 1;
   return (
     <>
       <SearchForm linkPage="search" />
