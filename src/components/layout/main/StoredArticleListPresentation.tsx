@@ -3,7 +3,7 @@ import { AddFavoriteColumnButton } from "@/components/layout/button/AddFavoriteC
 import { FavoritePageDeleteButton } from "@/components/layout/button/FavoritePageDeleteButton";
 import { ReadLaterPageButton } from "@/components/layout/button/ReadLaterPageButton";
 import { Article } from "@/components/layout/main/Article";
-import MemoDisplay from "@/components/layout/memo/MemoDisplay";
+import { MemoDisplay } from "@/components/layout/memo/MemoDisplay";
 import { type FetchedArticles } from "@/types/databaseCustom.types";
 
 export default function StoredArticleListPresentation({
