@@ -1,9 +1,9 @@
 import { ArticleListSkeleton } from "@/components/layout/skeleton/ArticleListSkeleton";
 import { ZennArticleListSkeleton } from "@/components/layout/skeleton/ZennArticleListSkeleton";
-import { SearchArticleList } from "@/components/layout/main/SearchArticleList";
 import { Suspense } from "react";
 import { SearchForm } from "@/components/layout/form/SearchForm";
 import { Metadata } from "next";
+import { ArticleList } from "@/components/layout/main/ArticleList";
 
 export const metadata: Metadata = {
   title: "検索",
@@ -35,7 +35,7 @@ export default async function SearchPage({
         </h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
           <Suspense fallback={<ArticleListSkeleton />}>
-            <SearchArticleList query={query} currentPage={qiitaPage} otherPage={zennPage} currentSite="Qiita" />
+            <ArticleList currentPage={qiitaPage} otherPage={zennPage} currentSite="Qiita" query={query} isSearch/>
           </Suspense>
         </div>
       </div>
@@ -46,7 +46,7 @@ export default async function SearchPage({
         </h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
           <Suspense fallback={<ZennArticleListSkeleton />}>
-            <SearchArticleList query={query} currentPage={zennPage} otherPage={qiitaPage} currentSite="Zenn" />
+            <ArticleList currentPage={zennPage} otherPage={qiitaPage} currentSite="Zenn" query={query} isSearch/>
           </Suspense>
         </div>
       </div>
