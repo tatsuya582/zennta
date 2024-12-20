@@ -35,7 +35,7 @@ export default async function SearchPage({
         </h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
           <Suspense fallback={<ArticleListSkeleton />}>
-            <ArticleList currentPage={qiitaPage} otherPage={zennPage} currentSite="Qiita" query={query} isSearch/>
+            <ArticleList currentPage={qiitaPage} otherPage={zennPage} currentSite="Qiita" query={query} isSearch />
           </Suspense>
         </div>
       </div>
@@ -46,7 +46,7 @@ export default async function SearchPage({
         </h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
           <Suspense fallback={<ZennArticleListSkeleton />}>
-            <ArticleList currentPage={zennPage} otherPage={qiitaPage} currentSite="Zenn" query={query} isSearch/>
+            <ArticleList currentPage={zennPage} otherPage={qiitaPage} currentSite="Zenn" query={query} isSearch />
           </Suspense>
         </div>
       </div>
