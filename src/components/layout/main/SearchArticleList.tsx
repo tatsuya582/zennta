@@ -26,7 +26,9 @@ export const SearchArticleList = async ({ query, currentPage, otherPage, current
   const totalPage = "totalPage" in fetchResult ? Math.min(fetchResult.totalPage, 100) : 0;
   const next = "next_page" in fetchResult ? fetchResult.next_page : null;
   const buildHref = (pageNumber: number) =>
-    `/search?query=${query}&qiitapage=${pageNumber}&zennpage=${zennPage}#qiitaarticles`;
+    currentSite === "Qiita"
+      ? `/search?query=${query}&qiitapage=${pageNumber}&zennpage=${zennPage}#qiitaarticles`
+      : `/search?query=${query}&qiitapage=${qiitaPage}&zennpage=${pageNumber}#zennarticles`;
 
   const pagination =
     currentSite === "Qiita" ? (
@@ -36,7 +38,7 @@ export const SearchArticleList = async ({ query, currentPage, otherPage, current
         <PagiNation currentPage={parseInt(currentPage)} totalPage={totalPage} buildHref={buildHref} />
       )
     ) : (
-      <ZennSearchPagiNation query={query} qiitaPage={qiitaPage} zennPage={zennPage} next={next} />
+      <ZennSearchPagiNation currentPage={zennPage} next={next} buildHref={buildHref} />
     );
 
   return (

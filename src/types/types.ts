@@ -25,10 +25,9 @@ export type PagiNationProps = {
 };
 
 export type ZennSearchPagiNationProps = {
-  query: string;
-  qiitaPage: number;
-  zennPage: number;
+  currentPage: number;
   next: number | null;
+  buildHref: (pageNumber: number) => string;
 };
 
 export type StoredItem = {
