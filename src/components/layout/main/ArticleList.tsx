@@ -1,12 +1,12 @@
 import { getArticles } from "@/actions/article";
 import { getFavorite } from "@/actions/favorite";
 import { getReadLater } from "@/actions/readLater";
-import ArticleListPresentation from "@/components/layout/main/ArticleListPresentation";
+import { ArticleListPresentation } from "@/components/layout/main/ArticleListPresentation";
 import { NotArticleError } from "@/components/layout/main/NotArticleError";
-import PagiNation from "@/components/layout/pagiNation/PagiNation";
+import { PagiNation } from "@/components/layout/pagiNation/PagiNation";
 import { currentUser } from "@/lib/auth/currentUser/server";
 
-export default async function ArticleList({
+export const ArticleList = async ({
   currentPage,
   otherPage,
   currentSite,
@@ -14,7 +14,7 @@ export default async function ArticleList({
   currentPage: string;
   otherPage: string;
   currentSite: "Qiita" | "Zenn";
-}) {
+}) => {
   const { user } = await currentUser();
   const fetchResult = await getArticles(currentPage, currentSite);
   if (!fetchResult || fetchResult.articles.length === 0) {
@@ -39,4 +39,4 @@ export default async function ArticleList({
       isLogin={!!user}
     />
   );
-}
+};

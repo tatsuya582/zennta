@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/pagination";
 import { PagiNationProps } from "@/types/types";
 
-export default async function PagiNation({ currentPage, totalPage, buildHref }: PagiNationProps) {
+export const PagiNation = ({ currentPage, totalPage, buildHref }: PagiNationProps) => {
   return (
     <Pagination>
       <PaginationContent>
@@ -79,4 +79,4 @@ export default async function PagiNation({ currentPage, totalPage, buildHref }: 
       </PaginationContent>
     </Pagination>
   );
-}
+};

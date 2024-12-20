@@ -1,9 +1,8 @@
-import ArticleListSkeleton from "@/components/layout/skeleton/ArticleListSkeleton";
-import ZennArticleListSkeleton from "@/components/layout/skeleton/ZennArticleListSkeleton";
-import SearchArticleList from "@/components/layout/main/SearchArticleList";
+import { ArticleListSkeleton } from "@/components/layout/skeleton/ArticleListSkeleton";
+import { ZennArticleListSkeleton } from "@/components/layout/skeleton/ZennArticleListSkeleton";
+import { SearchArticleList } from "@/components/layout/main/SearchArticleList";
 import { Suspense } from "react";
-import SearchForm from "@/components/layout/form/SearchForm";
-import { currentUser } from "@/lib/auth/currentUser/server";
+import { SearchForm } from "@/components/layout/form/SearchForm";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

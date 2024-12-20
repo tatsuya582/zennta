@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default async function ProfilePageSkeleton() {
+export const ProfilePageSkeleton = () => {
   return (
     <div className="flex justify-center">
       <div className="flex flex-col gap-6 items-center md:w-2/3 max-w-lg w-full md:p-12 p-6 md:mt-2 mt-6 md:border rounded-lg border-gray-300">
@@ -14,4 +14,4 @@ export default async function ProfilePageSkeleton() {
       </div>
     </div>
   );
-}
+};

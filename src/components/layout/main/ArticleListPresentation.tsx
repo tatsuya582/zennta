@@ -5,7 +5,7 @@ import { ActionButton } from "@/components/layout/button/ActionButton";
 import { Article } from "@/components/layout/main/Article";
 import { FetchedItem } from "@/types/types";
 
-export default function ArticleListPresentation({
+export const ArticleListPresentation = ({
   pagination,
   articles,
   readLaterUrls,
@@ -17,7 +17,7 @@ export default function ArticleListPresentation({
   readLaterUrls: Map<string | undefined, string | undefined>;
   favoriteUrls: Map<string | undefined, string | undefined>;
   isLogin: boolean;
-}) {
+}) => {
   return (
     <div>
       <div className="border-b border-gray-300 my-2 pb-4">{pagination}</div>
@@ -55,4 +55,4 @@ export default function ArticleListPresentation({
       <div className="mt-4 mb-2">{pagination}</div>
     </div>
   );
-}
+};

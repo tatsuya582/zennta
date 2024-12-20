@@ -13,10 +13,10 @@ import {
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import NameInputField from "@/components/layout/form/UserForm/NameInputField";
-import LoadingButton from "@/components/layout/button/LoadingButton";
+import { NameInputField } from "@/components/layout/form/UserForm/NameInputField";
+import { LoadingButton } from "@/components/layout/button/LoadingButton";
 
-export default function UserForm({ name }: { name: string }) {
+export const UserForm = ({ name }: { name: string }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [displayName, setDisplayName] = useState(name);
   const { form, onSubmit, isLoading } = useUserForm(name, setIsOpen, setDisplayName);
@@ -56,4 +56,4 @@ export default function UserForm({ name }: { name: string }) {
       </div>
     </>
   );
-}
+};

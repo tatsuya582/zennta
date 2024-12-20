@@ -10,7 +10,7 @@ import { logout } from "@/actions/auth";
 import { Suspense } from "react";
 import { getUser } from "@/actions/user";
 
-export default async function AuthNavigation() {
+export const AuthNavigation = async () => {
   const user = await getUser();
 
   return (
@@ -50,4 +50,4 @@ export default async function AuthNavigation() {
       </div>
     </>
   );
-}
+};

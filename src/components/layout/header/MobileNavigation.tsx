@@ -1,5 +1,5 @@
-import AuthNavigation from "@/components/layout/header/AuthNavigation";
-import MainNavigation from "@/components/layout/header/MainNavigation";
+import { AuthNavigation } from "@/components/layout/header/AuthNavigation";
+import { MainNavigation } from "@/components/layout/header/MainNavigation";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -8,7 +8,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 
-export default function MobileNavigation() {
+export const MobileNavigation = () => {
   return (
     <>
       <NavigationMenu>
@@ -37,4 +37,4 @@ export default function MobileNavigation() {
       </NavigationMenu>
     </>
   );
-}
+};

@@ -1,7 +1,7 @@
 import { Pagination, PaginationContent, PaginationItem, PaginationLink } from "@/components/ui/pagination";
 import { PagiNationProps } from "@/types/types";
 
-export default async function LessPagiNation({ currentPage, totalPage, buildHref }: PagiNationProps) {
+export const LessPagiNation = ({ currentPage, totalPage, buildHref }: PagiNationProps) => {
   return (
     <Pagination>
       <PaginationContent>
@@ -18,4 +18,4 @@ export default async function LessPagiNation({ currentPage, totalPage, buildHref
       </PaginationContent>
     </Pagination>
   );
-}
+};

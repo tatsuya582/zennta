@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default async function ArticleListSkeleton() {
+export const ArticleListSkeleton = () => {
   return (
     <div>
       <div className="flex justify-center border-b border-gray-300 mb-2 pb-4 gap-4">
@@ -33,4 +33,4 @@ export default async function ArticleListSkeleton() {
       </div>
     </div>
   );
-}
+};

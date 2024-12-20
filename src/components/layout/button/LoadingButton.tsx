@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { MouseEventHandler, ReactNode } from "react";
 
-export default function LoadingButton({
+export const LoadingButton = ({
   isLoading,
   loadingMx,
   children,
@@ -13,7 +13,7 @@ export default function LoadingButton({
   children: ReactNode;
   variant?: "default" | "outline" | "readLater" | "favorite";
   onSubmit?: (MouseEventHandler<HTMLButtonElement> | undefined) | null;
-}) {
+}) => {
   return (
     <div className="w-full">
       {isLoading ? (
@@ -31,4 +31,4 @@ export default function LoadingButton({
       )}
     </div>
   );
-}
+};

@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import StoredArticleListPresentation from "@/components/layout/main/StoredArticleListPresentation";
+import { StoredArticleListPresentation } from "@/components/layout/main/StoredArticleListPresentation";
 
 jest.mock("@/actions/history", () => ({
   addStoredItemHistory: jest.fn(),

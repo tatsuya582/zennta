@@ -1,9 +1,9 @@
-import AuthNavigation from "@/components/layout/header/AuthNavigation";
-import MainNavigation from "@/components/layout/header/MainNavigation";
-import MobileNavigation from "@/components/layout/header/MobileNavigation";
+import { AuthNavigation } from "@/components/layout/header/AuthNavigation";
+import { MainNavigation } from "@/components/layout/header/MainNavigation";
+import { MobileNavigation } from "@/components/layout/header/MobileNavigation";
 import Link from "next/link";
 
-export default function Header() {
+export const Header = () => {
   return (
     <>
       <div className="w-full border-b border-gray-300 fixed z-20 bg-white">
@@ -24,4 +24,4 @@ export default function Header() {
       </div>
     </>
   );
-}
+};

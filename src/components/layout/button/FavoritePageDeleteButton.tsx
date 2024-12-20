@@ -16,7 +16,7 @@ import { deleteFavorite, updateFavoriteColumn } from "@/actions/favorite";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import LoadingButton from "@/components/layout/button/LoadingButton";
+import { LoadingButton } from "@/components/layout/button/LoadingButton";
 
 export const FavoritePageDeleteButton = ({ item, isMemo = false }: { item: FetchedArticles; isMemo?: boolean }) => {
   const router = useRouter();

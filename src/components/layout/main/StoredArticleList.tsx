@@ -1,10 +1,10 @@
 import { NotArticleError } from "@/components/layout/main/NotArticleError";
-import StoredArticleListPresentation from "@/components/layout/main/StoredArticleListPresentation";
-import LessPagiNation from "@/components/layout/pagiNation/LessPagiNation";
-import PagiNation from "@/components/layout/pagiNation/PagiNation";
+import { StoredArticleListPresentation } from "@/components/layout/main/StoredArticleListPresentation";
+import { LessPagiNation } from "@/components/layout/pagiNation/LessPagiNation";
+import { PagiNation } from "@/components/layout/pagiNation/PagiNation";
 import { FetchedArticles } from "@/types/databaseCustom.types";
 
-export default async function StoredArticleList({
+export const StoredArticleList = async ({
   page,
   query,
   fetchArticles,
@@ -19,7 +19,7 @@ export default async function StoredArticleList({
   ) => Promise<{ articles: FetchedArticles[]; totalPage: number } | undefined>;
   buildHref: (pageNumber: number) => string;
   isFavorite?: boolean;
-}) {
+}) => {
   const fetchResult = await fetchArticles(page, query);
   const articles = fetchResult?.articles;
 
@@ -35,4 +35,4 @@ export default async function StoredArticleList({
       <PagiNation currentPage={page} totalPage={totalPage} buildHref={buildHref} />
     );
   return <StoredArticleListPresentation pagination={pagination} articles={articles} isFavorite={isFavorite} />;
-}
+};

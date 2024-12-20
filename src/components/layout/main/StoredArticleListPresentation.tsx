@@ -6,7 +6,7 @@ import { Article } from "@/components/layout/main/Article";
 import { MemoDisplay } from "@/components/layout/memo/MemoDisplay";
 import { type FetchedArticles } from "@/types/databaseCustom.types";
 
-export default function StoredArticleListPresentation({
+export const StoredArticleListPresentation = ({
   pagination,
   articles,
   isFavorite = false,
@@ -14,7 +14,7 @@ export default function StoredArticleListPresentation({
   pagination: React.ReactNode;
   articles: FetchedArticles[];
   isFavorite?: boolean;
-}) {
+}) => {
   return (
     <div className="mt-4">
       <div className="border-b border-gray-300 mb-2 pb-4">{pagination}</div>
@@ -43,4 +43,4 @@ export default function StoredArticleListPresentation({
       {pagination}
     </div>
   );
-}
+};

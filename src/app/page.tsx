@@ -1,7 +1,7 @@
-import SearchForm from "@/components/layout/form/SearchForm";
-import ArticleList from "@/components/layout/main/ArticleList";
-import ArticleListSkeleton from "@/components/layout/skeleton/ArticleListSkeleton";
-import ZennArticleListSkeleton from "@/components/layout/skeleton/ZennArticleListSkeleton";
+import { SearchForm } from "@/components/layout/form/SearchForm";
+import { ArticleList } from "@/components/layout/main/ArticleList";
+import { ArticleListSkeleton } from "@/components/layout/skeleton/ArticleListSkeleton";
+import { ZennArticleListSkeleton } from "@/components/layout/skeleton/ZennArticleListSkeleton";
 import { Suspense } from "react";
 
 export default async function Home({

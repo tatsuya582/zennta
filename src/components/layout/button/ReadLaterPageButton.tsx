@@ -18,7 +18,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { ActionButton } from "@/components/layout/button/ActionButton";
-import LoadingButton from "@/components/layout/button/LoadingButton";
+import { LoadingButton } from "@/components/layout/button/LoadingButton";
 
 export const ReadLaterPageButton = ({ item }: { item: FetchedArticles }) => {
   const router = useRouter();

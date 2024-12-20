@@ -1,4 +1,4 @@
-import Header from "@/components/layout/header/Header";
+import { Header } from "@/components/layout/header/Header";
 import { render, screen } from "@testing-library/react";
 
 jest.mock("@/components/layout/header/AuthNavigation", () => ({

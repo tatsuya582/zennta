@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { deleteFavorite } from "@/actions/favorite";
 import { addreadLater } from "@/actions/readLater";
-import ArticleListPresentation from "@/components/layout/main/ArticleListPresentation";
+import { ArticleListPresentation } from "@/components/layout/main/ArticleListPresentation";
 
 jest.mock("@/actions/favorite", () => ({
   addFavorite: jest.fn(),

@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import Link from "next/link";
 
-export default function MainNavigation() {
+export const MainNavigation = () => {
   return (
     <>
       <div>
@@ -29,4 +29,4 @@ export default function MainNavigation() {
       </div>
     </>
   );
-}
+};

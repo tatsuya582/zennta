@@ -2,7 +2,7 @@ import { ArticleHistory } from "@/components/layout/sidebar/ArticleHistory";
 import { currentUser } from "@/lib/auth/currentUser/server";
 import { Suspense } from "react";
 
-export default async function Sidebar() {
+export const Sidebar = async () => {
   const { user } = await currentUser();
   return (
     <>
@@ -18,4 +18,4 @@ export default async function Sidebar() {
       </aside>
     </>
   );
-}
+};

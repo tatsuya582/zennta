@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/pagination";
 import { type ZennSearchPagiNationProps } from "@/types/types";
 
-export default async function ZennSearchPagiNation({ query, qiitaPage, zennPage, next }: ZennSearchPagiNationProps) {
+export const ZennSearchPagiNation = ({ query, qiitaPage, zennPage, next }: ZennSearchPagiNationProps) => {
   const currentPage = zennPage;
   return (
     <Pagination>
@@ -81,4 +81,4 @@ export default async function ZennSearchPagiNation({ query, qiitaPage, zennPage,
       </PaginationContent>
     </Pagination>
   );
-}
+};

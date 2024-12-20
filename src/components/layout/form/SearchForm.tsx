@@ -1,12 +1,12 @@
 "use client";
 
-import LoadingButton from "@/components/layout/button/LoadingButton";
+import { LoadingButton } from "@/components/layout/button/LoadingButton";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { type FormEvent, useState } from "react";
 
 // setIsLoadingをfalseにしないためkeyを設定する必要がある
-export default function SearchForm({
+export const SearchForm = ({
   query = "",
   linkPage,
   isNoQuery = false,
@@ -14,7 +14,7 @@ export default function SearchForm({
   query?: string;
   linkPage: "search" | "favorite" | "readlater";
   isNoQuery?: boolean;
-}) {
+}) => {
   const router = useRouter();
   const [name, setName] = useState(query);
   const [isLoading, setIsLoading] = useState(false);
@@ -52,4 +52,4 @@ export default function SearchForm({
       {isNoQuery && <p className="text-gray-500 text-sm mt-4">なにか入力してください</p>}
     </div>
   );
-}
+};

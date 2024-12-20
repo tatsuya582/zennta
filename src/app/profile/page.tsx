@@ -1,6 +1,6 @@
 import { getUser } from "@/actions/user";
-import UserForm from "@/components/layout/form/UserForm/UserForm";
-import ProfilePageSkeleton from "@/components/layout/skeleton/ProfilePageSkeleton";
+import { UserForm } from "@/components/layout/form/UserForm/UserForm";
+import { ProfilePageSkeleton } from "@/components/layout/skeleton/ProfilePageSkeleton";
 import { Metadata } from "next";
 import Image from "next/image";
 import { redirect } from "next/navigation";

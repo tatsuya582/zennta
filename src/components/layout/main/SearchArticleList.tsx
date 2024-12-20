@@ -1,15 +1,15 @@
 import { type ArticleSearchProps } from "@/types/types";
 import { getReadLater } from "@/actions/readLater";
 import { NotArticleError } from "@/components/layout/main/NotArticleError";
-import ZennSearchPagiNation from "@/components/layout/pagiNation/ZennSearchPagiNation";
+import { ZennSearchPagiNation } from "@/components/layout/pagiNation/ZennSearchPagiNation";
 import { searchArticles } from "@/actions/article";
-import LessPagiNation from "@/components/layout/pagiNation/LessPagiNation";
-import PagiNation from "@/components/layout/pagiNation/PagiNation";
+import { LessPagiNation } from "@/components/layout/pagiNation/LessPagiNation";
+import { PagiNation } from "@/components/layout/pagiNation/PagiNation";
 import { getFavorite } from "@/actions/favorite";
-import ArticleListPresentation from "@/components/layout/main/ArticleListPresentation";
+import { ArticleListPresentation } from "@/components/layout/main/ArticleListPresentation";
 import { currentUser } from "@/lib/auth/currentUser/server";
 
-export default async function SearchArticleList({ query, currentPage, otherPage, currentSite }: ArticleSearchProps) {
+export const SearchArticleList = async ({ query, currentPage, otherPage, currentSite }: ArticleSearchProps) => {
   const fetchResult = await searchArticles(currentPage, query, currentSite);
   if (!fetchResult || fetchResult.articles.length === 0) {
     return <NotArticleError />;
@@ -48,4 +48,4 @@ export default async function SearchArticleList({ query, currentPage, otherPage,
       isLogin={!!user}
     />
   );
-}
+};

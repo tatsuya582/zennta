@@ -1,4 +1,4 @@
-import SearchForm from "@/components/layout/form/SearchForm";
+import { SearchForm } from "@/components/layout/form/SearchForm";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { useRouter } from "next/navigation";
 
