@@ -1,6 +1,6 @@
 "use client";
 
-import { FetchedItem, StoredItem } from "@/types/types";
+import { type FetchedItem, type StoredItem } from "@/types/types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 

@@ -2,7 +2,7 @@
 
 import { addArticle, deleteArticle, getArticle, getArticleHistory, getArticles } from "@/actions/storedArticle";
 import { getSupabaseClientAndUser } from "@/lib/supabase/server";
-import { type StoredItem, type FetchedItem, Tag } from "@/types/types";
+import { type StoredItem, type FetchedItem, type Tag } from "@/types/types";
 
 export const addFavorite = async (item: FetchedItem) => {
   return addArticle("favorites", item, "insert_favorite_with_article");

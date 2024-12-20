@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { FetchedArticles } from "@/types/databaseCustom.types";
+import { type FetchedArticles } from "@/types/databaseCustom.types";
 import { MemoDisplay } from "@/components/layout/memo/MemoDisplay";
 
 jest.mock("@/components/layout/button/FavoritePageDeleteButton", () => ({

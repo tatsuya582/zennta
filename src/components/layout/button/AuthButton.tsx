@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { signinWithOAuthAction } from "@/lib/auth/login";
-import { SigninButtonProps } from "@/types/types";
+import { type SigninButtonProps } from "@/types/types";
 
 export const AuthButton = ({ provider, children }: SigninButtonProps) => {
   return (

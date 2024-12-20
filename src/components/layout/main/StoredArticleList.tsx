@@ -2,7 +2,7 @@ import { NotArticleError } from "@/components/layout/main/NotArticleError";
 import { StoredArticleListPresentation } from "@/components/layout/main/StoredArticleListPresentation";
 import { LessPagiNation } from "@/components/layout/pagiNation/LessPagiNation";
 import { PagiNation } from "@/components/layout/pagiNation/PagiNation";
-import { FetchedArticles } from "@/types/databaseCustom.types";
+import { type FetchedArticles } from "@/types/databaseCustom.types";
 
 export const StoredArticleList = async ({
   page,

@@ -1,6 +1,6 @@
 import { getSupabaseClientAndUser } from "@/lib/supabase/server";
-import { FetchedArticle, FetchedArticlesWithCount } from "@/types/databaseCustom.types";
-import { FetchedItem, StoredItem } from "@/types/types";
+import { type FetchedArticle, type FetchedArticlesWithCount } from "@/types/databaseCustom.types";
+import { type FetchedItem, type StoredItem } from "@/types/types";
 
 export const addArticle = async (
   tableName: "favorites" | "readLaters" | "histories",
