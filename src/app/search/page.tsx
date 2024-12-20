@@ -18,8 +18,8 @@ export default async function SearchPage({
     zennpage?: string;
   };
 }) {
-  const qiitaPage = searchParams?.qiitapage || "1";
-  const zennPage = searchParams?.zennpage || "1";
+  const qiitaPage = searchParams?.qiitapage ? Number(searchParams.qiitapage) : 1;
+  const zennPage = searchParams?.zennpage ? Number(searchParams.zennpage) : 1;
   const query = searchParams?.query ? decodeURIComponent(searchParams.query) : "";
 
   if (!query) {

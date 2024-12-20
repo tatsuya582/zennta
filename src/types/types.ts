@@ -13,8 +13,8 @@ export type ProfilePageLayoutProps = {
 
 export type ArticleSearchProps = {
   query: string;
-  currentPage: string;
-  otherPage: string;
+  currentPage: number;
+  otherPage: number;
   currentSite: "Qiita" | "Zenn";
 };
 

@@ -20,25 +20,22 @@ export const SearchArticleList = async ({ query, currentPage, otherPage, current
   const favoriteUrls = await getFavorite(articles);
   const { user } = await currentUser();
 
-  const qiitaPage = currentSite === "Qiita" ? parseInt(currentPage) : parseInt(otherPage);
-  const zennPage = currentSite === "Qiita" ? parseInt(otherPage) : parseInt(currentPage);
-
   const totalPage = "totalPage" in fetchResult ? Math.min(fetchResult.totalPage, 100) : 0;
   const next = "next_page" in fetchResult ? fetchResult.next_page : null;
   const buildHref = (pageNumber: number) =>
     currentSite === "Qiita"
-      ? `/search?query=${query}&qiitapage=${pageNumber}&zennpage=${zennPage}#qiitaarticles`
-      : `/search?query=${query}&qiitapage=${qiitaPage}&zennpage=${pageNumber}#zennarticles`;
+      ? `/search?query=${query}&qiitapage=${pageNumber}&zennpage=${otherPage}#qiitaarticles`
+      : `/search?query=${query}&qiitapage=${otherPage}&zennpage=${pageNumber}#zennarticles`;
 
   const pagination =
     currentSite === "Qiita" ? (
       totalPage <= 5 ? (
-        <LessPagiNation currentPage={qiitaPage} totalPage={totalPage} buildHref={buildHref} />
+        <LessPagiNation currentPage={currentPage} totalPage={totalPage} buildHref={buildHref} />
       ) : (
-        <PagiNation currentPage={parseInt(currentPage)} totalPage={totalPage} buildHref={buildHref} />
+        <PagiNation currentPage={currentPage} totalPage={totalPage} buildHref={buildHref} />
       )
     ) : (
-      <ZennSearchPagiNation currentPage={zennPage} next={next} buildHref={buildHref} />
+      <ZennSearchPagiNation currentPage={currentPage} next={next} buildHref={buildHref} />
     );
 
   return (
