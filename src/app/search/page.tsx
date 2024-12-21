@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "検索",
 };
 
-export default async function SearchPage({
+export default function SearchPage({
   searchParams,
 }: {
   searchParams?: {
