@@ -4,7 +4,7 @@ import { ArticleListSkeleton } from "@/components/layout/skeleton/ArticleListSke
 import { ZennArticleListSkeleton } from "@/components/layout/skeleton/ZennArticleListSkeleton";
 import { Suspense } from "react";
 
-export default async function Home({
+export default function Home({
   searchParams,
 }: {
   searchParams?: {

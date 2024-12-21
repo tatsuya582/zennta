@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "お気に入り",
 };
 
-export default async function FavoritePage({
+export default function FavoritePage({
   searchParams,
 }: {
   searchParams?: {

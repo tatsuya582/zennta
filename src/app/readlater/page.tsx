@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "後で読む",
 };
 
-export default async function ReadLaterPage({
+export default function ReadLaterPage({
   searchParams,
 }: {
   searchParams?: {
