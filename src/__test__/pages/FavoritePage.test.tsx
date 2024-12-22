@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import FavoritePage, { metadata } from "@/app/favorite/page";
+import { StoredArticleList } from "@/components/layout/main/StoredArticleList";
 
 jest.mock("@/actions/favorite", () => ({
   getFavoriteArticles: jest.fn(),
@@ -64,20 +65,18 @@ describe("FavoritePage", () => {
   it("should correctly pass buildHref to StoredArticleList", () => {
     renderFavoritePage();
 
-    const StoredArticleListMock = require("@/components/layout/main/StoredArticleList").StoredArticleList;
-    expect(StoredArticleListMock).toHaveBeenCalled();
+    expect(StoredArticleList).toHaveBeenCalled();
 
-    const passedProps = StoredArticleListMock.mock.calls[0][0];
+    const passedProps = (StoredArticleList as jest.Mock).mock.calls[0][0];
     expect(passedProps.buildHref(3)).toBe("/favorite?query=test-query&page=3");
   });
 
   it("should pass getFavoriteArticles as fetchArticles to StoredArticleList", () => {
     renderFavoritePage();
 
-    const StoredArticleListMock = require("@/components/layout/main/StoredArticleList").StoredArticleList;
-    expect(StoredArticleListMock).toHaveBeenCalled();
+    expect(StoredArticleList).toHaveBeenCalled();
 
-    const passedProps = StoredArticleListMock.mock.calls[0][0];
+    const passedProps = (StoredArticleList as jest.Mock).mock.calls[0][0];
     expect(passedProps.fetchArticles).toBe(require("@/actions/favorite").getFavoriteArticles);
   });
 });
