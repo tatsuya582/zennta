@@ -42,11 +42,18 @@ describe("FavoritePage", () => {
     jest.clearAllMocks();
   });
 
-  it("should render the SearchForm and StoredArticleList components", async () => {
+  it("should render the page with correct components and elements", async () => {
     renderFavoritePage();
 
     expect(screen.getByTestId("search-form")).toBeInTheDocument();
     expect(screen.getByTestId("stored-article-list")).toBeInTheDocument();
+
+    expect(screen.getByRole("heading", { level: 2, name: "お気に入り" })).toBeInTheDocument();
+  });
+
+  it("should have correct title in metadata", () => {
+    const { metadata } = require("@/app/favorite/page");
+    expect(metadata.title).toBe("お気に入り");
   });
 
   it("should render SearchForm with correct query and linkPage props", () => {
