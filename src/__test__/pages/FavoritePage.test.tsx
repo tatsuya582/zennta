@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import FavoritePage from "@/app/favorite/page";
-import React from "react";
+import FavoritePage, { metadata } from "@/app/favorite/page";
 
 jest.mock("@/actions/favorite", () => ({
   getFavoriteArticles: jest.fn(),
@@ -42,7 +41,7 @@ describe("FavoritePage", () => {
     jest.clearAllMocks();
   });
 
-  it("should render the page with correct components and elements", async () => {
+  it("should render the page with correct components and elements", () => {
     renderFavoritePage();
 
     expect(screen.getByTestId("search-form")).toBeInTheDocument();
@@ -52,7 +51,6 @@ describe("FavoritePage", () => {
   });
 
   it("should have correct title in metadata", () => {
-    const { metadata } = require("@/app/favorite/page");
     expect(metadata.title).toBe("お気に入り");
   });
 
