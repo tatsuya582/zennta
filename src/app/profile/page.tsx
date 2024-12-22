@@ -14,7 +14,7 @@ export default async function ProfilePage() {
   const user = await getUser();
 
   if (!user) {
-    redirect("/login");
+    return redirect("/login");
   }
   return (
     <Suspense fallback={<ProfilePageSkeleton />}>
