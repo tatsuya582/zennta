@@ -23,7 +23,7 @@ jest.mock("@/components/layout/skeleton/ZennArticleListSkeleton", () => ({
   ZennArticleListSkeleton: jest.fn(() => <div data-testid="zenn-article-list-skeleton" />),
 }));
 
-describe("SearchPage", () => {
+describe("Home", () => {
   const mockQiitaPage = "2";
   const mockZennPage = "3";
 
