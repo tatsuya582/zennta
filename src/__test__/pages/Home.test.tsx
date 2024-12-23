@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import SearchPage, { metadata } from "@/app/search/page";
 import { ArticleList } from "@/components/layout/main/ArticleList";
+import Home from "@/app/page";
 
 jest.mock("@/components/layout/form/SearchForm", () => ({
   SearchForm: jest.fn(({ query, linkPage, isNoQuery }) => (
@@ -26,13 +26,11 @@ jest.mock("@/components/layout/skeleton/ZennArticleListSkeleton", () => ({
 describe("SearchPage", () => {
   const mockQiitaPage = "2";
   const mockZennPage = "3";
-  const mockQuery = "test-query";
 
-  const renderSearchPage = (query = mockQuery, qiitaPage = mockQiitaPage, zennPage = mockZennPage) => {
+  const renderHome = (qiitaPage = mockQiitaPage, zennPage = mockZennPage) => {
     render(
-      <SearchPage
+      <Home
         searchParams={{
-          query,
           qiitapage: qiitaPage.toString(),
           zennpage: zennPage.toString(),
         }}
@@ -45,7 +43,7 @@ describe("SearchPage", () => {
   });
 
   it("should render the page with correct components and elements", () => {
-    renderSearchPage();
+    renderHome();
 
     expect(screen.getByTestId("search-form")).toBeInTheDocument();
     const articleLists = screen.getAllByTestId("article-list");
@@ -55,29 +53,16 @@ describe("SearchPage", () => {
     expect(screen.getByRole("heading", { level: 2, name: "Zenn一覧" })).toBeInTheDocument();
   });
 
-  it("should have correct title in metadata", () => {
-    expect(metadata.title).toBe("検索");
-  });
-
   it("should render SearchForm with correct query and linkPage props", () => {
-    renderSearchPage();
+    renderHome();
 
-    expect(screen.getByText("query=test-query")).toBeInTheDocument();
+    expect(screen.getByText("query=undefined")).toBeInTheDocument();
     expect(screen.getByText("linkPage=search")).toBeInTheDocument();
     expect(screen.getByText("isNoQuery=undefined")).toBeInTheDocument();
   });
 
-  it("should render SearchForm with isNoQuery=true when query is empty", () => {
-    const mockQuery = "";
-    renderSearchPage(mockQuery);
-
-    expect(screen.getByText("query=")).toBeInTheDocument();
-    expect(screen.getByText("linkPage=search")).toBeInTheDocument();
-    expect(screen.getByText("isNoQuery=true")).toBeInTheDocument();
-  });
-
   it("should pass correct props to ArticleList for Qiita", () => {
-    renderSearchPage();
+    renderHome();
 
     expect(ArticleList).toHaveBeenCalled();
 
@@ -85,14 +70,14 @@ describe("SearchPage", () => {
     expect(passedProps.currentPage).toBe(2);
     expect(passedProps.otherPage).toBe(3);
     expect(passedProps.currentSite).toBe("Qiita");
-    expect(passedProps.query).toBe("test-query");
-    expect(passedProps.isSearch).toBe(true);
+    expect(passedProps.query).toBe(undefined);
+    expect(passedProps.isSearch).toBe(undefined);
   });
 
   it("should pass default page values to ArticleList for Qiita when page parameters are empty", () => {
     const mockQiitaPage = "";
     const mockZennPage = "";
-    renderSearchPage(mockQuery, mockQiitaPage, mockZennPage);
+    renderHome(mockQiitaPage, mockZennPage);
 
     expect(ArticleList).toHaveBeenCalled();
 
@@ -100,12 +85,12 @@ describe("SearchPage", () => {
     expect(passedProps.currentPage).toBe(1);
     expect(passedProps.otherPage).toBe(1);
     expect(passedProps.currentSite).toBe("Qiita");
-    expect(passedProps.query).toBe("test-query");
-    expect(passedProps.isSearch).toBe(true);
+    expect(passedProps.query).toBe(undefined);
+    expect(passedProps.isSearch).toBe(undefined);
   });
 
   it("should pass correct props to ArticleList for Zenn", () => {
-    renderSearchPage();
+    renderHome();
 
     expect(ArticleList).toHaveBeenCalled();
 
@@ -113,7 +98,7 @@ describe("SearchPage", () => {
     expect(passedProps.currentPage).toBe(3);
     expect(passedProps.otherPage).toBe(2);
     expect(passedProps.currentSite).toBe("Zenn");
-    expect(passedProps.query).toBe("test-query");
-    expect(passedProps.isSearch).toBe(true);
+    expect(passedProps.query).toBe(undefined);
+    expect(passedProps.isSearch).toBe(undefined);
   });
 });
