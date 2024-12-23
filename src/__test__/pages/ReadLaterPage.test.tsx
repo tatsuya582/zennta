@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/react";
-import FavoritePage, { metadata } from "@/app/favorite/page";
 import { StoredArticleList } from "@/components/layout/main/StoredArticleList";
-import { getFavoriteArticles } from "@/actions/favorite";
+import ReadLaterPage, { metadata } from "@/app/readlater/page";
+import { getReadLaterArticles } from "@/actions/readLater";
 
-jest.mock("@/actions/favorite", () => ({
-  getFavoriteArticles: jest.fn(),
+jest.mock("@/actions/readLater", () => ({
+  getReadLaterArticles: jest.fn(),
 }));
 
 jest.mock("@/components/layout/form/SearchForm", () => ({
@@ -28,9 +28,9 @@ describe("FavoritePage", () => {
   const mockPage = 1;
   const mockQuery = "test-query";
 
-  const renderFavoritePage = (page = mockPage, query = mockQuery) => {
+  const renderReadLaterPage = (page = mockPage, query = mockQuery) => {
     render(
-      <FavoritePage
+      <ReadLaterPage
         searchParams={{
           page: page.toString(),
           query,
@@ -44,40 +44,40 @@ describe("FavoritePage", () => {
   });
 
   it("should render the page with correct components and elements", () => {
-    renderFavoritePage();
+    renderReadLaterPage();
 
     expect(screen.getByTestId("search-form")).toBeInTheDocument();
     expect(screen.getByTestId("stored-article-list")).toBeInTheDocument();
 
-    expect(screen.getByRole("heading", { level: 2, name: "お気に入り" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 2, name: "後で読む" })).toBeInTheDocument();
   });
 
   it("should have correct title in metadata", () => {
-    expect(metadata.title).toBe("お気に入り");
+    expect(metadata.title).toBe("後で読む");
   });
 
   it("should render SearchForm with correct query and linkPage props", () => {
-    renderFavoritePage();
+    renderReadLaterPage();
 
     expect(screen.getByText("query=test-query")).toBeInTheDocument();
-    expect(screen.getByText("linkPage=favorite")).toBeInTheDocument();
+    expect(screen.getByText("linkPage=readlater")).toBeInTheDocument();
   });
 
   it("should correctly pass buildHref to StoredArticleList", () => {
-    renderFavoritePage();
+    renderReadLaterPage();
 
     expect(StoredArticleList).toHaveBeenCalled();
 
     const passedProps = (StoredArticleList as jest.Mock).mock.calls[0][0];
-    expect(passedProps.buildHref(3)).toBe("/favorite?query=test-query&page=3");
+    expect(passedProps.buildHref(3)).toBe("/readlater?query=test-query&page=3");
   });
 
-  it("should pass getFavoriteArticles as fetchArticles to StoredArticleList", () => {
-    renderFavoritePage();
+  it("should pass getReadlaterArticles as fetchArticles to StoredArticleList", () => {
+    renderReadLaterPage();
 
     expect(StoredArticleList).toHaveBeenCalled();
 
     const passedProps = (StoredArticleList as jest.Mock).mock.calls[0][0];
-    expect(passedProps.fetchArticles).toBe(getFavoriteArticles);
+    expect(passedProps.fetchArticles).toBe(getReadLaterArticles);
   });
 });
