@@ -5,7 +5,7 @@ jest.mock("@/components/layout/form/AuthForm", () => ({
   AuthForm: jest.fn(({ type }) => <div data-testid="auth-form">{type}</div>),
 }));
 
-describe("FavoritePage", () => {
+describe("LoginPage", () => {
   it("should render the page with correct components", async () => {
     render(<LoginPage />);
 

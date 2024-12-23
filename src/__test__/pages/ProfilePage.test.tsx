@@ -19,7 +19,7 @@ jest.mock("@/components/layout/skeleton/ProfilePageSkeleton", () => ({
   ProfilePageSkeleton: jest.fn(() => <div data-testid="profile-page-skeleton" />),
 }));
 
-describe("FavoritePage", () => {
+describe("ProfilePage", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });

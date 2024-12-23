@@ -24,7 +24,7 @@ jest.mock("@/components/layout/skeleton/ArticleListSkeleton", () => ({
   ArticleListSkeleton: jest.fn(() => <div data-testid="article-list-skeleton" />),
 }));
 
-describe("FavoritePage", () => {
+describe("ReadLaterPage", () => {
   const mockPage = 1;
   const mockQuery = "test-query";
 
