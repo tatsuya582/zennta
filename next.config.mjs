@@ -16,6 +16,9 @@ const nextConfig = {
       "pbs.twimg.com", // Twitterのアバター画像
     ],
   },
+  experimental: {
+    testProxy: true,
+  },
 };
 
 export default nextConfig;
