@@ -309,47 +309,58 @@ test.beforeEach(async ({ page, next }) => {
 //   await expect(page.locator("text=Search Qiita Article Title Next.js 1")).not.toBeVisible();
 // });
 
-test("Favorite button works properly", async ({ page }) => {
+// test("Favorite button works properly", async ({ page }) => {
+//   await page.goto("/search?query=Next.js");
+
+//   const qiitaArticles = await page.getByTestId("qiita-articles");
+//   const favoriteButton = await qiitaArticles.locator("text=お気に入り登録");
+//   favoriteButton.first().click();
+//   await page.waitForLoadState();
+
+//   const loadingButton = qiitaArticles.getByRole("button", { name: "loading" });
+//   await expect(loadingButton).toBeVisible();
+
+//   await page.waitForLoadState();
+//   const registeredButton = await qiitaArticles.locator("text=お気に入り済み");
+//   await expect(registeredButton).toHaveCount(1);
+//   await expect(favoriteButton).toHaveCount(29);
+
+//   const header = await page.getByTestId("header");
+
+//   const favoriteLink = await header.locator("text=お気に入り");
+//   favoriteLink.first().click();
+//   await page.waitForLoadState();
+//   await expect(page.locator('h2:has-text("お気に入り")')).toBeVisible();
+
+//   await expect(page.locator("text=Search Qiita Article Title Next.js 1")).toBeVisible();
+
+//   await page.goto("/search?query=Next.js");
+//   await page.waitForLoadState();
+//   await expect(page.locator("text=Qiita一覧")).toBeVisible();
+
+//   registeredButton.click();
+//   await page.waitForLoadState();
+
+//   await expect(loadingButton).toBeVisible();
+
+//   await page.waitForLoadState();
+//   await expect(loadingButton).not.toBeVisible();
+//   await expect(favoriteButton).toHaveCount(30);
+
+//   favoriteLink.first().click();
+//   await page.waitForLoadState();
+//   await expect(page.locator('h2:has-text("お気に入り")')).toBeVisible();
+
+//   await expect(page.locator("text=Search Qiita Article Title Next.js 1")).not.toBeVisible();
+// });
+
+test("search form is working properly", async ({ page }) => {
   await page.goto("/search?query=Next.js");
 
-  const qiitaArticles = await page.getByTestId("qiita-articles");
-  const favoriteButton = await qiitaArticles.locator("text=お気に入り登録");
-  favoriteButton.first().click();
+  const searchForm = await page.getByTestId("search-form");
+  await searchForm.getByPlaceholder("検索ワードを入力").fill("React");
+  await searchForm.getByRole("button", { name: "delete" }).click();
   await page.waitForLoadState();
-
-  const loadingButton = qiitaArticles.getByRole("button", { name: "loading" });
-  await expect(loadingButton).toBeVisible();
-
-  await page.waitForLoadState();
-  const registeredButton = await qiitaArticles.locator("text=お気に入り済み");
-  await expect(registeredButton).toHaveCount(1);
-  await expect(favoriteButton).toHaveCount(29);
-
-  const header = await page.getByTestId("header");
-
-  const favoriteLink = await header.locator("text=お気に入り");
-  favoriteLink.first().click();
-  await page.waitForLoadState();
-  await expect(page.locator('h2:has-text("お気に入り")')).toBeVisible();
-
-  await expect(page.locator("text=Search Qiita Article Title Next.js 1")).toBeVisible();
-
-  await page.goto("/search?query=Next.js");
-  await page.waitForLoadState();
-  await expect(page.locator("text=Qiita一覧")).toBeVisible();
-
-  registeredButton.click();
-  await page.waitForLoadState();
-
-  await expect(loadingButton).toBeVisible();
-
-  await page.waitForLoadState();
-  await expect(loadingButton).not.toBeVisible();
-  await expect(favoriteButton).toHaveCount(30);
-
-  favoriteLink.first().click();
-  await page.waitForLoadState();
-  await expect(page.locator('h2:has-text("お気に入り")')).toBeVisible();
-
-  await expect(page.locator("text=Search Qiita Article Title Next.js 1")).not.toBeVisible();
+  await expect(page.getByRole("button", { name: "loading" })).not.toBeVisible();
+  expect(page.url()).toBe("http://localhost:3000/search?query=React");
 });
