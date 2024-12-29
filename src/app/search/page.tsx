@@ -29,7 +29,7 @@ export default function SearchPage({
   return (
     <>
       <SearchForm query={query} linkPage="search" key={query} />
-      <div className="w-full flex justify-center items-center flex-col md:mt-2 mt-8">
+      <div className="w-full flex justify-center items-center flex-col md:mt-2 mt-8" data-testid="qiita-articles">
         <h2 className="scroll-mt-20 md:scroll-mt-28" id="qiitaarticles">
           Qiita一覧
         </h2>
@@ -40,7 +40,7 @@ export default function SearchPage({
         </div>
       </div>
 
-      <div className="w-full flex justify-center items-center flex-col my-16">
+      <div className="w-full flex justify-center items-center flex-col my-16" data-testid="zenn-articles">
         <h2 className="scroll-mt-20 md:scroll-mt-28" id="zennarticles">
           Zenn一覧
         </h2>
