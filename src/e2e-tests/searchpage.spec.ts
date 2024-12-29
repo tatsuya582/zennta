@@ -265,28 +265,72 @@ test.beforeEach(async ({ page, next }) => {
 //   await expect(activeButton.first()).toHaveAttribute("aria-current", "page");
 // });
 
-test("Read later button works properly", async ({ page }) => {
+// test("Read later button works properly", async ({ page }) => {
+//   await page.goto("/search?query=Next.js");
+
+//   const qiitaArticles = await page.getByTestId("qiita-articles");
+//   const readLaterButton = await qiitaArticles.locator("text=後で読む");
+//   readLaterButton.first().click();
+//   await page.waitForLoadState();
+
+//   const loadingButton = qiitaArticles.getByRole("button", { name: "loading" });
+//   await expect(loadingButton).toBeVisible();
+
+//   await page.waitForLoadState();
+//   const registeredButton = await qiitaArticles.locator("text=登録済み");
+//   await expect(registeredButton).toHaveCount(1);
+//   await expect(readLaterButton).toHaveCount(29);
+
+//   const header = await page.getByTestId("header");
+
+//   const readLaterLink = await header.locator("text=後で読む");
+//   readLaterLink.first().click();
+//   await page.waitForLoadState();
+//   await expect(page.locator('h2:has-text("後で読む")')).toBeVisible();
+
+//   await expect(page.locator("text=Search Qiita Article Title Next.js 1")).toBeVisible();
+
+//   await page.goto("/search?query=Next.js");
+//   await page.waitForLoadState();
+//   await expect(page.locator("text=Qiita一覧")).toBeVisible();
+
+//   registeredButton.click();
+//   await page.waitForLoadState();
+
+//   await expect(loadingButton).toBeVisible();
+
+//   await page.waitForLoadState();
+//   await expect(loadingButton).not.toBeVisible();
+//   await expect(readLaterButton).toHaveCount(30);
+
+//   readLaterLink.first().click();
+//   await page.waitForLoadState();
+//   await expect(page.locator('h2:has-text("後で読む")')).toBeVisible();
+//   await expect(page.locator("text=Search Qiita Article Title Next.js 1")).not.toBeVisible();
+// });
+
+test("Favorite button works properly", async ({ page }) => {
   await page.goto("/search?query=Next.js");
 
   const qiitaArticles = await page.getByTestId("qiita-articles");
-  const readLaterButton = await qiitaArticles.locator("text=後で読む");
-  readLaterButton.first().click();
+  const favoriteButton = await qiitaArticles.locator("text=お気に入り登録");
+  favoriteButton.first().click();
   await page.waitForLoadState();
 
   const loadingButton = qiitaArticles.getByRole("button", { name: "loading" });
   await expect(loadingButton).toBeVisible();
 
   await page.waitForLoadState();
-  const registeredButton = await qiitaArticles.locator("text=登録済み");
+  const registeredButton = await qiitaArticles.locator("text=お気に入り済み");
   await expect(registeredButton).toHaveCount(1);
-  await expect(readLaterButton).toHaveCount(29);
+  await expect(favoriteButton).toHaveCount(29);
 
   const header = await page.getByTestId("header");
 
-  const readLaterLink = await header.locator("text=後で読む");
-  readLaterLink.first().click();
+  const favoriteLink = await header.locator("text=お気に入り");
+  favoriteLink.first().click();
   await page.waitForLoadState();
-  await expect(page.locator('h2:has-text("後で読む")')).toBeVisible();
+  await expect(page.locator('h2:has-text("お気に入り")')).toBeVisible();
 
   await expect(page.locator("text=Search Qiita Article Title Next.js 1")).toBeVisible();
 
@@ -301,10 +345,11 @@ test("Read later button works properly", async ({ page }) => {
 
   await page.waitForLoadState();
   await expect(loadingButton).not.toBeVisible();
-  await expect(readLaterButton).toHaveCount(30);
+  await expect(favoriteButton).toHaveCount(30);
 
-  readLaterLink.first().click();
+  favoriteLink.first().click();
   await page.waitForLoadState();
-  await expect(page.locator('h2:has-text("後で読む")')).toBeVisible();
+  await expect(page.locator('h2:has-text("お気に入り")')).toBeVisible();
+
   await expect(page.locator("text=Search Qiita Article Title Next.js 1")).not.toBeVisible();
 });
