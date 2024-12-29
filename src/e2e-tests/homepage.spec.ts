@@ -113,6 +113,12 @@ test("The header links are set correctly", async ({ page }) => {
   await page.waitForLoadState();
   await expect(page.locator('h2:has-text("マイページ")')).toBeVisible();
   expect(page.url()).toBe("http://localhost:3000/profile");
+
+  const rootLink = await header.locator("text=Zennta");
+  rootLink.click();
+  await page.waitForLoadState();
+  await expect(page.locator("text=Qiita一覧")).toBeVisible();
+  expect(page.url()).toBe("http://localhost:3000/");
 });
 
 test("should display Qiita Articles", async ({ page }) => {
