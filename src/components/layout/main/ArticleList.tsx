@@ -41,13 +41,14 @@ export const ArticleList = async ({
         : `qiitapage=${otherPage}&zennpage=${pageNumber}#zennarticles`;
     return basePath + queryParams;
   };
-  const pagination = currentSite === "Zenn" ? (
-    <ZennSearchPagiNation currentPage={currentPage} next={next} buildHref={buildHref} />
-  ) : totalPage <= 5 ? (
-    <LessPagiNation currentPage={currentPage} totalPage={totalPage} buildHref={buildHref} />
-  ) : (
-    <PagiNation currentPage={currentPage} totalPage={totalPage} buildHref={buildHref} />
-  );
+  const pagination =
+    currentSite === "Zenn" ? (
+      <ZennSearchPagiNation currentPage={currentPage} next={next} buildHref={buildHref} />
+    ) : totalPage <= 5 ? (
+      <LessPagiNation currentPage={currentPage} totalPage={totalPage} buildHref={buildHref} />
+    ) : (
+      <PagiNation currentPage={currentPage} totalPage={totalPage} buildHref={buildHref} />
+    );
   return (
     <ArticleListPresentation
       pagination={pagination}
