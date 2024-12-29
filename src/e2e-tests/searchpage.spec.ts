@@ -76,51 +76,51 @@ test.beforeEach(async ({ page, next }) => {
   });
 });
 
-// test("should display searchpage", async ({ page }) => {
-//   await page.goto("/search");
-//   await expect(page.locator("text=Zennta")).toBeVisible();
-//   await expect(page.locator("nav a")).toHaveCount(5);
-//   await expect(page.locator("text=履歴")).toBeVisible();
-//   await expect(page.locator('h2:has-text("検索")')).toBeVisible();
-//   const searchForm = await page.getByTestId("search-form");
-//   await expect(searchForm.getByPlaceholder("検索ワードを入力")).toBeVisible();
-//   await expect(searchForm.getByRole("button", { name: "delete" })).toBeVisible();
-//   await expect(page.locator("text=なにか入力してください")).toBeVisible();
-// });
+test("should display searchpage", async ({ page }) => {
+  await page.goto("/search");
+  await expect(page.locator("text=Zennta")).toBeVisible();
+  await expect(page.locator("nav a")).toHaveCount(5);
+  await expect(page.locator("text=履歴")).toBeVisible();
+  await expect(page.locator('h2:has-text("検索")')).toBeVisible();
+  const searchForm = await page.getByTestId("search-form");
+  await expect(searchForm.getByPlaceholder("検索ワードを入力")).toBeVisible();
+  await expect(searchForm.getByRole("button", { name: "delete" })).toBeVisible();
+  await expect(page.locator("text=なにか入力してください")).toBeVisible();
+});
 
-// test("Display the search page when you actually search", async ({ page }) => {
-//   await page.goto("/search");
+test("Display the search page when you actually search", async ({ page }) => {
+  await page.goto("/search");
 
-//   const searchForm = await page.getByTestId("search-form");
-//   await searchForm.getByPlaceholder("検索ワードを入力").fill("Next.js");
-//   await searchForm.getByRole("button", { name: "delete" }).click();
-//   await page.waitForLoadState();
-//   await expect(page.getByRole("button", { name: "loading" })).not.toBeVisible();
+  const searchForm = await page.getByTestId("search-form");
+  await searchForm.getByPlaceholder("検索ワードを入力").fill("Next.js");
+  await searchForm.getByRole("button", { name: "delete" }).click();
+  await page.waitForLoadState();
+  await expect(page.getByRole("button", { name: "loading" })).not.toBeVisible();
 
-//   const searchInput = await page.locator('input[name="name"]');
-//   await expect(searchInput).toHaveValue("Next.js", { timeout: 50000 });
-//   expect(page.url()).toBe("http://localhost:3000/search?query=Next.js");
+  const searchInput = await page.locator('input[name="name"]');
+  await expect(searchInput).toHaveValue("Next.js", { timeout: 50000 });
+  expect(page.url()).toBe("http://localhost:3000/search?query=Next.js");
 
-//   await expect(page.locator("text=Qiita一覧")).toBeVisible();
-//   await expect(page.locator("text=Zenn一覧")).toBeVisible();
-// });
+  await expect(page.locator("text=Qiita一覧")).toBeVisible();
+  await expect(page.locator("text=Zenn一覧")).toBeVisible();
+});
 
-// test("should display Qiita Articles", async ({ page }) => {
-//   await page.goto("/search?query=Next.js");
+test("should display Qiita Articles", async ({ page }) => {
+  await page.goto("/search?query=Next.js");
 
-//   await page.waitForLoadState();
-//   await expect(page.locator("text=Qiita一覧")).toBeVisible();
-//   const qiitaArticles = await page.getByTestId("qiita-articles");
-//   await expect(
-//     qiitaArticles.getByRole("link", { name: "Search Qiita Article Title Next.js 1", exact: true })
-//   ).toBeVisible();
-//   await expect(qiitaArticles.locator("text=Search Qiita Article Title Next.js 30")).toBeVisible();
-//   await expect(qiitaArticles.locator("text=Search Qiita Article Title Next.js")).toHaveCount(30);
-//   await expect(qiitaArticles.locator("text=Tag1")).toHaveCount(15);
-//   await expect(qiitaArticles.locator("text=Tag2")).toHaveCount(15);
-//   await expect(qiitaArticles.locator("text=後で読む")).toHaveCount(30);
-//   await expect(qiitaArticles.locator("text=お気に入り登録")).toHaveCount(30);
-// });
+  await page.waitForLoadState();
+  await expect(page.locator("text=Qiita一覧")).toBeVisible();
+  const qiitaArticles = await page.getByTestId("qiita-articles");
+  await expect(
+    qiitaArticles.getByRole("link", { name: "Search Qiita Article Title Next.js 1", exact: true })
+  ).toBeVisible();
+  await expect(qiitaArticles.locator("text=Search Qiita Article Title Next.js 30")).toBeVisible();
+  await expect(qiitaArticles.locator("text=Search Qiita Article Title Next.js")).toHaveCount(30);
+  await expect(qiitaArticles.locator("text=Tag1")).toHaveCount(15);
+  await expect(qiitaArticles.locator("text=Tag2")).toHaveCount(15);
+  await expect(qiitaArticles.locator("text=後で読む")).toHaveCount(30);
+  await expect(qiitaArticles.locator("text=お気に入り登録")).toHaveCount(30);
+});
 
 test("should display pagination of Qiita Articles", async ({ page }) => {
   await page.goto("/search?query=Next.js");
@@ -137,29 +137,29 @@ test("should display pagination of Qiita Articles", async ({ page }) => {
   await expect(qiitaArticles.getByRole("link", { name: "Go to the last page" })).toHaveCount(2);
 });
 
-// test("should display Zenn Articles", async ({ page }) => {
-//   await page.goto("/search?query=Next.js");
-//   const zennArticles = await page.getByTestId("zenn-articles");
-//   await expect(
-//     zennArticles.getByRole("link", { name: "Search Zenn Article Title Next.js 1", exact: true })
-//   ).toBeVisible();
-//   await expect(zennArticles.locator("text=Search Zenn Article Title Next.js 30")).toBeVisible();
-//   await expect(zennArticles.locator("text=Search Zenn Article Title Next.js")).toHaveCount(30);
-//   await expect(zennArticles.locator("text=後で読む")).toHaveCount(30);
-//   await expect(zennArticles.locator("text=お気に入り登録")).toHaveCount(30);
-// });
+test("should display Zenn Articles", async ({ page }) => {
+  await page.goto("/search?query=Next.js");
+  const zennArticles = await page.getByTestId("zenn-articles");
+  await expect(
+    zennArticles.getByRole("link", { name: "Search Zenn Article Title Next.js 1", exact: true })
+  ).toBeVisible();
+  await expect(zennArticles.locator("text=Search Zenn Article Title Next.js 30")).toBeVisible();
+  await expect(zennArticles.locator("text=Search Zenn Article Title Next.js")).toHaveCount(30);
+  await expect(zennArticles.locator("text=後で読む")).toHaveCount(30);
+  await expect(zennArticles.locator("text=お気に入り登録")).toHaveCount(30);
+});
 
-// test("should display pagination of Zenn Articles", async ({ page }) => {
-//   await page.goto("/search?query=Next.js");
-//   const zennArticles = await page.getByTestId("zenn-articles");
+test("should display pagination of Zenn Articles", async ({ page }) => {
+  await page.goto("/search?query=Next.js");
+  const zennArticles = await page.getByTestId("zenn-articles");
 
-//   const activeButton = zennArticles.getByRole("link", { name: "1", exact: true });
-//   await expect(activeButton).toHaveCount(2);
-//   await expect(activeButton.first()).toHaveAttribute("aria-current", "page");
+  const activeButton = zennArticles.getByRole("link", { name: "1", exact: true });
+  await expect(activeButton).toHaveCount(2);
+  await expect(activeButton.first()).toHaveAttribute("aria-current", "page");
 
-//   await expect(zennArticles.getByRole("link", { name: "2", exact: true })).not.toBeVisible();
-//   await expect(zennArticles.getByRole("link", { name: "Go to next page" })).toHaveCount(2);
-// });
+  await expect(zennArticles.getByRole("link", { name: "2", exact: true })).not.toBeVisible();
+  await expect(zennArticles.getByRole("link", { name: "Go to next page" })).toHaveCount(2);
+});
 
 test("Qiita article pagination is working correctly", async ({ page }) => {
   await page.goto("/search?query=Next.js");
@@ -211,7 +211,7 @@ test("Testing pagination when there are few Qiita articles", async ({ page, next
       });
     }
   });
-  await page.goto("/search?query=Next.js&qiitapage=1&zennpage=2");
+  await page.goto("/search?query=Next.js");
 
   const qiitaArticles = await page.getByTestId("qiita-articles");
   await page.screenshot({ path: "screenshot-1.png", fullPage: true });
@@ -224,4 +224,43 @@ test("Testing pagination when there are few Qiita articles", async ({ page, next
   await expect(qiitaArticles.getByRole("link", { name: "4", exact: true })).toHaveCount(2);
   await expect(qiitaArticles.getByRole("link", { name: "5", exact: true })).toHaveCount(2);
   await expect(qiitaArticles.getByRole("link", { name: "Go to next page" })).not.toBeVisible();
+});
+
+test("Zenn article pagination is working correctly", async ({ page }) => {
+  await page.goto("/search?query=Next.js");
+
+  const zennArticles = await page.getByTestId("zenn-articles");
+  const nextPageButton = await zennArticles.getByRole("link", { name: "Go to next page" });
+  nextPageButton.first().click();
+  await page.waitForLoadState();
+  await expect(zennArticles.locator("text=Search Zenn Article Title Next.js 31")).toBeVisible();
+  const activeButton = zennArticles.getByRole("link", { name: "2", exact: true });
+  await expect(activeButton).toHaveCount(2);
+  await expect(activeButton.first()).toHaveAttribute("aria-current", "page");
+  await expect(zennArticles.getByRole("link", { name: "1", exact: true })).toHaveCount(2);
+  await expect(nextPageButton).toHaveCount(2);
+});
+
+test("Testing Zenn article pagination when next_page is null", async ({ page, next }) => {
+  next.onFetch(async (request) => {
+    const url = new URL(request.url);
+    if (url.origin === "https://zenn.dev" && url.pathname === "/api/search") {
+      const page = url.searchParams.get("page") || "1";
+      const perPage = "30";
+      const query = url.searchParams.get("q") || "";
+      const mockArticles = generateMockZennArticles(Number(page), Number(perPage), query);
+      return new Response(JSON.stringify({ articles: mockArticles, next_page: null }), {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    }
+  });
+  await page.goto("/search?query=Next.js");
+
+  const zennArticles = await page.getByTestId("zenn-articles");
+  await expect(zennArticles.getByRole("link", { name: "Go to next page" })).not.toBeVisible();
+  const activeButton = zennArticles.getByRole("link", { name: "1", exact: true });
+  await expect(activeButton).toHaveCount(2);
+  await expect(activeButton.first()).toHaveAttribute("aria-current", "page");
 });
