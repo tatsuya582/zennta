@@ -359,3 +359,15 @@ test("search form is working properly", async ({ page }) => {
   await expect(page.getByRole("button", { name: "loading" })).not.toBeVisible();
   expect(page.url()).toBe("http://localhost:3000/search?query=Next.js");
 });
+
+test("Click on a tag to go to the search page", async ({ page }) => {
+  await page.goto("/");
+
+  const tagsbutton = await page.locator("text=Tag1");
+  tagsbutton.first().click();
+  await page.waitForLoadState();
+
+  const searchInput = await page.locator('input[name="name"]');
+  await expect(searchInput).toHaveValue("Tag1", { timeout: 50000 });
+  expect(page.url()).toBe("http://localhost:3000/search?query=Tag1");
+});
