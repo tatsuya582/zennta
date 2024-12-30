@@ -36,7 +36,7 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     // Setup project
-    // { name: "setup", testMatch: /.*\.setup\.ts/ },
+    { name: "setup", testMatch: /.*\.setup\.ts/ },
     {
       name: "chromium",
       use: {
@@ -44,28 +44,28 @@ export default defineConfig({
         // Use prepared auth state.
         storageState: "src/e2e-tests/.auth/user.json",
       },
-      // dependencies: ["setup"],
+      dependencies: ["setup"],
     },
 
-    // {
-    //   name: "firefox",
-    //   use: {
-    //     ...devices["Desktop Firefox"],
-    //     // Use prepared auth state.
-    //     storageState: "src/e2e-tests/.auth/user.json",
-    //   },
-    //   dependencies: ["setup"],
-    // },
+    {
+      name: "firefox",
+      use: {
+        ...devices["Desktop Firefox"],
+        // Use prepared auth state.
+        storageState: "src/e2e-tests/.auth/user.json",
+      },
+      dependencies: ["setup"],
+    },
 
-    // {
-    //   name: "webkit",
-    //   use: {
-    //     ...devices["Desktop Safari"],
-    //     // Use prepared auth state.
-    //     storageState: "src/e2e-tests/.auth/user.json",
-    //   },
-    //   dependencies: ["setup"],
-    // },
+    {
+      name: "webkit",
+      use: {
+        ...devices["Desktop Safari"],
+        // Use prepared auth state.
+        storageState: "src/e2e-tests/.auth/user.json",
+      },
+      dependencies: ["setup"],
+    },
 
     /* Test against mobile viewports. */
     // {
