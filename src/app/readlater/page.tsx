@@ -25,7 +25,10 @@ export default function ReadLaterPage({
   return (
     <>
       <SearchForm key={query} query={query} linkPage="readlater" />
-      <div className="w-full flex justify-center items-center flex-col md:mt-2 mt-8 mb-4">
+      <div
+        className="w-full flex justify-center items-center flex-col md:mt-2 mt-8 mb-4"
+        data-testid="read-later-articles"
+      >
         <h2>後で読む</h2>
         <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
           <Suspense fallback={<ArticleListSkeleton />}>
