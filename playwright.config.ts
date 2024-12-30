@@ -4,9 +4,9 @@ import { defineConfig, devices } from "next/experimental/testmode/playwright";
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
+import dotenv from "dotenv";
+import path from "path";
+dotenv.config({ path: path.resolve(__dirname, ".env.local") });
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -36,7 +36,7 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     // Setup project
-    { name: "setup", testMatch: /.*\.setup\.ts/ },
+    // { name: "setup", testMatch: /.*\.setup\.ts/ },
     {
       name: "chromium",
       use: {
@@ -44,28 +44,28 @@ export default defineConfig({
         // Use prepared auth state.
         storageState: "src/e2e-tests/.auth/user.json",
       },
-      dependencies: ["setup"],
+      // dependencies: ["setup"],
     },
 
-    {
-      name: "firefox",
-      use: {
-        ...devices["Desktop Firefox"],
-        // Use prepared auth state.
-        storageState: "src/e2e-tests/.auth/user.json",
-      },
-      dependencies: ["setup"],
-    },
+    // {
+    //   name: "firefox",
+    //   use: {
+    //     ...devices["Desktop Firefox"],
+    //     // Use prepared auth state.
+    //     storageState: "src/e2e-tests/.auth/user.json",
+    //   },
+    //   dependencies: ["setup"],
+    // },
 
-    {
-      name: "webkit",
-      use: {
-        ...devices["Desktop Safari"],
-        // Use prepared auth state.
-        storageState: "src/e2e-tests/.auth/user.json",
-      },
-      dependencies: ["setup"],
-    },
+    // {
+    //   name: "webkit",
+    //   use: {
+    //     ...devices["Desktop Safari"],
+    //     // Use prepared auth state.
+    //     storageState: "src/e2e-tests/.auth/user.json",
+    //   },
+    //   dependencies: ["setup"],
+    // },
 
     /* Test against mobile viewports. */
     // {
