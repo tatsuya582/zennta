@@ -34,7 +34,7 @@ export const StoredArticleListPresentation = ({
                   </div>
                 </div>
               ) : (
-                <ReadLaterPageButton item={item} />
+                <ReadLaterPageButton item={item} key={item.other_column_id} />
               )}
             </div>
           </div>
