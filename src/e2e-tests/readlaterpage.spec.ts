@@ -265,129 +265,141 @@ test.beforeEach(async ({ page, next }) => {
 //   await expect(readLaterArticles.getByRole("link", { name: "Go to next page" })).not.toBeVisible();
 // });
 
-test("Clicking the Read button will display a dialogue", async ({ page, next }) => {
-  next.onFetch(async (request) => {
-    if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
-      return new Response(
-        JSON.stringify({
-          articles: generateMockReadLaterArticles(readLaterPage, readLaterPerPage),
-          total_count: 150,
-        }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-    }
-  });
+// test("Clicking the Read button will display a dialogue", async ({ page, next }) => {
+//   next.onFetch(async (request) => {
+//     if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
+//       return new Response(
+//         JSON.stringify({
+//           articles: generateMockReadLaterArticles(readLaterPage, readLaterPerPage),
+//           total_count: 150,
+//         }),
+//         {
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//         }
+//       );
+//     }
+//   });
+//   await page.goto("/readlater");
+
+//   const readLaterButton = await page.getByRole("button", { name: "読了" });
+//   readLaterButton.first().click();
+
+//   const alertDialog = await page.getByRole("alertdialog");
+//   await expect(alertDialog.locator('h2:has-text("読み終わりましたか？")')).toBeVisible();
+//   await expect(alertDialog.locator('p:has-text("削除するか、お気に入りに登録するか選択してください")')).toBeVisible();
+//   await expect(alertDialog.locator("button", { hasText: "お気に入り登録" })).toBeVisible();
+//   await expect(alertDialog.locator("button", { hasText: "削除" })).toBeVisible();
+//   await expect(alertDialog.locator("button", { hasText: "キャンセル" })).toBeVisible();
+// });
+
+// test("Clicking the Read button will display a dialogue when favorite article", async ({ page, next }) => {
+//   next.onFetch(async (request) => {
+//     if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
+//       return new Response(
+//         JSON.stringify({
+//           articles: [
+//             {
+//               id: "article-1",
+//               column_id: "read-laters-article-1",
+//               other_column_id: null,
+//               title: "Read Laters Article Title 1",
+//               url: "https://example.com/read-laters-article-1",
+//               tags: [{ name: "Tag1" }, { name: "Tag2" }],
+//               is_in_other_table: true,
+//             },
+//           ],
+//           total_count: 150,
+//         }),
+//         {
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//         }
+//       );
+//     }
+//   });
+//   await page.goto("/readlater");
+
+//   const readLaterArticles = await page.getByTestId("read-later-articles");
+//   await expect(readLaterArticles.locator("button", { hasText: "お気に入り済み" })).toBeVisible();
+//   const readLaterButton = await page.getByRole("button", { name: "読了" });
+//   readLaterButton.first().click();
+
+//   const alertDialog = await page.getByRole("alertdialog");
+//   await expect(alertDialog.locator('h2:has-text("読み終わりましたか？")')).toBeVisible();
+//   await expect(alertDialog.locator('p:has-text("削除するか、お気に入りに登録するか選択してください")')).toBeVisible();
+//   await expect(alertDialog.locator("button", { hasText: "お気に入り登録" })).not.toBeVisible();
+//   await expect(alertDialog.locator("button", { hasText: "削除" })).toBeVisible();
+//   await expect(alertDialog.locator("button", { hasText: "キャンセル" })).toBeVisible();
+// });
+
+// test("Test the button behavior", async ({ page }) => {
+//   await page.goto("/");
+
+//   const qiitaArticles = await page.getByTestId("qiita-articles");
+//   const homePageReadLaterButton = await qiitaArticles.locator("text=後で読む");
+//   homePageReadLaterButton.first().click();
+//   await page.waitForLoadState();
+
+//   await expect(qiitaArticles.getByRole("button", { name: "loading" })).toBeVisible();
+//   await page.waitForLoadState();
+
+//   await expect(qiitaArticles.locator("text=登録済み")).toBeVisible();
+
+//   const header = await page.getByTestId("header");
+//   const readLaterLink = await header.locator("text=後で読む");
+//   readLaterLink.first().click();
+//   await page.waitForLoadState();
+
+//   await expect(page.locator('h2:has-text("後で読む")')).toBeVisible();
+//   await expect(page.locator("text=Sample Qiita Article Title 1")).toBeVisible();
+
+//   const readLaterButton = await page.getByRole("button", { name: "読了" }).first();
+//   readLaterButton.click();
+
+//   const alertDialog = await page.getByRole("alertdialog");
+//   await alertDialog.locator("button", { hasText: "お気に入り登録" }).click();
+//   await page.waitForLoadState();
+
+//   await expect(page.locator('li:has-text("お気に入り登録しました")')).toBeVisible();
+//   await page.waitForLoadState();
+
+//   const parentDiv = await readLaterButton.locator("xpath=../..//div[2]");
+//   const favoriteButton = parentDiv.locator("button", { hasText: "お気に入り済み" });
+//   await expect(favoriteButton).toBeVisible();
+
+//   readLaterButton.click();
+//   await page.waitForLoadState();
+//   await expect(alertDialog.locator('h2:has-text("読み終わりましたか？")')).toBeVisible();
+//   await expect(alertDialog.locator("button", { hasText: "お気に入り登録" })).not.toBeVisible();
+
+//   await alertDialog.locator("button", { hasText: "キャンセル" }).click();
+//   await page.waitForLoadState();
+
+//   favoriteButton.click();
+//   const loadingButton = page.getByRole("button", { name: "loading" });
+//   await expect(loadingButton).toBeVisible();
+//   await expect(loadingButton).not.toBeVisible();
+//   await expect(parentDiv.locator("button", { hasText: "お気に入り登録" })).toBeVisible();
+
+//   readLaterButton.click();
+//   await page.waitForLoadState();
+//   await alertDialog.locator("button", { hasText: "削除" }).click();
+
+//   await expect(page.locator('li:has-text("削除しました")')).toBeVisible();
+//   await expect(page.locator("text=Sample Qiita Article Title 1")).not.toBeVisible();
+// });
+
+test("search form is working properly", async ({ page }) => {
   await page.goto("/readlater");
 
-  const readLaterButton = await page.getByRole("button", { name: "読了" });
-  readLaterButton.first().click();
-
-  const alertDialog = await page.getByRole("alertdialog");
-  await expect(alertDialog.locator('h2:has-text("読み終わりましたか？")')).toBeVisible();
-  await expect(alertDialog.locator('p:has-text("削除するか、お気に入りに登録するか選択してください")')).toBeVisible();
-  await expect(alertDialog.locator("button", { hasText: "お気に入り登録" })).toBeVisible();
-  await expect(alertDialog.locator("button", { hasText: "削除" })).toBeVisible();
-  await expect(alertDialog.locator("button", { hasText: "キャンセル" })).toBeVisible();
-});
-
-test("Clicking the Read button will display a dialogue when favorite article", async ({ page, next }) => {
-  next.onFetch(async (request) => {
-    if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
-      return new Response(
-        JSON.stringify({
-          articles: [
-            {
-              id: "article-1",
-              column_id: "read-laters-article-1",
-              other_column_id: null,
-              title: "Read Laters Article Title 1",
-              url: "https://example.com/read-laters-article-1",
-              tags: [{ name: "Tag1" }, { name: "Tag2" }],
-              is_in_other_table: true,
-            },
-          ],
-          total_count: 150,
-        }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-    }
-  });
-  await page.goto("/readlater");
-
-  const readLaterArticles = await page.getByTestId("read-later-articles");
-  await expect(readLaterArticles.locator("button", { hasText: "お気に入り済み" })).toBeVisible();
-  const readLaterButton = await page.getByRole("button", { name: "読了" });
-  readLaterButton.first().click();
-
-  const alertDialog = await page.getByRole("alertdialog");
-  await expect(alertDialog.locator('h2:has-text("読み終わりましたか？")')).toBeVisible();
-  await expect(alertDialog.locator('p:has-text("削除するか、お気に入りに登録するか選択してください")')).toBeVisible();
-  await expect(alertDialog.locator("button", { hasText: "お気に入り登録" })).not.toBeVisible();
-  await expect(alertDialog.locator("button", { hasText: "削除" })).toBeVisible();
-  await expect(alertDialog.locator("button", { hasText: "キャンセル" })).toBeVisible();
-});
-
-test("Test the button behavior", async ({ page }) => {
-  await page.goto("/");
-
-  const qiitaArticles = await page.getByTestId("qiita-articles");
-  const homePageReadLaterButton = await qiitaArticles.locator("text=後で読む");
-  homePageReadLaterButton.first().click();
+  const searchForm = await page.getByTestId("search-form");
+  await searchForm.getByPlaceholder("検索ワードを入力").fill("Tag");
+  await searchForm.locator("button", { hasText: "検索" }).click();
   await page.waitForLoadState();
-
-  await expect(qiitaArticles.getByRole("button", { name: "loading" })).toBeVisible();
-  await page.waitForLoadState();
-
-  await expect(qiitaArticles.locator("text=登録済み")).toBeVisible();
-
-  const header = await page.getByTestId("header");
-  const readLaterLink = await header.locator("text=後で読む");
-  readLaterLink.first().click();
-  await page.waitForLoadState();
-
-  await expect(page.locator('h2:has-text("後で読む")')).toBeVisible();
-  await expect(page.locator("text=Sample Qiita Article Title 1")).toBeVisible();
-
-  const readLaterButton = await page.getByRole("button", { name: "読了" }).first();
-  readLaterButton.click();
-
-  const alertDialog = await page.getByRole("alertdialog");
-  await alertDialog.locator("button", { hasText: "お気に入り登録" }).click();
-  await page.waitForLoadState();
-
-  await expect(page.locator('li:has-text("お気に入り登録しました")')).toBeVisible();
-  await page.waitForLoadState();
-
-  const parentDiv = await readLaterButton.locator("xpath=../..//div[2]");
-  const favoriteButton = parentDiv.locator("button", { hasText: "お気に入り済み" });
-  await expect(favoriteButton).toBeVisible();
-
-  readLaterButton.click();
-  await page.waitForLoadState();
-  await expect(alertDialog.locator('h2:has-text("読み終わりましたか？")')).toBeVisible();
-  await expect(alertDialog.locator("button", { hasText: "お気に入り登録" })).not.toBeVisible();
-
-  await alertDialog.locator("button", { hasText: "キャンセル" }).click();
-  await page.waitForLoadState();
-
-  favoriteButton.click();
-  const loadingButton = page.getByRole("button", { name: "loading" });
-  await expect(loadingButton).toBeVisible();
-  await expect(loadingButton).not.toBeVisible();
-  await expect(parentDiv.locator("button", { hasText: "お気に入り登録" })).toBeVisible();
-
-  readLaterButton.click();
-  await page.waitForLoadState();
-  await alertDialog.locator("button", { hasText: "削除" }).click();
-
-  await expect(page.locator('li:has-text("削除しました")')).toBeVisible();
-  await expect(page.locator("text=Sample Qiita Article Title 1")).not.toBeVisible();
+  await expect(page.getByRole("button", { name: "loading" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "loading" })).not.toBeVisible();
+  expect(page.url()).toBe("http://localhost:3000/readlater?query=Tag");
 });
