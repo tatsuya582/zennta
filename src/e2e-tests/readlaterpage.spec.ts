@@ -191,3 +191,76 @@ test("should display pagination when less article", async ({ page, next }) => {
   await expect(readLaterArticles.getByRole("link", { name: "Go to next page" })).not.toBeVisible();
   await expect(readLaterArticles.getByRole("link", { name: "Go to the last page" })).not.toBeVisible();
 });
+
+test("Pagination is working correctly", async ({ page, next }) => {
+  next.onFetch(async (request) => {
+    if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
+      return new Response(
+        JSON.stringify({
+          articles: generateMockReadLaterArticles(readLaterPage, readLaterPerPage),
+          total_count: 3000,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
+  });
+  await page.goto("/readlater");
+
+  const readLaterArticles = await page.getByTestId("read-later-articles");
+  const nextPageButton = readLaterArticles.getByRole("link", { name: "2", exact: true });
+  nextPageButton.first().click();
+  await page.waitForLoadState();
+
+  await expect(nextPageButton).toHaveCount(2);
+  await expect(nextPageButton.first()).toHaveAttribute("aria-current", "page");
+
+  const lastPageButton = await readLaterArticles.getByRole("link", { name: "Go to the last page" });
+  lastPageButton.first().click();
+  await page.waitForLoadState();
+
+  const activeButton = readLaterArticles.getByRole("link", { name: "100", exact: true });
+  await expect(activeButton).toHaveCount(2);
+  await expect(activeButton.first()).toHaveAttribute("aria-current", "page");
+
+  await expect(readLaterArticles.getByRole("link", { name: "98", exact: true })).toHaveCount(2);
+  await expect(readLaterArticles.getByRole("link", { name: "99", exact: true })).toHaveCount(2);
+  await expect(readLaterArticles.locator(".sr-only", { hasText: "More pages" })).toHaveCount(2);
+  await expect(readLaterArticles.getByRole("link", { name: "Go to previous page" })).toHaveCount(2);
+  await expect(readLaterArticles.getByRole("link", { name: "Go to the first page" })).toHaveCount(2);
+});
+
+test("Pagination is working correctly when less articles", async ({ page, next }) => {
+  next.onFetch(async (request) => {
+    if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
+      return new Response(
+        JSON.stringify({
+          articles: generateMockReadLaterArticles(readLaterPage, readLaterPerPage),
+          total_count: 150,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
+  });
+  await page.goto("/readlater");
+
+  const readLaterArticles = await page.getByTestId("read-later-articles");
+  const activeButton = readLaterArticles.getByRole("link", { name: "3", exact: true });
+  activeButton.first().click();
+
+  await expect(activeButton).toHaveCount(2);
+  await expect(activeButton.first()).toHaveAttribute("aria-current", "page");
+
+  await expect(readLaterArticles.getByRole("link", { name: "1", exact: true })).toHaveCount(2);
+  await expect(readLaterArticles.getByRole("link", { name: "2", exact: true })).toHaveCount(2);
+  await expect(readLaterArticles.getByRole("link", { name: "4", exact: true })).toHaveCount(2);
+  await expect(readLaterArticles.getByRole("link", { name: "5", exact: true })).toHaveCount(2);
+  await expect(readLaterArticles.getByRole("link", { name: "Go to next page" })).not.toBeVisible();
+});
