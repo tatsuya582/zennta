@@ -28,7 +28,7 @@ export const StoredArticleListPresentation = ({
               </div>
               {isFavorite ? (
                 <div className="flex flex-col justify-center items-center gap-2">
-                  <AddFavoriteColumnButton item={item} isEdit={!!item.memo} />
+                  <AddFavoriteColumnButton item={item} isEdit={!!item.memo} key={item.memo} />
                   <div className="w-full">
                     <FavoritePageDeleteButton item={item} />
                   </div>
