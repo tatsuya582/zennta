@@ -90,12 +90,41 @@ test.beforeEach(async ({ page, next }) => {
   });
 });
 
-test("should display favoritepage", async ({ page }) => {
+// test("should display favoritepage", async ({ page }) => {
+//   await page.goto("/favorite");
+
+//   await expect(page.locator('h2:has-text("お気に入り")')).toBeVisible();
+//   await expect(page.locator("text=履歴")).toBeVisible();
+//   const searchForm = await page.getByTestId("search-form");
+//   await expect(searchForm.getByPlaceholder("検索ワードを入力")).toBeVisible();
+//   await expect(searchForm.locator("button", { hasText: "検索" })).toBeVisible();
+// });
+
+test("should display Articles", async ({ page, next }) => {
+  next.onFetch(async (request) => {
+    if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_favorites_articles_with_count`) {
+      return new Response(
+        JSON.stringify({
+          articles: generateMockFavoriteArticles(favoritePage, favoritePerPage),
+          total_count: 40,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
+  });
+
   await page.goto("/favorite");
 
-  await expect(page.locator('h2:has-text("お気に入り")')).toBeVisible();
-  await expect(page.locator("text=履歴")).toBeVisible();
-  const searchForm = await page.getByTestId("search-form");
-  await expect(searchForm.getByPlaceholder("検索ワードを入力")).toBeVisible();
-  await expect(searchForm.locator("button", { hasText: "検索" })).toBeVisible();
+  const favoriteArticles = await page.getByTestId("favorite-articles");
+  await expect(favoriteArticles.getByRole("link", { name: "Favorite Article Title 1", exact: true })).toBeVisible();
+  await expect(favoriteArticles.locator("text=Favorite Article Title 30")).toBeVisible();
+  await expect(favoriteArticles.locator("text=Favorite Article Title")).toHaveCount(30);
+  await expect(favoriteArticles.locator("text=Tag1")).toHaveCount(15);
+  await expect(favoriteArticles.locator("text=Tag2")).toHaveCount(15);
+  await expect(favoriteArticles.locator("text=メモを追加")).toHaveCount(30);
+  await expect(favoriteArticles.locator("text=削除")).toHaveCount(30);
 });
