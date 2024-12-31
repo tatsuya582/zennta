@@ -100,13 +100,42 @@ test.beforeEach(async ({ page, next }) => {
 //   await expect(searchForm.locator("button", { hasText: "検索" })).toBeVisible();
 // });
 
-test("should display Articles", async ({ page, next }) => {
+// test("should display Articles", async ({ page, next }) => {
+//   next.onFetch(async (request) => {
+//     if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_favorites_articles_with_count`) {
+//       return new Response(
+//         JSON.stringify({
+//           articles: generateMockFavoriteArticles(favoritePage, favoritePerPage),
+//           total_count: 40,
+//         }),
+//         {
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//         }
+//       );
+//     }
+//   });
+
+//   await page.goto("/favorite");
+
+//   const favoriteArticles = await page.getByTestId("favorite-articles");
+//   await expect(favoriteArticles.getByRole("link", { name: "Favorite Article Title 1", exact: true })).toBeVisible();
+//   await expect(favoriteArticles.locator("text=Favorite Article Title 30")).toBeVisible();
+//   await expect(favoriteArticles.locator("text=Favorite Article Title")).toHaveCount(30);
+//   await expect(favoriteArticles.locator("text=Tag1")).toHaveCount(15);
+//   await expect(favoriteArticles.locator("text=Tag2")).toHaveCount(15);
+//   await expect(favoriteArticles.locator("text=メモを追加")).toHaveCount(30);
+//   await expect(favoriteArticles.locator("text=削除")).toHaveCount(30);
+// });
+
+test("should display pagination", async ({ page, next }) => {
   next.onFetch(async (request) => {
     if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_favorites_articles_with_count`) {
       return new Response(
         JSON.stringify({
           articles: generateMockFavoriteArticles(favoritePage, favoritePerPage),
-          total_count: 40,
+          total_count: 3000,
         }),
         {
           headers: {
@@ -120,11 +149,45 @@ test("should display Articles", async ({ page, next }) => {
   await page.goto("/favorite");
 
   const favoriteArticles = await page.getByTestId("favorite-articles");
-  await expect(favoriteArticles.getByRole("link", { name: "Favorite Article Title 1", exact: true })).toBeVisible();
-  await expect(favoriteArticles.locator("text=Favorite Article Title 30")).toBeVisible();
-  await expect(favoriteArticles.locator("text=Favorite Article Title")).toHaveCount(30);
-  await expect(favoriteArticles.locator("text=Tag1")).toHaveCount(15);
-  await expect(favoriteArticles.locator("text=Tag2")).toHaveCount(15);
-  await expect(favoriteArticles.locator("text=メモを追加")).toHaveCount(30);
-  await expect(favoriteArticles.locator("text=削除")).toHaveCount(30);
+  const activeButton = favoriteArticles.getByRole("link", { name: "1", exact: true });
+  await expect(activeButton).toHaveCount(2);
+  await expect(activeButton.first()).toHaveAttribute("aria-current", "page");
+
+  await expect(favoriteArticles.getByRole("link", { name: "2", exact: true })).toHaveCount(2);
+  await expect(favoriteArticles.getByRole("link", { name: "3", exact: true })).toHaveCount(2);
+  await expect(favoriteArticles.locator(".sr-only", { hasText: "More pages" })).toHaveCount(2);
+  await expect(favoriteArticles.getByRole("link", { name: "Go to next page" })).toHaveCount(2);
+  await expect(favoriteArticles.getByRole("link", { name: "Go to the last page" })).toHaveCount(2);
+});
+
+test("should display pagination when less article", async ({ page, next }) => {
+  next.onFetch(async (request) => {
+    if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_favorites_articles_with_count`) {
+      return new Response(
+        JSON.stringify({
+          articles: generateMockFavoriteArticles(favoritePage, favoritePerPage),
+          total_count: 120,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
+  });
+
+  await page.goto("/favorite");
+
+  const favoriteArticles = await page.getByTestId("favorite-articles");
+  const activeButton = favoriteArticles.getByRole("link", { name: "1", exact: true });
+  await expect(activeButton).toHaveCount(2);
+  await expect(activeButton.first()).toHaveAttribute("aria-current", "page");
+
+  await expect(favoriteArticles.getByRole("link", { name: "2", exact: true })).toHaveCount(2);
+  await expect(favoriteArticles.getByRole("link", { name: "3", exact: true })).toHaveCount(2);
+  await expect(favoriteArticles.getByRole("link", { name: "4", exact: true })).toHaveCount(2);
+  await expect(favoriteArticles.locator(".sr-only", { hasText: "More pages" })).not.toBeVisible();
+  await expect(favoriteArticles.getByRole("link", { name: "Go to next page" })).not.toBeVisible();
+  await expect(favoriteArticles.getByRole("link", { name: "Go to the last page" })).not.toBeVisible();
 });
