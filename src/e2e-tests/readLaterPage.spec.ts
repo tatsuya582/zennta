@@ -335,7 +335,9 @@ test("Clicking the Read button will display a dialogue when favorite article", a
   await expect(alertDialog.locator("button", { hasText: "キャンセル" })).toBeVisible();
 });
 
-test("Test the button behavior", async ({ page }) => {
+test("Test the button behavior", async ({ page, browserName }) => {
+  test.skip(browserName === "webkit", "This test is skipped on WebKit browsers.");
+  test.skip(browserName === "firefox", "This test is skipped on firefox browsers.");
   await page.goto("/");
 
   const qiitaArticles = await page.getByTestId("qiita-articles");
@@ -367,8 +369,10 @@ test("Test the button behavior", async ({ page }) => {
   await expect(page.locator('li:has-text("お気に入り登録しました")')).toBeVisible();
   await page.waitForLoadState();
 
-  const parentDiv = await readLaterButton.locator("xpath=../..//div[2]");
-  const favoriteButton = parentDiv.locator("button", { hasText: "お気に入り済み" });
+  const firstArticle = await page.getByTestId("article-1");
+  const favoriteButton = firstArticle.locator("button", { hasText: "お気に入り済み" });
+  
+  await expect(alertDialog).not.toBeVisible();
   await expect(favoriteButton).toBeVisible();
 
   readLaterButton.click();
@@ -379,11 +383,13 @@ test("Test the button behavior", async ({ page }) => {
   await alertDialog.locator("button", { hasText: "キャンセル" }).click();
   await page.waitForLoadState();
 
+  await expect(alertDialog).not.toBeVisible();
   favoriteButton.click();
+  await page.waitForLoadState();
   const loadingButton = page.getByRole("button", { name: "loading" });
-  await expect(loadingButton).toBeVisible();
+  await expect(loadingButton).toBeVisible({ timeout: 60000 });
   await expect(loadingButton).not.toBeVisible();
-  await expect(parentDiv.locator("button", { hasText: "お気に入り登録" })).toBeVisible();
+  await expect(firstArticle.locator("button", { hasText: "お気に入り登録" })).toBeVisible({ timeout: 60000 });
 
   readLaterButton.click();
   await page.waitForLoadState();

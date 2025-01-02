@@ -18,10 +18,10 @@ export const StoredArticleListPresentation = ({
   return (
     <div className="mt-4">
       <div className="border-b border-gray-300 mb-2 pb-4">{pagination}</div>
-      {articles.map((item) => {
+      {articles.map((item, index) => {
         return (
           <div key={item.id} className="border-b border-gray-300 m-2 pb-1">
-            <div className="flex md:flex-row flex-col justify-between gap-1">
+            <div className="flex md:flex-row flex-col justify-between gap-1" data-testid={`article-${index + 1}`}>
               <div className="flex flex-col justify-center w-full">
                 <Article item={item} onSubmit={addStoredItemHistory} />
                 {item.memo && <MemoDisplay item={item} />}

@@ -322,6 +322,7 @@ test("Test the button behavior", async ({ page }) => {
 
   editMemoButton.click();
   await page.waitForLoadState();
+  await expect(dialog.locator("h2", { hasText: "メモを入力してください" })).toBeVisible();
   await expect(dialog.locator("text=edit")).toBeVisible();
 
   // キャンセルの挙動をテスト
