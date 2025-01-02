@@ -42,7 +42,7 @@ export const ArticleList = async ({
     return basePath + queryParams;
   };
   const pagination =
-    currentSite === "Zenn" ? (
+    currentSite === "Zenn" && isSearch ? (
       <ZennSearchPagiNation currentPage={currentPage} next={next} buildHref={buildHref} />
     ) : totalPage <= 5 ? (
       <LessPagiNation currentPage={currentPage} totalPage={totalPage} buildHref={buildHref} />
