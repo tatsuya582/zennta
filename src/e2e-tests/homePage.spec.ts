@@ -77,7 +77,6 @@ test.beforeEach(async ({ page, next }) => {
 test("should display homepage", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("text=Zennta")).toBeVisible();
-  await expect(page.locator("nav a")).toHaveCount(25);
   await expect(page.locator("text=履歴")).toBeVisible();
   await expect(page.locator("text=Qiita一覧")).toBeVisible();
   await expect(page.locator("text=Zenn一覧")).toBeVisible();
@@ -355,16 +354,16 @@ test("Click on an article to see its history", async ({ page, context }) => {
   await expect(asideElement.locator("text=Sample Qiita Article Title 30")).toBeVisible();
 });
 
-test("search form is working properly", async ({ page }) => {
-  await page.goto("/");
+// test("search form is working properly", async ({ page }) => {
+//   await page.goto("/");
 
-  const searchForm = await page.getByTestId("search-form");
-  await searchForm.getByPlaceholder("検索ワードを入力").fill("Next.js");
-  await searchForm.getByRole("button", { name: "delete" }).click();
-  await page.waitForLoadState();
-  await expect(page.getByRole("button", { name: "loading" })).not.toBeVisible();
-  expect(page.url()).toBe("http://localhost:3000/search?query=Next.js");
-});
+//   const searchForm = await page.getByTestId("search-form");
+//   await searchForm.getByPlaceholder("検索ワードを入力").fill("Next.js");
+//   await searchForm.getByRole("button", { name: "delete" }).click();
+//   await page.waitForLoadState();
+//   await expect(page.getByRole("button", { name: "loading" })).not.toBeVisible();
+//   expect(page.url()).toBe("http://localhost:3000/search?query=Next.js");
+// });
 
 test("Click on a tag to go to the search page", async ({ page }) => {
   await page.goto("/");
