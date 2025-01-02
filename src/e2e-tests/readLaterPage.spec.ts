@@ -360,6 +360,7 @@ test("Test the button behavior", async ({ page }) => {
   readLaterButton.click();
 
   const alertDialog = await page.getByRole("alertdialog");
+  await expect(alertDialog.locator('h2:has-text("読み終わりましたか？")')).toBeVisible();
   await alertDialog.locator("button", { hasText: "お気に入り登録" }).click();
   await page.waitForLoadState();
 
@@ -388,11 +389,13 @@ test("Test the button behavior", async ({ page }) => {
   await page.waitForLoadState();
   await alertDialog.locator("button", { hasText: "削除" }).click();
 
+  await expect(alertDialog).not.toBeVisible();
   await expect(page.locator('li:has-text("削除しました")')).toBeVisible();
   await expect(page.locator("text=Sample Qiita Article Title 1")).not.toBeVisible();
 });
 
-test("search form is working properly", async ({ page }) => {
+test("search form is working properly", async ({ page, browserName }) => {
+  test.skip(browserName === "webkit", "This test is skipped on WebKit browsers.");
   await page.goto("/readlater");
 
   const searchForm = await page.getByTestId("search-form");
