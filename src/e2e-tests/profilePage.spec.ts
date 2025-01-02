@@ -64,6 +64,7 @@ test("Test the rename feature", async ({ page }) => {
   await dialog.locator("button", { hasText: "編集" }).click();
   await page.waitForLoadState();
 
+  await expect(dialog).not.toBeVisible({ timeout: 60000 });
   await expect(page.locator("li", { hasText: "名前を変更しました" })).toBeVisible();
 
   await expect(page.locator("input[disabled]")).toHaveValue(process.env.NEXT_PUBLIC_TEST_USER!);
