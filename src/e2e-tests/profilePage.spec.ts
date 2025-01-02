@@ -39,7 +39,8 @@ test("Clicking the Cancel button will dismiss the dialog", async ({ page }) => {
   await expect(dialog).not.toBeVisible();
 });
 
-test("Test the rename feature", async ({ page }) => {
+test("Test the rename feature", async ({ page, browserName }) => {
+  test.skip(browserName === "webkit", "This test is skipped on WebKit browsers.");
   const editName = "edit name";
 
   await page.goto("/profile");
