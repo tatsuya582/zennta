@@ -80,6 +80,9 @@ test("should display homepage", async ({ page }) => {
   await expect(page.locator("text=履歴")).toBeVisible();
   await expect(page.locator("text=Qiita一覧")).toBeVisible();
   await expect(page.locator("text=Zenn一覧")).toBeVisible();
+  await expect(page.locator("text=お問い合わせフォーム")).toBeVisible();
+  await expect(page.locator("text=利用規約")).toBeVisible();
+  await expect(page.locator("text=プライバシーポリシー")).toBeVisible();
   const searchForm = await page.getByTestId("search-form");
   await expect(searchForm.getByPlaceholder("検索ワードを入力")).toBeVisible();
   await expect(searchForm.getByRole("button", { name: "delete" })).toBeVisible();
