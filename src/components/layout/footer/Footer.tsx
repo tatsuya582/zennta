@@ -21,7 +21,7 @@ export const Footer = () => {
             >
               お問い合わせフォーム
             </NavigationMenuLink>
-            <Link href="#" legacyBehavior passHref>
+            <Link href="/terms" legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>利用規約</NavigationMenuLink>
             </Link>
             <Link href="#" legacyBehavior passHref>
