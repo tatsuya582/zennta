@@ -128,6 +128,12 @@ test("The header links are set correctly", async ({ page }) => {
   await page.waitForLoadState();
   await expect(page.locator("text=Zenntaの利用規約")).toBeVisible();
   expect(page.url()).toBe("http://localhost:3000/terms");
+
+  const privacyPolicyLink = await footer.locator("text=プライバシーポリシー");
+  privacyPolicyLink.click();
+  await page.waitForLoadState();
+  await expect(page.locator("text=Zenntaのプライバシーポリシー")).toBeVisible();
+  expect(page.url()).toBe("http://localhost:3000/privacy");
 });
 
 test("should display Qiita Articles", async ({ page }) => {
