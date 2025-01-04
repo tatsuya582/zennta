@@ -24,7 +24,7 @@ export const Footer = () => {
             <Link href="/terms" legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>利用規約</NavigationMenuLink>
             </Link>
-            <Link href="#" legacyBehavior passHref>
+            <Link href="/privacy" legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>プライバシーポリシー</NavigationMenuLink>
             </Link>
           </NavigationMenuItem>

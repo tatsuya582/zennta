@@ -15,5 +15,6 @@ describe("Footer Component", () => {
 
     const privacyPolicyLink = screen.getByText("プライバシーポリシー");
     expect(privacyPolicyLink).toBeInTheDocument();
+    expect(privacyPolicyLink).toHaveAttribute("href", "/privacy");
   });
 });
