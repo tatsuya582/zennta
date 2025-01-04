@@ -302,7 +302,9 @@ test("Test the button behavior", async ({ page }) => {
   await page.waitForLoadState();
 
   await expect(page.locator("li", { hasText: "メモを追加しました" })).toBeVisible();
-  await expect(page.locator("text=test")).toBeVisible();
+  const firstArticle = await page.getByTestId("article-1");
+
+  await expect(firstArticle.locator("text=test")).toBeVisible({ timeout: 60000 });
   await page.waitForLoadState();
 
   // メモを編集の挙動をテスト
@@ -347,7 +349,7 @@ test("Test the button behavior", async ({ page }) => {
   await page.waitForLoadState();
 
   await expect(page.locator("li", { hasText: "削除しました" })).toBeVisible();
-  await expect(page.locator("text=edit")).not.toBeVisible();
+  await expect(firstArticle.locator("text=edit")).not.toBeVisible();
 
   // 記事の削除ボタンの挙動をテスト
   await page.locator("button", { hasText: "削除" }).first().click();

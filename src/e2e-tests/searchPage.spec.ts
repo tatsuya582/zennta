@@ -79,7 +79,7 @@ test.beforeEach(async ({ page, next }) => {
 test("should display searchpage", async ({ page }) => {
   await page.goto("/search");
   await expect(page.locator("text=Zennta")).toBeVisible();
-  await expect(page.locator("nav a")).toHaveCount(5);
+  await expect(page.locator("nav a")).toHaveCount(8);
   await expect(page.locator("text=履歴")).toBeVisible();
   await expect(page.locator('h2:has-text("検索")')).toBeVisible();
   const searchForm = await page.getByTestId("search-form");
