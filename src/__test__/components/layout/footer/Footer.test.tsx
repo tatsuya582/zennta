@@ -11,6 +11,7 @@ describe("Footer Component", () => {
 
     const termsServiceLink = screen.getByText("利用規約");
     expect(termsServiceLink).toBeInTheDocument();
+    expect(termsServiceLink).toHaveAttribute("href", "/terms");
 
     const privacyPolicyLink = screen.getByText("プライバシーポリシー");
     expect(privacyPolicyLink).toBeInTheDocument();
