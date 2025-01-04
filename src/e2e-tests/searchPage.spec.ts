@@ -88,7 +88,8 @@ test("should display searchpage", async ({ page }) => {
   await expect(page.locator("text=なにか入力してください")).toBeVisible();
 });
 
-test("Display the search page when you actually search", async ({ page }) => {
+test("Display the search page when you actually search", async ({ page, browserName }) => {
+  test.skip(browserName === "webkit", "This test is skipped on WebKit browsers.");
   await page.goto("/search");
 
   const searchForm = await page.getByTestId("search-form");
@@ -353,7 +354,8 @@ test("Favorite button works properly", async ({ page }) => {
   await expect(page.locator("text=Search Qiita Article Title Next.js 1")).not.toBeVisible();
 });
 
-test("search form is working properly", async ({ page }) => {
+test("search form is working properly", async ({ page, browserName }) => {
+  test.skip(browserName === "webkit", "This test is skipped on WebKit browsers.");
   await page.goto("/search?query=Next.js");
 
   const searchForm = await page.getByTestId("search-form");

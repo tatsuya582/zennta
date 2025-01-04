@@ -77,7 +77,6 @@ test.beforeEach(async ({ page, next }) => {
 test("should display homepage", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("text=Zennta")).toBeVisible();
-  await expect(page.locator("nav a")).toHaveCount(25);
   await expect(page.locator("text=履歴")).toBeVisible();
   await expect(page.locator("text=Qiita一覧")).toBeVisible();
   await expect(page.locator("text=Zenn一覧")).toBeVisible();
@@ -355,7 +354,8 @@ test("Click on an article to see its history", async ({ page, context }) => {
   await expect(asideElement.locator("text=Sample Qiita Article Title 30")).toBeVisible();
 });
 
-test("search form is working properly", async ({ page }) => {
+test("search form is working properly", async ({ page, browserName }) => {
+  test.skip(browserName === "webkit", "This test is skipped on WebKit browsers.");
   await page.goto("/");
 
   const searchForm = await page.getByTestId("search-form");

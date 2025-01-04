@@ -81,7 +81,7 @@ export const getArticles = async (
 
     const totalPage = data?.total_count ? Math.ceil(data.total_count / 30) : 1;
 
-    return { articles: data.articles, totalPage };
+    return { articles: data?.articles, totalPage };
   } catch (err) {
     console.error(`Error fetching articles:`, err);
     throw err;

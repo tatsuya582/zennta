@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -42,7 +43,12 @@ export const UserForm = ({ name }: { name: string }) => {
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <NameInputField control={form.control} />
-                <div className="flex justify-end">
+                <div className="flex justify-end gap-2">
+                  <DialogClose className="mt-0 border" asChild>
+                    <Button type="button" variant="outline">
+                      キャンセル
+                    </Button>
+                  </DialogClose>
                   <div>
                     <LoadingButton isLoading={isLoading} loadingMx="mx-1">
                       編集
