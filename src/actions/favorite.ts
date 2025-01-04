@@ -1,6 +1,13 @@
 "use server";
 
-import { addArticle, deleteArticle, getArticle, getArticleHistory, getArticles } from "@/actions/storedArticle";
+import {
+  addArticle,
+  addArticleByUrl,
+  deleteArticle,
+  getArticle,
+  getArticleHistory,
+  getArticles,
+} from "@/actions/storedArticle";
 import { getSupabaseClientAndUser } from "@/lib/supabase/server";
 import { type StoredItem, type FetchedItem, type Tag } from "@/types/types";
 
@@ -26,6 +33,10 @@ export const deleteFavorite = async (articleId: string) => {
 
 export const getFavoriteArticles = async (page: number, query: string | undefined) => {
   return getArticles("fetch_favorites_articles_with_count", page, query);
+};
+
+export const addFavoriteByUrl = async (url: string) => {
+  return addArticleByUrl(url, "insert_favorite_with_article");
 };
 
 export const updateFavoriteColumn = async (id: string, value: string | Tag[]) => {

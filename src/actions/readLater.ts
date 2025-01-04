@@ -1,6 +1,13 @@
 "use server";
 
-import { addArticle, deleteArticle, getArticle, getArticleHistory, getArticles } from "@/actions/storedArticle";
+import {
+  addArticle,
+  addArticleByUrl,
+  deleteArticle,
+  getArticle,
+  getArticleHistory,
+  getArticles,
+} from "@/actions/storedArticle";
 import { type StoredItem, type FetchedItem } from "@/types/types";
 
 export const addreadLater = async (item: FetchedItem) => {
@@ -25,4 +32,8 @@ export const deleteReadLater = async (articleId: string) => {
 
 export const getReadLaterArticles = async (page: number, query: string | undefined) => {
   return getArticles("fetch_read_laters_articles_with_count", page, query);
+};
+
+export const addReadLaterByUrl = async (url: string) => {
+  return addArticleByUrl(url, "insert_read_later_with_article");
 };

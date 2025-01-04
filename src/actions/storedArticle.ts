@@ -1,4 +1,6 @@
 import { getSupabaseClientAndUser } from "@/lib/supabase/server";
+import metascraper from "metascraper";
+import metascraperTitle from "metascraper-title";
 import { type FetchedArticle, type FetchedArticlesWithCount } from "@/types/databaseCustom.types";
 import { type FetchedItem, type StoredItem } from "@/types/types";
 
@@ -157,5 +159,53 @@ export const getArticleHistory = async (
   } catch (err) {
     console.error("Unexpected error:", err);
     throw err;
+  }
+};
+
+export const addArticleByUrl = async (
+  url: string,
+  rpcName: "insert_favorite_with_article" | "insert_read_later_with_article"
+) => {
+  const scraper = metascraper([metascraperTitle()]);
+  let title: string | undefined;
+
+  console.log(rpcName);
+  try {
+    const response = await fetch(url);
+    const html = await response.text();
+    const metadata = await scraper({ html, url });
+    title = metadata.title;
+  } catch (error) {
+    return "サイトがありません";
+  }
+
+  if (!title) {
+    return "サイトがありません";
+  }
+
+  const { supabase, user } = await getSupabaseClientAndUser();
+
+  if (!user) {
+    return;
+  }
+
+  try {
+    const { error } = await supabase.rpc(rpcName, {
+      userid: user.id,
+      articleurl: url,
+      articletitle: title,
+      articlesourcecreatedat: new Date().toISOString(),
+      tags: null,
+    });
+
+    if (error) {
+      if (error.message.includes("duplicate key value violates unique constraint")) {
+        return "登録済みです";
+      }
+      throw new Error(error.message);
+    }
+    return "登録しました";
+  } catch (error) {
+    throw error;
   }
 };
