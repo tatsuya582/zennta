@@ -371,7 +371,7 @@ test("Test the button behavior", async ({ page, browserName }) => {
 
   const firstArticle = await page.getByTestId("article-1");
   const favoriteButton = firstArticle.locator("button", { hasText: "お気に入り済み" });
-  
+
   await expect(alertDialog).not.toBeVisible();
   await expect(favoriteButton).toBeVisible();
 
