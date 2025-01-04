@@ -3,6 +3,7 @@ import "./globals.css";
 import { Sidebar } from "@/components/layout/sidebar/Sidebar";
 import { Header } from "@/components/layout/header/Header";
 import { Toaster } from "@/components/ui/toaster";
+import { Footer } from "@/components/layout/footer/Footer";
 
 export const metadata: Metadata = {
   title: {
@@ -41,7 +42,12 @@ export default function RootLayout({
           </header>
           <main className="flex flex-1 max-w-screen-2xl w-full mx-auto">
             <Sidebar />
-            <div className="w-full md:ml-auto md:w-3/4 md:p-12 px-0 py-4 md:mt-24 mt-12">{children}</div>
+            <div className="w-full md:ml-auto md:w-3/4 md:mt-24 mt-12">
+              <div className="md:p-12 px-0 py-4">{children}</div>
+              <div className="md:block hidden">
+                <Footer />
+              </div>
+            </div>
           </main>
           <Toaster />
         </div>

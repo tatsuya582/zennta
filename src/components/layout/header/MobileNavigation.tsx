@@ -1,3 +1,4 @@
+import { Footer } from "@/components/layout/footer/Footer";
 import { AuthNavigation } from "@/components/layout/header/AuthNavigation";
 import { MainNavigation } from "@/components/layout/header/MainNavigation";
 import {
@@ -30,6 +31,7 @@ export const MobileNavigation = () => {
               <div className="flex flex-col w-72 gap-3 p-4">
                 <MainNavigation />
                 <AuthNavigation />
+                <Footer />
               </div>
             </NavigationMenuContent>
           </NavigationMenuItem>
