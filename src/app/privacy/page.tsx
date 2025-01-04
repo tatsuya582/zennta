@@ -53,13 +53,19 @@ export default function PrivacyPage() {
           ユーザーが自身の個人情報の開示、修正、削除を希望する場合、異議なき場合に限り、実施します。
         </p>
       </section>
-
       <section className="mb-8">
         <h3 className="text-xl font-semibold mb-4">第6条 問い合わせ先</h3>
         <p className="text-gray-700">
-          個人情報の収集、使用、保存に関して問題がある場合は、次の連絡先までお問い合わせください。
+          個人情報の収集、使用、保存に関して問題がある場合は、下記までお問い合わせください。
         </p>
-        <p className="text-gray-700">[ 連絡先情報 ]</p>
+        <a
+          href={process.env.NEXT_PUBLIC_FORM_URL!}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="visited:text-gray-400 hover:underline transition-colors block text-gray-700 mt-3"
+        >
+          お問い合わせフォーム
+        </a>
       </section>
 
       <section>
