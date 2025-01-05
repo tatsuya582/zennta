@@ -1,97 +1,8 @@
+import { beforeAction, mockStoredArticles } from "@/e2e-tests/mockHandlers";
 import { test, expect } from "next/experimental/testmode/playwright";
 
-const generateMockQiitaArticles = (page: number, perPage: number) => {
-  const start = (page - 1) * perPage;
-  return Array.from({ length: perPage }, (_, index) => ({
-    id: `qiita-article-${start + index + 1}`,
-    title: `Sample Qiita Article Title ${start + index + 1}`,
-    url: `https://example.com/qiita-article-${start + index + 1}`,
-    tags: index % 2 === 0 ? [{ name: "Tag1" }, { name: "Tag2" }] : null,
-    created_at: new Date(Date.now() - index * 86400000).toISOString(),
-  }));
-};
-
-const generateMockZennArticles = (page: number, perPage: number) => {
-  const start = (page - 1) * perPage;
-  return Array.from({ length: perPage }, (_, index) => ({
-    id: `zenn-article-${start + index + 1}`,
-    title: `Sample Zenn Article Title ${start + index + 1}`,
-    path: `/zenn-article-${start + index + 1}`,
-    published_at: new Date(Date.now() - index * 86400000).toISOString(),
-  }));
-};
-
-const generateMockReadLaterArticles = (page: number, perPage: number) => {
-  const start = (page - 1) * perPage;
-  return Array.from({ length: perPage }, (_, index) => ({
-    id: `article-${start + index + 1}`,
-    column_id: `read-laters-article-${start + index + 1}`,
-    other_column_id: null,
-    title: `Read Laters Article Title ${start + index + 1}`,
-    url: `https://example.com/read-laters-article-${start + index + 1}`,
-    tags: index % 2 === 0 ? [{ name: "Tag1" }, { name: "Tag2" }] : null,
-    is_in_other_table: false,
-  }));
-};
-
-const readLaterPage = 1;
-const readLaterPerPage = 30;
-
-test.beforeEach(async ({ page, next }) => {
-  const originalConsoleLog = console.log;
-  console.log = (...args) => {
-    if (!args[0]?.includes("next.onFetch")) {
-      originalConsoleLog(...args);
-    }
-  };
-
-  next.onFetch(async (request) => {
-    const url = new URL(request.url);
-    if (url.origin === "https://qiita.com" && url.pathname === "/api/v2/items") {
-      const page = url.searchParams.get("page") || "1";
-      const perPage = "30";
-      const mockArticles = generateMockQiitaArticles(Number(page), Number(perPage));
-      return new Response(JSON.stringify(mockArticles), {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    }
-
-    if (url.origin === "https://zenn.dev" && url.pathname === "/api/articles") {
-      const page = url.searchParams.get("page") || "1";
-      const perPage = "30";
-      const mockArticles = generateMockZennArticles(Number(page), Number(perPage));
-      return new Response(JSON.stringify({ articles: mockArticles }), {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    }
-
-    if (url.origin === "https://nofetch") {
-      return new Response("Not Found", { status: 404 });
-    }
-
-    if (request.method === "DELETE") {
-      const response = await fetch(request.url, {
-        method: request.method,
-        headers: request.headers,
-      });
-
-      return new Response(null, { status: response.status });
-    }
-    const response = await fetch(request.url, {
-      method: request.method,
-      headers: request.headers,
-      body: request.method !== "GET" && request.method !== "HEAD" ? await request.text() : null,
-    });
-
-    return new Response(await response.text(), {
-      status: response.status,
-      headers: response.headers,
-    });
-  });
+test.beforeEach(async ({ next }) => {
+  beforeAction(next);
 });
 
 test("should display readlaterpage", async ({ page }) => {
@@ -110,21 +21,7 @@ test("should display readlaterpage", async ({ page }) => {
 });
 
 test("should display Articles", async ({ page, next }) => {
-  next.onFetch(async (request) => {
-    if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
-      return new Response(
-        JSON.stringify({
-          articles: generateMockReadLaterArticles(readLaterPage, readLaterPerPage),
-          total_count: 40,
-        }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-    }
-  });
+  mockStoredArticles(next, 40, "readlater");
 
   await page.goto("/readlater");
 
@@ -139,21 +36,7 @@ test("should display Articles", async ({ page, next }) => {
 });
 
 test("should display pagination", async ({ page, next }) => {
-  next.onFetch(async (request) => {
-    if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
-      return new Response(
-        JSON.stringify({
-          articles: generateMockReadLaterArticles(readLaterPage, readLaterPerPage),
-          total_count: 3000,
-        }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-    }
-  });
+  mockStoredArticles(next, 3000, "readlater");
 
   await page.goto("/readlater");
 
@@ -170,21 +53,7 @@ test("should display pagination", async ({ page, next }) => {
 });
 
 test("should display pagination when less article", async ({ page, next }) => {
-  next.onFetch(async (request) => {
-    if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
-      return new Response(
-        JSON.stringify({
-          articles: generateMockReadLaterArticles(readLaterPage, readLaterPerPage),
-          total_count: 120,
-        }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-    }
-  });
+  mockStoredArticles(next, 120, "readlater");
 
   await page.goto("/readlater");
 
@@ -202,21 +71,7 @@ test("should display pagination when less article", async ({ page, next }) => {
 });
 
 test("Pagination is working correctly", async ({ page, next }) => {
-  next.onFetch(async (request) => {
-    if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
-      return new Response(
-        JSON.stringify({
-          articles: generateMockReadLaterArticles(readLaterPage, readLaterPerPage),
-          total_count: 3000,
-        }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-    }
-  });
+  mockStoredArticles(next, 3000, "readlater");
   await page.goto("/readlater");
 
   const readLaterArticles = await page.getByTestId("read-later-articles");
@@ -243,21 +98,7 @@ test("Pagination is working correctly", async ({ page, next }) => {
 });
 
 test("Pagination is working correctly when less articles", async ({ page, next }) => {
-  next.onFetch(async (request) => {
-    if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
-      return new Response(
-        JSON.stringify({
-          articles: generateMockReadLaterArticles(readLaterPage, readLaterPerPage),
-          total_count: 150,
-        }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-    }
-  });
+  mockStoredArticles(next, 150, "readlater");
   await page.goto("/readlater");
 
   const readLaterArticles = await page.getByTestId("read-later-articles");
@@ -275,21 +116,7 @@ test("Pagination is working correctly when less articles", async ({ page, next }
 });
 
 test("Clicking the Read button will display a dialogue", async ({ page, next }) => {
-  next.onFetch(async (request) => {
-    if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
-      return new Response(
-        JSON.stringify({
-          articles: generateMockReadLaterArticles(readLaterPage, readLaterPerPage),
-          total_count: 150,
-        }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-    }
-  });
+  mockStoredArticles(next, 150, "readlater");
   await page.goto("/readlater");
 
   const readLaterButton = await page.getByRole("button", { name: "読了" });
@@ -304,31 +131,7 @@ test("Clicking the Read button will display a dialogue", async ({ page, next }) 
 });
 
 test("Clicking the Read button will display a dialogue when favorite article", async ({ page, next }) => {
-  next.onFetch(async (request) => {
-    if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
-      return new Response(
-        JSON.stringify({
-          articles: [
-            {
-              id: "article-1",
-              column_id: "read-laters-article-1",
-              other_column_id: null,
-              title: "Read Laters Article Title 1",
-              url: "https://example.com/read-laters-article-1",
-              tags: [{ name: "Tag1" }, { name: "Tag2" }],
-              is_in_other_table: true,
-            },
-          ],
-          total_count: 150,
-        }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-    }
-  });
+  mockStoredArticles(next, 1, "readlater", true);
   await page.goto("/readlater");
 
   const readLaterArticles = await page.getByTestId("read-later-articles");
@@ -475,21 +278,7 @@ test("サイトがありませんmessage appears when URL is incorrect", async (
 });
 
 test("Click on a tag to go to the search page", async ({ page, next }) => {
-  next.onFetch(async (request) => {
-    if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
-      return new Response(
-        JSON.stringify({
-          articles: generateMockReadLaterArticles(readLaterPage, readLaterPerPage),
-          total_count: 30,
-        }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-    }
-  });
+  mockStoredArticles(next, 30, "readlater");
   await page.goto("/readlater");
 
   const tagsbutton = await page.locator("text=Tag1");

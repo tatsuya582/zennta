@@ -1,7 +1,7 @@
-import { beforeAction, mockFavoriteArticles } from "@/e2e-tests/mockHandlers";
+import { beforeAction, mockStoredArticles } from "@/e2e-tests/mockHandlers";
 import { test, expect } from "next/experimental/testmode/playwright";
 
-test.beforeEach(async ({ page, next }) => {
+test.beforeEach(async ({ next }) => {
   beforeAction(next);
 });
 
@@ -21,7 +21,7 @@ test("should display favoritepage", async ({ page }) => {
 });
 
 test("should display Articles", async ({ page, next }) => {
-  mockFavoriteArticles(next, 40);
+  mockStoredArticles(next, 40, "favorite");
 
   await page.goto("/favorite");
 
@@ -36,7 +36,7 @@ test("should display Articles", async ({ page, next }) => {
 });
 
 test("should display pagination", async ({ page, next }) => {
-  mockFavoriteArticles(next, 3000);
+  mockStoredArticles(next, 3000, "favorite");
 
   await page.goto("/favorite");
 
@@ -53,7 +53,7 @@ test("should display pagination", async ({ page, next }) => {
 });
 
 test("should display pagination when less article", async ({ page, next }) => {
-  mockFavoriteArticles(next, 120);
+  mockStoredArticles(next, 120, "favorite");
 
   await page.goto("/favorite");
 
@@ -71,7 +71,7 @@ test("should display pagination when less article", async ({ page, next }) => {
 });
 
 test("Clicking the add memo button will display a dialogue", async ({ page, next }) => {
-  mockFavoriteArticles(next, 150);
+  mockStoredArticles(next, 150, "favorite");
   await page.goto("/favorite");
 
   const addMemoButton = await page.locator("button", { hasText: "メモを追加" });
@@ -85,7 +85,7 @@ test("Clicking the add memo button will display a dialogue", async ({ page, next
 });
 
 test("Clicking the add memo button will display a dialogue when have a memo", async ({ page, next }) => {
-  mockFavoriteArticles(next, 1, true);
+  mockStoredArticles(next, 1, "favorite", true);
   await page.goto("/favorite");
 
   const favoriteArticles = await page.getByTestId("favorite-articles");
@@ -267,7 +267,7 @@ test("サイトがありませんmessage appears when URL is incorrect", async (
 });
 
 test("Click on a tag to go to the search page", async ({ page, next }) => {
-  mockFavoriteArticles(next, 40);
+  mockStoredArticles(next, 40, "favorite");
   await page.goto("/favorite");
 
   const tagsbutton = await page.locator("text=Tag1");

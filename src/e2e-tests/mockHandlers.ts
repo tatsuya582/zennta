@@ -1,4 +1,4 @@
-import { type Page, type NextFixture } from "next/experimental/testmode/playwright";
+import { type NextFixture } from "next/experimental/testmode/playwright";
 
 const generateMockQiitaArticles = (page: number, perPage: number) => {
   const start = (page - 1) * perPage;
@@ -33,6 +33,22 @@ const generateMockFavoriteArticles = (page: number, perPage: number) => {
     is_in_other_table: false,
   }));
 };
+
+const generateMockReadLaterArticles = (page: number, perPage: number) => {
+  const start = (page - 1) * perPage;
+  return Array.from({ length: perPage }, (_, index) => ({
+    id: `article-${start + index + 1}`,
+    column_id: `read-laters-article-${start + index + 1}`,
+    other_column_id: null,
+    title: `Read Laters Article Title ${start + index + 1}`,
+    url: `https://example.com/read-laters-article-${start + index + 1}`,
+    tags: index % 2 === 0 ? [{ name: "Tag1" }, { name: "Tag2" }] : null,
+    is_in_other_table: false,
+  }));
+};
+
+const readLaterPage = 1;
+const readLaterPerPage = 30;
 
 const favoritePage = 1;
 const favoritePerPage = 30;
@@ -98,24 +114,50 @@ export const beforeAction = async (next: NextFixture) => {
   });
 };
 
-export const mockFavoriteArticles = async (next: NextFixture, total_count: number, hasMemo = false) => {
+const mockFavoriteArticles = {
+  rpc: "fetch_favorites_articles_with_count",
+  articles: generateMockFavoriteArticles(favoritePage, favoritePerPage),
+  extraArticle: [
+    {
+      id: "article-1",
+      column_id: "favorites-article-1",
+      other_column_id: null,
+      title: "Read Laters Article Title 1",
+      url: "https://example.com/read-laters-article-1",
+      tags: [{ name: "Tag1" }, { name: "Tag2" }],
+      custom_tags: null,
+      memo: "test",
+      is_in_other_table: true,
+    },
+  ],
+};
+
+const mockReadLaterArticles = {
+  rpc: "fetch_read_laters_articles_with_count",
+  articles: generateMockReadLaterArticles(readLaterPage, readLaterPerPage),
+  extraArticle: [
+    {
+      id: "article-1",
+      column_id: "read-laters-article-1",
+      other_column_id: null,
+      title: "Read Laters Article Title 1",
+      url: "https://example.com/read-laters-article-1",
+      tags: [{ name: "Tag1" }, { name: "Tag2" }],
+      is_in_other_table: true,
+    },
+  ],
+};
+
+export const mockStoredArticles = async (
+  next: NextFixture,
+  total_count: number,
+  tabelName: "readlater" | "favorite",
+  isExtra = false
+) => {
   next.onFetch(async (request) => {
-    const articles = hasMemo
-      ? [
-          {
-            id: "article-1",
-            column_id: "favorites-article-1",
-            other_column_id: null,
-            title: "Read Laters Article Title 1",
-            url: "https://example.com/read-laters-article-1",
-            tags: [{ name: "Tag1" }, { name: "Tag2" }],
-            custom_tags: null,
-            memo: "test",
-            is_in_other_table: true,
-          },
-        ]
-      : generateMockFavoriteArticles(favoritePage, favoritePerPage);
-    if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_favorites_articles_with_count`) {
+    const mockArticles = tabelName === "favorite" ? mockFavoriteArticles : mockReadLaterArticles;
+    const articles = isExtra ? mockArticles.extraArticle : mockArticles.articles;
+    if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/${mockArticles.rpc}`) {
       return new Response(
         JSON.stringify({
           articles: articles,
