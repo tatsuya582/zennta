@@ -69,6 +69,10 @@ test.beforeEach(async ({ page, next }) => {
       });
     }
 
+    if (url.origin === "https://nofetch") {
+      return new Response("Not Found", { status: 404 });
+    }
+
     if (request.method === "DELETE") {
       const response = await fetch(request.url, {
         method: request.method,
@@ -99,9 +103,14 @@ test("should display favoritepage", async ({ page }) => {
 
   await expect(page.locator('h2:has-text("お気に入り")')).toBeVisible();
   await expect(page.locator("text=履歴")).toBeVisible();
+
   const searchForm = await page.getByTestId("search-form");
   await expect(searchForm.getByPlaceholder("検索ワードを入力")).toBeVisible();
   await expect(searchForm.locator("button", { hasText: "検索" })).toBeVisible();
+
+  const addArticleForm = await page.getByTestId("add-article-form");
+  await expect(addArticleForm.getByPlaceholder("追加したいURLを入力")).toBeVisible();
+  await expect(addArticleForm.locator("button", { hasText: "追加" })).toBeVisible();
 });
 
 test("should display Articles", async ({ page, next }) => {
@@ -378,6 +387,58 @@ test("search form is working properly", async ({ page, browserName }) => {
   await expect(searchForm.getByRole("button", { name: "loading" })).toBeVisible();
   await expect(searchForm.getByRole("button", { name: "loading" })).not.toBeVisible();
   expect(page.url()).toBe("http://localhost:3000/favorite?query=Tag");
+});
+
+test("Test the behavior of addArticleForm", async ({ page, browserName }) => {
+  test.skip(browserName === "webkit", "This test is skipped on WebKit browsers.");
+  await page.goto("/favorite");
+
+  const addArticleForm = await page.getByTestId("add-article-form");
+  await addArticleForm.getByPlaceholder("追加したいURLを入力").fill("https://zennta.vercel.app/");
+  await addArticleForm.locator("button", { hasText: "追加" }).click();
+
+  await page.waitForLoadState();
+
+  await expect(page.getByRole("button", { name: "loading" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "loading" })).not.toBeVisible();
+
+  await expect(page.locator("li", { hasText: "登録しました" })).toBeVisible();
+  const favoriteArticles = await page.getByTestId("favorite-articles");
+
+  await expect(favoriteArticles.locator("text=Zennta")).toBeVisible({ timeout: 60000 });
+  await addArticleForm.getByPlaceholder("追加したいURLを入力").fill("https://zennta.vercel.app/");
+  await addArticleForm.locator("button", { hasText: "追加" }).click();
+
+  await page.waitForLoadState();
+
+  await expect(page.getByRole("button", { name: "loading" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "loading" })).not.toBeVisible();
+
+  await expect(page.locator("li", { hasText: "登録済みです" })).toBeVisible();
+
+  await favoriteArticles.locator("button", { hasText: "削除" }).first().click();
+  const alertDialog = await page.getByRole("alertdialog");
+
+  await alertDialog.locator("button", { hasText: "削除" }).click();
+  await page.waitForLoadState();
+
+  await expect(page.locator("li", { hasText: "削除しました" })).toBeVisible();
+});
+
+test("サイトがありませんmessage appears when URL is incorrect", async ({ page, browserName }) => {
+  test.skip(browserName === "webkit", "This test is skipped on WebKit browsers.");
+  await page.goto("/favorite");
+
+  const addArticleForm = await page.getByTestId("add-article-form");
+  await addArticleForm.getByPlaceholder("追加したいURLを入力").fill("https://nofetch");
+  await addArticleForm.locator("button", { hasText: "追加" }).click();
+
+  await page.waitForLoadState();
+
+  await expect(page.getByRole("button", { name: "loading" })).toBeVisible({ timeout: 60000 });
+  await expect(page.getByRole("button", { name: "loading" })).not.toBeVisible({ timeout: 60000 });
+
+  await expect(page.locator("li", { hasText: "サイトがありません" })).toBeVisible();
 });
 
 test("Click on a tag to go to the search page", async ({ page, next }) => {
