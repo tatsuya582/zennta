@@ -94,333 +94,333 @@ test.beforeEach(async ({ page, next }) => {
   });
 });
 
-// test("should display readlaterpage", async ({ page }) => {
-//   await page.goto("/readlater");
+test("should display readlaterpage", async ({ page }) => {
+  await page.goto("/readlater");
 
-//   await expect(page.locator('h2:has-text("後で読む")')).toBeVisible();
-//   await expect(page.locator("text=履歴")).toBeVisible();
+  await expect(page.locator('h2:has-text("後で読む")')).toBeVisible();
+  await expect(page.locator("text=履歴")).toBeVisible();
 
-//   const searchForm = await page.getByTestId("search-form");
-//   await expect(searchForm.getByPlaceholder("検索ワードを入力")).toBeVisible();
-//   await expect(searchForm.getByRole("button", { name: "delete" })).toBeVisible();
+  const searchForm = await page.getByTestId("search-form");
+  await expect(searchForm.getByPlaceholder("検索ワードを入力")).toBeVisible();
+  await expect(searchForm.getByRole("button", { name: "delete" })).toBeVisible();
 
-//   const addArticleForm = await page.getByTestId("add-article-form");
-//   await expect(addArticleForm.getByPlaceholder("追加したいURLを入力")).toBeVisible();
-//   await expect(addArticleForm.locator("button", { hasText: "追加" })).toBeVisible();
-// });
+  const addArticleForm = await page.getByTestId("add-article-form");
+  await expect(addArticleForm.getByPlaceholder("追加したいURLを入力")).toBeVisible();
+  await expect(addArticleForm.locator("button", { hasText: "追加" })).toBeVisible();
+});
 
-// test("should display Articles", async ({ page, next }) => {
-//   next.onFetch(async (request) => {
-//     if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
-//       return new Response(
-//         JSON.stringify({
-//           articles: generateMockReadLaterArticles(readLaterPage, readLaterPerPage),
-//           total_count: 40,
-//         }),
-//         {
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//         }
-//       );
-//     }
-//   });
+test("should display Articles", async ({ page, next }) => {
+  next.onFetch(async (request) => {
+    if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
+      return new Response(
+        JSON.stringify({
+          articles: generateMockReadLaterArticles(readLaterPage, readLaterPerPage),
+          total_count: 40,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
+  });
 
-//   await page.goto("/readlater");
+  await page.goto("/readlater");
 
-//   const readLaterArticles = await page.getByTestId("read-later-articles");
-//   await expect(readLaterArticles.getByRole("link", { name: "Read Laters Article Title 1", exact: true })).toBeVisible();
-//   await expect(readLaterArticles.locator("text=Read Laters Article Title 30")).toBeVisible();
-//   await expect(readLaterArticles.locator("text=Read Laters Article Title")).toHaveCount(30);
-//   await expect(readLaterArticles.locator("text=Tag1")).toHaveCount(15);
-//   await expect(readLaterArticles.locator("text=Tag2")).toHaveCount(15);
-//   await expect(readLaterArticles.locator("text=読了")).toHaveCount(30);
-//   await expect(readLaterArticles.locator("text=お気に入り登録")).toHaveCount(30);
-// });
+  const readLaterArticles = await page.getByTestId("read-later-articles");
+  await expect(readLaterArticles.getByRole("link", { name: "Read Laters Article Title 1", exact: true })).toBeVisible();
+  await expect(readLaterArticles.locator("text=Read Laters Article Title 30")).toBeVisible();
+  await expect(readLaterArticles.locator("text=Read Laters Article Title")).toHaveCount(30);
+  await expect(readLaterArticles.locator("text=Tag1")).toHaveCount(15);
+  await expect(readLaterArticles.locator("text=Tag2")).toHaveCount(15);
+  await expect(readLaterArticles.locator("text=読了")).toHaveCount(30);
+  await expect(readLaterArticles.locator("text=お気に入り登録")).toHaveCount(30);
+});
 
-// test("should display pagination", async ({ page, next }) => {
-//   next.onFetch(async (request) => {
-//     if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
-//       return new Response(
-//         JSON.stringify({
-//           articles: generateMockReadLaterArticles(readLaterPage, readLaterPerPage),
-//           total_count: 3000,
-//         }),
-//         {
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//         }
-//       );
-//     }
-//   });
+test("should display pagination", async ({ page, next }) => {
+  next.onFetch(async (request) => {
+    if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
+      return new Response(
+        JSON.stringify({
+          articles: generateMockReadLaterArticles(readLaterPage, readLaterPerPage),
+          total_count: 3000,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
+  });
 
-//   await page.goto("/readlater");
+  await page.goto("/readlater");
 
-//   const readLaterArticles = await page.getByTestId("read-later-articles");
-//   const activeButton = readLaterArticles.getByRole("link", { name: "1", exact: true });
-//   await expect(activeButton).toHaveCount(2);
-//   await expect(activeButton.first()).toHaveAttribute("aria-current", "page");
+  const readLaterArticles = await page.getByTestId("read-later-articles");
+  const activeButton = readLaterArticles.getByRole("link", { name: "1", exact: true });
+  await expect(activeButton).toHaveCount(2);
+  await expect(activeButton.first()).toHaveAttribute("aria-current", "page");
 
-//   await expect(readLaterArticles.getByRole("link", { name: "2", exact: true })).toHaveCount(2);
-//   await expect(readLaterArticles.getByRole("link", { name: "3", exact: true })).toHaveCount(2);
-//   await expect(readLaterArticles.locator(".sr-only", { hasText: "More pages" })).toHaveCount(2);
-//   await expect(readLaterArticles.getByRole("link", { name: "Go to next page" })).toHaveCount(2);
-//   await expect(readLaterArticles.getByRole("link", { name: "Go to the last page" })).toHaveCount(2);
-// });
+  await expect(readLaterArticles.getByRole("link", { name: "2", exact: true })).toHaveCount(2);
+  await expect(readLaterArticles.getByRole("link", { name: "3", exact: true })).toHaveCount(2);
+  await expect(readLaterArticles.locator(".sr-only", { hasText: "More pages" })).toHaveCount(2);
+  await expect(readLaterArticles.getByRole("link", { name: "Go to next page" })).toHaveCount(2);
+  await expect(readLaterArticles.getByRole("link", { name: "Go to the last page" })).toHaveCount(2);
+});
 
-// test("should display pagination when less article", async ({ page, next }) => {
-//   next.onFetch(async (request) => {
-//     if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
-//       return new Response(
-//         JSON.stringify({
-//           articles: generateMockReadLaterArticles(readLaterPage, readLaterPerPage),
-//           total_count: 120,
-//         }),
-//         {
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//         }
-//       );
-//     }
-//   });
+test("should display pagination when less article", async ({ page, next }) => {
+  next.onFetch(async (request) => {
+    if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
+      return new Response(
+        JSON.stringify({
+          articles: generateMockReadLaterArticles(readLaterPage, readLaterPerPage),
+          total_count: 120,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
+  });
 
-//   await page.goto("/readlater");
+  await page.goto("/readlater");
 
-//   const readLaterArticles = await page.getByTestId("read-later-articles");
-//   const activeButton = readLaterArticles.getByRole("link", { name: "1", exact: true });
-//   await expect(activeButton).toHaveCount(2);
-//   await expect(activeButton.first()).toHaveAttribute("aria-current", "page");
+  const readLaterArticles = await page.getByTestId("read-later-articles");
+  const activeButton = readLaterArticles.getByRole("link", { name: "1", exact: true });
+  await expect(activeButton).toHaveCount(2);
+  await expect(activeButton.first()).toHaveAttribute("aria-current", "page");
 
-//   await expect(readLaterArticles.getByRole("link", { name: "2", exact: true })).toHaveCount(2);
-//   await expect(readLaterArticles.getByRole("link", { name: "3", exact: true })).toHaveCount(2);
-//   await expect(readLaterArticles.getByRole("link", { name: "4", exact: true })).toHaveCount(2);
-//   await expect(readLaterArticles.locator(".sr-only", { hasText: "More pages" })).not.toBeVisible();
-//   await expect(readLaterArticles.getByRole("link", { name: "Go to next page" })).not.toBeVisible();
-//   await expect(readLaterArticles.getByRole("link", { name: "Go to the last page" })).not.toBeVisible();
-// });
+  await expect(readLaterArticles.getByRole("link", { name: "2", exact: true })).toHaveCount(2);
+  await expect(readLaterArticles.getByRole("link", { name: "3", exact: true })).toHaveCount(2);
+  await expect(readLaterArticles.getByRole("link", { name: "4", exact: true })).toHaveCount(2);
+  await expect(readLaterArticles.locator(".sr-only", { hasText: "More pages" })).not.toBeVisible();
+  await expect(readLaterArticles.getByRole("link", { name: "Go to next page" })).not.toBeVisible();
+  await expect(readLaterArticles.getByRole("link", { name: "Go to the last page" })).not.toBeVisible();
+});
 
-// test("Pagination is working correctly", async ({ page, next }) => {
-//   next.onFetch(async (request) => {
-//     if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
-//       return new Response(
-//         JSON.stringify({
-//           articles: generateMockReadLaterArticles(readLaterPage, readLaterPerPage),
-//           total_count: 3000,
-//         }),
-//         {
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//         }
-//       );
-//     }
-//   });
-//   await page.goto("/readlater");
+test("Pagination is working correctly", async ({ page, next }) => {
+  next.onFetch(async (request) => {
+    if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
+      return new Response(
+        JSON.stringify({
+          articles: generateMockReadLaterArticles(readLaterPage, readLaterPerPage),
+          total_count: 3000,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
+  });
+  await page.goto("/readlater");
 
-//   const readLaterArticles = await page.getByTestId("read-later-articles");
-//   const nextPageButton = readLaterArticles.getByRole("link", { name: "2", exact: true });
-//   nextPageButton.first().click();
-//   await page.waitForLoadState();
+  const readLaterArticles = await page.getByTestId("read-later-articles");
+  const nextPageButton = readLaterArticles.getByRole("link", { name: "2", exact: true });
+  nextPageButton.first().click();
+  await page.waitForLoadState();
 
-//   await expect(nextPageButton).toHaveCount(2);
-//   await expect(nextPageButton.first()).toHaveAttribute("aria-current", "page");
+  await expect(nextPageButton).toHaveCount(2);
+  await expect(nextPageButton.first()).toHaveAttribute("aria-current", "page");
 
-//   const lastPageButton = await readLaterArticles.getByRole("link", { name: "Go to the last page" });
-//   lastPageButton.first().click();
-//   await page.waitForLoadState();
+  const lastPageButton = await readLaterArticles.getByRole("link", { name: "Go to the last page" });
+  lastPageButton.first().click();
+  await page.waitForLoadState();
 
-//   const activeButton = readLaterArticles.getByRole("link", { name: "100", exact: true });
-//   await expect(activeButton).toHaveCount(2);
-//   await expect(activeButton.first()).toHaveAttribute("aria-current", "page");
+  const activeButton = readLaterArticles.getByRole("link", { name: "100", exact: true });
+  await expect(activeButton).toHaveCount(2);
+  await expect(activeButton.first()).toHaveAttribute("aria-current", "page");
 
-//   await expect(readLaterArticles.getByRole("link", { name: "98", exact: true })).toHaveCount(2);
-//   await expect(readLaterArticles.getByRole("link", { name: "99", exact: true })).toHaveCount(2);
-//   await expect(readLaterArticles.locator(".sr-only", { hasText: "More pages" })).toHaveCount(2);
-//   await expect(readLaterArticles.getByRole("link", { name: "Go to previous page" })).toHaveCount(2);
-//   await expect(readLaterArticles.getByRole("link", { name: "Go to the first page" })).toHaveCount(2);
-// });
+  await expect(readLaterArticles.getByRole("link", { name: "98", exact: true })).toHaveCount(2);
+  await expect(readLaterArticles.getByRole("link", { name: "99", exact: true })).toHaveCount(2);
+  await expect(readLaterArticles.locator(".sr-only", { hasText: "More pages" })).toHaveCount(2);
+  await expect(readLaterArticles.getByRole("link", { name: "Go to previous page" })).toHaveCount(2);
+  await expect(readLaterArticles.getByRole("link", { name: "Go to the first page" })).toHaveCount(2);
+});
 
-// test("Pagination is working correctly when less articles", async ({ page, next }) => {
-//   next.onFetch(async (request) => {
-//     if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
-//       return new Response(
-//         JSON.stringify({
-//           articles: generateMockReadLaterArticles(readLaterPage, readLaterPerPage),
-//           total_count: 150,
-//         }),
-//         {
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//         }
-//       );
-//     }
-//   });
-//   await page.goto("/readlater");
+test("Pagination is working correctly when less articles", async ({ page, next }) => {
+  next.onFetch(async (request) => {
+    if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
+      return new Response(
+        JSON.stringify({
+          articles: generateMockReadLaterArticles(readLaterPage, readLaterPerPage),
+          total_count: 150,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
+  });
+  await page.goto("/readlater");
 
-//   const readLaterArticles = await page.getByTestId("read-later-articles");
-//   const activeButton = readLaterArticles.getByRole("link", { name: "3", exact: true });
-//   activeButton.first().click();
+  const readLaterArticles = await page.getByTestId("read-later-articles");
+  const activeButton = readLaterArticles.getByRole("link", { name: "3", exact: true });
+  activeButton.first().click();
 
-//   await expect(activeButton).toHaveCount(2);
-//   await expect(activeButton.first()).toHaveAttribute("aria-current", "page");
+  await expect(activeButton).toHaveCount(2);
+  await expect(activeButton.first()).toHaveAttribute("aria-current", "page");
 
-//   await expect(readLaterArticles.getByRole("link", { name: "1", exact: true })).toHaveCount(2);
-//   await expect(readLaterArticles.getByRole("link", { name: "2", exact: true })).toHaveCount(2);
-//   await expect(readLaterArticles.getByRole("link", { name: "4", exact: true })).toHaveCount(2);
-//   await expect(readLaterArticles.getByRole("link", { name: "5", exact: true })).toHaveCount(2);
-//   await expect(readLaterArticles.getByRole("link", { name: "Go to next page" })).not.toBeVisible();
-// });
+  await expect(readLaterArticles.getByRole("link", { name: "1", exact: true })).toHaveCount(2);
+  await expect(readLaterArticles.getByRole("link", { name: "2", exact: true })).toHaveCount(2);
+  await expect(readLaterArticles.getByRole("link", { name: "4", exact: true })).toHaveCount(2);
+  await expect(readLaterArticles.getByRole("link", { name: "5", exact: true })).toHaveCount(2);
+  await expect(readLaterArticles.getByRole("link", { name: "Go to next page" })).not.toBeVisible();
+});
 
-// test("Clicking the Read button will display a dialogue", async ({ page, next }) => {
-//   next.onFetch(async (request) => {
-//     if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
-//       return new Response(
-//         JSON.stringify({
-//           articles: generateMockReadLaterArticles(readLaterPage, readLaterPerPage),
-//           total_count: 150,
-//         }),
-//         {
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//         }
-//       );
-//     }
-//   });
-//   await page.goto("/readlater");
+test("Clicking the Read button will display a dialogue", async ({ page, next }) => {
+  next.onFetch(async (request) => {
+    if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
+      return new Response(
+        JSON.stringify({
+          articles: generateMockReadLaterArticles(readLaterPage, readLaterPerPage),
+          total_count: 150,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
+  });
+  await page.goto("/readlater");
 
-//   const readLaterButton = await page.getByRole("button", { name: "読了" });
-//   readLaterButton.first().click();
+  const readLaterButton = await page.getByRole("button", { name: "読了" });
+  readLaterButton.first().click();
 
-//   const alertDialog = await page.getByRole("alertdialog");
-//   await expect(alertDialog.locator('h2:has-text("読み終わりましたか？")')).toBeVisible();
-//   await expect(alertDialog.locator('p:has-text("削除するか、お気に入りに登録するか選択してください")')).toBeVisible();
-//   await expect(alertDialog.locator("button", { hasText: "お気に入り登録" })).toBeVisible();
-//   await expect(alertDialog.locator("button", { hasText: "削除" })).toBeVisible();
-//   await expect(alertDialog.locator("button", { hasText: "キャンセル" })).toBeVisible();
-// });
+  const alertDialog = await page.getByRole("alertdialog");
+  await expect(alertDialog.locator('h2:has-text("読み終わりましたか？")')).toBeVisible();
+  await expect(alertDialog.locator('p:has-text("削除するか、お気に入りに登録するか選択してください")')).toBeVisible();
+  await expect(alertDialog.locator("button", { hasText: "お気に入り登録" })).toBeVisible();
+  await expect(alertDialog.locator("button", { hasText: "削除" })).toBeVisible();
+  await expect(alertDialog.locator("button", { hasText: "キャンセル" })).toBeVisible();
+});
 
-// test("Clicking the Read button will display a dialogue when favorite article", async ({ page, next }) => {
-//   next.onFetch(async (request) => {
-//     if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
-//       return new Response(
-//         JSON.stringify({
-//           articles: [
-//             {
-//               id: "article-1",
-//               column_id: "read-laters-article-1",
-//               other_column_id: null,
-//               title: "Read Laters Article Title 1",
-//               url: "https://example.com/read-laters-article-1",
-//               tags: [{ name: "Tag1" }, { name: "Tag2" }],
-//               is_in_other_table: true,
-//             },
-//           ],
-//           total_count: 150,
-//         }),
-//         {
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//         }
-//       );
-//     }
-//   });
-//   await page.goto("/readlater");
+test("Clicking the Read button will display a dialogue when favorite article", async ({ page, next }) => {
+  next.onFetch(async (request) => {
+    if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
+      return new Response(
+        JSON.stringify({
+          articles: [
+            {
+              id: "article-1",
+              column_id: "read-laters-article-1",
+              other_column_id: null,
+              title: "Read Laters Article Title 1",
+              url: "https://example.com/read-laters-article-1",
+              tags: [{ name: "Tag1" }, { name: "Tag2" }],
+              is_in_other_table: true,
+            },
+          ],
+          total_count: 150,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
+  });
+  await page.goto("/readlater");
 
-//   const readLaterArticles = await page.getByTestId("read-later-articles");
-//   await expect(readLaterArticles.locator("button", { hasText: "お気に入り済み" })).toBeVisible();
-//   const readLaterButton = await page.getByRole("button", { name: "読了" });
-//   readLaterButton.first().click();
+  const readLaterArticles = await page.getByTestId("read-later-articles");
+  await expect(readLaterArticles.locator("button", { hasText: "お気に入り済み" })).toBeVisible();
+  const readLaterButton = await page.getByRole("button", { name: "読了" });
+  readLaterButton.first().click();
 
-//   const alertDialog = await page.getByRole("alertdialog");
-//   await expect(alertDialog.locator('h2:has-text("読み終わりましたか？")')).toBeVisible();
-//   await expect(alertDialog.locator('p:has-text("削除するか、お気に入りに登録するか選択してください")')).toBeVisible();
-//   await expect(alertDialog.locator("button", { hasText: "お気に入り登録" })).not.toBeVisible();
-//   await expect(alertDialog.locator("button", { hasText: "削除" })).toBeVisible();
-//   await expect(alertDialog.locator("button", { hasText: "キャンセル" })).toBeVisible();
-// });
+  const alertDialog = await page.getByRole("alertdialog");
+  await expect(alertDialog.locator('h2:has-text("読み終わりましたか？")')).toBeVisible();
+  await expect(alertDialog.locator('p:has-text("削除するか、お気に入りに登録するか選択してください")')).toBeVisible();
+  await expect(alertDialog.locator("button", { hasText: "お気に入り登録" })).not.toBeVisible();
+  await expect(alertDialog.locator("button", { hasText: "削除" })).toBeVisible();
+  await expect(alertDialog.locator("button", { hasText: "キャンセル" })).toBeVisible();
+});
 
-// test("Test the button behavior", async ({ page, browserName }) => {
-//   test.skip(browserName === "webkit", "This test is skipped on WebKit browsers.");
-//   test.skip(browserName === "firefox", "This test is skipped on firefox browsers.");
-//   await page.goto("/");
+test("Test the button behavior", async ({ page, browserName }) => {
+  test.skip(browserName === "webkit", "This test is skipped on WebKit browsers.");
+  test.skip(browserName === "firefox", "This test is skipped on firefox browsers.");
+  await page.goto("/");
 
-//   const qiitaArticles = await page.getByTestId("qiita-articles");
-//   const homePageReadLaterButton = await qiitaArticles.locator("text=後で読む");
-//   homePageReadLaterButton.first().click();
-//   await page.waitForLoadState();
+  const qiitaArticles = await page.getByTestId("qiita-articles");
+  const homePageReadLaterButton = await qiitaArticles.locator("text=後で読む");
+  homePageReadLaterButton.first().click();
+  await page.waitForLoadState();
 
-//   await expect(qiitaArticles.getByRole("button", { name: "loading" })).toBeVisible();
-//   await page.waitForLoadState();
+  await expect(qiitaArticles.getByRole("button", { name: "loading" })).toBeVisible();
+  await page.waitForLoadState();
 
-//   await expect(qiitaArticles.locator("text=登録済み")).toBeVisible();
+  await expect(qiitaArticles.locator("text=登録済み")).toBeVisible();
 
-//   const header = await page.getByTestId("header");
-//   const readLaterLink = await header.locator("text=後で読む");
-//   readLaterLink.first().click();
-//   await page.waitForLoadState();
+  const header = await page.getByTestId("header");
+  const readLaterLink = await header.locator("text=後で読む");
+  readLaterLink.first().click();
+  await page.waitForLoadState();
 
-//   await expect(page.locator('h2:has-text("後で読む")')).toBeVisible();
-//   await expect(page.locator("text=Sample Qiita Article Title 1")).toBeVisible();
+  await expect(page.locator('h2:has-text("後で読む")')).toBeVisible();
+  await expect(page.locator("text=Sample Qiita Article Title 1")).toBeVisible();
 
-//   const readLaterButton = await page.getByRole("button", { name: "読了" }).first();
-//   readLaterButton.click();
+  const readLaterButton = await page.getByRole("button", { name: "読了" }).first();
+  readLaterButton.click();
 
-//   const alertDialog = await page.getByRole("alertdialog");
-//   await expect(alertDialog.locator('h2:has-text("読み終わりましたか？")')).toBeVisible();
-//   await alertDialog.locator("button", { hasText: "お気に入り登録" }).click();
-//   await page.waitForLoadState();
+  const alertDialog = await page.getByRole("alertdialog");
+  await expect(alertDialog.locator('h2:has-text("読み終わりましたか？")')).toBeVisible();
+  await alertDialog.locator("button", { hasText: "お気に入り登録" }).click();
+  await page.waitForLoadState();
 
-//   await expect(page.locator('li:has-text("お気に入り登録しました")')).toBeVisible();
-//   await page.waitForLoadState();
+  await expect(page.locator('li:has-text("お気に入り登録しました")')).toBeVisible();
+  await page.waitForLoadState();
 
-//   const firstArticle = await page.getByTestId("article-1");
-//   const favoriteButton = firstArticle.locator("button", { hasText: "お気に入り済み" });
+  const firstArticle = await page.getByTestId("article-1");
+  const favoriteButton = firstArticle.locator("button", { hasText: "お気に入り済み" });
 
-//   await expect(alertDialog).not.toBeVisible();
-//   await expect(favoriteButton).toBeVisible();
+  await expect(alertDialog).not.toBeVisible();
+  await expect(favoriteButton).toBeVisible();
 
-//   readLaterButton.click();
-//   await page.waitForLoadState();
-//   await expect(alertDialog.locator('h2:has-text("読み終わりましたか？")')).toBeVisible();
-//   await expect(alertDialog.locator("button", { hasText: "お気に入り登録" })).not.toBeVisible();
+  readLaterButton.click();
+  await page.waitForLoadState();
+  await expect(alertDialog.locator('h2:has-text("読み終わりましたか？")')).toBeVisible();
+  await expect(alertDialog.locator("button", { hasText: "お気に入り登録" })).not.toBeVisible();
 
-//   await alertDialog.locator("button", { hasText: "キャンセル" }).click();
-//   await page.waitForLoadState();
+  await alertDialog.locator("button", { hasText: "キャンセル" }).click();
+  await page.waitForLoadState();
 
-//   await expect(alertDialog).not.toBeVisible();
-//   favoriteButton.click();
-//   await page.waitForLoadState();
-//   const loadingButton = page.getByRole("button", { name: "loading" });
-//   await expect(loadingButton).toBeVisible({ timeout: 60000 });
-//   await expect(loadingButton).not.toBeVisible();
-//   await expect(firstArticle.locator("button", { hasText: "お気に入り登録" })).toBeVisible({ timeout: 60000 });
+  await expect(alertDialog).not.toBeVisible();
+  favoriteButton.click();
+  await page.waitForLoadState();
+  const loadingButton = page.getByRole("button", { name: "loading" });
+  await expect(loadingButton).toBeVisible({ timeout: 60000 });
+  await expect(loadingButton).not.toBeVisible();
+  await expect(firstArticle.locator("button", { hasText: "お気に入り登録" })).toBeVisible({ timeout: 60000 });
 
-//   readLaterButton.click();
-//   await page.waitForLoadState();
-//   await alertDialog.locator("button", { hasText: "削除" }).click();
+  readLaterButton.click();
+  await page.waitForLoadState();
+  await alertDialog.locator("button", { hasText: "削除" }).click();
 
-//   await expect(alertDialog).not.toBeVisible();
-//   await expect(page.locator('li:has-text("削除しました")')).toBeVisible();
-//   await expect(page.locator("text=Sample Qiita Article Title 1")).not.toBeVisible();
-// });
+  await expect(alertDialog).not.toBeVisible();
+  await expect(page.locator('li:has-text("削除しました")')).toBeVisible();
+  await expect(page.locator("text=Sample Qiita Article Title 1")).not.toBeVisible();
+});
 
-// test("search form is working properly", async ({ page, browserName }) => {
-//   test.skip(browserName === "webkit", "This test is skipped on WebKit browsers.");
-//   await page.goto("/readlater");
+test("search form is working properly", async ({ page, browserName }) => {
+  test.skip(browserName === "webkit", "This test is skipped on WebKit browsers.");
+  await page.goto("/readlater");
 
-//   const searchForm = await page.getByTestId("search-form");
-//   await searchForm.getByPlaceholder("検索ワードを入力").fill("Tag");
-//   await searchForm.locator("button", { hasText: "検索" }).click();
-//   await page.waitForLoadState();
-//   await expect(page.getByRole("button", { name: "loading" })).toBeVisible();
-//   await expect(page.getByRole("button", { name: "loading" })).not.toBeVisible();
-//   expect(page.url()).toBe("http://localhost:3000/readlater?query=Tag");
-// });
+  const searchForm = await page.getByTestId("search-form");
+  await searchForm.getByPlaceholder("検索ワードを入力").fill("Tag");
+  await searchForm.locator("button", { hasText: "検索" }).click();
+  await page.waitForLoadState();
+  await expect(page.getByRole("button", { name: "loading" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "loading" })).not.toBeVisible();
+  expect(page.url()).toBe("http://localhost:3000/readlater?query=Tag");
+});
 
 test("Test the behavior of addArticleForm", async ({ page, browserName }) => {
   test.skip(browserName === "webkit", "This test is skipped on WebKit browsers.");
@@ -460,45 +460,45 @@ test("Test the behavior of addArticleForm", async ({ page, browserName }) => {
   await expect(page.locator("li", { hasText: "削除しました" })).toBeVisible();
 });
 
-// test("サイトがありませんmessage appears when URL is incorrect", async ({ page, browserName }) => {
-//   test.skip(browserName === "webkit", "This test is skipped on WebKit browsers.");
-//   await page.goto("/readlater");
+test("サイトがありませんmessage appears when URL is incorrect", async ({ page, browserName }) => {
+  test.skip(browserName === "webkit", "This test is skipped on WebKit browsers.");
+  await page.goto("/readlater");
 
-//   const addArticleForm = await page.getByTestId("add-article-form");
-//   await addArticleForm.getByPlaceholder("追加したいURLを入力").fill("https://nofetch");
-//   await addArticleForm.locator("button", { hasText: "追加" }).click();
+  const addArticleForm = await page.getByTestId("add-article-form");
+  await addArticleForm.getByPlaceholder("追加したいURLを入力").fill("https://nofetch");
+  await addArticleForm.locator("button", { hasText: "追加" }).click();
 
-//   await page.waitForLoadState();
+  await page.waitForLoadState();
 
-//   await expect(page.getByRole("button", { name: "loading" })).toBeVisible({ timeout: 60000 });
-//   await expect(page.getByRole("button", { name: "loading" })).not.toBeVisible({ timeout: 60000 });
+  await expect(page.getByRole("button", { name: "loading" })).toBeVisible({ timeout: 60000 });
+  await expect(page.getByRole("button", { name: "loading" })).not.toBeVisible({ timeout: 60000 });
 
-//   await expect(page.locator("li", { hasText: "サイトがありません" })).toBeVisible();
-// });
+  await expect(page.locator("li", { hasText: "サイトがありません" })).toBeVisible();
+});
 
-// test("Click on a tag to go to the search page", async ({ page, next }) => {
-//   next.onFetch(async (request) => {
-//     if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
-//       return new Response(
-//         JSON.stringify({
-//           articles: generateMockReadLaterArticles(readLaterPage, readLaterPerPage),
-//           total_count: 30,
-//         }),
-//         {
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//         }
-//       );
-//     }
-//   });
-//   await page.goto("/readlater");
+test("Click on a tag to go to the search page", async ({ page, next }) => {
+  next.onFetch(async (request) => {
+    if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_read_laters_articles_with_count`) {
+      return new Response(
+        JSON.stringify({
+          articles: generateMockReadLaterArticles(readLaterPage, readLaterPerPage),
+          total_count: 30,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
+  });
+  await page.goto("/readlater");
 
-//   const tagsbutton = await page.locator("text=Tag1");
-//   tagsbutton.first().click();
-//   await page.waitForLoadState();
+  const tagsbutton = await page.locator("text=Tag1");
+  tagsbutton.first().click();
+  await page.waitForLoadState();
 
-//   const searchInput = await page.locator('input[name="name"]');
-//   await expect(searchInput).toHaveValue("Tag1", { timeout: 50000 });
-//   expect(page.url()).toBe("http://localhost:3000/search?query=Tag1");
-// });
+  const searchInput = await page.locator('input[name="name"]');
+  await expect(searchInput).toHaveValue("Tag1", { timeout: 50000 });
+  expect(page.url()).toBe("http://localhost:3000/search?query=Tag1");
+});
