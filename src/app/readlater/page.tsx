@@ -1,4 +1,5 @@
-import { getReadLaterArticles } from "@/actions/readLater";
+import { addReadLaterByUrl, getReadLaterArticles } from "@/actions/readLater";
+import { AddArticleForm } from "@/components/layout/form/AddArticleForm";
 import { SearchForm } from "@/components/layout/form/SearchForm";
 import { StoredArticleList } from "@/components/layout/main/StoredArticleList";
 import { ArticleListSkeleton } from "@/components/layout/skeleton/ArticleListSkeleton";
@@ -25,6 +26,7 @@ export default function ReadLaterPage({
   return (
     <>
       <SearchForm key={query} query={query} linkPage="readlater" />
+      <AddArticleForm addAction={addReadLaterByUrl} />
       <div
         className="w-full flex justify-center items-center flex-col md:mt-2 mt-8 mb-4"
         data-testid="read-later-articles"

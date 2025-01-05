@@ -1,4 +1,5 @@
-import { getFavoriteArticles } from "@/actions/favorite";
+import { addFavoriteByUrl, getFavoriteArticles } from "@/actions/favorite";
+import { AddArticleForm } from "@/components/layout/form/AddArticleForm";
 import { SearchForm } from "@/components/layout/form/SearchForm";
 import { StoredArticleList } from "@/components/layout/main/StoredArticleList";
 import { ArticleListSkeleton } from "@/components/layout/skeleton/ArticleListSkeleton";
@@ -25,6 +26,7 @@ export default function FavoritePage({
   return (
     <>
       <SearchForm key={query} query={query} linkPage="favorite" />
+      <AddArticleForm addAction={addFavoriteByUrl} />
       <div
         className="w-full flex justify-center items-center flex-col md:mt-2 mt-8 mb-4"
         data-testid="favorite-articles"
