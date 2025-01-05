@@ -437,8 +437,6 @@ test("Test the behavior of addArticleForm", async ({ page, browserName }) => {
 
   await expect(page.locator("li", { hasText: "登録しました" })).toBeVisible();
   const readlaterArticles = await page.getByTestId("read-later-articles");
-  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-  await page.screenshot({ path: `screenshot1-${timestamp}.png`, fullPage: true });
 
   await expect(readlaterArticles.locator("text=Zennta")).toBeVisible({ timeout: 60000 });
   await addArticleForm.getByPlaceholder("追加したいURLを入力").fill("https://zennta.vercel.app/");
