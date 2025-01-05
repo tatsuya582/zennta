@@ -21,7 +21,7 @@ setup("authenticate", async ({ page }) => {
     .catch(() => {
       // ボタンがなければ何もしない
     });
-  const header = page.getByTestId("header");
+  const header = await page.getByTestId("header");
   await expect(header.locator("text=Zennta")).toBeVisible();
 
   await page.context().storageState({ path: authFile });
