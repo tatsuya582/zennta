@@ -21,6 +21,27 @@ const generateMockZennArticles = (page: number, perPage: number) => {
   }));
 };
 
+const generateMockSearchQiitaArticles = (page: number, perPage: number, query: string) => {
+  const start = (page - 1) * perPage;
+  return Array.from({ length: perPage }, (_, index) => ({
+    id: `search-qiita-article-${start + index + 1}`,
+    title: `Search Qiita Article Title ${query} ${start + index + 1}`,
+    url: `https://example.com/search-qiita-article-${start + index + 1}`,
+    tags: index % 2 === 0 ? [{ name: "Tag1" }, { name: "Tag2" }] : null,
+    created_at: new Date(Date.now() - index * 86400000).toISOString(),
+  }));
+};
+
+const generateMockSearchZennArticles = (page: number, perPage: number, query: string) => {
+  const start = (page - 1) * perPage;
+  return Array.from({ length: perPage }, (_, index) => ({
+    id: `zenn-article-${start + index + 1}`,
+    title: `Search Zenn Article Title ${query} ${start + index + 1}`,
+    path: `/zenn-article-${start + index + 1}`,
+    published_at: new Date(Date.now() - index * 86400000).toISOString(),
+  }));
+};
+
 const generateMockFavoriteArticles = (page: number, perPage: number) => {
   const start = (page - 1) * perPage;
   return Array.from({ length: perPage }, (_, index) => ({
@@ -53,7 +74,7 @@ const readLaterPerPage = 30;
 const favoritePage = 1;
 const favoritePerPage = 30;
 
-export const beforeAction = async (next: NextFixture) => {
+export const beforeAction = async (next: NextFixture, isSearch = false) => {
   const originalConsoleLog = console.log;
   console.log = (...args) => {
     if (!args[0]?.includes("next.onFetch")) {
@@ -66,10 +87,14 @@ export const beforeAction = async (next: NextFixture) => {
     if (url.origin === "https://qiita.com" && url.pathname === "/api/v2/items") {
       const page = url.searchParams.get("page") || "1";
       const perPage = "30";
-      const mockArticles = generateMockQiitaArticles(Number(page), Number(perPage));
+      const query = url.searchParams.get("query") || "";
+      const mockArticles = isSearch
+        ? generateMockSearchQiitaArticles(Number(page), Number(perPage), query)
+        : generateMockQiitaArticles(Number(page), Number(perPage));
       return new Response(JSON.stringify(mockArticles), {
         headers: {
           "Content-Type": "application/json",
+          ...(isSearch && { "Total-Count": "30000" }),
         },
       });
     }
@@ -79,6 +104,18 @@ export const beforeAction = async (next: NextFixture) => {
       const perPage = "30";
       const mockArticles = generateMockZennArticles(Number(page), Number(perPage));
       return new Response(JSON.stringify({ articles: mockArticles }), {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    }
+
+    if (url.origin === "https://zenn.dev" && url.pathname === "/api/search") {
+      const page = url.searchParams.get("page") || "1";
+      const perPage = "30";
+      const query = url.searchParams.get("q") || "";
+      const mockArticles = generateMockSearchZennArticles(Number(page), Number(perPage), query);
+      return new Response(JSON.stringify({ articles: mockArticles, next_page: 1 }), {
         headers: {
           "Content-Type": "application/json",
         },
@@ -169,6 +206,41 @@ export const mockStoredArticles = async (
           },
         }
       );
+    }
+  });
+};
+
+export const mockSearchQiitaArticles = async (next: NextFixture) => {
+  next.onFetch(async (request) => {
+    const url = new URL(request.url);
+    if (url.origin === "https://qiita.com" && url.pathname === "/api/v2/items") {
+      const page = url.searchParams.get("page") || "1";
+      const perPage = "30";
+      const query = url.searchParams.get("query") || "";
+      const mockArticles = generateMockSearchQiitaArticles(Number(page), Number(perPage), query);
+      return new Response(JSON.stringify(mockArticles), {
+        headers: {
+          "Content-Type": "application/json",
+          "Total-Count": "150",
+        },
+      });
+    }
+  });
+};
+
+export const mockSearchZennArticles = async (next: NextFixture) => {
+  next.onFetch(async (request) => {
+    const url = new URL(request.url);
+    if (url.origin === "https://zenn.dev" && url.pathname === "/api/search") {
+      const page = url.searchParams.get("page") || "1";
+      const perPage = "30";
+      const query = url.searchParams.get("q") || "";
+      const mockArticles = generateMockSearchZennArticles(Number(page), Number(perPage), query);
+      return new Response(JSON.stringify({ articles: mockArticles, next_page: null }), {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
     }
   });
 };

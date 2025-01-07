@@ -1,79 +1,8 @@
+import { beforeAction, mockSearchQiitaArticles, mockSearchZennArticles } from "@/e2e-tests/mockHandlers";
 import { test, expect } from "next/experimental/testmode/playwright";
 
-const generateMockQiitaArticles = (page: number, perPage: number, query: string) => {
-  const start = (page - 1) * perPage;
-  return Array.from({ length: perPage }, (_, index) => ({
-    id: `search-qiita-article-${start + index + 1}`,
-    title: `Search Qiita Article Title ${query} ${start + index + 1}`,
-    url: `https://example.com/search-qiita-article-${start + index + 1}`,
-    tags: index % 2 === 0 ? [{ name: "Tag1" }, { name: "Tag2" }] : null,
-    created_at: new Date(Date.now() - index * 86400000).toISOString(),
-  }));
-};
-
-const generateMockZennArticles = (page: number, perPage: number, query: string) => {
-  const start = (page - 1) * perPage;
-  return Array.from({ length: perPage }, (_, index) => ({
-    id: `zenn-article-${start + index + 1}`,
-    title: `Search Zenn Article Title ${query} ${start + index + 1}`,
-    path: `/zenn-article-${start + index + 1}`,
-    published_at: new Date(Date.now() - index * 86400000).toISOString(),
-  }));
-};
-
-test.beforeEach(async ({ page, next }) => {
-  const originalConsoleLog = console.log;
-  console.log = (...args) => {
-    if (!args[0]?.includes("next.onFetch")) {
-      originalConsoleLog(...args);
-    }
-  };
-
-  next.onFetch(async (request) => {
-    const url = new URL(request.url);
-    if (url.origin === "https://qiita.com" && url.pathname === "/api/v2/items") {
-      const page = url.searchParams.get("page") || "1";
-      const perPage = "30";
-      const query = url.searchParams.get("query") || "";
-      const mockArticles = generateMockQiitaArticles(Number(page), Number(perPage), query);
-      return new Response(JSON.stringify(mockArticles), {
-        headers: {
-          "Content-Type": "application/json",
-          "Total-Count": "30000",
-        },
-      });
-    }
-    if (url.origin === "https://zenn.dev" && url.pathname === "/api/search") {
-      const page = url.searchParams.get("page") || "1";
-      const perPage = "30";
-      const query = url.searchParams.get("q") || "";
-      const mockArticles = generateMockZennArticles(Number(page), Number(perPage), query);
-      return new Response(JSON.stringify({ articles: mockArticles, next_page: 1 }), {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    }
-
-    if (request.method === "DELETE") {
-      const response = await fetch(request.url, {
-        method: request.method,
-        headers: request.headers,
-      });
-
-      return new Response(null, { status: response.status });
-    }
-    const response = await fetch(request.url, {
-      method: request.method,
-      headers: request.headers,
-      body: request.method !== "GET" && request.method !== "HEAD" ? await request.text() : null,
-    });
-
-    return new Response(await response.text(), {
-      status: response.status,
-      headers: response.headers,
-    });
-  });
+test.beforeEach(async ({ next }) => {
+  beforeAction(next, true);
 });
 
 test("should display searchpage", async ({ page }) => {
@@ -197,21 +126,7 @@ test("The last page of the Qiita article is page 100", async ({ page }) => {
 });
 
 test("Testing pagination when there are few Qiita articles", async ({ page, next }) => {
-  next.onFetch(async (request) => {
-    const url = new URL(request.url);
-    if (url.origin === "https://qiita.com" && url.pathname === "/api/v2/items") {
-      const page = url.searchParams.get("page") || "1";
-      const perPage = "30";
-      const query = url.searchParams.get("query") || "";
-      const mockArticles = generateMockQiitaArticles(Number(page), Number(perPage), query);
-      return new Response(JSON.stringify(mockArticles), {
-        headers: {
-          "Content-Type": "application/json",
-          "Total-Count": "150",
-        },
-      });
-    }
-  });
+  mockSearchQiitaArticles(next);
   await page.goto("/search?query=Next.js");
 
   const qiitaArticles = await page.getByTestId("qiita-articles");
@@ -242,20 +157,7 @@ test("Zenn article pagination is working correctly", async ({ page }) => {
 });
 
 test("Testing Zenn article pagination when next_page is null", async ({ page, next }) => {
-  next.onFetch(async (request) => {
-    const url = new URL(request.url);
-    if (url.origin === "https://zenn.dev" && url.pathname === "/api/search") {
-      const page = url.searchParams.get("page") || "1";
-      const perPage = "30";
-      const query = url.searchParams.get("q") || "";
-      const mockArticles = generateMockZennArticles(Number(page), Number(perPage), query);
-      return new Response(JSON.stringify({ articles: mockArticles, next_page: null }), {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    }
-  });
+  mockSearchZennArticles(next);
   await page.goto("/search?query=Next.js");
 
   const zennArticles = await page.getByTestId("zenn-articles");
