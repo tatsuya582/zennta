@@ -68,6 +68,19 @@ const generateMockReadLaterArticles = (page: number, perPage: number) => {
   }));
 };
 
+const generateMockArticles = (page: number, perPage: number) => {
+  const start = (page - 1) * perPage;
+  return Array.from({ length: perPage }, (_, index) => ({
+    id: `article-${start + index + 1}`,
+    column_id: `sample-article-${start + index + 1}`,
+    other_column_id: null,
+    title: `Sample Article Title ${start + index + 1}`,
+    url: `https://example.com/sample-article-${start + index + 1}`,
+    tags: index % 2 === 0 ? [{ name: "Tag1" }, { name: "Tag2" }] : null,
+    is_in_other_table: false,
+  }));
+};
+
 const readLaterPage = 1;
 const readLaterPerPage = 30;
 
@@ -153,14 +166,14 @@ export const beforeAction = async (next: NextFixture, isSearch = false) => {
 
 const mockFavoriteArticles = {
   rpc: "fetch_favorites_articles_with_count",
-  articles: generateMockFavoriteArticles(favoritePage, favoritePerPage),
+  articles: generateMockArticles(1, 30),
   extraArticle: [
     {
       id: "article-1",
-      column_id: "favorites-article-1",
+      column_id: "sample-article-1",
       other_column_id: null,
-      title: "Read Laters Article Title 1",
-      url: "https://example.com/read-laters-article-1",
+      title: "Sample Article Title 1",
+      url: "https://example.com/sample-article-1",
       tags: [{ name: "Tag1" }, { name: "Tag2" }],
       custom_tags: null,
       memo: "test",
