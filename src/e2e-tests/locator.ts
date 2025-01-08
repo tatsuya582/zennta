@@ -40,19 +40,6 @@ export const checkLoading = async (page: Page) => {
   await expect(page.getByRole("button", { name: "loading" })).not.toBeVisible({ timeout: 30000 });
 };
 
-export const memoButtonClick = async (page: Page, text: string) => {
-  const dialogName = text === "削除" ? "alertdialog" : "dialog";
-  const h2Text = text === "削除" ? "メモを削除" : "メモを入力してください";
-  await page
-    .locator("button", { hasText: `メモを${text}` })
-    .first()
-    .click();
-  const dialog = await page.getByRole(dialogName);
-  await expect(dialog.locator("h2", { hasText: h2Text })).toBeVisible();
-
-  return dialog;
-};
-
 export const articleButtonClickAndReturnDialog = async (
   page: Page,
   text: string,
@@ -66,11 +53,6 @@ export const articleButtonClickAndReturnDialog = async (
   await expect(dialog.locator("h2", { hasText: h2Text })).toBeVisible();
 
   return dialog;
-};
-
-export const dialogButtonClick = async (page: Page, dialog: Locator, text: string) => {
-  await dialog.locator("button", { hasText: text }).click();
-  await checkLoading(page);
 };
 
 export const articleButtonClick = async (page: Page, locator: Locator, text: string) => {
