@@ -169,7 +169,6 @@ export const addArticleByUrl = async (
   const scraper = metascraper([metascraperTitle()]);
   let title: string | undefined;
 
-  console.log(rpcName);
   try {
     const response = await fetch(url);
     const html = await response.text();
