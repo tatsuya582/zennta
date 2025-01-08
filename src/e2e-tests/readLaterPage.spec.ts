@@ -4,7 +4,6 @@ import {
   articleButtonClick,
   articleButtonClickAndReturnDialog,
   checkLoading,
-  dialogButtonClick,
   getAddArticleFormLocator,
   getFirstArticleLocator,
   getReadLaterArticlesLocator,
@@ -191,7 +190,7 @@ test.describe("readlater page test", () => {
 
         const dialog = await articleButtonClickAndReturnDialog(page, "読了", "読み終わりましたか？", { alert: true });
 
-        await dialogButtonClick(page, dialog, "お気に入り登録");
+        await articleButtonClick(page, dialog, "お気に入り登録");
 
         await expect(page.locator("li", { hasText: "お気に入り登録しました" })).toBeVisible();
         const firstArticle = await getFirstArticleLocator(page);
@@ -218,7 +217,7 @@ test.describe("readlater page test", () => {
 
       test("Testing the Delete button of the dialog", async ({ page }) => {
         const dialog = await articleButtonClickAndReturnDialog(page, "読了", "読み終わりましたか？", { alert: true });
-        await dialogButtonClick(page, dialog, "削除");
+        await articleButtonClick(page, dialog, "削除");
 
         await expect(page.locator("li", { hasText: "削除しました" })).toBeVisible();
         await expect(page.locator("a", { hasText: "Sample Article Title 1" })).not.toBeVisible({ timeout: 30000 });
@@ -231,19 +230,6 @@ test.describe("readlater page test", () => {
         await expect(dialog.locator("button", { hasText: "お気に入り登録" })).not.toBeVisible();
       });
     });
-
-    // test.describe("add test articles and favorite", () => {
-    //   test.beforeEach(async ({ page }) => {
-    //     await addTestArticle("readLaters");
-    //     await addFavorite();
-    //     await page.goto("/readlater");
-    //   });
-
-    //   test("「お気に入り登録」 does not appear in the dialog when the item is already added to Favorites", async ({ page }) => {
-    //     const dialog = await articleButtonClickAndReturnDialog(page, "読了", "読み終わりましたか？", { alert: true });
-    //     await expect(dialog.locator("button", { hasText: "お気に入り登録" })).not.toBeVisible();
-    //   });
-    // });
 
     test.describe("skip webkit", () => {
       test.beforeEach(async ({ page, browserName }, testInfo) => {
