@@ -35,6 +35,7 @@ export const FavoritePageDeleteButton = ({ item, isMemo = false }: { item: Fetch
       toast({
         description: "削除しました",
       });
+      setIsLoading(false);
       setIsOpen(false);
     } catch (error) {
       console.error(error);
