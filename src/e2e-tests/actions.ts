@@ -1,9 +1,7 @@
-// import { createClient } from "@/utils/supabase/server";
-import { Cookie } from "@playwright/test";
+import { type Cookie } from "@playwright/test";
 import { createServerClient } from "@supabase/ssr";
 import fs from "fs";
 
-// JSON ファイルのパス
 const USER_JSON_PATH = "src/e2e-tests/.auth/user.json";
 
 export async function createClient() {
@@ -37,10 +35,11 @@ const sampleArticle = {
   tags: [{ name: "Tag1" }, { name: "Tag2" }],
 };
 
-export const addTestFavoriteArticle = async () => {
+export const addTestArticle = async (tabelName: "favorites" | "readLaters") => {
+  const rpc = tabelName === "favorites" ? "insert_favorite_with_article" : "insert_read_later_with_article";
   const supabase = await createClient();
 
-  const { data, error } = await supabase.rpc("insert_favorite_with_article", {
+  const { data, error } = await supabase.rpc(rpc, {
     userid: process.env.NEXT_PUBLIC_TEST_USER_ID!,
     articleurl: sampleArticle.url,
     articletitle: sampleArticle.title,
@@ -55,11 +54,21 @@ export const addTestFavoriteArticle = async () => {
   return data;
 };
 
-export const deleteAllTestFavoriteArticles = async () => {
+export const deleteAllTestArticles = async (tabelName: "favorites" | "readLaters") => {
   const supabase = await createClient();
 
-  const { error } = await supabase.from("favorites").delete().eq("userId", process.env.NEXT_PUBLIC_TEST_USER_ID!);
+  const { error } = await supabase.from(tabelName).delete().eq("userId", process.env.NEXT_PUBLIC_TEST_USER_ID!);
 
+  if (error) {
+    console.error("エラー:", error);
+  }
+};
+
+export const addFavorite = async () => {
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("favorites")
+    .insert({ userId: process.env.NEXT_PUBLIC_TEST_USER_ID!, articleId: process.env.NEXT_PUBLIC_TEST_ARTICLE_ID! });
   if (error) {
     console.error("エラー:", error);
   }
