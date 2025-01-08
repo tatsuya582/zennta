@@ -1,50 +1,19 @@
-import { addTestFavoriteArticle, deleteAllTestFavoriteArticles, updateTestFavoriteMemo } from "@/e2e-tests/actions";
+import { addTestArticle, deleteAllTestArticles, updateTestFavoriteMemo } from "@/e2e-tests/actions";
+import {
+  addArticleFormClick,
+  articleButtonClickAndReturnDialog,
+  checkLoading,
+  articleButtonClick,
+  getAddArticleFormLocator,
+  getFavoriteArticlesLocator,
+  getFirstArticleLocator,
+  getSearchFormLocator,
+  paginationActiveCheck,
+  paginationDisplayLocator,
+  paginationMorePagesCheck,
+} from "@/e2e-tests/locator";
 import { beforeAction, mockStoredArticles } from "@/e2e-tests/mockHandlers";
-import { test, expect, type Page, type Locator } from "next/experimental/testmode/playwright";
-
-const getSearchFormLocator = async (page: Page) => await page.getByTestId("search-form");
-const getAddArticleFormLocator = async (page: Page) => await page.getByTestId("add-article-form");
-const getFavoriteArticlesLocator = async (page: Page) => await page.getByTestId("favorite-articles");
-const getFirstArticleLocator = async (page: Page) => await page.getByTestId("article-1");
-
-const checkLoading = async (page: Page) => {
-  await expect(page.getByRole("button", { name: "loading" })).toBeVisible({ timeout: 10000 });
-  await expect(page.getByRole("button", { name: "loading" })).not.toBeVisible({ timeout: 30000 });
-};
-
-const memoButtonClick = async (page: Page, text: string) => {
-  const dialogName = text === "削除" ? "alertdialog" : "dialog";
-  const h2Text = text === "削除" ? "メモを削除" : "メモを入力してください";
-  await page
-    .locator("button", { hasText: `メモを${text}` })
-    .first()
-    .click();
-  const dialog = await page.getByRole(dialogName);
-  await expect(dialog.locator("h2", { hasText: h2Text })).toBeVisible();
-
-  return dialog;
-};
-
-const articleButtonClick = async (page: Page, text: string) => {
-  await page.locator("button", { hasText: text }).first().click();
-  const dialog = await page.getByRole("alertdialog");
-  await expect(dialog.locator("h2", { hasText: "お気に入りを削除" })).toBeVisible();
-
-  return dialog;
-};
-
-const dialogButtonClick = async (page: Page, dialog: Locator, text: string) => {
-  await dialog.locator("button", { hasText: text }).click();
-  await checkLoading(page);
-};
-
-const addArticleFormClick = async (page: Page, url: string) => {
-  const addArticleForm = await getAddArticleFormLocator(page);
-  await addArticleForm.getByPlaceholder("追加したいURLを入力").fill(url);
-  await addArticleForm.locator("button", { hasText: "追加" }).click();
-
-  await checkLoading(page);
-};
+import { test, expect } from "next/experimental/testmode/playwright";
 
 test.describe("favorite page test", () => {
   test.beforeEach(async ({ next }) => {
@@ -87,15 +56,10 @@ test.describe("favorite page test", () => {
     await page.goto("/favorite");
 
     const favoriteArticles = await getFavoriteArticlesLocator(page);
-    const activeButton = favoriteArticles.getByRole("link", { name: "1", exact: true });
-    await expect(activeButton).toHaveCount(2);
-    await expect(activeButton.first()).toHaveAttribute("aria-current", "page");
 
-    await expect(favoriteArticles.getByRole("link", { name: "2", exact: true })).toHaveCount(2);
-    await expect(favoriteArticles.getByRole("link", { name: "3", exact: true })).toHaveCount(2);
-    await expect(favoriteArticles.locator(".sr-only", { hasText: "More pages" })).toHaveCount(2);
-    await expect(favoriteArticles.getByRole("link", { name: "Go to next page" })).toHaveCount(2);
-    await expect(favoriteArticles.getByRole("link", { name: "Go to the last page" })).toHaveCount(2);
+    await paginationActiveCheck(favoriteArticles, "1");
+    await paginationDisplayLocator(favoriteArticles, ["2", "3", "Go to next page", "Go to the last page"]);
+    await paginationMorePagesCheck(favoriteArticles);
   });
 
   test("should display pagination when less article", async ({ page, next }) => {
@@ -104,24 +68,17 @@ test.describe("favorite page test", () => {
     await page.goto("/favorite");
 
     const favoriteArticles = await getFavoriteArticlesLocator(page);
-    const activeButton = favoriteArticles.getByRole("link", { name: "1", exact: true });
-    await expect(activeButton).toHaveCount(2);
-    await expect(activeButton.first()).toHaveAttribute("aria-current", "page");
-
-    await expect(favoriteArticles.getByRole("link", { name: "2", exact: true })).toHaveCount(2);
-    await expect(favoriteArticles.getByRole("link", { name: "3", exact: true })).toHaveCount(2);
-    await expect(favoriteArticles.getByRole("link", { name: "4", exact: true })).toHaveCount(2);
-    await expect(favoriteArticles.getByRole("link", { name: "5", exact: true })).toHaveCount(2);
-    await expect(favoriteArticles.locator(".sr-only", { hasText: "More pages" })).not.toBeVisible();
-    await expect(favoriteArticles.getByRole("link", { name: "Go to next page" })).not.toBeVisible();
-    await expect(favoriteArticles.getByRole("link", { name: "Go to the last page" })).not.toBeVisible();
+    await paginationActiveCheck(favoriteArticles, "1");
+    await paginationDisplayLocator(favoriteArticles, ["2", "3", "4", "5"]);
+    await paginationDisplayLocator(favoriteArticles, ["Go to next page", "Go to the last page"], { not: true });
+    await paginationMorePagesCheck(favoriteArticles, { not: true });
   });
 
   test("Clicking the add memo button will display a dialogue", async ({ page, next }) => {
     mockStoredArticles(next, 150, "favorite");
     await page.goto("/favorite");
 
-    const dialog = await memoButtonClick(page, "追加");
+    const dialog = await articleButtonClickAndReturnDialog(page, "メモを追加", "メモを入力してください");
     await expect(dialog.locator("p", { hasText: "280文字まで入力できます。" })).toBeVisible();
     await expect(dialog.locator("button", { hasText: "追加" })).toBeVisible();
     await expect(dialog.locator("button", { hasText: "キャンセル" })).toBeVisible();
@@ -136,7 +93,7 @@ test.describe("favorite page test", () => {
     await expect(favoriteArticles.locator("button", { hasText: "メモを削除" })).toBeVisible();
     await expect(favoriteArticles.locator("text=test")).toBeVisible();
 
-    const dialog = await memoButtonClick(page, "編集");
+    const dialog = await articleButtonClickAndReturnDialog(page, "メモを編集", "メモを入力してください");
     await expect(dialog.locator("p", { hasText: "280文字まで入力できます。" })).toBeVisible();
     await expect(dialog.locator("text=test")).toBeVisible();
     await expect(dialog.locator("button", { hasText: "追加" })).not.toBeVisible();
@@ -157,22 +114,22 @@ test.describe("favorite page test", () => {
 
   test.describe("use test actions", () => {
     test.afterEach(async () => {
-      await deleteAllTestFavoriteArticles();
+      await deleteAllTestArticles("favorites");
     });
 
     test.describe("add test articles", () => {
       test.beforeEach(async ({ page }) => {
-        await addTestFavoriteArticle();
+        await addTestArticle("favorites");
         await page.goto("/favorite");
       });
 
       test("Testing the Add Mome feature", async ({ page }) => {
         await expect(page.locator("a", { hasText: "Sample Article Title 1" })).toBeVisible();
 
-        const dialog = await await memoButtonClick(page, "追加");
+        const dialog = await articleButtonClickAndReturnDialog(page, "メモを追加", "メモを入力してください");
         await page.fill('textarea[name="value"]', "test");
 
-        await dialogButtonClick(page, dialog, "追加");
+        await articleButtonClick(page, dialog, "追加");
 
         await expect(page.locator("li", { hasText: "メモを追加しました" })).toBeVisible();
         const firstArticle = await getFirstArticleLocator(page);
@@ -181,18 +138,18 @@ test.describe("favorite page test", () => {
       });
 
       test("Testing the Cancel button of a dialog", async ({ page }) => {
-        const dialog = await memoButtonClick(page, "追加");
+        const dialog = await articleButtonClickAndReturnDialog(page, "メモを追加", "メモを入力してください");
         await dialog.locator("button", { hasText: "キャンセル" }).click();
         await expect(dialog).not.toBeVisible();
       });
 
       test("Testing the Delete Post Button", async ({ page }) => {
         const favoriteArticles = await getFavoriteArticlesLocator(page);
-        const dialog = await articleButtonClick(page, "削除");
+        const dialog = await articleButtonClickAndReturnDialog(page, "削除", "お気に入りを削除", { alert: true });
         await expect(dialog.locator("p", { hasText: "削除してよろしいですか？" })).toBeVisible();
         await expect(dialog.locator("button", { hasText: "キャンセル" })).toBeVisible();
 
-        await dialogButtonClick(page, dialog, "削除");
+        await articleButtonClick(page, dialog, "削除");
 
         await expect(page.locator("li", { hasText: "削除しました" })).toBeVisible({ timeout: 30000 });
         await expect(favoriteArticles.locator("text=記事がありません")).not.toBeVisible({ timeout: 30000 });
@@ -201,7 +158,7 @@ test.describe("favorite page test", () => {
 
     test.describe("add test memos", () => {
       test.beforeEach(async ({ page }) => {
-        const articleId = await addTestFavoriteArticle();
+        const articleId = await addTestArticle("favorites");
         await updateTestFavoriteMemo(articleId);
         await page.goto("/favorite");
       });
@@ -210,12 +167,12 @@ test.describe("favorite page test", () => {
         const firstArticle = await getFirstArticleLocator(page);
         await expect(firstArticle.locator("text=test")).toBeVisible();
 
-        const dialog = await memoButtonClick(page, "編集");
+        const dialog = await articleButtonClickAndReturnDialog(page, "メモを編集", "メモを入力してください");
         await expect(dialog.locator("text=test")).toBeVisible();
         await expect(dialog.locator("button", { hasText: "追加" })).not.toBeVisible();
         await page.fill('textarea[name="value"]', "edit");
 
-        await dialogButtonClick(page, dialog, "編集");
+        await articleButtonClick(page, dialog, "編集");
 
         await expect(page.locator("li", { hasText: "メモを編集しました" })).toBeVisible();
 
@@ -225,11 +182,11 @@ test.describe("favorite page test", () => {
       test("Testing the deleting feature of memos", async ({ page }) => {
         const firstArticle = await getFirstArticleLocator(page);
 
-        const dialog = await memoButtonClick(page, "削除");
+        const dialog = await articleButtonClickAndReturnDialog(page, "メモを削除", "メモを削除", { alert: true });
         await expect(dialog.locator("p", { hasText: "削除してよろしいですか？" })).toBeVisible();
         await expect(dialog.locator("button", { hasText: "キャンセル" })).toBeVisible();
 
-        await dialogButtonClick(page, dialog, "削除");
+        await articleButtonClick(page, dialog, "削除");
 
         await expect(page.locator("li", { hasText: "削除しました" })).toBeVisible();
         await expect(firstArticle.locator("text=test")).not.toBeVisible({ timeout: 30000 });
@@ -240,7 +197,7 @@ test.describe("favorite page test", () => {
       test.beforeEach(async ({ page, browserName }, testInfo) => {
         test.skip(browserName === "webkit", "This test is skipped on WebKit browsers.");
         if (testInfo.title.includes("登録済みです")) {
-          await addTestFavoriteArticle();
+          await addTestArticle("favorites");
         }
         await page.goto("/favorite");
       });
