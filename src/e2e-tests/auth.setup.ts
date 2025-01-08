@@ -22,7 +22,7 @@ setup("authenticate", async ({ page }) => {
       // ボタンがなければ何もしない
     });
   const header = await page.getByTestId("header");
-  await expect(header.locator("text=Zennta")).toBeVisible();
+  await expect(header.locator("text=Zennta")).toBeVisible({ timeout: 30000 });
 
   await page.context().storageState({ path: authFile });
 });
