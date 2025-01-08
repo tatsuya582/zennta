@@ -42,32 +42,6 @@ const generateMockSearchZennArticles = (page: number, perPage: number, query: st
   }));
 };
 
-const generateMockFavoriteArticles = (page: number, perPage: number) => {
-  const start = (page - 1) * perPage;
-  return Array.from({ length: perPage }, (_, index) => ({
-    id: `article-${start + index + 1}`,
-    column_id: `favorites-article-${start + index + 1}`,
-    other_column_id: null,
-    title: `Favorite Article Title ${start + index + 1}`,
-    url: `https://example.com/favorites-article-${start + index + 1}`,
-    tags: index % 2 === 0 ? [{ name: "Tag1" }, { name: "Tag2" }] : null,
-    is_in_other_table: false,
-  }));
-};
-
-const generateMockReadLaterArticles = (page: number, perPage: number) => {
-  const start = (page - 1) * perPage;
-  return Array.from({ length: perPage }, (_, index) => ({
-    id: `article-${start + index + 1}`,
-    column_id: `read-laters-article-${start + index + 1}`,
-    other_column_id: null,
-    title: `Read Laters Article Title ${start + index + 1}`,
-    url: `https://example.com/read-laters-article-${start + index + 1}`,
-    tags: index % 2 === 0 ? [{ name: "Tag1" }, { name: "Tag2" }] : null,
-    is_in_other_table: false,
-  }));
-};
-
 const generateMockArticles = (page: number, perPage: number) => {
   const start = (page - 1) * perPage;
   return Array.from({ length: perPage }, (_, index) => ({
@@ -80,12 +54,6 @@ const generateMockArticles = (page: number, perPage: number) => {
     is_in_other_table: false,
   }));
 };
-
-const readLaterPage = 1;
-const readLaterPerPage = 30;
-
-const favoritePage = 1;
-const favoritePerPage = 30;
 
 export const beforeAction = async (next: NextFixture, isSearch = false) => {
   const originalConsoleLog = console.log;
@@ -184,7 +152,7 @@ const mockFavoriteArticles = {
 
 const mockReadLaterArticles = {
   rpc: "fetch_read_laters_articles_with_count",
-  articles: generateMockReadLaterArticles(readLaterPage, readLaterPerPage),
+  articles: generateMockArticles(1, 30),
   extraArticle: [
     {
       id: "article-1",
