@@ -54,7 +54,7 @@ export const addTestArticle = async (tabelName: "favorites" | "readLaters") => {
   return data;
 };
 
-export const deleteAllTestArticles = async (tabelName: "favorites" | "readLaters") => {
+export const deleteAllTestArticles = async (tabelName: "favorites" | "readLaters" | "histories") => {
   const supabase = await createClient();
 
   const { error } = await supabase.from(tabelName).delete().eq("userId", process.env.NEXT_PUBLIC_TEST_USER_ID!);
