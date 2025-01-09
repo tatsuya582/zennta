@@ -2,7 +2,7 @@ import { test as setup, expect } from "@playwright/test";
 import path from "path";
 import dotenv from "dotenv";
 
-const authFile = path.join(__dirname, "./.auth/user.json");
+const authFile = path.join(__dirname, "../.auth/user.json");
 dotenv.config({ path: [".env.local", ".env"] });
 
 setup("authenticate", async ({ page }) => {
@@ -21,8 +21,8 @@ setup("authenticate", async ({ page }) => {
     .catch(() => {
       // ボタンがなければ何もしない
     });
-  const header = page.getByTestId("header");
-  await expect(header.locator("text=Zennta")).toBeVisible();
+  const header = await page.getByTestId("header");
+  await expect(header.locator("text=Zennta")).toBeVisible({ timeout: 30000 });
 
   await page.context().storageState({ path: authFile });
 });
