@@ -83,3 +83,13 @@ export const updateTestFavoriteMemo = async (id: string) => {
     console.error("エラー:", error);
   }
 };
+
+export const updateTestUser = async () => {
+  const supabase = await createClient();
+
+  const { error } = await supabase.from("users").update({ name: process.env.NEXT_PUBLIC_TEST_USER! }).eq("id", process.env.NEXT_PUBLIC_TEST_USER_ID!);
+
+  if (error) {
+    console.error("エラー:", error);
+  }
+};
