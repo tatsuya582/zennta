@@ -4,16 +4,15 @@ import {
   checkFooter,
   checkHeader,
   checkLink,
-  checkLoading,
-  getFooterLocator,
+  checkSearchForm,
   getHeaderLocator,
   getQiitaArticlesLocator,
-  getSearchFormLocator,
   getSidebarLocator,
   getZennArticlesLocator,
   paginationActiveCheck,
   paginationDisplayLocator,
   paginationMorePagesCheck,
+  searchFormClick,
 } from "@/e2e-tests/locator";
 import { beforeAction } from "@/e2e-tests/mockHandlers";
 import { test, expect } from "next/experimental/testmode/playwright";
@@ -25,21 +24,12 @@ test.beforeEach(async ({ next }) => {
 test.describe("home page test", () => {
   test("should display homepage", async ({ page }) => {
     await page.goto("/");
-    const header = await getHeaderLocator(page);
-    await expect(header.locator("a", { hasText: "Zennta" })).toBeVisible();
 
     await expect(page.locator("h2", { hasText: "履歴" })).toBeVisible();
     await expect(page.locator("h2", { hasText: "Qiita一覧" })).toBeVisible();
     await expect(page.locator("h2", { hasText: "Zenn一覧" })).toBeVisible();
 
-    const footer = await getFooterLocator(page);
-    await expect(footer.locator("a", { hasText: "お問い合わせフォーム" })).toBeVisible();
-    await expect(footer.locator("a", { hasText: "利用規約" })).toBeVisible();
-    await expect(footer.locator("a", { hasText: "プライバシーポリシー" })).toBeVisible();
-
-    const searchForm = await page.getByTestId("search-form");
-    await expect(searchForm.getByPlaceholder("検索ワードを入力")).toBeVisible();
-    await expect(searchForm.getByRole("button", { name: "delete" })).toBeVisible();
+    await checkSearchForm(page);
   });
 
   test("The header links are set correctly", async ({ page }) => {
@@ -182,13 +172,11 @@ test.describe("home page test", () => {
 
   test("search form is working properly", async ({ page, browserName }) => {
     test.skip(browserName === "webkit", "This test is skipped on WebKit browsers.");
+    const testValue = "test";
     await page.goto("/");
-    const searchForm = await getSearchFormLocator(page);
-    await searchForm.getByPlaceholder("検索ワードを入力").fill("test");
-    await searchForm.locator("button", { hasText: "検索" }).click();
+    await searchFormClick(page, testValue);
 
-    await checkLoading(page);
-    expect(page.url()).toBe("http://localhost:3000/search?query=test");
+    expect(page.url()).toBe(`http://localhost:3000/search?query=${testValue}`);
   });
 
   test("Click on a tag to go to the search page", async ({ page, next }) => {

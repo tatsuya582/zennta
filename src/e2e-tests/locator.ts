@@ -34,6 +34,18 @@ export const checkFooter = async (page: Page) => {
   await expect(footer.locator("a", { hasText: "お問い合わせフォーム" })).toBeVisible();
 };
 
+export const checkSearchForm = async (page: Page) => {
+  const searchForm = await getSearchFormLocator(page);
+  await expect(searchForm.getByPlaceholder("検索ワードを入力")).toBeVisible();
+  await expect(searchForm.locator("button", { hasText: "検索" })).toBeVisible();
+};
+
+export const checkAddArticleForm = async (page: Page) => {
+  const addArticleForm = await getAddArticleFormLocator(page);
+  await expect(addArticleForm.getByPlaceholder("追加したいURLを入力")).toBeVisible();
+  await expect(addArticleForm.locator("button", { hasText: "追加" })).toBeVisible();
+};
+
 export const paginationDisplayLocator = async (page: Locator, names: string[], options: { not?: boolean } = {}) => {
   const { not = false } = options;
   for (const name of names) {
@@ -92,6 +104,14 @@ export const addArticleFormClick = async (page: Page, url: string) => {
   const addArticleForm = await getAddArticleFormLocator(page);
   await addArticleForm.getByPlaceholder("追加したいURLを入力").fill(url);
   await addArticleForm.locator("button", { hasText: "追加" }).click();
+
+  await checkLoading(page);
+};
+
+export const searchFormClick = async (page: Page, value: string) => {
+  const searchForm = await getSearchFormLocator(page);
+  await searchForm.getByPlaceholder("検索ワードを入力").fill(value);
+  await searchForm.locator("button", { hasText: "検索" }).click();
 
   await checkLoading(page);
 };

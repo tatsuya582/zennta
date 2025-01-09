@@ -3,16 +3,16 @@ import {
   addArticleFormClick,
   articleButtonClick,
   articleButtonClickAndReturnDialog,
+  checkAddArticleForm,
   checkFooter,
   checkHeader,
-  checkLoading,
-  getAddArticleFormLocator,
+  checkSearchForm,
   getFirstArticleLocator,
   getReadLaterArticlesLocator,
-  getSearchFormLocator,
   paginationActiveCheck,
   paginationDisplayLocator,
   paginationMorePagesCheck,
+  searchFormClick,
 } from "@/e2e-tests/locator";
 import { beforeAction, mockStoredArticles } from "@/e2e-tests/mockHandlers";
 import { test, expect } from "next/experimental/testmode/playwright";
@@ -28,13 +28,8 @@ test.describe("readlater page test", () => {
     await expect(page.locator("h2", { hasText: "後で読む" })).toBeVisible();
     await expect(page.locator("h2", { hasText: "履歴" })).toBeVisible();
 
-    const searchForm = await getSearchFormLocator(page);
-    await expect(searchForm.getByPlaceholder("検索ワードを入力")).toBeVisible();
-    await expect(searchForm.locator("button", { hasText: "検索" })).toBeVisible();
-
-    const addArticleForm = await getAddArticleFormLocator(page);
-    await expect(addArticleForm.getByPlaceholder("追加したいURLを入力")).toBeVisible();
-    await expect(addArticleForm.locator("button", { hasText: "追加" })).toBeVisible();
+    await checkSearchForm(page);
+    await checkAddArticleForm(page);
   });
 
   test("Headers and footers are rendered", async ({ page }) => {
@@ -249,12 +244,9 @@ test.describe("readlater page test", () => {
       });
 
       test("search form is working properly", async ({ page }) => {
-        const searchForm = await getSearchFormLocator(page);
-        await searchForm.getByPlaceholder("検索ワードを入力").fill("test");
-        await searchForm.locator("button", { hasText: "検索" }).click();
-
-        await checkLoading(page);
-        expect(page.url()).toBe("http://localhost:3000/readlater?query=test");
+        const testValue = "test";
+        await searchFormClick(page, testValue);
+        expect(page.url()).toBe(`http://localhost:3000/readlater?query=${testValue}`);
       });
 
       test("If the URL is correct, the article can be registered using addArticleForm", async ({ page }) => {
