@@ -1,14 +1,16 @@
+import { checkFooter, checkHeader } from "@/e2e-tests/locator";
 import test, { expect } from "@playwright/test";
 
 test("should render signup page elements", async ({ page }) => {
   await page.goto("/signup");
-  await expect(page.locator('button:has-text("GitHubで会員登録")')).toBeVisible();
-  await expect(page.locator('button:has-text("Googleで会員登録")')).toBeVisible();
-  await expect(page.locator('button:has-text("Xで会員登録")')).toBeVisible();
+  await expect(page.locator("h2", { hasText: "会員登録" })).toBeVisible();
+  await expect(page.locator("button", { hasText: "GitHubで会員登録" })).toBeVisible();
+  await expect(page.locator("button", { hasText: "Googleで会員登録" })).toBeVisible();
+  await expect(page.locator("button", { hasText: "Xで会員登録" })).toBeVisible();
 });
 
-test("should link main page", async ({ page }) => {
+test("Headers and footers are rendered", async ({ page }) => {
   await page.goto("/signup");
-  await page.locator("text=Zennta").click();
-  await expect(page.locator("text=Qiita一覧")).toBeVisible();
+  await checkHeader(page);
+  await checkFooter(page);
 });

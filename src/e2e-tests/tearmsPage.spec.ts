@@ -1,3 +1,4 @@
+import { checkFooter, checkHeader } from "@/e2e-tests/locator";
 import test, { expect } from "@playwright/test";
 
 test("should render terms page elements", async ({ page }) => {
@@ -9,4 +10,10 @@ test("should render terms page elements", async ({ page }) => {
   await expect(page.locator("h3", { hasText: "第3条 責任限界" })).toBeVisible();
   await expect(page.locator("h3", { hasText: "第4条 規約変更" })).toBeVisible();
   await expect(page.locator("h3", { hasText: "第5条 法律と対策" })).toBeVisible();
+});
+
+test("Headers and footers are rendered", async ({ page }) => {
+  await page.goto("/terms");
+  await checkHeader(page);
+  await checkFooter(page);
 });

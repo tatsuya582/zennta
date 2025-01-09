@@ -3,6 +3,8 @@ import {
   addArticleFormClick,
   articleButtonClick,
   articleButtonClickAndReturnDialog,
+  checkFooter,
+  checkHeader,
   checkLoading,
   getAddArticleFormLocator,
   getFirstArticleLocator,
@@ -33,6 +35,12 @@ test.describe("readlater page test", () => {
     const addArticleForm = await getAddArticleFormLocator(page);
     await expect(addArticleForm.getByPlaceholder("追加したいURLを入力")).toBeVisible();
     await expect(addArticleForm.locator("button", { hasText: "追加" })).toBeVisible();
+  });
+
+  test("Headers and footers are rendered", async ({ page }) => {
+    await page.goto("/readlater");
+    await checkHeader(page);
+    await checkFooter(page);
   });
 
   test("should display Articles", async ({ page, next }) => {

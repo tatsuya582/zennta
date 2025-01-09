@@ -1,3 +1,4 @@
+import { checkFooter, checkHeader } from "@/e2e-tests/locator";
 import { beforeAction, mockSearchQiitaArticles, mockSearchZennArticles } from "@/e2e-tests/mockHandlers";
 import { test, expect } from "next/experimental/testmode/playwright";
 
@@ -15,6 +16,12 @@ test("should display searchpage", async ({ page }) => {
   await expect(searchForm.getByPlaceholder("検索ワードを入力")).toBeVisible();
   await expect(searchForm.getByRole("button", { name: "delete" })).toBeVisible();
   await expect(page.locator("text=なにか入力してください")).toBeVisible();
+});
+
+test("Headers and footers are rendered", async ({ page }) => {
+  await page.goto("/search");
+  await checkHeader(page);
+  await checkFooter(page);
 });
 
 test("Display the search page when you actually search", async ({ page, browserName }) => {

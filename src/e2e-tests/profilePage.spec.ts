@@ -1,3 +1,4 @@
+import { checkFooter, checkHeader } from "@/e2e-tests/locator";
 import test, { expect } from "@playwright/test";
 
 test("should display profile page", async ({ page }) => {
@@ -69,4 +70,10 @@ test("Test the rename feature", async ({ page, browserName }) => {
   await expect(page.locator("li", { hasText: "名前を変更しました" })).toBeVisible();
 
   await expect(page.locator("input[disabled]")).toHaveValue(process.env.NEXT_PUBLIC_TEST_USER!);
+});
+
+test("Headers and footers are rendered", async ({ page }) => {
+  await page.goto("/profile");
+  await checkHeader(page);
+  await checkFooter(page);
 });

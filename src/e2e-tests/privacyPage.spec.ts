@@ -1,3 +1,4 @@
+import { checkFooter, checkHeader } from "@/e2e-tests/locator";
 import test, { expect } from "@playwright/test";
 
 test("should render privacy page elements", async ({ page }) => {
@@ -11,4 +12,10 @@ test("should render privacy page elements", async ({ page }) => {
   await expect(page.locator("h3", { hasText: "第5条 個人情報の開示、修正、削除" })).toBeVisible();
   await expect(page.locator("h3", { hasText: "第6条 問い合わせ先" })).toBeVisible();
   await expect(page.locator("h3", { hasText: "第7条 改定" })).toBeVisible();
+});
+
+test("Headers and footers are rendered", async ({ page }) => {
+  await page.goto("/privacy");
+  await checkHeader(page);
+  await checkFooter(page);
 });

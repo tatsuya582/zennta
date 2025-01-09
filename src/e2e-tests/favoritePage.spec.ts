@@ -11,6 +11,8 @@ import {
   paginationActiveCheck,
   paginationDisplayLocator,
   paginationMorePagesCheck,
+  checkHeader,
+  checkFooter,
 } from "@/e2e-tests/locator";
 import { beforeAction, mockStoredArticles } from "@/e2e-tests/mockHandlers";
 import { test, expect } from "next/experimental/testmode/playwright";
@@ -33,6 +35,12 @@ test.describe("favorite page test", () => {
     const addArticleForm = await getAddArticleFormLocator(page);
     await expect(addArticleForm.getByPlaceholder("追加したいURLを入力")).toBeVisible();
     await expect(addArticleForm.locator("button", { hasText: "追加" })).toBeVisible();
+  });
+
+  test("Headers and footers are rendered", async ({ page }) => {
+    await page.goto("/favorite");
+    await checkHeader(page);
+    await checkFooter(page);
   });
 
   test("should display Articles", async ({ page, next }) => {

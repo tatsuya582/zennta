@@ -1,6 +1,8 @@
 import { addTestArticle, deleteAllTestArticles } from "@/e2e-tests/actions";
 import {
   articleButtonClick,
+  checkFooter,
+  checkHeader,
   checkLink,
   checkLoading,
   getFooterLocator,
@@ -40,20 +42,10 @@ test.describe("home page test", () => {
     await expect(searchForm.getByRole("button", { name: "delete" })).toBeVisible();
   });
 
-  test("The header links are set correctly", async ({ page }) => {
+  test("Headers and footers are rendered", async ({ page }) => {
     await page.goto("/");
-    const header = await getHeaderLocator(page);
-
-    await checkLink(page, header, "後で読む", "readlater");
-    await checkLink(page, header, "お気に入り", "favorite");
-    await checkLink(page, header, "検索", "search");
-    await checkLink(page, header, "マイページ", "profile");
-    await checkLink(page, header, "Zennta", "", { h2Text: "Qiita一覧", useElement: "h1" });
-
-    const footer = await page.getByTestId("footer");
-
-    await checkLink(page, footer, "利用規約", "terms");
-    await checkLink(page, footer, "プライバシーポリシー", "privacy");
+    await checkHeader(page);
+    await checkFooter(page);
   });
 
   test("should display Qiita Articles", async ({ page }) => {
@@ -72,7 +64,7 @@ test.describe("home page test", () => {
     await page.goto("/");
     const qiitaArticles = await getQiitaArticlesLocator(page);
 
-    await paginationActiveCheck(qiitaArticles, "1")
+    await paginationActiveCheck(qiitaArticles, "1");
     await paginationDisplayLocator(qiitaArticles, ["2", "3", "Go to next page", "Go to the last page"]);
     await paginationMorePagesCheck(qiitaArticles);
   });
@@ -91,7 +83,7 @@ test.describe("home page test", () => {
     await page.goto("/");
     const zennArticles = await getZennArticlesLocator(page);
 
-    await paginationActiveCheck(zennArticles, "1")
+    await paginationActiveCheck(zennArticles, "1");
     await paginationDisplayLocator(zennArticles, ["2", "3", "Go to next page", "Go to the last page"]);
     await paginationMorePagesCheck(zennArticles);
   });
