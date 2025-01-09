@@ -1,4 +1,4 @@
-import { addTestArticle, deleteAllTestArticles } from "@/e2e-tests/actions";
+import { addTestArticle, deleteAllTestArticles } from "@/e2e-tests/helpers/actions";
 import {
   checkDafaultButtonCorrectly,
   checkDisplay,
@@ -8,15 +8,15 @@ import {
   checkPaginationCorrectly,
   checkSearchFormCorrectly,
   checkTagCorrectly,
-} from "@/e2e-tests/commonChecks";
+} from "@/e2e-tests/helpers/commonChecks";
 import {
   checkLink,
   getHeaderLocator,
   getQiitaArticlesLocator,
   getSidebarLocator,
   getZennArticlesLocator,
-} from "@/e2e-tests/locator";
-import { beforeAction } from "@/e2e-tests/mockHandlers";
+} from "@/e2e-tests/helpers/locator";
+import { beforeAction } from "@/e2e-tests/helpers/mockHandlers";
 import { test, expect } from "next/experimental/testmode/playwright";
 
 const qiitaPath = (page: string) => `?qiitapage=${page}&zennpage=1#qiitaarticles`;

@@ -9,7 +9,7 @@ import {
   paginationDisplayLocator,
   paginationMorePagesCheck,
   searchFormClick,
-} from "@/e2e-tests/locator";
+} from "@/e2e-tests/helpers/locator";
 import { expect, type Page, type Locator } from "next/experimental/testmode/playwright";
 
 export const checkDisplay = async (page: Page, hasText: string, options: { useAddArticleForm?: boolean } = {}) => {

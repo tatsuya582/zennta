@@ -2,7 +2,7 @@ import { test as setup, expect } from "@playwright/test";
 import path from "path";
 import dotenv from "dotenv";
 
-const authFile = path.join(__dirname, "./.auth/user.json");
+const authFile = path.join(__dirname, "../.auth/user.json");
 dotenv.config({ path: [".env.local", ".env"] });
 
 setup("authenticate", async ({ page }) => {

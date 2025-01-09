@@ -1,4 +1,4 @@
-import { addFavorite, addTestArticle, deleteAllTestArticles } from "@/e2e-tests/actions";
+import { addFavorite, addTestArticle, deleteAllTestArticles } from "@/e2e-tests/helpers/actions";
 import {
   checkDisplay,
   checkDisplayArticles,
@@ -8,7 +8,7 @@ import {
   checkPaginationCorrectly,
   checkSearchFormCorrectly,
   checkTagCorrectly,
-} from "@/e2e-tests/commonChecks";
+} from "@/e2e-tests/helpers/commonChecks";
 import {
   addArticleFormClick,
   articleButtonClick,
@@ -17,8 +17,8 @@ import {
   getReadLaterArticlesLocator,
   paginationActiveCheck,
   paginationDisplayLocator,
-} from "@/e2e-tests/locator";
-import { beforeAction, mockStoredArticles } from "@/e2e-tests/mockHandlers";
+} from "@/e2e-tests/helpers/locator";
+import { beforeAction, mockStoredArticles } from "@/e2e-tests/helpers/mockHandlers";
 import { test, expect } from "next/experimental/testmode/playwright";
 
 const path = (page: string) => `readlater?page=${page}`;

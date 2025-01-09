@@ -1,4 +1,4 @@
-import { checkDisplayAuth } from "@/e2e-tests/commonChecks";
+import { checkDisplayAuth } from "@/e2e-tests/helpers/commonChecks";
 import test from "@playwright/test";
 
 test.describe("login page test", () => {

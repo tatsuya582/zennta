@@ -1,4 +1,4 @@
-import { checkDisplayFooter } from "@/e2e-tests/commonChecks";
+import { checkDisplayFooter } from "@/e2e-tests/helpers/commonChecks";
 import test from "@playwright/test";
 
 test.describe("privacy page test", () => {
