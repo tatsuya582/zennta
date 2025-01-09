@@ -160,7 +160,7 @@ test.describe("favorite page test", () => {
         await articleButtonClick(page, dialog, "削除");
 
         await expect(page.locator("li", { hasText: "削除しました" })).toBeVisible({ timeout: 30000 });
-        await expect(favoriteArticles.locator("text=記事がありません")).not.toBeVisible({ timeout: 30000 });
+        await expect(favoriteArticles.locator("text=記事がありません")).toBeVisible({ timeout: 30000 });
       });
     });
 
