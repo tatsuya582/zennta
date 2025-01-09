@@ -23,7 +23,7 @@ test.describe("profile page test", () => {
     await page.goto("/profile");
     await checkHeader(page);
     await checkFooter(page);
-  });  
+  });
 
   test("Clicking the Edit button will display a dialogue", async ({ page }) => {
     await page.goto("/profile");
