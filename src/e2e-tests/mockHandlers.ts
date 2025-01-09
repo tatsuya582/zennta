@@ -1,26 +1,5 @@
 import { type NextFixture } from "next/experimental/testmode/playwright";
 
-const generateMockQiitaArticles = (page: number, perPage: number) => {
-  const start = (page - 1) * perPage;
-  return Array.from({ length: perPage }, (_, index) => ({
-    id: `qiita-article-${start + index + 1}`,
-    title: `Sample Qiita Article Title ${start + index + 1}`,
-    url: `https://example.com/qiita-article-${start + index + 1}`,
-    tags: index % 2 === 0 ? [{ name: "Tag1" }, { name: "Tag2" }] : null,
-    created_at: new Date(Date.now() - index * 86400000).toISOString(),
-  }));
-};
-
-const generateMockZennArticles = (page: number, perPage: number) => {
-  const start = (page - 1) * perPage;
-  return Array.from({ length: perPage }, (_, index) => ({
-    id: `zenn-article-${start + index + 1}`,
-    title: `Sample Zenn Article Title ${start + index + 1}`,
-    path: `/zenn-article-${start + index + 1}`,
-    published_at: new Date(Date.now() - index * 86400000).toISOString(),
-  }));
-};
-
 const generateMockSearchQiitaArticles = (page: number, perPage: number, query: string) => {
   const start = (page - 1) * perPage;
   return Array.from({ length: perPage }, (_, index) => ({
@@ -50,8 +29,11 @@ const generateMockArticles = (page: number, perPage: number) => {
     other_column_id: null,
     title: `Sample Article Title ${start + index + 1}`,
     url: `https://example.com/sample-article-${start + index + 1}`,
+    path: `/sample-article-${start + index + 1}`,
     tags: index % 2 === 0 ? [{ name: "Tag1" }, { name: "Tag2" }] : null,
     is_in_other_table: false,
+    created_at: new Date(Date.now() - index * 86400000).toISOString(),
+    published_at: new Date(Date.now() - index * 86400000).toISOString(),
   }));
 };
 
@@ -71,7 +53,7 @@ export const beforeAction = async (next: NextFixture, isSearch = false) => {
       const query = url.searchParams.get("query") || "";
       const mockArticles = isSearch
         ? generateMockSearchQiitaArticles(Number(page), Number(perPage), query)
-        : generateMockQiitaArticles(Number(page), Number(perPage));
+        : generateMockArticles(Number(page), 30);
       return new Response(JSON.stringify(mockArticles), {
         headers: {
           "Content-Type": "application/json",
@@ -82,8 +64,7 @@ export const beforeAction = async (next: NextFixture, isSearch = false) => {
 
     if (url.origin === "https://zenn.dev" && url.pathname === "/api/articles") {
       const page = url.searchParams.get("page") || "1";
-      const perPage = "30";
-      const mockArticles = generateMockZennArticles(Number(page), Number(perPage));
+      const mockArticles = generateMockArticles(Number(page), 30);
       return new Response(JSON.stringify({ articles: mockArticles }), {
         headers: {
           "Content-Type": "application/json",
