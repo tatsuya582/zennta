@@ -166,7 +166,7 @@ test.describe("readlater page test", () => {
     await page.locator("text=Tag1").first().click();
     await page.waitForLoadState();
 
-    await expect(page.locator('input[name="name"]')).toHaveValue("Tag1", { timeout: 30000 });
+    await expect(page.getByPlaceholder("検索ワードを入力")).toHaveValue("Tag1", { timeout: 30000 });
     expect(page.url()).toBe("http://localhost:3000/search?query=Tag1");
   });
 
