@@ -1,22 +1,25 @@
 import { addTestArticle, deleteAllTestArticles, updateTestFavoriteMemo } from "@/e2e-tests/actions";
 import {
+  checkDisplay,
+  checkDisplayArticles,
+  checkDisplayLessPagination,
+  checkDisplayPagination,
+  checkLastPageOfPaginationCorrectly,
+  checkPaginationCorrectly,
+  checkSearchFormCorrectly,
+  checkTagCorrectly,
+} from "@/e2e-tests/commonChecks";
+import {
   addArticleFormClick,
   articleButtonClickAndReturnDialog,
   articleButtonClick,
   getFavoriteArticlesLocator,
   getFirstArticleLocator,
-  paginationActiveCheck,
-  paginationDisplayLocator,
-  paginationMorePagesCheck,
-  checkHeader,
-  checkFooter,
-  checkSearchForm,
-  searchFormClick,
-  checkAddArticleForm,
 } from "@/e2e-tests/locator";
 import { beforeAction, mockStoredArticles } from "@/e2e-tests/mockHandlers";
 import { test, expect } from "next/experimental/testmode/playwright";
 
+const path = (page: string) => `favorite?page=${page}`;
 test.describe("favorite page test", () => {
   test.beforeEach(async ({ next }) => {
     beforeAction(next);
@@ -25,17 +28,7 @@ test.describe("favorite page test", () => {
   test("should display favoritepage", async ({ page }) => {
     await page.goto("/favorite");
 
-    await expect(page.locator("h2", { hasText: "お気に入り" })).toBeVisible();
-    await expect(page.locator("h2", { hasText: "履歴" })).toBeVisible();
-
-    await checkSearchForm(page);
-    await checkAddArticleForm(page);
-  });
-
-  test("Headers and footers are rendered", async ({ page }) => {
-    await page.goto("/favorite");
-    await checkHeader(page);
-    await checkFooter(page);
+    await checkDisplay(page, "お気に入り", { useAddArticleForm: true });
   });
 
   test("should display Articles", async ({ page, next }) => {
@@ -44,13 +37,7 @@ test.describe("favorite page test", () => {
     await page.goto("/favorite");
 
     const favoriteArticles = await getFavoriteArticlesLocator(page);
-    await expect(favoriteArticles.getByRole("link", { name: "Sample Article Title 1", exact: true })).toBeVisible();
-    await expect(favoriteArticles.locator("a", { hasText: "Sample Article Title 30" })).toBeVisible();
-    await expect(favoriteArticles.locator("a", { hasText: "Sample Article Title " })).toHaveCount(30);
-    await expect(favoriteArticles.locator("a", { hasText: "Tag1" })).toHaveCount(15);
-    await expect(favoriteArticles.locator("a", { hasText: "Tag2" })).toHaveCount(15);
-    await expect(favoriteArticles.locator("button", { hasText: "メモを追加" })).toHaveCount(30);
-    await expect(favoriteArticles.locator("button", { hasText: "削除" })).toHaveCount(30);
+    await checkDisplayArticles(favoriteArticles, { readLaterButton: "メモを追加", favoriteButton: "削除" });
   });
 
   test("should display pagination", async ({ page, next }) => {
@@ -59,10 +46,7 @@ test.describe("favorite page test", () => {
     await page.goto("/favorite");
 
     const favoriteArticles = await getFavoriteArticlesLocator(page);
-
-    await paginationActiveCheck(favoriteArticles, "1");
-    await paginationDisplayLocator(favoriteArticles, ["2", "3", "Go to next page", "Go to the last page"]);
-    await paginationMorePagesCheck(favoriteArticles);
+    await checkDisplayPagination(favoriteArticles);
   });
 
   test("should display pagination when less article", async ({ page, next }) => {
@@ -71,10 +55,23 @@ test.describe("favorite page test", () => {
     await page.goto("/favorite");
 
     const favoriteArticles = await getFavoriteArticlesLocator(page);
-    await paginationActiveCheck(favoriteArticles, "1");
-    await paginationDisplayLocator(favoriteArticles, ["2", "3", "4", "5"]);
-    await paginationDisplayLocator(favoriteArticles, ["Go to next page", "Go to the last page"], { not: true });
-    await paginationMorePagesCheck(favoriteArticles, { not: true });
+    await checkDisplayLessPagination(favoriteArticles);
+  });
+
+  test("Testing page functionality during pagination", async ({ page, next }) => {
+    mockStoredArticles(next, 3000, "favorite");
+    await page.goto("/favorite");
+
+    const favoriteArticles = await getFavoriteArticlesLocator(page);
+    await checkPaginationCorrectly(page, favoriteArticles, path);
+  });
+
+  test("Test the last page functionality of pagination", async ({ page, next }) => {
+    mockStoredArticles(next, 3000, "favorite");
+    await page.goto("/favorite");
+
+    const favoriteArticles = await getFavoriteArticlesLocator(page);
+    await checkLastPageOfPaginationCorrectly(page, favoriteArticles, path);
   });
 
   test("Clicking the add memo button will display a dialogue", async ({ page, next }) => {
@@ -108,11 +105,7 @@ test.describe("favorite page test", () => {
     mockStoredArticles(next, 40, "favorite");
     await page.goto("/favorite");
 
-    await page.locator("text=Tag1").first().click();
-    await page.waitForLoadState();
-
-    await expect(page.getByPlaceholder("検索ワードを入力")).toHaveValue("Tag1", { timeout: 30000 });
-    expect(page.url()).toBe("http://localhost:3000/search?query=Tag1");
+    await checkTagCorrectly(page);
   });
 
   test.describe("use test actions", () => {
@@ -206,10 +199,7 @@ test.describe("favorite page test", () => {
       });
 
       test("search form is working properly", async ({ page }) => {
-        const testValue = "test";
-        await searchFormClick(page, testValue);
-
-        expect(page.url()).toBe(`http://localhost:3000/favorite?query=${testValue}`);
+        await checkSearchFormCorrectly(page, "favorite");
       });
 
       test("If the URL is correct, the article can be registered using addArticleForm", async ({ page }) => {
