@@ -42,6 +42,22 @@ test.describe("home page test", () => {
     await expect(searchForm.getByRole("button", { name: "delete" })).toBeVisible();
   });
 
+  test("The header links are set correctly", async ({ page }) => {
+    await page.goto("/");
+    const header = await getHeaderLocator(page);
+
+    await checkLink(page, header, "後で読む", "readlater");
+    await checkLink(page, header, "お気に入り", "favorite");
+    await checkLink(page, header, "検索", "search");
+    await checkLink(page, header, "マイページ", "profile");
+    await checkLink(page, header, "Zennta", "", { h2Text: "Qiita一覧", useElement: "h1" });
+
+    const footer = await page.getByTestId("footer");
+
+    await checkLink(page, footer, "利用規約", "terms");
+    await checkLink(page, footer, "プライバシーポリシー", "privacy");
+  });
+
   test("Headers and footers are rendered", async ({ page }) => {
     await page.goto("/");
     await checkHeader(page);

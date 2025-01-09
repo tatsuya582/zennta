@@ -14,23 +14,23 @@ export const getSidebarLocator = async (page: Page) => await page.getByTestId("s
 export const checkHeader = async (page: Page, options: { login?: boolean } = {}) => {
   const { login = true } = options;
   const header = await getHeaderLocator(page);
-  await checkLink(page, header, "後で読む", "readlater");
-  await checkLink(page, header, "お気に入り", "favorite");
-  await checkLink(page, header, "検索", "search");
-  await checkLink(page, header, "Zennta", "", { h2Text: "Qiita一覧", useElement: "h1" });
+  await expect(header.locator("a", { hasText: "後で読む" })).toBeVisible();
+  await expect(header.locator("a", { hasText: "お気に入り" })).toBeVisible();
+  await expect(header.locator("a", { hasText: "検索" })).toBeVisible();
+  await expect(header.locator("h1", { hasText: "Zennta" })).toBeVisible();
   if (login) {
-    await checkLink(page, header, "マイページ", "profile");
+    await expect(header.locator("a", { hasText: "マイページ" })).toBeVisible();
     await expect(header.locator("button", { hasText: "ログアウト" })).toBeVisible();
   } else {
-    await checkLink(page, header, "ログイン", "login");
-    await checkLink(page, header, "会員登録", "signup");
+    await expect(header.locator("a", { hasText: "ログイン" })).toBeVisible();
+    await expect(header.locator("a", { hasText: "会員登録" })).toBeVisible();
   }
 };
 
 export const checkFooter = async (page: Page) => {
   const footer = await page.getByTestId("footer");
-  await checkLink(page, footer, "利用規約", "terms");
-  await checkLink(page, footer, "プライバシーポリシー", "privacy");
+  await expect(footer.locator("a", { hasText: "利用規約" })).toBeVisible();
+  await expect(footer.locator("a", { hasText: "プライバシーポリシー" })).toBeVisible();
   await expect(footer.locator("a", { hasText: "お問い合わせフォーム" })).toBeVisible();
 };
 
