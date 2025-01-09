@@ -3,8 +3,13 @@ import { expect, type Page, type Locator } from "next/experimental/testmode/play
 export const getSearchFormLocator = async (page: Page) => await page.getByTestId("search-form");
 export const getAddArticleFormLocator = async (page: Page) => await page.getByTestId("add-article-form");
 export const getFavoriteArticlesLocator = async (page: Page) => await page.getByTestId("favorite-articles");
-export const getFirstArticleLocator = async (page: Page) => await page.getByTestId("article-1");
 export const getReadLaterArticlesLocator = async (page: Page) => await page.getByTestId("read-later-articles");
+export const getQiitaArticlesLocator = async (page: Page) => await page.getByTestId("qiita-articles");
+export const getZennArticlesLocator = async (page: Page) => await page.getByTestId("zenn-articles");
+export const getFirstArticleLocator = async (page: Page) => await page.getByTestId("article-1");
+export const getHeaderLocator = async (page: Page) => await page.getByTestId("header");
+export const getFooterLocator = async (page: Page) => await page.getByTestId("footer");
+export const getSidebarLocator = async (page: Page) => await page.getByTestId("sidebar");
 
 export const paginationDisplayLocator = async (page: Locator, names: string[], options: { not?: boolean } = {}) => {
   const { not = false } = options;
@@ -56,7 +61,7 @@ export const articleButtonClickAndReturnDialog = async (
 };
 
 export const articleButtonClick = async (page: Page, locator: Locator, text: string) => {
-  await locator.locator("button", { hasText: text }).click();
+  await locator.locator("button", { hasText: text }).first().click();
   await checkLoading(page);
 };
 
@@ -66,4 +71,18 @@ export const addArticleFormClick = async (page: Page, url: string) => {
   await addArticleForm.locator("button", { hasText: "追加" }).click();
 
   await checkLoading(page);
+};
+
+export const checkLink = async (
+  page: Page,
+  locator: Locator,
+  text: string,
+  url: string,
+  options: { h2Text?: string; useElement?: string } = {}
+) => {
+  const { h2Text = text, useElement = "a" } = options;
+  await locator.locator(useElement, { hasText: text }).first().click();
+  await page.waitForLoadState();
+  await expect(page.locator("h2", { hasText: h2Text })).toBeVisible({ timeout: 30000 });
+  expect(page.url()).toBe(`http://localhost:3000/${url}`);
 };
