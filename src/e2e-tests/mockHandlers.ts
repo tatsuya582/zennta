@@ -1,26 +1,5 @@
 import { type NextFixture } from "next/experimental/testmode/playwright";
 
-const generateMockSearchQiitaArticles = (page: number, perPage: number, query: string) => {
-  const start = (page - 1) * perPage;
-  return Array.from({ length: perPage }, (_, index) => ({
-    id: `search-qiita-article-${start + index + 1}`,
-    title: `Search Qiita Article Title ${query} ${start + index + 1}`,
-    url: `https://example.com/search-qiita-article-${start + index + 1}`,
-    tags: index % 2 === 0 ? [{ name: "Tag1" }, { name: "Tag2" }] : null,
-    created_at: new Date(Date.now() - index * 86400000).toISOString(),
-  }));
-};
-
-const generateMockSearchZennArticles = (page: number, perPage: number, query: string) => {
-  const start = (page - 1) * perPage;
-  return Array.from({ length: perPage }, (_, index) => ({
-    id: `zenn-article-${start + index + 1}`,
-    title: `Search Zenn Article Title ${query} ${start + index + 1}`,
-    path: `/zenn-article-${start + index + 1}`,
-    published_at: new Date(Date.now() - index * 86400000).toISOString(),
-  }));
-};
-
 const generateMockArticles = (page: number, perPage: number) => {
   const start = (page - 1) * perPage;
   return Array.from({ length: perPage }, (_, index) => ({
@@ -37,114 +16,39 @@ const generateMockArticles = (page: number, perPage: number) => {
   }));
 };
 
-export const beforeAction = async (next: NextFixture, isSearch = false) => {
-  const originalConsoleLog = console.log;
-  console.log = (...args) => {
-    if (!args[0]?.includes("next.onFetch")) {
-      originalConsoleLog(...args);
-    }
-  };
+const mockExtraArticles = [
+  {
+    id: "article-1",
+    column_id: "sample-article-1",
+    other_column_id: null,
+    title: "Sample Article Title 1",
+    url: "https://example.com/sample-article-1",
+    tags: [{ name: "Tag1" }, { name: "Tag2" }],
+    custom_tags: null,
+    memo: "test",
+    is_in_other_table: true,
+  },
+];
 
-  next.onFetch(async (request) => {
-    const url = new URL(request.url);
-    if (url.origin === "https://qiita.com" && url.pathname === "/api/v2/items") {
-      const page = url.searchParams.get("page") || "1";
-      const perPage = "30";
-      const query = url.searchParams.get("query") || "";
-      const mockArticles = isSearch
-        ? generateMockSearchQiitaArticles(Number(page), Number(perPage), query)
-        : generateMockArticles(Number(page), 30);
-      return new Response(JSON.stringify(mockArticles), {
-        headers: {
-          "Content-Type": "application/json",
-          ...(isSearch && { "Total-Count": "30000" }),
-        },
-      });
-    }
-
-    if (url.origin === "https://zenn.dev" && url.pathname === "/api/articles") {
-      const page = url.searchParams.get("page") || "1";
-      const mockArticles = generateMockArticles(Number(page), 30);
-      return new Response(JSON.stringify({ articles: mockArticles }), {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    }
-
-    if (url.origin === "https://zenn.dev" && url.pathname === "/api/search") {
-      const page = url.searchParams.get("page") || "1";
-      const perPage = "30";
-      const query = url.searchParams.get("q") || "";
-      const mockArticles = generateMockSearchZennArticles(Number(page), Number(perPage), query);
-      return new Response(JSON.stringify({ articles: mockArticles, next_page: 1 }), {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    }
-
-    if (url.origin === "https://nofetch") {
-      return new Response("Not Found", { status: 404 });
-    }
-
-    if (request.method === "DELETE") {
-      const response = await fetch(request.url, {
-        method: request.method,
-        headers: request.headers,
-      });
-
-      return new Response(null, { status: response.status });
-    }
-    const response = await fetch(request.url, {
-      method: request.method,
-      headers: request.headers,
-      body: request.method !== "GET" && request.method !== "HEAD" ? await request.text() : null,
-    });
-
-    if (request.method === "PATCH") {
-      return new Response(null, { status: response.status });
-    }
-
-    return new Response(await response.text(), {
-      status: response.status,
-      headers: response.headers,
-    });
+const getQiitaResponse = async (url: URL, options: { totalCount?: string } = {}) => {
+  const page = url.searchParams.get("page") || "1";
+  const { totalCount = "30000" } = options;
+  return new Response(JSON.stringify(generateMockArticles(Number(page), 30)), {
+    headers: {
+      "Content-Type": "application/json",
+      "Total-Count": totalCount,
+    },
   });
 };
 
-const mockFavoriteArticles = {
-  rpc: "fetch_favorites_articles_with_count",
-  articles: generateMockArticles(1, 30),
-  extraArticle: [
-    {
-      id: "article-1",
-      column_id: "sample-article-1",
-      other_column_id: null,
-      title: "Sample Article Title 1",
-      url: "https://example.com/sample-article-1",
-      tags: [{ name: "Tag1" }, { name: "Tag2" }],
-      custom_tags: null,
-      memo: "test",
-      is_in_other_table: true,
+const getZennResponse = async (url: URL, options: { nextPage?: string | null } = {}) => {
+  const page = url.searchParams.get("page") || "1";
+  const { nextPage = "1" } = options;
+  return new Response(JSON.stringify({ articles: generateMockArticles(Number(page), 30), next_page: nextPage }), {
+    headers: {
+      "Content-Type": "application/json",
     },
-  ],
-};
-
-const mockReadLaterArticles = {
-  rpc: "fetch_read_laters_articles_with_count",
-  articles: generateMockArticles(1, 30),
-  extraArticle: [
-    {
-      id: "article-1",
-      column_id: "read-laters-article-1",
-      other_column_id: null,
-      title: "Read Laters Article Title 1",
-      url: "https://example.com/read-laters-article-1",
-      tags: [{ name: "Tag1" }, { name: "Tag2" }],
-      is_in_other_table: true,
-    },
-  ],
+  });
 };
 
 export const mockStoredArticles = async (
@@ -154,9 +58,10 @@ export const mockStoredArticles = async (
   isExtra = false
 ) => {
   next.onFetch(async (request) => {
-    const mockArticles = tabelName === "favorite" ? mockFavoriteArticles : mockReadLaterArticles;
-    const articles = isExtra ? mockArticles.extraArticle : mockArticles.articles;
-    if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/${mockArticles.rpc}`) {
+    const rpc =
+      tabelName === "favorite" ? "fetch_favorites_articles_with_count" : "fetch_read_laters_articles_with_count";
+    const articles = isExtra ? mockExtraArticles : generateMockArticles(1, 30);
+    if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/${rpc}`) {
       return new Response(
         JSON.stringify({
           articles: articles,
@@ -176,16 +81,7 @@ export const mockSearchQiitaArticles = async (next: NextFixture) => {
   next.onFetch(async (request) => {
     const url = new URL(request.url);
     if (url.origin === "https://qiita.com" && url.pathname === "/api/v2/items") {
-      const page = url.searchParams.get("page") || "1";
-      const perPage = "30";
-      const query = url.searchParams.get("query") || "";
-      const mockArticles = generateMockSearchQiitaArticles(Number(page), Number(perPage), query);
-      return new Response(JSON.stringify(mockArticles), {
-        headers: {
-          "Content-Type": "application/json",
-          "Total-Count": "150",
-        },
-      });
+      return getQiitaResponse(url, { totalCount: "150" });
     }
   });
 };
@@ -194,15 +90,46 @@ export const mockSearchZennArticles = async (next: NextFixture) => {
   next.onFetch(async (request) => {
     const url = new URL(request.url);
     if (url.origin === "https://zenn.dev" && url.pathname === "/api/search") {
-      const page = url.searchParams.get("page") || "1";
-      const perPage = "30";
-      const query = url.searchParams.get("q") || "";
-      const mockArticles = generateMockSearchZennArticles(Number(page), Number(perPage), query);
-      return new Response(JSON.stringify({ articles: mockArticles, next_page: null }), {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      return getZennResponse(url, { nextPage: null });
     }
+  });
+};
+
+export const beforeAction = async (next: NextFixture) => {
+  const originalConsoleLog = console.log;
+  console.log = (...args) => {
+    if (!args[0]?.includes("next.onFetch")) {
+      originalConsoleLog(...args);
+    }
+  };
+
+  next.onFetch(async (request) => {
+    const url = new URL(request.url);
+    if (url.origin === "https://qiita.com" && url.pathname === "/api/v2/items") {
+      return getQiitaResponse(url);
+    }
+
+    if (url.origin === "https://zenn.dev" && (url.pathname === "/api/articles" || url.pathname === "/api/search")) {
+      return getZennResponse(url);
+    }
+
+    if (url.origin === "https://nofetch") {
+      return new Response("Not Found", { status: 404 });
+    }
+
+    const response = await fetch(request.url, {
+      method: request.method,
+      headers: request.headers,
+      body: request.method !== "GET" && request.method !== "HEAD" ? await request.text() : null,
+    });
+
+    if (request.method === "PATCH" || request.method === "DELETE") {
+      return new Response(null, { status: response.status });
+    }
+
+    return new Response(await response.text(), {
+      status: response.status,
+      headers: response.headers,
+    });
   });
 };
