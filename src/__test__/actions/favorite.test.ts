@@ -13,6 +13,21 @@ jest.mock("@/lib/supabase/server", () => ({
   getSupabaseClientAndUser: jest.fn(),
 }));
 
+jest.mock("metascraper", () => {
+  return jest.fn(() => {
+    return async (url: string) => ({
+      title: "Mocked Title",
+      url,
+    });
+  });
+});
+
+jest.mock("metascraper-title", () => {
+  return jest.fn(() => ({
+    // 必要ならモックの振る舞いを定義
+  }));
+});
+
 const mockSupabase = {
   from: jest.fn(),
   rpc: jest.fn(),

@@ -11,6 +11,21 @@ jest.mock("@/components/layout/main/Article", () => ({
   Article: ({ item }: { item: StoredItem }) => <div data-testid="article">{item.title}</div>,
 }));
 
+jest.mock("metascraper", () => {
+  return jest.fn(() => {
+    return async (url: string) => ({
+      title: "Mocked Title",
+      url,
+    });
+  });
+});
+
+jest.mock("metascraper-title", () => {
+  return jest.fn(() => ({
+    // 必要ならモックの振る舞いを定義
+  }));
+});
+
 jest.mock("@/components/layout/button/ActionButton", () => ({
   ActionButton: ({ tableName, isTable }: { tableName: "readLater" | "favorite"; isTable: boolean }) => (
     <button data-testid={`action-button-${tableName}`}>

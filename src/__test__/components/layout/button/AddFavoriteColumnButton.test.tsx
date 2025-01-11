@@ -31,6 +31,21 @@ jest.mock("react-hook-form", () => ({
   useForm: jest.fn(),
 }));
 
+jest.mock("metascraper", () => {
+  return jest.fn(() => {
+    return async (url: string) => ({
+      title: "Mocked Title",
+      url,
+    });
+  });
+});
+
+jest.mock("metascraper-title", () => {
+  return jest.fn(() => ({
+    // 必要ならモックの振る舞いを定義
+  }));
+});
+
 const formSchema = z.object({
   value: z.string().max(280, {
     message: "メモは280文字以下にしてください",

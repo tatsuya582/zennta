@@ -92,7 +92,6 @@ describe("ActionButton Component", () => {
   });
 
   it("should call deleteAction and refresh the page when '登録済み' is clicked", async () => {
-    jest.useFakeTimers();
     mockDeleteAction.mockResolvedValue(undefined);
     render(
       <ActionButton
@@ -108,16 +107,14 @@ describe("ActionButton Component", () => {
     const deleteButton = screen.getByText("登録済み");
     fireEvent.click(deleteButton);
 
-    expect(mockDeleteAction).toHaveBeenCalledWith("123");
-
-    await waitFor(() => expect(mockRouter.refresh).toHaveBeenCalled());
-
     await waitFor(() => {
       const loadingButton = screen.getByRole("button", { name: "loading" });
       expect(loadingButton).toHaveAttribute("disabled");
     });
 
-    jest.advanceTimersByTime(2000); //タイムアウトになってしまうので追加
+    expect(mockDeleteAction).toHaveBeenCalledWith("123");
+
+    await waitFor(() => expect(mockRouter.refresh).toHaveBeenCalled());
 
     await waitFor(() => {
       expect(screen.queryByText("後で読む")).toBeInTheDocument();
