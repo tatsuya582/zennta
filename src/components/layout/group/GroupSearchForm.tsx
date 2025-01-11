@@ -1,8 +1,8 @@
-import { getFavoriteArticles } from "@/actions/favorite";
+import { getGroupArticles } from "@/actions/group";
 import { LoadingButton } from "@/components/layout/button/LoadingButton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { type FetchedArticles } from "@/types/databaseCustom.types";
+import { type groupArticle } from "@/types/types";
 import { type Dispatch, FormEvent, type SetStateAction, useState } from "react";
 
 export const GroupSearchForm = ({
@@ -16,7 +16,7 @@ export const GroupSearchForm = ({
   query: string;
   currentPage: number;
   setTotalPage: Dispatch<SetStateAction<number>>;
-  setArticles: Dispatch<SetStateAction<FetchedArticles[]>>;
+  setArticles: Dispatch<SetStateAction<groupArticle[]>>;
   setQuery: Dispatch<SetStateAction<string>>;
   clearQuery: () => void;
 }) => {
@@ -30,7 +30,7 @@ export const GroupSearchForm = ({
     }
     try {
       setIsLoading(true);
-      const fetchResult = await getFavoriteArticles(currentPage, newQuery);
+      const fetchResult = await getGroupArticles(currentPage, newQuery);
       if (!fetchResult?.articles) {
         setArticles([]);
         return;

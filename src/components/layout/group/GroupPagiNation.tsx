@@ -1,6 +1,6 @@
-import { getFavoriteArticles } from "@/actions/favorite";
+import { getGroupArticles } from "@/actions/group";
 import { LoadingButton } from "@/components/layout/button/LoadingButton";
-import { type FetchedArticles } from "@/types/databaseCustom.types";
+import { groupArticle } from "@/types/types";
 import { type Dispatch, type SetStateAction } from "react";
 
 export const GroupPagiNation = ({
@@ -19,7 +19,7 @@ export const GroupPagiNation = ({
   query: string;
   isLoadingNext: boolean;
   isLoadingPrev: boolean;
-  setArticles: Dispatch<SetStateAction<FetchedArticles[]>>;
+  setArticles: Dispatch<SetStateAction<groupArticle[]>>;
   setCurrentPage: Dispatch<SetStateAction<number>>;
   setIsLoadingNext: Dispatch<SetStateAction<boolean>>;
   setIsLoadingPrev: Dispatch<SetStateAction<boolean>>;
@@ -27,7 +27,7 @@ export const GroupPagiNation = ({
   const PageNavigation = async (page: number, isNext = false) => {
     try {
       isNext ? setIsLoadingNext(true) : setIsLoadingPrev(true);
-      const fetchResult = await getFavoriteArticles(page, query);
+      const fetchResult = await getGroupArticles(page, query);
       if (!fetchResult?.articles) {
         return;
       } else {

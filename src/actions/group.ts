@@ -1,3 +1,5 @@
+"use server";
+
 import { getSupabaseClientAndUser } from "@/lib/supabase/server";
 import { fetchGroupArticles } from "@/types/types";
 

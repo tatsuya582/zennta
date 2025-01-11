@@ -1,4 +1,5 @@
 import { useToast } from "@/hooks/use-toast";
+import { groupArticle } from "@/types/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -16,14 +17,10 @@ type useCreateGroupFormProps = {
   onSubmit: (values: z.infer<typeof formSchema>) => Promise<void>;
   isLoading: boolean;
 };
-type article = {
-  id: string;
-  title: string;
-};
 
 export const useCreateGroupForm = (
   initialName: string,
-  articles: article[],
+  articles: groupArticle[],
   initialArticles = [],
   isEdit = false
 ): useCreateGroupFormProps => {

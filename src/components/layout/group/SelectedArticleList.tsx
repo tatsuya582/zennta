@@ -3,23 +3,23 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useCreateGroupForm } from "@/components/layout/form/useCreateGroupForm";
 import { Input } from "@/components/ui/input";
 import { LoadingButton } from "@/components/layout/button/LoadingButton";
-import { type FetchedArticles } from "@/types/databaseCustom.types";
 import { type Dispatch, type SetStateAction } from "react";
+import { type groupArticle } from "@/types/types";
 
 export const SelectedArticleList = ({
   selectedArticles,
   setArticles,
   setSelectedArticles,
 }: {
-  selectedArticles: FetchedArticles[];
-  setArticles: Dispatch<SetStateAction<FetchedArticles[]>>;
-  setSelectedArticles: Dispatch<SetStateAction<FetchedArticles[]>>;
+  selectedArticles: groupArticle[];
+  setArticles: Dispatch<SetStateAction<groupArticle[]>>;
+  setSelectedArticles: Dispatch<SetStateAction<groupArticle[]>>;
 }) => {
   const { form, onSubmit, isLoading } = useCreateGroupForm("", selectedArticles);
-  const removeGroup = (article: FetchedArticles) => {
-    setSelectedArticles((prev) => prev.filter((item) => item.id !== article.id));
+  const removeGroup = (article: groupArticle) => {
+    setSelectedArticles((prev) => prev.filter((item) => item.favoriteId !== article.favoriteId));
     setArticles((prev) => {
-      if (prev.some((item) => item.id === article.id)) {
+      if (prev.some((item) => item.favoriteId === article.favoriteId)) {
         return prev;
       }
       return [...prev, article];
@@ -55,7 +55,7 @@ export const SelectedArticleList = ({
 
       {selectedArticles.length === 0 && <div className="h-16 flex items-center">記事が選択されていません</div>}
       {selectedArticles.map((item) => (
-        <div key={item.id} className="w-full flex justify-between items-center py-1 border-b border-gray-300">
+        <div key={item.favoriteId} className="w-full flex justify-between items-center py-1 border-b border-gray-300">
           <div>{item.title}</div>
           <Button variant="outline" onClick={() => removeGroup(item)}>
             削除

@@ -4,16 +4,17 @@ import { type FetchedArticles } from "@/types/databaseCustom.types";
 import { useState } from "react";
 import { NotSelectedArticleList } from "@/components/layout/group/NotSelectedArticleList";
 import { SelectedArticleList } from "@/components/layout/group/SelectedArticleList";
+import { groupArticle } from "@/types/types";
 
 export const CreateGroupPage = ({
   initArticles,
   initTotalPage,
 }: {
-  initArticles: FetchedArticles[];
+  initArticles: groupArticle[];
   initTotalPage: number;
 }) => {
-  const [articles, setArticles] = useState<FetchedArticles[]>(initArticles);
-  const [selectedArticles, setSelectedArticles] = useState<FetchedArticles[]>([]);
+  const [articles, setArticles] = useState<groupArticle[]>(initArticles);
+  const [selectedArticles, setSelectedArticles] = useState<groupArticle[]>([]);
 
   return (
     <div>

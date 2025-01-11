@@ -1,4 +1,4 @@
-import { getFavoriteArticles } from "@/actions/favorite";
+import { getGroupArticles } from "@/actions/group";
 import { CreateGroupPage } from "@/components/layout/group/CreateGroup";
 import { NotArticleError } from "@/components/layout/main/NotArticleError";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function FavoriteGroupCreatePage() {
-  const fetchResult = await getFavoriteArticles(1, undefined);
+  const fetchResult = await getGroupArticles(1, undefined);
   const articles = fetchResult?.articles;
 
   if (!articles || articles.length === 0) {

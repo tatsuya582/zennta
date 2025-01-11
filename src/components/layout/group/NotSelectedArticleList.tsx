@@ -2,7 +2,7 @@ import { GroupPagiNation } from "@/components/layout/group/GroupPagiNation";
 import { GroupSearchForm } from "@/components/layout/group/GroupSearchForm";
 import { Button } from "@/components/ui/button";
 import { useState, type Dispatch, type SetStateAction } from "react";
-import { type FetchedArticles } from "@/types/databaseCustom.types";
+import { type groupArticle } from "@/types/types";
 
 export const NotSelectedArticleList = ({
   initTotalPage,
@@ -13,11 +13,11 @@ export const NotSelectedArticleList = ({
   setSelectedArticles,
 }: {
   initTotalPage: number;
-  initArticles: FetchedArticles[];
-  articles: FetchedArticles[];
-  selectedArticles: FetchedArticles[];
-  setArticles: Dispatch<SetStateAction<FetchedArticles[]>>;
-  setSelectedArticles: Dispatch<SetStateAction<FetchedArticles[]>>;
+  initArticles: groupArticle[];
+  articles: groupArticle[];
+  selectedArticles: groupArticle[];
+  setArticles: Dispatch<SetStateAction<groupArticle[]>>;
+  setSelectedArticles: Dispatch<SetStateAction<groupArticle[]>>;
 }) => {
   const [totalPage, setTotalPage] = useState(initTotalPage);
   const [currentPage, setCurrentPage] = useState(1);
@@ -25,9 +25,9 @@ export const NotSelectedArticleList = ({
   const [isLoadingNext, setIsLoadingNext] = useState(false);
   const [isLoadingPrev, setIsLoadingPrev] = useState(false);
 
-  const addGroup = (article: FetchedArticles) => {
+  const addGroup = (article: groupArticle) => {
     setSelectedArticles((prev) => {
-      if (prev.some((item) => item.id === article.id)) {
+      if (prev.some((item) => item.favoriteId === article.favoriteId)) {
         return prev;
       }
       return [...prev, article];
@@ -63,8 +63,8 @@ export const NotSelectedArticleList = ({
             setIsLoadingPrev={setIsLoadingPrev}
           />
           {articles.map((item) => (
-            <div key={item.id}>
-              {!selectedArticles.find((choice) => choice.id === item.id) && (
+            <div key={item.favoriteId}>
+              {!selectedArticles.find((choice) => choice.favoriteId === item.favoriteId) && (
                 <div className="w-full flex justify-between items-center py-1 border-b border-gray-300">
                   <div>{item.title}</div>
                   <Button variant="outline" onClick={() => addGroup(item)}>
