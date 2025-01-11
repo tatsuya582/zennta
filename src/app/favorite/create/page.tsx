@@ -1,6 +1,4 @@
-import { getCreateGroupArticles } from "@/actions/group";
-import { CreateGroupPage } from "@/components/layout/group/CreateGroup";
-import { NotArticleError } from "@/components/layout/main/NotArticleError";
+import { CreateGroup } from "@/components/layout/group/CreateGroup";
 import { Button } from "@/components/ui/button";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -9,13 +7,7 @@ export const metadata: Metadata = {
   title: "お気に入りグループ作成",
 };
 
-export default async function FavoriteGroupCreatePage() {
-  const fetchResult = await getCreateGroupArticles(1, undefined);
-  const articles = fetchResult?.articles;
-
-  if (!articles || articles.length === 0) {
-    return <NotArticleError />;
-  }
+export default function FavoriteGroupCreatePage() {
   return (
     <>
       <div className="flex justify-end md:mt-0 mt-4">
@@ -26,7 +18,7 @@ export default async function FavoriteGroupCreatePage() {
       <div className="w-full flex justify-center items-center flex-col md:mt-2 mt-8 mb-4">
         <h2>お気に入りグループ作成</h2>
         <div className="w-full">
-          <CreateGroupPage initArticles={articles} initTotalPage={fetchResult.totalPage} />
+          <CreateGroup />
         </div>
       </div>
     </>
