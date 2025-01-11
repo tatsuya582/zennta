@@ -24,34 +24,6 @@ export const GroupPagiNation = ({
   setIsLoadingNext: Dispatch<SetStateAction<boolean>>;
   setIsLoadingPrev: Dispatch<SetStateAction<boolean>>;
 }) => {
-  // const nextPage = async (page: number) => {
-  //   try {
-  //     setIsLoadingNext(true);
-  //     const fetchResult = await getFavoriteArticles(page, query);
-  //     if (!fetchResult?.articles) {
-  //       return;
-  //     } else {
-  //       setArticles(fetchResult.articles);
-  //       setCurrentPage(page);
-  //     }
-  //   } finally {
-  //     setIsLoadingNext(false);
-  //   }
-  // };
-  // const prevPage = async (page: number) => {
-  //   try {
-  //     setIsLoadingPrev(true);
-  //     const fetchResult = await getFavoriteArticles(page, query);
-  //     if (!fetchResult?.articles) {
-  //       return;
-  //     } else {
-  //       setArticles(fetchResult.articles);
-  //       setCurrentPage(page);
-  //     }
-  //   } finally {
-  //     setIsLoadingPrev(false);
-  //   }
-  // };
   const PageNavigation = async (page: number, isNext = false) => {
     try {
       isNext ? setIsLoadingNext(true) : setIsLoadingPrev(true);
