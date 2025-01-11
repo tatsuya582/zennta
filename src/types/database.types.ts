@@ -174,6 +174,15 @@ export type Database = {
         };
         Returns: undefined;
       };
+      fetch_create_group__articles: {
+        Args: {
+          user_id: string;
+          page?: number;
+          page_size?: number;
+          query?: string;
+        };
+        Returns: Json;
+      };
       fetch_favorites_articles_with_count: {
         Args: {
           user_id: string;
