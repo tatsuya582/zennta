@@ -3,7 +3,7 @@
 import { getSupabaseClientAndUser } from "@/lib/supabase/server";
 import { fetchGroupArticles } from "@/types/types";
 
-export const getGroupArticles = async (page: number, query: string | undefined) => {
+export const getCreateGroupArticles = async (page: number, query: string | undefined) => {
   try {
     const { supabase, user } = await getSupabaseClientAndUser();
 

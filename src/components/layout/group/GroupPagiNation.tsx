@@ -1,4 +1,4 @@
-import { getGroupArticles } from "@/actions/group";
+import { getCreateGroupArticles } from "@/actions/group";
 import { LoadingButton } from "@/components/layout/button/LoadingButton";
 import { groupArticle } from "@/types/types";
 import { type Dispatch, type SetStateAction } from "react";
@@ -27,7 +27,7 @@ export const GroupPagiNation = ({
   const PageNavigation = async (page: number, isNext = false) => {
     try {
       isNext ? setIsLoadingNext(true) : setIsLoadingPrev(true);
-      const fetchResult = await getGroupArticles(page, query);
+      const fetchResult = await getCreateGroupArticles(page, query);
       if (!fetchResult?.articles) {
         return;
       } else {

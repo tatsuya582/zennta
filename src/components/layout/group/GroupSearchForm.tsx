@@ -1,4 +1,4 @@
-import { getGroupArticles } from "@/actions/group";
+import { getCreateGroupArticles } from "@/actions/group";
 import { LoadingButton } from "@/components/layout/button/LoadingButton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -30,7 +30,7 @@ export const GroupSearchForm = ({
     }
     try {
       setIsLoading(true);
-      const fetchResult = await getGroupArticles(currentPage, newQuery);
+      const fetchResult = await getCreateGroupArticles(currentPage, newQuery);
       if (!fetchResult?.articles) {
         setArticles([]);
         return;
