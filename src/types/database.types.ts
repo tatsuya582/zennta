@@ -27,6 +27,47 @@ export type Database = {
         };
         Relationships: [];
       };
+      favoriteGroups: {
+        Row: {
+          articles: Json;
+          createdAt: string;
+          id: string;
+          isPublished: boolean;
+          title: string;
+          updatedAt: string;
+          userId: string;
+          userName: string;
+        };
+        Insert: {
+          articles: Json;
+          createdAt?: string;
+          id?: string;
+          isPublished?: boolean;
+          title?: string;
+          updatedAt?: string;
+          userId?: string;
+          userName?: string;
+        };
+        Update: {
+          articles?: Json;
+          createdAt?: string;
+          id?: string;
+          isPublished?: boolean;
+          title?: string;
+          updatedAt?: string;
+          userId?: string;
+          userName?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "favoriteGroups_userId_fkey";
+            columns: ["userId"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       favorites: {
         Row: {
           articleId: string;
