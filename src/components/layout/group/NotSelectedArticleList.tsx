@@ -87,7 +87,7 @@ export const NotSelectedArticleList = ({
           />
         </div>
       ) : (
-        <div className="h-16 flex items-center">記事が選択されていません</div>
+        <div className="h-16 flex items-center">記事がありません</div>
       )}
     </div>
   );

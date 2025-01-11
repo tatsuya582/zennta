@@ -3,7 +3,7 @@ import { LoadingButton } from "@/components/layout/button/LoadingButton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { type groupArticle } from "@/types/types";
-import { type Dispatch, FormEvent, type SetStateAction, useState } from "react";
+import { type Dispatch, type FormEvent, type SetStateAction, useState } from "react";
 
 export const GroupSearchForm = ({
   query,
