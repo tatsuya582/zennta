@@ -1,7 +1,30 @@
 "use server";
 
 import { getSupabaseClientAndUser } from "@/lib/supabase/server";
-import { fetchGroupArticles } from "@/types/types";
+import { type fetchGroupArticles, type groupArticle } from "@/types/types";
+
+export const addFavoriteGroup = async (articles: groupArticle[], title: string) => {
+  try {
+    const { supabase, user } = await getSupabaseClientAndUser();
+
+    if (!user) {
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from("favoriteGroups")
+      .insert({ articles, title, userId: user.id })
+      .select("id");
+
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data[0].id;
+  } catch (error) {
+    console.error(`Error adding favoriteGroup:`, error);
+    throw error;
+  }
+};
 
 export const getCreateGroupArticles = async (page: number, query: string | undefined) => {
   try {
@@ -22,8 +45,8 @@ export const getCreateGroupArticles = async (page: number, query: string | undef
     const totalPage = data?.total_count ? Math.ceil(data.total_count / 30) : 1;
 
     return { articles: data?.articles, totalPage };
-  } catch (err) {
-    console.error(`Error fetching articles:`, err);
-    throw err;
+  } catch (error) {
+    console.error(`Error fetching articles:`, error);
+    throw error;
   }
 };

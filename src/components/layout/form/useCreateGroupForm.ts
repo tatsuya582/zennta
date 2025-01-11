@@ -1,3 +1,4 @@
+import { addFavoriteGroup } from "@/actions/group";
 import { useToast } from "@/hooks/use-toast";
 import { groupArticle } from "@/types/types";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -42,12 +43,11 @@ export const useCreateGroupForm = (
       }
       const name = values.name || "無題";
       setIsLoading(true);
-      console.log("title: ", name);
-      console.log(articles);
-      router.refresh();
+      const groupId = await addFavoriteGroup(articles, name);
       toast({
         description: toastStr,
       });
+      router.push(`/favorite/${groupId}`);
     } catch (error) {
       console.error(error);
     } finally {
