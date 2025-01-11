@@ -34,11 +34,11 @@ test.describe("favorite page test", () => {
   });
 
   test("links are set correctly", async ({ page }) => {
-      await page.goto("/favorite");
-  
-      const button = await page.locator("button", { hasText: "お気に入りグループ作成" })
-      await checkLink(page, button, "お気に入りグループ作成", "favorite/create");
-    });
+    await page.goto("/favorite");
+
+    const button = await page.locator("button", { hasText: "お気に入りグループ作成" });
+    await checkLink(page, button, "お気に入りグループ作成", "favorite/create");
+  });
 
   test("should display Articles", async ({ page, next }) => {
     mockStoredArticles(next, 30, "favorite");
