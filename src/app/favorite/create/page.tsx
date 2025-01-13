@@ -19,7 +19,7 @@ export default function FavoriteGroupCreatePage() {
       </div>
       <div className="w-full flex justify-center items-center flex-col md:mt-2 mt-8 mb-4">
         <h2>お気に入りグループ作成</h2>
-        <div className="w-full">
+        <div className="w-full" data-testid="favorite-group">
           <Suspense fallback={<ZennArticleListSkeleton />}>
             <CreateGroup />
           </Suspense>

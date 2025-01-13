@@ -45,7 +45,7 @@ export const GroupSearchForm = ({
   };
 
   return (
-    <div className="w-full my-4 flex gap-1">
+    <div className="w-full my-4 flex gap-1" data-testid="search-form">
       <form onSubmit={handleSubmit} role="form" className="w-full flex gap-2 mx-2">
         <Input
           type="text"

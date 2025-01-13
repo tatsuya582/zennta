@@ -4,6 +4,7 @@ const generateMockArticles = (page: number, perPage: number) => {
   const start = (page - 1) * perPage;
   return Array.from({ length: perPage }, (_, index) => ({
     id: `article-${start + index + 1}`,
+    favoriteId: `article-${start + index + 1}`,
     column_id: `sample-article-${start + index + 1}`,
     other_column_id: null,
     title: `Sample Article Title ${start + index + 1}`,
@@ -54,12 +55,16 @@ const getZennResponse = async (url: URL, options: { nextPage?: string | null } =
 export const mockStoredArticles = async (
   next: NextFixture,
   total_count: number,
-  tabelName: "readlater" | "favorite",
+  tabelName: "readlater" | "favorite" | "group",
   isExtra = false
 ) => {
   next.onFetch(async (request) => {
     const rpc =
-      tabelName === "favorite" ? "fetch_favorites_articles_with_count" : "fetch_read_laters_articles_with_count";
+      tabelName === "favorite"
+        ? "fetch_favorites_articles_with_count"
+        : tabelName === "readlater"
+          ? "fetch_read_laters_articles_with_count"
+          : "fetch_create_group__articles";
     const articles = isExtra ? mockExtraArticles : generateMockArticles(1, 30);
     if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/${rpc}`) {
       return new Response(

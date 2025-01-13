@@ -26,7 +26,10 @@ export const SelectedArticleList = ({
     });
   };
   return (
-    <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
+    <div
+      className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300"
+      data-testid="selected-articles"
+    >
       <div className="text-center pb-4 py-2 border-b border-gray-300">
         <h3>選択中の記事</h3>
         <Form {...form}>

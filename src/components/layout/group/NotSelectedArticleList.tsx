@@ -40,7 +40,10 @@ export const NotSelectedArticleList = ({
     setCurrentPage(1);
   };
   return (
-    <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
+    <div
+      className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300"
+      data-testid="not-selected-articles"
+    >
       <GroupSearchForm
         query={query}
         currentPage={currentPage}

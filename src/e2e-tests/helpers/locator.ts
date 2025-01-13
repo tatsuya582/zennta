@@ -6,6 +6,9 @@ export const getFavoriteArticlesLocator = async (page: Page) => await page.getBy
 export const getReadLaterArticlesLocator = async (page: Page) => await page.getByTestId("read-later-articles");
 export const getQiitaArticlesLocator = async (page: Page) => await page.getByTestId("qiita-articles");
 export const getZennArticlesLocator = async (page: Page) => await page.getByTestId("zenn-articles");
+export const getFavoriteGroupLocator = async (page: Page) => await page.getByTestId("favorite-group");
+export const getNotSelectedArticlesLocator = async (page: Page) => await page.getByTestId("not-selected-articles");
+export const getSelectedArticlesLocator = async (page: Page) => await page.getByTestId("selected-articles");
 export const getFirstArticleLocator = async (page: Page) => await page.getByTestId("article-1");
 export const getHeaderLocator = async (page: Page) => await page.getByTestId("header");
 export const getFooterLocator = async (page: Page) => await page.getByTestId("footer");
@@ -126,6 +129,6 @@ export const checkLink = async (
   const { h2Text = text, useElement = "a" } = options;
   await locator.locator(useElement, { hasText: text }).first().click();
   await page.waitForLoadState();
-  await expect(page.locator("h2", { hasText: h2Text })).toBeVisible({ timeout: 30000 });
+  await expect(page.getByRole("heading", { name: h2Text, level: 2, exact: true })).toBeVisible({ timeout: 30000 });
   expect(page.url()).toBe(`http://localhost:3000/${url}`);
 };
