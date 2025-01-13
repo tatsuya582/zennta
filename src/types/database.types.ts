@@ -242,6 +242,12 @@ export type Database = {
         };
         Returns: Json;
       };
+      get_articles_by_favorite_group: {
+        Args: {
+          group_id: string;
+        };
+        Returns: Json;
+      };
       insert_favorite_with_article: {
         Args: {
           userid: string;
