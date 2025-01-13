@@ -46,7 +46,6 @@ export const ActionButton = <T extends FetchedItem | StoredItem>({
       await deleteAction(deleteId);
       router.refresh();
       setDisplayLabel(!displayLabel);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
     } catch (error) {
       console.error(error);
     } finally {
@@ -59,7 +58,6 @@ export const ActionButton = <T extends FetchedItem | StoredItem>({
       setDeleteId(await addAction(item));
       router.refresh();
       setDisplayLabel(!displayLabel);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
     } catch (error) {
       console.error(error);
     } finally {

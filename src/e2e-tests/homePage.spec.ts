@@ -45,8 +45,8 @@ test.describe("home page test", () => {
 
     const footer = await page.getByTestId("footer");
 
-    await checkLink(page, footer, "利用規約", "terms");
-    await checkLink(page, footer, "プライバシーポリシー", "privacy");
+    await checkLink(page, footer, "利用規約", "terms", { h2Text: "Zenntaの利用規約" });
+    await checkLink(page, footer, "プライバシーポリシー", "privacy", { h2Text: "Zenntaのプライバシーポリシー" });
   });
 
   test("should display Qiita Articles", async ({ page }) => {

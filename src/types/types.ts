@@ -78,3 +78,13 @@ export type History = {
   updatedAt: string;
   articles: StoredItem;
 };
+
+export type groupArticle = {
+  favoriteId: string;
+  title: string;
+};
+
+export type fetchGroupArticles = {
+  articles: groupArticle[];
+  total_count: number;
+};

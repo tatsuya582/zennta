@@ -24,6 +24,10 @@ jest.mock("@/components/layout/skeleton/ArticleListSkeleton", () => ({
   ArticleListSkeleton: jest.fn(() => <div data-testid="article-list-skeleton" />),
 }));
 
+jest.mock("@/components/layout/form/AddArticleForm", () => ({
+  AddArticleForm: jest.fn(() => <div data-testid="add-article-form" />),
+}));
+
 describe("ReadLaterPage", () => {
   const mockPage = 1;
   const mockQuery = "test-query";
@@ -48,6 +52,7 @@ describe("ReadLaterPage", () => {
 
     expect(screen.getByTestId("search-form")).toBeInTheDocument();
     expect(screen.getByTestId("stored-article-list")).toBeInTheDocument();
+    expect(screen.getByTestId("add-article-form")).toBeInTheDocument();
 
     expect(screen.getByRole("heading", { level: 2, name: "後で読む" })).toBeInTheDocument();
   });

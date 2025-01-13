@@ -15,6 +15,7 @@ import {
   articleButtonClick,
   getFavoriteArticlesLocator,
   getFirstArticleLocator,
+  checkLink,
 } from "@/e2e-tests/helpers/locator";
 import { beforeAction, mockStoredArticles } from "@/e2e-tests/helpers/mockHandlers";
 import { test, expect } from "next/experimental/testmode/playwright";
@@ -29,6 +30,14 @@ test.describe("favorite page test", () => {
     await page.goto("/favorite");
 
     await checkDisplay(page, "お気に入り", { useAddArticleForm: true });
+    await expect(page.locator("a", { hasText: "お気に入りグループ作成" })).toBeVisible();
+  });
+
+  test("links are set correctly", async ({ page }) => {
+    await page.goto("/favorite");
+
+    const button = await page.locator("button", { hasText: "お気に入りグループ作成" });
+    await checkLink(page, button, "お気に入りグループ作成", "favorite/create");
   });
 
   test("should display Articles", async ({ page, next }) => {

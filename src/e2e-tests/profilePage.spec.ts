@@ -1,5 +1,10 @@
 import { updateTestUser } from "@/e2e-tests/helpers/actions";
-import { articleButtonClick, articleButtonClickAndReturnDialog, checkFooter, checkHeader } from "@/e2e-tests/helpers/locator";
+import {
+  articleButtonClick,
+  articleButtonClickAndReturnDialog,
+  checkFooter,
+  checkHeader,
+} from "@/e2e-tests/helpers/locator";
 import test, { expect } from "@playwright/test";
 
 test.describe("profile page test", () => {
