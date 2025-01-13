@@ -238,6 +238,14 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      add_favorite_group: {
+        Args: {
+          user_id: string;
+          group_title: string;
+          articles: Json;
+        };
+        Returns: string;
+      };
       add_or_update_history: {
         Args: {
           user_id: string;
