@@ -1,6 +1,7 @@
 import { addFavoriteByUrl, getFavoriteArticles } from "@/actions/favorite";
 import { AddArticleForm } from "@/components/layout/form/AddArticleForm";
 import { SearchForm } from "@/components/layout/form/SearchForm";
+import { GroupList } from "@/components/layout/main/GroupList";
 import { StoredArticleList } from "@/components/layout/main/StoredArticleList";
 import { ArticleListSkeleton } from "@/components/layout/skeleton/ArticleListSkeleton";
 import { Button } from "@/components/ui/button";
@@ -50,6 +51,9 @@ export default function FavoritePage({
             />
           </Suspense>
         </div>
+        <Suspense>
+          <GroupList />
+        </Suspense>
       </div>
     </>
   );

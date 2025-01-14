@@ -1,4 +1,9 @@
-import { addTestArticle, deleteAllTestArticles, updateTestFavoriteMemo } from "@/e2e-tests/helpers/actions";
+import {
+  addTestArticle,
+  addTestFavoriteGroup,
+  deleteAllTestArticles,
+  updateTestFavoriteMemo,
+} from "@/e2e-tests/helpers/actions";
 import {
   checkDisplay,
   checkDisplayArticles,
@@ -16,6 +21,7 @@ import {
   getFavoriteArticlesLocator,
   getFirstArticleLocator,
   checkLink,
+  getFavoriteGroupLocator,
 } from "@/e2e-tests/helpers/locator";
 import { beforeAction, mockStoredArticles } from "@/e2e-tests/helpers/mockHandlers";
 import { test, expect } from "next/experimental/testmode/playwright";
@@ -230,6 +236,29 @@ test.describe("favorite page test", () => {
         await addArticleFormClick(page, "https://nofetch");
         await expect(page.locator("li", { hasText: "サイトがありません" })).toBeVisible();
       });
+    });
+  });
+
+  test.describe("favorite group", () => {
+    let groupId: string;
+    test.beforeAll(async () => {
+      groupId = await addTestFavoriteGroup();
+    });
+
+    test.afterAll(async () => {
+      deleteAllTestArticles("favorites");
+      deleteAllTestArticles("favoriteGroups");
+    });
+
+    test("should display favoritepage", async ({ page }) => {
+      await page.goto("/favorite");
+
+      await checkDisplay(page, "お気に入り", { useAddArticleForm: true });
+      await expect(page.locator("a", { hasText: "お気に入りグループ作成" })).toBeVisible();
+
+      const favoriteGroup = await getFavoriteGroupLocator(page);
+      await expect(favoriteGroup.locator("h2", { hasText: "お気に入りグループ" })).toBeVisible();
+      await checkLink(page, favoriteGroup, "テストタイトル", `favorite/${groupId}`);
     });
   });
 });
