@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   const title = (await getFavoriteGroupTitle(params.id)) || "無題";
 
   return {
-    title,
+    title: `${title} 編集`,
   };
 }
 
