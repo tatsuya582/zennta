@@ -64,7 +64,7 @@ export const mockStoredArticles = async (
         ? "fetch_favorites_articles_with_count"
         : tabelName === "readlater"
           ? "fetch_read_laters_articles_with_count"
-          : "fetch_create_group__articles";
+          : "fetch_create_group_articles";
     const articles = isExtra ? mockExtraArticles : generateMockArticles(1, 30);
     if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/${rpc}`) {
       return new Response(

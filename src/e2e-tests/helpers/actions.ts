@@ -35,6 +35,8 @@ const sampleArticle = {
   tags: [{ name: "Tag1" }, { name: "Tag2" }],
 };
 
+const testTitle = "テストタイトル";
+
 export const addTestArticle = async (tabelName: "favorites" | "readLaters") => {
   const rpc = tabelName === "favorites" ? "insert_favorite_with_article" : "insert_read_later_with_article";
   const supabase = await createClient();
@@ -54,7 +56,7 @@ export const addTestArticle = async (tabelName: "favorites" | "readLaters") => {
   return data;
 };
 
-export const deleteAllTestArticles = async (tabelName: "favorites" | "readLaters" | "histories") => {
+export const deleteAllTestArticles = async (tabelName: "favorites" | "readLaters" | "histories" | "favoriteGroups") => {
   const supabase = await createClient();
 
   const { error } = await supabase.from(tabelName).delete().eq("userId", process.env.NEXT_PUBLIC_TEST_USER_ID!);
@@ -94,5 +96,29 @@ export const updateTestUser = async () => {
 
   if (error) {
     console.error("エラー:", error);
+  }
+};
+
+export const addTestFavoriteGroup = async () => {
+  try {
+    const supabase = await createClient();
+
+    const articleId = await addTestArticle("favorites");
+
+    const groupArticle = {
+      favoriteId: articleId,
+      title: sampleArticle.title,
+    };
+
+    const { data } = await supabase.rpc("add_favorite_group", {
+      user_id: process.env.NEXT_PUBLIC_TEST_USER_ID!,
+      group_title: testTitle,
+      articles: [groupArticle],
+    });
+
+    return data;
+  } catch (error) {
+    console.error(`Error adding favoriteGroup:`, error);
+    throw error;
   }
 };

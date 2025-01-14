@@ -1,4 +1,4 @@
-import { addFavoriteGroup, getCreateGroupArticles } from "@/actions/group";
+import { addFavoriteGroup, getCreateGroupArticles, getFavoriteGroup, getFavoriteGroupTitle } from "@/actions/group";
 import { getSupabaseClientAndUser } from "@/lib/supabase/server";
 
 jest.mock("@/lib/supabase/server", () => ({
@@ -33,14 +33,16 @@ describe("groupActions", () => {
   });
 
   it("should add a favorite group successfully", async () => {
-    mockSupabase.from.mockImplementation(() => ({
-      insert: jest.fn(() => ({
-        select: jest.fn().mockResolvedValue({ data: [{ id: groupId }], error: null }),
-      })),
-    }));
+    mockSupabase.rpc.mockResolvedValue({ data: groupId });
 
     const result = await addFavoriteGroup(mockArticles, title);
-    expect(mockSupabase.from).toHaveBeenCalledWith("favoriteGroups");
+
+    expect(mockSupabase.rpc).toHaveBeenCalledWith("add_favorite_group", {
+      user_id: userId,
+      group_title: title,
+      articles: mockArticles,
+    });
+
     expect(result).toBe(groupId);
   });
 
@@ -51,11 +53,36 @@ describe("groupActions", () => {
 
     const result = await getCreateGroupArticles(page, query);
 
-    expect(mockSupabase.rpc).toHaveBeenCalledWith("fetch_create_group__articles", {
+    expect(mockSupabase.rpc).toHaveBeenCalledWith("fetch_create_group_articles", {
       user_id: userId,
       page,
       query,
     });
     expect(result).toEqual({ articles: [], totalPage: 1 });
+  });
+
+  it("should fetch the title of a favorite group", async () => {
+    mockSupabase.from.mockImplementation(() => ({
+      select: jest.fn(() => ({
+        eq: jest.fn(() => ({
+          single: jest.fn().mockResolvedValue({ data: { title } }),
+        })),
+      })),
+    }));
+
+    const result = await getFavoriteGroupTitle(groupId);
+    expect(mockSupabase.from).toHaveBeenCalledWith("favoriteGroups");
+    expect(result).toBe(title);
+  });
+
+  it("should fetch articles by favorite group ID", async () => {
+    mockSupabase.rpc.mockResolvedValue({ data: mockArticles });
+
+    const result = await getFavoriteGroup(groupId);
+
+    expect(mockSupabase.rpc).toHaveBeenCalledWith("fetch_articles_by_favorite_group", {
+      group_id: groupId,
+    });
+    expect(result).toEqual(mockArticles);
   });
 });

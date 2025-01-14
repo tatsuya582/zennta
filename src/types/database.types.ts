@@ -27,9 +27,41 @@ export type Database = {
         };
         Relationships: [];
       };
+      favoriteGroupRelations: {
+        Row: {
+          favoriteId: string;
+          groupId: string;
+          id: string;
+        };
+        Insert: {
+          favoriteId: string;
+          groupId: string;
+          id?: string;
+        };
+        Update: {
+          favoriteId?: string;
+          groupId?: string;
+          id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "favorite_group_relations_favorite_id_fkey";
+            columns: ["favoriteId"];
+            isOneToOne: false;
+            referencedRelation: "favorites";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "favorite_group_relations_group_id_fkey";
+            columns: ["groupId"];
+            isOneToOne: false;
+            referencedRelation: "favoriteGroups";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       favoriteGroups: {
         Row: {
-          articles: Json;
           createdAt: string;
           id: string;
           isPublished: boolean;
@@ -39,7 +71,6 @@ export type Database = {
           userName: string;
         };
         Insert: {
-          articles: Json;
           createdAt?: string;
           id?: string;
           isPublished?: boolean;
@@ -49,7 +80,6 @@ export type Database = {
           userName?: string;
         };
         Update: {
-          articles?: Json;
           createdAt?: string;
           id?: string;
           isPublished?: boolean;
@@ -208,6 +238,14 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      add_favorite_group: {
+        Args: {
+          user_id: string;
+          group_title: string;
+          articles: Json;
+        };
+        Returns: string;
+      };
       add_or_update_history: {
         Args: {
           user_id: string;
@@ -215,7 +253,13 @@ export type Database = {
         };
         Returns: undefined;
       };
-      fetch_create_group__articles: {
+      fetch_articles_by_favorite_group: {
+        Args: {
+          group_id: string;
+        };
+        Returns: Json;
+      };
+      fetch_create_group_articles: {
         Args: {
           user_id: string;
           page?: number;
