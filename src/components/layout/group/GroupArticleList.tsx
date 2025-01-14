@@ -5,7 +5,7 @@ import { type FetchedArticles } from "@/types/databaseCustom.types";
 
 export const GroupArticleList = ({ articles }: { articles: FetchedArticles[] }) => {
   return (
-    <div className="mt-4">
+    <div className="mt-4" data-testid="favorite-group-detail">
       {articles.map((item, index) => {
         return (
           <div key={item.id} className="border-b border-gray-300 m-2 pb-1">

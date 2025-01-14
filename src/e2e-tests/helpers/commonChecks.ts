@@ -12,13 +12,19 @@ import {
 } from "@/e2e-tests/helpers/locator";
 import { expect, type Page, type Locator } from "next/experimental/testmode/playwright";
 
-export const checkDisplay = async (page: Page, hasText: string, options: { useAddArticleForm?: boolean } = {}) => {
-  const { useAddArticleForm = false } = options;
+export const checkDisplay = async (
+  page: Page,
+  hasText: string,
+  options: { useAddArticleForm?: boolean; useSearchForm?: boolean } = {}
+) => {
+  const { useAddArticleForm = false, useSearchForm = true } = options;
 
   await expect(page.locator("h2", { hasText })).toBeVisible();
   await expect(page.locator("h2", { hasText: "履歴" })).toBeVisible();
 
-  await checkSearchForm(page);
+  if (useSearchForm) {
+    await checkSearchForm(page);
+  }
   if (useAddArticleForm) {
     await checkAddArticleForm(page);
   }
