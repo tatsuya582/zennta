@@ -12,15 +12,44 @@ export const addFavoriteGroup = async (articles: groupArticle[], title: string) 
       return;
     }
 
-    const { data } = await supabase.rpc("add_favorite_group", {
+    const { data, error } = await supabase.rpc("add_favorite_group", {
       user_id: user.id,
       group_title: title,
       articles: articles,
     });
 
+    if (error) {
+      throw error;
+    }
+
     return data;
   } catch (error) {
     console.error(`Error adding favoriteGroup:`, error);
+    throw error;
+  }
+};
+
+export const editFavoriteGroup = async (articles: groupArticle[], title: string, groupId: string) => {
+  try {
+    const { supabase, user } = await getSupabaseClientAndUser();
+
+    if (!user) {
+      return;
+    }
+
+    const { data, error } = await supabase.rpc("edit_favorite_group", {
+      user_id: user.id,
+      group_id: groupId,
+      group_title: title,
+      articles: articles,
+    });
+
+    if (error) {
+      throw error;
+    }
+    return data;
+  } catch (error) {
+    console.error(`Error editing favoriteGroup:`, error);
     throw error;
   }
 };
@@ -98,6 +127,25 @@ export const getFavoriteGroup = async (groupId: string) => {
     const { data } = (await supabase.rpc("fetch_articles_by_favorite_group", {
       group_id: groupId,
     })) as unknown as { data: FetchedArticles[] };
+
+    return data;
+  } catch (error) {
+    console.error(`Error fetching articles:`, error);
+    throw error;
+  }
+};
+
+export const getFavoriteEditGroup = async (groupId: string) => {
+  try {
+    const { supabase, user } = await getSupabaseClientAndUser();
+
+    if (!user) {
+      return;
+    }
+
+    const { data } = (await supabase.rpc("fetch_edit_group", {
+      group_id: groupId,
+    })) as unknown as { data: groupArticle[] };
 
     return data;
   } catch (error) {
