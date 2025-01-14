@@ -6,7 +6,7 @@ import { test, expect } from "next/experimental/testmode/playwright";
 
 test.describe("favorite group page test", () => {
   let groupId: string;
-  
+
   test.beforeEach(async ({ next }) => {
     beforeAction(next);
   });

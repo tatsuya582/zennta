@@ -70,6 +70,23 @@ export const getFavoriteGroupTitle = async (groupId: string) => {
   }
 };
 
+export const getFavoriteGroupByUser = async () => {
+  try {
+    const { supabase, user } = await getSupabaseClientAndUser();
+
+    if (!user) {
+      return;
+    }
+
+    const { data } = await supabase.from("favoriteGroups").select().eq("userId", user.id);
+
+    return data;
+  } catch (error) {
+    console.error(`Error fetching articles:`, error);
+    throw error;
+  }
+};
+
 export const getFavoriteGroup = async (groupId: string) => {
   try {
     const { supabase, user } = await getSupabaseClientAndUser();

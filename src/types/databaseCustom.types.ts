@@ -21,3 +21,5 @@ export type FetchedArticlesWithCount = Database["public"]["Tables"]["readLaters"
   articles: FetchedArticles[];
   total_count: number;
 };
+
+export type groupByUser = Database["public"]["Tables"]["favoriteGroups"]["Row"];
