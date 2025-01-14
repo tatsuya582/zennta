@@ -30,7 +30,9 @@ export default async function FavoriteGroupPage({ params }: { params: { id: stri
         </Button>
       </div>
       <div className="w-full flex justify-center items-center flex-col md:mt-2 mt-8 mb-4">
-        <h2>{title}</h2>
+        <Suspense fallback={<h2></h2>}>
+          <h2>{title}</h2>
+        </Suspense>
         {articles && articles.length !== 0 && (
           <div
             className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300"
