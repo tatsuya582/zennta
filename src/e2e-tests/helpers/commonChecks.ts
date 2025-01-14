@@ -14,12 +14,13 @@ import { expect, type Page, type Locator } from "next/experimental/testmode/play
 
 export const checkDisplay = async (
   page: Page,
-  hasText: string,
+  name: string,
   options: { useAddArticleForm?: boolean; useSearchForm?: boolean } = {}
 ) => {
   const { useAddArticleForm = false, useSearchForm = true } = options;
 
-  await expect(page.locator("h2", { hasText })).toBeVisible();
+  // await expect(page.locator("h2", { hasText })).toBeVisible();
+  await expect(page.getByRole("heading", { name, exact: true, level: 2 })).toBeVisible();
   await expect(page.locator("h2", { hasText: "履歴" })).toBeVisible();
 
   if (useSearchForm) {
