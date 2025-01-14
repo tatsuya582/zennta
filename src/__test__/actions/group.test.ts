@@ -1,4 +1,10 @@
-import { addFavoriteGroup, getCreateGroupArticles, getFavoriteGroup, getFavoriteGroupTitle } from "@/actions/group";
+import {
+  addFavoriteGroup,
+  getCreateGroupArticles,
+  getFavoriteGroup,
+  getFavoriteGroupByUser,
+  getFavoriteGroupTitle,
+} from "@/actions/group";
 import { getSupabaseClientAndUser } from "@/lib/supabase/server";
 
 jest.mock("@/lib/supabase/server", () => ({
@@ -22,6 +28,24 @@ const mockArticles = [
     title: "Example Article",
   },
 ];
+// const data: {
+//   createdAt: string;
+//   id: string;
+//   isPublished: boolean;
+//   title: string;
+//   updatedAt: string;
+//   userId: string;
+//   userName: string;
+// }[] | null
+// const mockGroup = [{
+//   createdAt: string;
+//   id: string;
+//   isPublished: boolean;
+//   title: string;
+//   updatedAt: string;
+//   userId: string;
+//   userName: string;
+// }]
 
 describe("groupActions", () => {
   beforeEach(() => {
@@ -84,5 +108,17 @@ describe("groupActions", () => {
       group_id: groupId,
     });
     expect(result).toEqual(mockArticles);
+  });
+
+  it("should fetch articles by user ID", async () => {
+    mockSupabase.from.mockImplementation(() => ({
+      select: jest.fn(() => ({
+        eq: jest.fn().mockResolvedValue({ data: mockArticles }),
+      })),
+    }));
+
+    const result = await getFavoriteGroupByUser();
+    expect(mockSupabase.from).toHaveBeenCalledWith("favoriteGroups");
+    expect(result).toBe(mockArticles);
   });
 });

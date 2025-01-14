@@ -28,6 +28,10 @@ jest.mock("@/components/layout/form/AddArticleForm", () => ({
   AddArticleForm: jest.fn(() => <div data-testid="add-article-form" />),
 }));
 
+jest.mock("@/components/layout/main/GroupList", () => ({
+  GroupList: jest.fn(() => <div data-testid="group-list" />),
+}));
+
 describe("FavoritePage", () => {
   const mockPage = 1;
   const mockQuery = "test-query";
@@ -53,6 +57,7 @@ describe("FavoritePage", () => {
     expect(screen.getByTestId("search-form")).toBeInTheDocument();
     expect(screen.getByTestId("stored-article-list")).toBeInTheDocument();
     expect(screen.getByTestId("add-article-form")).toBeInTheDocument();
+    expect(screen.getByTestId("group-list")).toBeInTheDocument();
 
     expect(screen.getByRole("heading", { level: 2, name: "お気に入り" })).toBeInTheDocument();
   });
