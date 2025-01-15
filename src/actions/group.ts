@@ -54,6 +54,25 @@ export const editFavoriteGroup = async (articles: groupArticle[], title: string,
   }
 };
 
+export const deleteFavoriteGroup = async (groupId: string) => {
+  try {
+    const { supabase, user } = await getSupabaseClientAndUser();
+
+    if (!user) {
+      return;
+    }
+
+    const { error } = await supabase.from("favoriteGroups").delete().eq("id", groupId).eq("userId", user.id);
+
+    if (error) {
+      throw error;
+    }
+  } catch (error) {
+    console.error(`Error editing favoriteGroup:`, error);
+    throw error;
+  }
+};
+
 export const getCreateGroupArticles = async (page: number, query: string | undefined) => {
   try {
     const { supabase, user } = await getSupabaseClientAndUser();
