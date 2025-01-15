@@ -2,8 +2,32 @@ import { render, screen } from "@testing-library/react";
 import { type FetchedArticles } from "@/types/databaseCustom.types";
 import { MemoDisplay } from "@/components/layout/memo/MemoDisplay";
 
+jest.mock("react", () => ({
+  ...jest.requireActual("react"),
+  cache: jest.fn((fn) => fn),
+}));
+
+jest.mock("metascraper", () => {
+  return jest.fn(() => {
+    return async (url: string) => ({
+      title: "Mocked Title",
+      url,
+    });
+  });
+});
+
+jest.mock("metascraper-title", () => {
+  return jest.fn(() => ({
+    // 必要ならモックの振る舞いを定義
+  }));
+});
+
+jest.mock("next/navigation", () => ({
+  useRouter: jest.fn(),
+}));
+
 jest.mock("@/components/layout/button/FavoritePageDeleteButton", () => ({
-  FavoritePageDeleteButton: ({ item }: { item: any }) => <button>Delete Favorite: {item.id}</button>,
+  FavoritePageDeleteButton: jest.fn(() => <div data-testid="favorite-page-delete-button" />),
 }));
 
 const mockItem: FetchedArticles = {
@@ -26,6 +50,6 @@ describe("MemoDisplay", () => {
     render(<MemoDisplay item={mockItem} />);
     expect(screen.getByText("This is a memo")).toBeInTheDocument();
 
-    expect(screen.getByText("Delete Favorite: 1")).toBeInTheDocument();
+    expect(screen.getByTestId("favorite-page-delete-button")).toBeInTheDocument();
   });
 });

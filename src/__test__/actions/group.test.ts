@@ -1,6 +1,8 @@
 import {
   addFavoriteGroup,
+  editFavoriteGroup,
   getCreateGroupArticles,
+  getFavoriteEditGroup,
   getFavoriteGroup,
   getFavoriteGroupByUser,
   getFavoriteGroupTitle,
@@ -28,24 +30,6 @@ const mockArticles = [
     title: "Example Article",
   },
 ];
-// const data: {
-//   createdAt: string;
-//   id: string;
-//   isPublished: boolean;
-//   title: string;
-//   updatedAt: string;
-//   userId: string;
-//   userName: string;
-// }[] | null
-// const mockGroup = [{
-//   createdAt: string;
-//   id: string;
-//   isPublished: boolean;
-//   title: string;
-//   updatedAt: string;
-//   userId: string;
-//   userName: string;
-// }]
 
 describe("groupActions", () => {
   beforeEach(() => {
@@ -120,5 +104,31 @@ describe("groupActions", () => {
     const result = await getFavoriteGroupByUser();
     expect(mockSupabase.from).toHaveBeenCalledWith("favoriteGroups");
     expect(result).toBe(mockArticles);
+  });
+
+  it("should edit a favorite group successfully", async () => {
+    mockSupabase.rpc.mockResolvedValue({ data: groupId });
+
+    const result = await editFavoriteGroup(mockArticles, title, groupId);
+
+    expect(mockSupabase.rpc).toHaveBeenCalledWith("edit_favorite_group", {
+      user_id: userId,
+      group_id: groupId,
+      group_title: title,
+      articles: mockArticles,
+    });
+
+    expect(result).toBe(groupId);
+  });
+
+  it("should fetch articles by favorite group ID", async () => {
+    mockSupabase.rpc.mockResolvedValue({ data: mockArticles });
+
+    const result = await getFavoriteEditGroup(groupId);
+
+    expect(mockSupabase.rpc).toHaveBeenCalledWith("fetch_edit_group", {
+      group_id: groupId,
+    });
+    expect(result).toEqual(mockArticles);
   });
 });

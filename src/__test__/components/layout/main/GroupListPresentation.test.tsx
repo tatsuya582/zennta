@@ -1,6 +1,15 @@
 import { render, screen } from "@testing-library/react";
 import { GroupListPresentation } from "@/components/layout/main/GroupListPresentation";
 
+jest.mock("@/components/layout/button/FavoritePageDeleteButton", () => ({
+  FavoritePageDeleteButton: jest.fn(() => <div data-testid="favorite-page-delete-button" />),
+}));
+
+jest.mock("react", () => ({
+  ...jest.requireActual("react"),
+  cache: jest.fn((fn) => fn),
+}));
+
 describe("GroupListPresentation", () => {
   const mockGroups = [
     {
@@ -29,5 +38,7 @@ describe("GroupListPresentation", () => {
     expect(screen.getByText("お気に入りグループ")).toBeInTheDocument();
     expect(screen.getByText("test title1")).toBeInTheDocument();
     expect(screen.getByText("test title2")).toBeInTheDocument();
+    expect(screen.getAllByRole("button", { name: "編集" })).toHaveLength(2);
+    expect(screen.getAllByTestId("favorite-page-delete-button")).toHaveLength(2);
   });
 });
