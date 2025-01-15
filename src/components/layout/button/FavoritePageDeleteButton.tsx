@@ -23,7 +23,7 @@ export const FavoritePageDeleteButton = ({
   dialogTitle,
 }: {
   id: string;
-  actions: any;
+  actions: (id: string) => Promise<void>;
   children: React.ReactNode;
   dialogTitle: string;
 }) => {
