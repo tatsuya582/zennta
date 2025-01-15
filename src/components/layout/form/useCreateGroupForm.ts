@@ -43,6 +43,7 @@ export const useCreateGroupForm = (
       const groupId = editGroupId
         ? await editFavoriteGroup(articles, name, editGroupId)
         : await addFavoriteGroup(articles, name);
+      router.refresh();
       router.push(`/favorite/${groupId}`);
       toast({
         description: toastStr,
