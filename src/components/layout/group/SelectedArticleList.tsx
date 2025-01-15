@@ -54,7 +54,7 @@ export const SelectedArticleList = ({
   return (
     <div
       className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300"
-      data-testid="selected-articles"
+      data-testid={isDelete ? "deleted-artciles" : "selected-articles"}
     >
       <div className="text-center pb-4 py-2 border-b border-gray-300">
         <h3>{isDelete && "削除"}選択中の記事</h3>
@@ -88,7 +88,7 @@ export const SelectedArticleList = ({
         <div key={item.favoriteId} className="w-full flex justify-between items-center py-1 border-b border-gray-300">
           <div>{item.title}</div>
           <Button variant="outline" onClick={() => removeGroup(item)}>
-            削除
+            {isDelete ? "選択" : "削除"}
           </Button>
         </div>
       ))}

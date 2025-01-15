@@ -54,6 +54,8 @@ export const useCreateGroupForm = (
       toast({
         description: "エラーが発生しました",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 

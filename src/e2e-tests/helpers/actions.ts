@@ -27,19 +27,22 @@ export async function createClient() {
   });
 }
 
-const sampleArticle = {
-  id: "article-1",
-  url: "https://example.com/sample-article-1",
-  title: "Sample Article Title 1",
-  created_at: new Date(Date.now()).toISOString(),
-  tags: [{ name: "Tag1" }, { name: "Tag2" }],
+const generateSampleArticle = (index: number) => {
+  return {
+    id: `article-${index}`,
+    url: `https://example.com/sample-article-${index}`,
+    title: `Sample Article Title ${index}`,
+    created_at: new Date(Date.now()).toISOString(),
+    tags: [{ name: "Tag1" }, { name: "Tag2" }],
+  };
 };
 
 const testTitle = "テストタイトル";
 
-export const addTestArticle = async (tabelName: "favorites" | "readLaters") => {
+export const addTestArticle = async (tabelName: "favorites" | "readLaters", index = 1) => {
   const rpc = tabelName === "favorites" ? "insert_favorite_with_article" : "insert_read_later_with_article";
   const supabase = await createClient();
+  const sampleArticle = generateSampleArticle(index);
 
   const { data, error } = await supabase.rpc(rpc, {
     userid: process.env.NEXT_PUBLIC_TEST_USER_ID!,
@@ -104,6 +107,7 @@ export const addTestFavoriteGroup = async () => {
     const supabase = await createClient();
 
     const articleId = await addTestArticle("favorites");
+    const sampleArticle = generateSampleArticle(1);
 
     const groupArticle = {
       favoriteId: articleId,

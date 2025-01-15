@@ -9,6 +9,8 @@ export const getZennArticlesLocator = async (page: Page) => await page.getByTest
 export const getFavoriteGroupLocator = async (page: Page) => await page.getByTestId("favorite-group");
 export const getNotSelectedArticlesLocator = async (page: Page) => await page.getByTestId("not-selected-articles");
 export const getSelectedArticlesLocator = async (page: Page) => await page.getByTestId("selected-articles");
+export const getDeletedArticlesLocator = async (page: Page) => await page.getByTestId("deleted-artciles");
+export const getAddArticlesLocator = async (page: Page) => await page.getByTestId("add-articles");
 export const getFirstArticleLocator = async (page: Page) => await page.getByTestId("article-1");
 export const getHeaderLocator = async (page: Page) => await page.getByTestId("header");
 export const getFooterLocator = async (page: Page) => await page.getByTestId("footer");
@@ -87,11 +89,15 @@ export const articleButtonClickAndReturnDialog = async (
   page: Page,
   text: string,
   h2Text: string,
-  options: { alert?: boolean } = {}
+  options: { alert?: boolean; locator?: Locator | null } = {}
 ) => {
-  const { alert = false } = options;
+  const { alert = false, locator = null } = options;
   const dialogName = alert ? "alertdialog" : "dialog";
-  await page.locator("button", { hasText: text }).first().click();
+  if (locator) {
+    await locator.locator("button", { hasText: text }).first().click();
+  } else {
+    await page.locator("button", { hasText: text }).first().click();
+  }
   const dialog = await page.getByRole(dialogName);
   await expect(dialog.locator("h2", { hasText: h2Text })).toBeVisible();
 

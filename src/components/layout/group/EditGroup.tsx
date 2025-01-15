@@ -60,7 +60,7 @@ export const EditGroup = ({
           isDelete
         />
       </div>
-      <div className="w-11/12 my-4 mx-auto">
+      <div className="w-11/12 my-4 mx-auto" data-testid="add-articles">
         <LoadingButton isLoading={isLoading} loadingMx="" onSubmit={openArticles}>
           記事を追加
         </LoadingButton>

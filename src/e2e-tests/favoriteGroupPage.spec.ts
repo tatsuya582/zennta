@@ -9,13 +9,10 @@ test.describe("favorite group page test", () => {
 
   test.beforeEach(async ({ next }) => {
     beforeAction(next);
-  });
-
-  test.beforeAll(async () => {
     groupId = await addTestFavoriteGroup();
   });
 
-  test.afterAll(async () => {
+  test.afterEach(async () => {
     deleteAllTestArticles("favorites");
     deleteAllTestArticles("favoriteGroups");
   });
