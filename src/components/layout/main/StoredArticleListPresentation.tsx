@@ -1,3 +1,4 @@
+import { deleteFavorite } from "@/actions/favorite";
 import { addStoredItemHistory } from "@/actions/history";
 import { AddFavoriteColumnButton } from "@/components/layout/button/AddFavoriteColumnButton";
 import { FavoritePageDeleteButton } from "@/components/layout/button/FavoritePageDeleteButton";
@@ -30,7 +31,9 @@ export const StoredArticleListPresentation = ({
                 <div className="flex flex-col justify-center items-center gap-2">
                   <AddFavoriteColumnButton item={item} isEdit={!!item.memo} key={item.memo} />
                   <div className="w-full">
-                    <FavoritePageDeleteButton item={item} />
+                    <FavoritePageDeleteButton id={item.column_id} actions={deleteFavorite} dialogTitle="お気に入り">
+                      削除
+                    </FavoritePageDeleteButton>
                   </div>
                 </div>
               ) : (

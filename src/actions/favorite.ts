@@ -39,15 +39,11 @@ export const addFavoriteByUrl = async (url: string) => {
   return addArticleByUrl(url, "insert_favorite_with_article");
 };
 
-export const updateFavoriteColumn = async (id: string, value: string | Tag[]) => {
+export const updateFavoriteColumn = async (id: string, value = "") => {
   try {
     const { supabase } = await getSupabaseClientAndUser();
-    const column = typeof value === "string" ? "memo" : "tags";
 
-    const { error } = await supabase
-      .from("favorites")
-      .update({ [column]: value })
-      .eq("id", id);
+    const { error } = await supabase.from("favorites").update({ memo: value }).eq("id", id);
 
     if (error) {
       throw error;

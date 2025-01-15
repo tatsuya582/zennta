@@ -1,3 +1,4 @@
+import { updateFavoriteColumn } from "@/actions/favorite";
 import { FavoritePageDeleteButton } from "@/components/layout/button/FavoritePageDeleteButton";
 import { type FetchedArticles } from "@/types/databaseCustom.types";
 
@@ -13,7 +14,11 @@ export const MemoDisplay = ({
       <div className="w-11/12 border rounded-lg border-gray-300 px-4 py-2" style={{ whiteSpace: "pre-wrap" }}>
         <div>{item.memo}</div>
         <div className="flex justify-end gap-2">
-          {displayDeleteButton && <FavoritePageDeleteButton item={item} isMemo />}
+          {displayDeleteButton && (
+            <FavoritePageDeleteButton id={item.column_id} actions={updateFavoriteColumn} dialogTitle="メモ">
+              削除
+            </FavoritePageDeleteButton>
+          )}
         </div>
       </div>
     </div>
