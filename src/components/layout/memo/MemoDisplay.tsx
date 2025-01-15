@@ -16,7 +16,7 @@ export const MemoDisplay = ({
         <div className="flex justify-end gap-2">
           {displayDeleteButton && (
             <FavoritePageDeleteButton id={item.column_id} actions={updateFavoriteColumn} dialogTitle="メモ">
-              削除
+              メモを削除
             </FavoritePageDeleteButton>
           )}
         </div>
