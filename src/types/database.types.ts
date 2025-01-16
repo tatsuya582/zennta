@@ -259,8 +259,10 @@ export type Database = {
       edit_favorite_group: {
         Args: {
           user_id: string;
+          user_name: string;
           group_id: string;
           group_title: string;
+          ispublished: boolean;
           articles: Json;
         };
         Returns: string;
@@ -283,6 +285,13 @@ export type Database = {
       fetch_edit_group: {
         Args: {
           group_id: string;
+        };
+        Returns: Json;
+      };
+      fetch_favorite_groups_and_articles: {
+        Args: {
+          page?: number;
+          page_size?: number;
         };
         Returns: Json;
       };
