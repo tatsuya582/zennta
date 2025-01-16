@@ -127,6 +127,53 @@ export const getFavoriteGroup = async (groupId: string) => {
   }
 };
 
+export const getPublishGroupTotalPage = async () => {
+  try {
+    const { supabase, user } = await getSupabaseClientAndUser();
+
+    if (!user) {
+      return;
+    }
+
+    const { data, error } = await supabase.from("favoriteGroups").select("count").eq("isPublished", true);
+
+    if (error) {
+      throw error;
+    }
+
+    const totalPage = data[0].count ? Math.ceil(data[0].count / 10) : 1;
+
+    return totalPage;
+  } catch (error) {
+    console.error(`Error fetching articles:`, error);
+    throw error;
+  }
+};
+
+export const getFavoriteGroupIsPublished = async (page: number) => {
+  try {
+    const { supabase, user } = await getSupabaseClientAndUser();
+
+    if (!user) {
+      return;
+    }
+
+    const { data, error } = await supabase.rpc("fetch_favorite_groups_and_articles", {
+      page,
+    });
+
+    if (error) {
+      throw error;
+    }
+
+    return data as groupByUser[] | null;
+  } catch (error) {
+    console.error(`Error fetching articles:`, error);
+    throw error;
+  }
+};
+
+// 自分のお気に入りグループのグループと記事を３つずつ取得（お気に入りページ）
 export const getFavoriteGroupByUser = async () => {
   try {
     const { supabase, user } = await getSupabaseClientAndUser();
@@ -150,6 +197,7 @@ export const getFavoriteGroupByUser = async () => {
   }
 };
 
+// グループの記事を全て取得（グループの詳細ページ）
 export const getFavoriteGroupAndArticles = async (groupId: string) => {
   try {
     const { supabase, user } = await getSupabaseClientAndUser();
