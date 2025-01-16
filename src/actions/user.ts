@@ -11,7 +11,7 @@ export const getUser = cache(async () => {
     return undefined;
   }
 
-  const { data, error } = await supabase.from("users").select("name, avatarUrl").eq("id", user.id).single();
+  const { data, error } = await supabase.from("users").select("id, name, avatarUrl").eq("id", user.id).single();
 
   if (error) {
     console.error("Error fetching user:", error);
