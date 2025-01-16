@@ -1,4 +1,5 @@
 import { getFavoriteEditGroup, getFavoriteGroup } from "@/actions/group";
+import { getUser } from "@/actions/user";
 import { ZennArticleListSkeleton } from "@/components/layout/skeleton/ZennArticleListSkeleton";
 import { EditGroup } from "@/components/layout/group/EditGroup";
 import { Suspense } from "react";
@@ -17,13 +18,18 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 
 export default async function FavoriteGroupEditPage({ params }: { params: { id: string } }) {
   const id = params.id;
-  const [articles, group] = await Promise.all([
+  const [articles, group, user] = await Promise.all([
     getFavoriteEditGroup(id).then((result) => result || []),
     getFavoriteGroup(id),
+    getUser(),
   ]);
 
   if (!group) {
     redirect("/favorite");
+  }
+
+  if (!user || group.userId !== user.id) {
+    redirect("/");
   }
   return (
     <>
