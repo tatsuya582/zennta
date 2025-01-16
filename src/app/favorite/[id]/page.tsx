@@ -1,4 +1,5 @@
 import { getFavoriteGroupAndArticles, getFavoriteGroup } from "@/actions/group";
+import { getUser } from "@/actions/user";
 import { ArticleListSkeleton } from "@/components/layout/skeleton/ArticleListSkeleton";
 import { GroupArticleList } from "@/components/layout/group/GroupArticleList";
 import { Suspense } from "react";
@@ -17,17 +18,23 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 
 export default async function FavoriteGroupPage({ params }: { params: { id: string } }) {
   const id = params.id;
-  const [articles, group] = await Promise.all([getFavoriteGroupAndArticles(id), getFavoriteGroup(id)]);
+  const [articles, group, user] = await Promise.all([getFavoriteGroupAndArticles(id), getFavoriteGroup(id), getUser()]);
 
   if (!group) {
     redirect("/favorite");
   }
+
+  if (!user) {
+    redirect("/");
+  }
   return (
     <>
       <div className="flex justify-end gap-2 md:mt-0 mt-4">
-        <Button variant="outline">
-          <Link href={`/favorite/${id}/edit`}>編集</Link>
-        </Button>
+        {user.id === group.userId && (
+          <Button variant="outline">
+            <Link href={`/favorite/${id}/edit`}>編集</Link>
+          </Button>
+        )}
         <Button variant="outline">
           <Link href="/favorite">戻る</Link>
         </Button>
