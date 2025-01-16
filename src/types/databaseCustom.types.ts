@@ -1,5 +1,5 @@
 import { Database } from "@/types/database.types";
-import { type Tag } from "@/types/types";
+import { FetchedItem, type Tag } from "@/types/types";
 
 export type FetchedArticle = Database["public"]["Tables"]["readLaters"]["Row"] & {
   articles: { url: string; id: string } | null;
@@ -22,4 +22,6 @@ export type FetchedArticlesWithCount = Database["public"]["Tables"]["readLaters"
   total_count: number;
 };
 
-export type groupByUser = Database["public"]["Tables"]["favoriteGroups"]["Row"];
+export type groupByUser = Database["public"]["Tables"]["favoriteGroups"]["Row"] & {
+  articles: FetchedItem[];
+};

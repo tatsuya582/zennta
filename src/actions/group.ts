@@ -1,7 +1,7 @@
 "use server";
 
 import { getSupabaseClientAndUser } from "@/lib/supabase/server";
-import { FetchedArticles } from "@/types/databaseCustom.types";
+import { type FetchedArticles, type groupByUser } from "@/types/databaseCustom.types";
 import { type fetchGroupArticles, type groupArticle } from "@/types/types";
 
 export const addFavoriteGroup = async (articles: groupArticle[], title: string) => {
@@ -126,9 +126,15 @@ export const getFavoriteGroupByUser = async () => {
       return;
     }
 
-    const { data } = await supabase.from("favoriteGroups").select().eq("userId", user.id);
+    const { data, error } = await supabase.rpc("fetch_user_favorite_groups_and_articles", {
+      user_id: user.id,
+    });
 
-    return data;
+    if (error) {
+      throw error;
+    }
+
+    return data as groupByUser[] | null;
   } catch (error) {
     console.error(`Error fetching articles:`, error);
     throw error;
@@ -143,11 +149,11 @@ export const getFavoriteGroup = async (groupId: string) => {
       return;
     }
 
-    const { data } = (await supabase.rpc("fetch_articles_by_favorite_group", {
+    const { data } = await supabase.rpc("fetch_articles_by_favorite_group", {
       group_id: groupId,
-    })) as unknown as { data: FetchedArticles[] };
+    });
 
-    return data;
+    return data as FetchedArticles[] | null;
   } catch (error) {
     console.error(`Error fetching articles:`, error);
     throw error;
