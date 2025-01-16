@@ -29,16 +29,19 @@ export type Database = {
       };
       favoriteGroupRelations: {
         Row: {
+          createdAt: string;
           favoriteId: string;
           groupId: string;
           id: string;
         };
         Insert: {
+          createdAt?: string;
           favoriteId: string;
           groupId: string;
           id?: string;
         };
         Update: {
+          createdAt?: string;
           favoriteId?: string;
           groupId?: string;
           id?: string;
@@ -298,6 +301,12 @@ export type Database = {
           page?: number;
           page_size?: number;
           query?: string;
+        };
+        Returns: Json;
+      };
+      fetch_user_favorite_groups_and_articles: {
+        Args: {
+          user_id: string;
         };
         Returns: Json;
       };
