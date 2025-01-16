@@ -25,3 +25,5 @@ export type FetchedArticlesWithCount = Database["public"]["Tables"]["readLaters"
 export type groupByUser = Database["public"]["Tables"]["favoriteGroups"]["Row"] & {
   articles: FetchedItem[];
 };
+
+export type FavoriteGroup = Database["public"]["Tables"]["favoriteGroups"]["Row"];

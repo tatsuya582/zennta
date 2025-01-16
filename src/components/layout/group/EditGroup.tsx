@@ -6,16 +6,9 @@ import { SelectedArticleList } from "@/components/layout/group/SelectedArticleLi
 import { LoadingButton } from "@/components/layout/button/LoadingButton";
 import { getCreateGroupArticles } from "@/actions/group";
 import { type groupArticle } from "@/types/types";
+import { type FavoriteGroup } from "@/types/databaseCustom.types";
 
-export const EditGroup = ({
-  initArticles,
-  initTitle,
-  editGroupId,
-}: {
-  initArticles: groupArticle[];
-  initTitle: string;
-  editGroupId: string;
-}) => {
+export const EditGroup = ({ initArticles, group }: { initArticles: groupArticle[]; group: FavoriteGroup }) => {
   const [articles, setArticles] = useState<groupArticle[]>([]);
   const [favoriteArticles, setFavoriteArticles] = useState<groupArticle[]>([]);
   const [favoritePage, setFavoritePage] = useState(1);
@@ -49,8 +42,7 @@ export const EditGroup = ({
         setSelectedArticles={setSelectedArticles}
         setDeleteArticles={setDeleteArticles}
         initArticles={initArticles}
-        initTitle={initTitle}
-        editGroupId={editGroupId}
+        group={group}
       />
       <div className="w-full mt-8">
         <SelectedArticleList

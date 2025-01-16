@@ -38,7 +38,7 @@ export default async function FavoriteGroupEditPage({ params }: { params: { id: 
         </Suspense>
         <div className="w-full" data-testid="favorite-group">
           <Suspense fallback={<ZennArticleListSkeleton />}>
-            <EditGroup initArticles={articles} initTitle={group.title} editGroupId={id} />
+            <EditGroup initArticles={articles} group={group} />
           </Suspense>
         </div>
       </div>

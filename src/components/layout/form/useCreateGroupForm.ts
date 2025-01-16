@@ -1,5 +1,6 @@
 import { addFavoriteGroup, editFavoriteGroup } from "@/actions/group";
 import { useToast } from "@/hooks/use-toast";
+import { FavoriteGroup } from "@/types/databaseCustom.types";
 import { groupArticle } from "@/types/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -8,46 +9,74 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const formSchema = z.object({
-  name: z.string().max(40, {
+  title: z.string().max(40, {
     message: "メモは40文字以下にしてください",
   }),
+  isPublished: z.boolean().optional(),
+  userName: z
+    .string()
+    .min(2, {
+      message: "名前は2文字以上にしてください",
+    })
+    .max(50, {
+      message: "名前は50文字以下にしてください",
+    }),
 });
 
+const initFavoriteGroup = {
+  id: "",
+  isPublished: false,
+  title: "",
+  userName: "匿名",
+};
+
 export const useCreateGroupForm = (
-  initialName: string,
   articles: groupArticle[],
   initialArticles = <groupArticle[]>[],
-  editGroupId = ""
+  group = <FavoriteGroup>initFavoriteGroup
 ) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: initialName,
+      title: group.title,
+      isPublished: group.isPublished,
+      userName: group.userName,
     },
   });
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const toastStr = editGroupId ? "お気に入りグループを編集しました" : "お気に入りグループを作成しました";
+  const toastStr = group.id ? "お気に入りグループを編集しました" : "お気に入りグループを作成しました";
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const name = values.name || "無題";
+      const title = values.title || "無題";
+      const userName = values.userName || "匿名";
+      const isPublished = values.isPublished || false;
+      console.log("タイトル: ", values.title);
+      console.log("名前: ", values.userName);
+      console.log("公開: ", values.isPublished);
       if (
-        (editGroupId && initialName === name && initialArticles === articles) ||
-        (name === "無題" && articles.length === 0)
+        (group.id &&
+          group.title === title &&
+          initialArticles === articles &&
+          group.userName === userName &&
+          group.isPublished === isPublished) ||
+        (title === "無題" && articles.length === 0)
       ) {
         return;
       }
       setIsLoading(true);
-      const groupId = editGroupId
-        ? await editFavoriteGroup(articles, name, editGroupId)
-        : await addFavoriteGroup(articles, name);
-      router.refresh();
+      const groupId = group.id
+        ? await editFavoriteGroup(articles, title, userName, isPublished, group.id)
+        : await addFavoriteGroup(articles, title);
       router.push(`/favorite/${groupId}`);
-      toast({
-        description: toastStr,
-      });
+      router.refresh();
+      setTimeout(() => {
+        toast({
+          description: toastStr,
+        });
+      }, 2000);
     } catch (error) {
       console.error(error);
       setIsLoading(false);
