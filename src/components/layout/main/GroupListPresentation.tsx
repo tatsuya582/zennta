@@ -5,6 +5,7 @@ import { Article } from "@/components/layout/main/Article";
 import { Button } from "@/components/ui/button";
 import { type groupByUser } from "@/types/databaseCustom.types";
 import Link from "next/link";
+import clsx from "clsx";
 
 export const GroupListPresentation = ({ groups }: { groups: groupByUser[] }) => {
   return (
@@ -16,13 +17,24 @@ export const GroupListPresentation = ({ groups }: { groups: groupByUser[] }) => 
       <div className="mt-4 md:border border-y md:rounded-lg rounded-none p-2 border-gray-300">
         <div className="border-b border-gray-300 m-2 pb-1" />
         {groups.map((item, index) => {
+          const buttonColor = item.isPublished ? "blue" : "pink";
           return (
             <div key={item.id} className="border-b border-gray-300 m-2 pb-1">
               <div
                 className="flex md:flex-row flex-col justify-between items-center gap-1"
                 data-testid={`group-${index + 1}`}
               >
-                <div className="w-full">
+                <div className="w-full flex items-center gap-2">
+                  <div
+                    className={clsx(
+                      "w-[74px] border rounded-lg py-[2px] px-3 whitespace-nowrap text-center",
+                      `border-${buttonColor}-300`,
+                      `bg-${buttonColor}-50`,
+                      `text-${buttonColor}-700`
+                    )}
+                  >
+                    {item.isPublished ? "公開" : "非公開"}
+                  </div>
                   <Link
                     href={`/favorite/${item.id}`}
                     className="visited:text-gray-400 hover:underline transition-colors block"
