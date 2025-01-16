@@ -1,10 +1,10 @@
-import { addFavoriteGroup } from "@/actions/group";
+import { addFavoriteGroup, editFavoriteGroup } from "@/actions/group";
 import { useToast } from "@/hooks/use-toast";
 import { groupArticle } from "@/types/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useForm, UseFormReturn } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const formSchema = z.object({
@@ -13,18 +13,12 @@ const formSchema = z.object({
   }),
 });
 
-type useCreateGroupFormProps = {
-  form: UseFormReturn<z.infer<typeof formSchema>>;
-  onSubmit: (values: z.infer<typeof formSchema>) => Promise<void>;
-  isLoading: boolean;
-};
-
 export const useCreateGroupForm = (
   initialName: string,
   articles: groupArticle[],
-  initialArticles = [],
-  isEdit = false
-): useCreateGroupFormProps => {
+  initialArticles = <groupArticle[]>[],
+  editGroupId = ""
+) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -34,22 +28,32 @@ export const useCreateGroupForm = (
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const toastStr = isEdit ? "お気に入りグループを編集しました" : "お気に入りグループを作成しました";
+  const toastStr = editGroupId ? "お気に入りグループを編集しました" : "お気に入りグループを作成しました";
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      if (isEdit && initialName === values.name && initialArticles === articles) {
+      const name = values.name || "無題";
+      if (
+        (editGroupId && initialName === name && initialArticles === articles) ||
+        (name === "無題" && articles.length === 0)
+      ) {
         return;
       }
-      const name = values.name || "無題";
       setIsLoading(true);
-      const groupId = await addFavoriteGroup(articles, name);
+      const groupId = editGroupId
+        ? await editFavoriteGroup(articles, name, editGroupId)
+        : await addFavoriteGroup(articles, name);
+      router.refresh();
+      router.push(`/favorite/${groupId}`);
       toast({
         description: toastStr,
       });
-      router.push(`/favorite/${groupId}`);
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
+      toast({
+        description: "エラーが発生しました",
+      });
     } finally {
       setIsLoading(false);
     }

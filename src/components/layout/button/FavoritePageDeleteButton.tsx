@@ -1,6 +1,5 @@
 "use client";
 
-import { type FetchedArticles } from "@/types/databaseCustom.types";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -12,13 +11,22 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { deleteFavorite, updateFavoriteColumn } from "@/actions/favorite";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { LoadingButton } from "@/components/layout/button/LoadingButton";
 
-export const FavoritePageDeleteButton = ({ item, isMemo = false }: { item: FetchedArticles; isMemo?: boolean }) => {
+export const FavoritePageDeleteButton = ({
+  id,
+  actions,
+  children,
+  dialogTitle,
+}: {
+  id: string;
+  actions: (id: string) => Promise<void>;
+  children: React.ReactNode;
+  dialogTitle: string;
+}) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -26,11 +34,7 @@ export const FavoritePageDeleteButton = ({ item, isMemo = false }: { item: Fetch
   const onSubmitDelete = async () => {
     try {
       setIsLoading(true);
-      if (isMemo) {
-        await updateFavoriteColumn(item.column_id, "");
-      } else {
-        await deleteFavorite(item.column_id);
-      }
+      await actions(id);
       router.refresh();
       toast({
         description: "削除しました",
@@ -44,16 +48,16 @@ export const FavoritePageDeleteButton = ({ item, isMemo = false }: { item: Fetch
     }
   };
   return (
-    <div key={item.id}>
+    <div>
       <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
         <AlertDialogTrigger asChild>
           <Button variant="outline" className="w-full">
-            {isMemo && "メモを"}削除
+            {children}
           </Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>{isMemo ? "メモ" : "お気に入り"}を削除</AlertDialogTitle>
+            <AlertDialogTitle>{dialogTitle}を削除</AlertDialogTitle>
             <AlertDialogDescription>削除してよろしいですか？</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

@@ -253,6 +253,15 @@ export type Database = {
         };
         Returns: undefined;
       };
+      edit_favorite_group: {
+        Args: {
+          user_id: string;
+          group_id: string;
+          group_title: string;
+          articles: Json;
+        };
+        Returns: string;
+      };
       fetch_articles_by_favorite_group: {
         Args: {
           group_id: string;
@@ -265,6 +274,12 @@ export type Database = {
           page?: number;
           page_size?: number;
           query?: string;
+        };
+        Returns: Json;
+      };
+      fetch_edit_group: {
+        Args: {
+          group_id: string;
         };
         Returns: Json;
       };

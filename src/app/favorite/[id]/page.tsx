@@ -16,15 +16,19 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 }
 
 export default async function FavoriteGroupPage({ params }: { params: { id: string } }) {
-  const articles = await getFavoriteGroup(params.id);
-  const title = await getFavoriteGroupTitle(params.id);
+  const id = params.id;
+  const articles = await getFavoriteGroup(id);
+  const title = await getFavoriteGroupTitle(id);
 
   if (!title) {
     redirect("/favorite");
   }
   return (
     <>
-      <div className="flex justify-end md:mt-0 mt-4">
+      <div className="flex justify-end gap-2 md:mt-0 mt-4">
+        <Button variant="outline">
+          <Link href={`/favorite/${id}/edit`}>編集</Link>
+        </Button>
         <Button variant="outline">
           <Link href="/favorite">戻る</Link>
         </Button>

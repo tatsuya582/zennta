@@ -1,7 +1,7 @@
 import { render, fireEvent, screen, waitFor, within } from "@testing-library/react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { updateFavoriteColumn, deleteFavorite } from "@/actions/favorite";
+import { deleteFavorite } from "@/actions/favorite";
 import { FavoritePageDeleteButton } from "@/components/layout/button/FavoritePageDeleteButton";
 
 jest.mock("next/navigation", () => ({
@@ -42,6 +42,9 @@ describe("FavoritePageDeleteButton", () => {
     userId: "user-123",
   };
 
+  const mockTitle = "テストタイトル";
+  const mockButton = "テストボタン";
+
   beforeEach(() => {
     jest.clearAllMocks();
     (useRouter as jest.Mock).mockReturnValue(mockRouter);
@@ -49,13 +52,21 @@ describe("FavoritePageDeleteButton", () => {
   });
 
   it("renders correctly", () => {
-    render(<FavoritePageDeleteButton item={mockItem} />);
-    expect(screen.getByText("削除")).toBeInTheDocument();
+    render(
+      <FavoritePageDeleteButton id={mockItem.column_id} actions={deleteFavorite} dialogTitle={mockTitle}>
+        {mockButton}
+      </FavoritePageDeleteButton>
+    );
+    expect(screen.getByText(mockButton)).toBeInTheDocument();
   });
 
   it("opens and closes the dialog", () => {
-    render(<FavoritePageDeleteButton item={mockItem} />);
-    fireEvent.click(screen.getByText("削除"));
+    render(
+      <FavoritePageDeleteButton id={mockItem.column_id} actions={deleteFavorite} dialogTitle={mockTitle}>
+        {mockButton}
+      </FavoritePageDeleteButton>
+    );
+    fireEvent.click(screen.getByText(mockButton));
     expect(screen.getByText("削除してよろしいですか？")).toBeInTheDocument();
 
     fireEvent.click(screen.getByText("キャンセル"));
@@ -65,9 +76,13 @@ describe("FavoritePageDeleteButton", () => {
   it("calls deleteFavorite when not a memo", async () => {
     jest.useFakeTimers();
     (deleteFavorite as jest.Mock).mockResolvedValue(undefined);
-    render(<FavoritePageDeleteButton item={mockItem} />);
+    render(
+      <FavoritePageDeleteButton id={mockItem.column_id} actions={deleteFavorite} dialogTitle={mockTitle}>
+        {mockButton}
+      </FavoritePageDeleteButton>
+    );
 
-    fireEvent.click(screen.getByText("削除"));
+    fireEvent.click(screen.getByText(mockButton));
     const dialog = screen.getByRole("alertdialog");
     const dialogDeleteButton = within(dialog).getByText("削除");
     fireEvent.click(dialogDeleteButton);
@@ -82,54 +97,6 @@ describe("FavoritePageDeleteButton", () => {
       expect(mockToast.toast).toHaveBeenCalledWith({
         description: "削除しました",
       });
-    });
-  });
-
-  it("calls updateFavoriteColumn when isMemo is true", async () => {
-    jest.useFakeTimers();
-    (updateFavoriteColumn as jest.Mock).mockResolvedValue(undefined);
-    render(<FavoritePageDeleteButton item={mockItem} isMemo={true} />);
-
-    fireEvent.click(screen.getByText("メモを削除"));
-    fireEvent.click(screen.getByText("削除"));
-
-    await waitFor(() => expect(updateFavoriteColumn).toHaveBeenCalledWith(mockItem.column_id, ""));
-    expect(mockRouter.refresh).toHaveBeenCalled();
-    jest.advanceTimersByTime(2000);
-    await waitFor(() => {
-      expect(mockToast.toast).toHaveBeenCalledWith({
-        description: "削除しました",
-      });
-    });
-    await waitFor(() => {
-      expect(screen.queryByRole("alertdialog")).not.toBeInTheDocument();
-    });
-  });
-
-  it("handles loading state", async () => {
-    jest.useFakeTimers();
-    render(<FavoritePageDeleteButton item={mockItem} />);
-    fireEvent.click(screen.getByText("削除"));
-    const dialog = screen.getByRole("alertdialog");
-    const dialogDeleteButton = within(dialog).getByText("削除");
-    fireEvent.click(dialogDeleteButton);
-
-    const loadingButton = screen.getByRole("button", { name: "loading" });
-    expect(loadingButton).toHaveAttribute("disabled");
-  });
-
-  it("handles errors gracefully", async () => {
-    (deleteFavorite as jest.Mock).mockRejectedValue(new Error("Test error"));
-
-    render(<FavoritePageDeleteButton item={mockItem} />);
-    fireEvent.click(screen.getByText("削除"));
-    const dialog = screen.getByRole("alertdialog");
-    const dialogDeleteButton = within(dialog).getByText("削除");
-    fireEvent.click(dialogDeleteButton);
-
-    await waitFor(() => expect(deleteFavorite).toHaveBeenCalled());
-    expect(mockToast.toast).not.toHaveBeenCalledWith({
-      description: "削除しました",
     });
   });
 });

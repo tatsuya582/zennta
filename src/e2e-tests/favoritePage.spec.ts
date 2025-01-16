@@ -241,11 +241,11 @@ test.describe("favorite page test", () => {
 
   test.describe("favorite group", () => {
     let groupId: string;
-    test.beforeAll(async () => {
+    test.beforeEach(async () => {
       groupId = await addTestFavoriteGroup();
     });
 
-    test.afterAll(async () => {
+    test.afterEach(async () => {
       deleteAllTestArticles("favorites");
       deleteAllTestArticles("favoriteGroups");
     });
@@ -258,7 +258,29 @@ test.describe("favorite page test", () => {
 
       const favoriteGroup = await getFavoriteGroupLocator(page);
       await expect(favoriteGroup.locator("h2", { hasText: "お気に入りグループ" })).toBeVisible();
+      await expect(favoriteGroup.locator("button", { hasText: "削除" })).toBeVisible();
+      await expect(favoriteGroup.locator("button", { hasText: "編集" })).toBeVisible();
       await checkLink(page, favoriteGroup, "テストタイトル", `favorite/${groupId}`);
+    });
+
+    test("test group edit button", async ({ page }) => {
+      await page.goto("/favorite");
+
+      const favoriteGroup = await getFavoriteGroupLocator(page);
+      const button = await favoriteGroup.locator("button", { hasText: "編集" });
+      await checkLink(page, button, "編集", `favorite/${groupId}/edit`, { h2Text: "テストタイトル 編集" });
+    });
+
+    test("test group delete button", async ({ page }) => {
+      await page.goto("/favorite");
+
+      const favoriteGroup = await getFavoriteGroupLocator(page);
+      const dialog = await articleButtonClickAndReturnDialog(page, "削除", "グループを削除", {
+        alert: true,
+        locator: favoriteGroup,
+      });
+      await articleButtonClick(page, dialog, "削除");
+      await expect(favoriteGroup.locator("h2", { hasText: "お気に入りグループ" })).not.toBeVisible();
     });
   });
 });

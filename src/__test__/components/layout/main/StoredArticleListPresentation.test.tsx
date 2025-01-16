@@ -1,6 +1,26 @@
 import { render, screen } from "@testing-library/react";
 import { StoredArticleListPresentation } from "@/components/layout/main/StoredArticleListPresentation";
 
+jest.mock("react", () => ({
+  ...jest.requireActual("react"),
+  cache: jest.fn((fn) => fn),
+}));
+
+jest.mock("metascraper", () => {
+  return jest.fn(() => {
+    return async (url: string) => ({
+      title: "Mocked Title",
+      url,
+    });
+  });
+});
+
+jest.mock("metascraper-title", () => {
+  return jest.fn(() => ({
+    // 必要ならモックの振る舞いを定義
+  }));
+});
+
 jest.mock("@/actions/history", () => ({
   addStoredItemHistory: jest.fn(),
 }));
@@ -10,7 +30,7 @@ jest.mock("@/components/layout/button/AddFavoriteColumnButton", () => ({
   ),
 }));
 jest.mock("@/components/layout/button/FavoritePageDeleteButton", () => ({
-  FavoritePageDeleteButton: ({ item }: { item: any }) => <button>Delete Favorite: {item.id}</button>,
+  FavoritePageDeleteButton: jest.fn(() => <div data-testid="favorite-page-delete-button" />),
 }));
 jest.mock("@/components/layout/button/ReadLaterPageButton", () => ({
   ReadLaterPageButton: ({ item }: { item: any }) => <button>Read Later: {item.id}</button>,
@@ -76,7 +96,6 @@ describe("StoredArticleListPresentation", () => {
     expect(screen.getByText("Edit Favorite: 1")).toBeInTheDocument();
     expect(screen.getByText("Add Favorite: 2")).toBeInTheDocument();
 
-    expect(screen.getByText("Delete Favorite: 1")).toBeInTheDocument();
-    expect(screen.getByText("Delete Favorite: 2")).toBeInTheDocument();
+    expect(screen.getAllByTestId("favorite-page-delete-button")).toHaveLength(2);
   });
 });

@@ -9,6 +9,7 @@ export const NotSelectedArticleList = ({
   initArticles,
   articles,
   selectedArticles,
+  deleteArticles = [],
   setArticles,
   setSelectedArticles,
 }: {
@@ -16,6 +17,7 @@ export const NotSelectedArticleList = ({
   initArticles: groupArticle[];
   articles: groupArticle[];
   selectedArticles: groupArticle[];
+  deleteArticles?: groupArticle[];
   setArticles: Dispatch<SetStateAction<groupArticle[]>>;
   setSelectedArticles: Dispatch<SetStateAction<groupArticle[]>>;
 }) => {
@@ -67,14 +69,15 @@ export const NotSelectedArticleList = ({
           />
           {articles.map((item) => (
             <div key={item.favoriteId}>
-              {!selectedArticles.find((choice) => choice.favoriteId === item.favoriteId) && (
-                <div className="w-full flex justify-between items-center py-1 border-b border-gray-300">
-                  <div>{item.title}</div>
-                  <Button variant="outline" onClick={() => addGroup(item)}>
-                    選択
-                  </Button>
-                </div>
-              )}
+              {!selectedArticles.find((choice) => choice.favoriteId === item.favoriteId) &&
+                !deleteArticles.find((choice) => choice.favoriteId === item.favoriteId) && (
+                  <div className="w-full flex justify-between items-center py-1 border-b border-gray-300">
+                    <div>{item.title}</div>
+                    <Button variant="outline" onClick={() => addGroup(item)}>
+                      選択
+                    </Button>
+                  </div>
+                )}
             </div>
           ))}
           <GroupPagiNation
