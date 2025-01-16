@@ -23,6 +23,9 @@ export const MainNavigation = () => {
               <Link href="/favorite" legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>お気に入り</NavigationMenuLink>
               </Link>
+              <Link href="/group" legacyBehavior passHref>
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>お気に入りグループ</NavigationMenuLink>
+              </Link>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
