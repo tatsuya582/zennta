@@ -13,7 +13,7 @@ export const FavoritePageGroupList = async () => {
     <div className="w-full mt-12" data-testid="favorite-group">
       <div className="flex flex-col justify-center items-center mt-8 mb-4">
         <h2>お気に入りグループ</h2>
-        <div className="mt-4 md:border border-y md:rounded-lg rounded-none p-2 border-gray-300">
+        <div className="w-full mt-4 md:border border-y md:rounded-lg rounded-none p-2 border-gray-300">
           <Suspense>
             <GroupListPresentation groups={groups} />
           </Suspense>
