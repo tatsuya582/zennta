@@ -1,5 +1,6 @@
 import { getFavoriteGroupIsPublished, getPublishGroupTotalPage } from "@/actions/group";
 import { GroupListPresentation } from "@/components/layout/main/GroupListPresentation";
+import { NotArticleError } from "@/components/layout/main/NotArticleError";
 import { LessPagiNation } from "@/components/layout/pagiNation/LessPagiNation";
 import { PagiNation } from "@/components/layout/pagiNation/PagiNation";
 
@@ -7,7 +8,7 @@ export const GroupList = async ({ page, buildHref }: { page: number; buildHref: 
   const [groups, totalPage] = await Promise.all([getFavoriteGroupIsPublished(page), getPublishGroupTotalPage()]);
 
   if (!groups || groups.length === 0 || !totalPage) {
-    return;
+    return <NotArticleError isGroup />;
   }
 
   const pagination =
