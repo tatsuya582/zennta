@@ -29,7 +29,13 @@ export const addFavoriteGroup = async (articles: groupArticle[], title: string) 
   }
 };
 
-export const editFavoriteGroup = async (articles: groupArticle[], title: string, groupId: string) => {
+export const editFavoriteGroup = async (
+  articles: groupArticle[],
+  title: string,
+  userName: string,
+  isPublished: boolean,
+  groupId: string
+) => {
   try {
     const { supabase, user } = await getSupabaseClientAndUser();
 
@@ -39,8 +45,10 @@ export const editFavoriteGroup = async (articles: groupArticle[], title: string,
 
     const { data, error } = await supabase.rpc("edit_favorite_group", {
       user_id: user.id,
+      user_name: userName,
       group_id: groupId,
       group_title: title,
+      ispublished: isPublished,
       articles: articles,
     });
 
