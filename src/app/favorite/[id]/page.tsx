@@ -1,4 +1,4 @@
-import { getFavoriteGroup, getFavoriteGroupTitle } from "@/actions/group";
+import { getFavoriteGroupAndArticles, getFavoriteGroup } from "@/actions/group";
 import { ArticleListSkeleton } from "@/components/layout/skeleton/ArticleListSkeleton";
 import { GroupArticleList } from "@/components/layout/group/GroupArticleList";
 import { Suspense } from "react";
@@ -8,19 +8,18 @@ import Link from "next/link";
 import { type Metadata } from "next";
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const title = (await getFavoriteGroupTitle(params.id)) || "無題";
+  const group = await getFavoriteGroup(params.id);
 
   return {
-    title,
+    title: `${group?.title}`,
   };
 }
 
 export default async function FavoriteGroupPage({ params }: { params: { id: string } }) {
   const id = params.id;
-  const articles = await getFavoriteGroup(id);
-  const title = await getFavoriteGroupTitle(id);
+  const [articles, group] = await Promise.all([getFavoriteGroupAndArticles(id), getFavoriteGroup(id)]);
 
-  if (!title) {
+  if (!group) {
     redirect("/favorite");
   }
   return (
@@ -35,7 +34,7 @@ export default async function FavoriteGroupPage({ params }: { params: { id: stri
       </div>
       <div className="w-full flex justify-center items-center flex-col md:mt-2 mt-8 mb-4">
         <Suspense fallback={<h2></h2>}>
-          <h2>{title}</h2>
+          <h2>{group.title}</h2>
         </Suspense>
         {articles && articles.length !== 0 && (
           <div

@@ -98,7 +98,7 @@ export const getCreateGroupArticles = async (page: number, query: string | undef
   }
 };
 
-export const getFavoriteGroupTitle = async (groupId: string) => {
+export const getFavoriteGroup = async (groupId: string) => {
   try {
     const { supabase, user } = await getSupabaseClientAndUser();
 
@@ -106,12 +106,13 @@ export const getFavoriteGroupTitle = async (groupId: string) => {
       return;
     }
 
-    const { data } = await supabase.from("favoriteGroups").select("title").eq("id", groupId).single();
+    const { data, error } = await supabase.from("favoriteGroups").select().eq("id", groupId).single();
 
-    if (!data?.title) {
-      return null;
+    if (error) {
+      throw error;
     }
-    return data.title;
+
+    return data;
   } catch (error) {
     console.error(`Error fetching articles:`, error);
     throw error;
@@ -141,7 +142,7 @@ export const getFavoriteGroupByUser = async () => {
   }
 };
 
-export const getFavoriteGroup = async (groupId: string) => {
+export const getFavoriteGroupAndArticles = async (groupId: string) => {
   try {
     const { supabase, user } = await getSupabaseClientAndUser();
 
