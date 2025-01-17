@@ -1,10 +1,8 @@
+import { CreateGroupForm } from "@/components/layout/form/CreateGroupForm";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { useCreateGroupForm } from "@/components/layout/form/useCreateGroupForm";
-import { Input } from "@/components/ui/input";
-import { LoadingButton } from "@/components/layout/button/LoadingButton";
 import { type Dispatch, type SetStateAction } from "react";
 import { type groupArticle } from "@/types/types";
+import { type FavoriteGroup } from "@/types/databaseCustom.types";
 
 // setDeleteArticles,initArticles,initTitle,isEdit,isDeleteは編集のときに使う
 export const SelectedArticleList = ({
@@ -13,8 +11,7 @@ export const SelectedArticleList = ({
   setSelectedArticles,
   setDeleteArticles = undefined,
   initArticles = [],
-  initTitle = "",
-  editGroupId = "",
+  group = undefined,
   isDelete = false,
 }: {
   selectedArticles: groupArticle[];
@@ -22,11 +19,9 @@ export const SelectedArticleList = ({
   setSelectedArticles: Dispatch<SetStateAction<groupArticle[]>>;
   setDeleteArticles?: Dispatch<SetStateAction<groupArticle[]>>;
   initArticles?: groupArticle[];
-  initTitle?: string;
-  editGroupId?: string;
+  group?: FavoriteGroup;
   isDelete?: boolean;
 }) => {
-  const { form, onSubmit, isLoading } = useCreateGroupForm(initTitle, selectedArticles, initArticles, editGroupId);
   const removeGroup = (article: groupArticle) => {
     setSelectedArticles((prev) => prev.filter((item) => item.favoriteId !== article.favoriteId));
 
@@ -58,30 +53,7 @@ export const SelectedArticleList = ({
     >
       <div className="text-center pb-4 py-2 border-b border-gray-300">
         <h3>{isDelete && "削除"}選択中の記事</h3>
-        {!isDelete && (
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mt-4 flex gap-2">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem className="text-left w-full">
-                    <FormLabel>グループ名</FormLabel>
-                    <FormControl>
-                      <Input {...field} placeholder="グループ名" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="w-[62px] ml-auto">
-                <LoadingButton isLoading={isLoading} loadingMx="">
-                  {editGroupId ? "編集" : "作成"}
-                </LoadingButton>
-              </div>
-            </form>
-          </Form>
-        )}
+        {!isDelete && <CreateGroupForm selectedArticles={selectedArticles} initArticles={initArticles} group={group} />}
       </div>
       {selectedArticles.length === 0 && <div className="h-16 flex items-center">記事が選択されていません</div>}
       {selectedArticles.map((item) => (

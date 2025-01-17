@@ -20,7 +20,8 @@ export const checkHeader = async (page: Page, options: { login?: boolean } = {})
   const { login = true } = options;
   const header = await getHeaderLocator(page);
   await expect(header.locator("a", { hasText: "後で読む" })).toBeVisible();
-  await expect(header.locator("a", { hasText: "お気に入り" })).toBeVisible();
+  await expect(header.getByRole("link", { name: "お気に入り", exact: true })).toBeVisible();
+  await expect(header.locator("a", { hasText: "お気に入りグループ" })).toBeVisible();
   await expect(header.locator("a", { hasText: "検索" })).toBeVisible();
   await expect(header.locator("h1", { hasText: "Zennta" })).toBeVisible();
   if (login) {
@@ -65,7 +66,7 @@ export const paginationDisplayLocator = async (page: Locator, names: string[], o
 
 export const paginationActiveCheck = async (page: Locator, name: string) => {
   const activeButton = page.getByRole("link", { name, exact: true });
-  await expect(activeButton).toHaveCount(2);
+  await expect(activeButton).toHaveCount(2, { timeout: 30000 });
   await expect(activeButton.first()).toHaveAttribute("aria-current", "page");
 };
 

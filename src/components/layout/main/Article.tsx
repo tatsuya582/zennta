@@ -8,16 +8,21 @@ export const Article = <T extends FetchedItem | StoredItem>({
   item,
   onSubmit,
   displayTags = true,
+  isGroup = false,
 }: {
   item: T;
   onSubmit: (item: T) => Promise<void>;
   displayTags?: boolean;
+  isGroup?: boolean;
 }) => {
   const router = useRouter();
   const handleClick = async (item: T) => {
     await onSubmit(item);
     router.refresh();
   };
+  const linkClass = isGroup
+    ? "text-xs text-gray-500 truncate block hover:text-gray-700"
+    : "visited:text-gray-400 hover:underline transition-colors block";
   return (
     <div>
       <a
@@ -25,7 +30,7 @@ export const Article = <T extends FetchedItem | StoredItem>({
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => handleClick(item)}
-        className="visited:text-gray-400 hover:underline transition-colors block"
+        className={linkClass}
       >
         {item.title}
       </a>

@@ -1,7 +1,7 @@
 "use server";
 
 import { getSupabaseClientAndUser } from "@/lib/supabase/server";
-import { FetchedArticles } from "@/types/databaseCustom.types";
+import { type FetchedArticles, type groupByUser } from "@/types/databaseCustom.types";
 import { type fetchGroupArticles, type groupArticle } from "@/types/types";
 
 export const addFavoriteGroup = async (articles: groupArticle[], title: string) => {
@@ -29,7 +29,13 @@ export const addFavoriteGroup = async (articles: groupArticle[], title: string) 
   }
 };
 
-export const editFavoriteGroup = async (articles: groupArticle[], title: string, groupId: string) => {
+export const editFavoriteGroup = async (
+  articles: groupArticle[],
+  title: string,
+  userName: string,
+  isPublished: boolean,
+  groupId: string
+) => {
   try {
     const { supabase, user } = await getSupabaseClientAndUser();
 
@@ -39,8 +45,10 @@ export const editFavoriteGroup = async (articles: groupArticle[], title: string,
 
     const { data, error } = await supabase.rpc("edit_favorite_group", {
       user_id: user.id,
+      user_name: userName,
       group_id: groupId,
       group_title: title,
+      ispublished: isPublished,
       articles: articles,
     });
 
@@ -98,43 +106,6 @@ export const getCreateGroupArticles = async (page: number, query: string | undef
   }
 };
 
-export const getFavoriteGroupTitle = async (groupId: string) => {
-  try {
-    const { supabase, user } = await getSupabaseClientAndUser();
-
-    if (!user) {
-      return;
-    }
-
-    const { data } = await supabase.from("favoriteGroups").select("title").eq("id", groupId).single();
-
-    if (!data?.title) {
-      return null;
-    }
-    return data.title;
-  } catch (error) {
-    console.error(`Error fetching articles:`, error);
-    throw error;
-  }
-};
-
-export const getFavoriteGroupByUser = async () => {
-  try {
-    const { supabase, user } = await getSupabaseClientAndUser();
-
-    if (!user) {
-      return;
-    }
-
-    const { data } = await supabase.from("favoriteGroups").select().eq("userId", user.id);
-
-    return data;
-  } catch (error) {
-    console.error(`Error fetching articles:`, error);
-    throw error;
-  }
-};
-
 export const getFavoriteGroup = async (groupId: string) => {
   try {
     const { supabase, user } = await getSupabaseClientAndUser();
@@ -143,11 +114,103 @@ export const getFavoriteGroup = async (groupId: string) => {
       return;
     }
 
-    const { data } = (await supabase.rpc("fetch_articles_by_favorite_group", {
-      group_id: groupId,
-    })) as unknown as { data: FetchedArticles[] };
+    const { data, error } = await supabase.from("favoriteGroups").select().eq("id", groupId).single();
+
+    if (error) {
+      throw error;
+    }
 
     return data;
+  } catch (error) {
+    console.error(`Error fetching articles:`, error);
+    throw error;
+  }
+};
+
+export const getPublishGroupTotalPage = async () => {
+  try {
+    const { supabase, user } = await getSupabaseClientAndUser();
+
+    if (!user) {
+      return;
+    }
+
+    const { data, error } = await supabase.from("favoriteGroups").select("count").eq("isPublished", true);
+
+    if (error) {
+      throw error;
+    }
+
+    const totalPage = data[0].count ? Math.ceil(data[0].count / 10) : 1;
+
+    return totalPage;
+  } catch (error) {
+    console.error(`Error fetching articles:`, error);
+    throw error;
+  }
+};
+
+export const getFavoriteGroupIsPublished = async (page: number) => {
+  try {
+    const { supabase, user } = await getSupabaseClientAndUser();
+
+    if (!user) {
+      return;
+    }
+
+    const { data, error } = await supabase.rpc("fetch_favorite_groups_and_articles", {
+      page,
+    });
+
+    if (error) {
+      throw error;
+    }
+
+    return data as groupByUser[] | null;
+  } catch (error) {
+    console.error(`Error fetching articles:`, error);
+    throw error;
+  }
+};
+
+// 自分のお気に入りグループのグループと記事を３つずつ取得（お気に入りページ）
+export const getFavoriteGroupByUser = async () => {
+  try {
+    const { supabase, user } = await getSupabaseClientAndUser();
+
+    if (!user) {
+      return;
+    }
+
+    const { data, error } = await supabase.rpc("fetch_user_favorite_groups_and_articles", {
+      user_id: user.id,
+    });
+
+    if (error) {
+      throw error;
+    }
+
+    return data as groupByUser[] | null;
+  } catch (error) {
+    console.error(`Error fetching articles:`, error);
+    throw error;
+  }
+};
+
+// グループの記事を全て取得（グループの詳細ページ）
+export const getFavoriteGroupAndArticles = async (groupId: string) => {
+  try {
+    const { supabase, user } = await getSupabaseClientAndUser();
+
+    if (!user) {
+      return;
+    }
+
+    const { data } = await supabase.rpc("fetch_articles_by_favorite_group", {
+      group_id: groupId,
+    });
+
+    return data as FetchedArticles[] | null;
   } catch (error) {
     console.error(`Error fetching articles:`, error);
     throw error;

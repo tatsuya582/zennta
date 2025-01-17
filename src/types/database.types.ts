@@ -29,16 +29,19 @@ export type Database = {
       };
       favoriteGroupRelations: {
         Row: {
+          createdAt: string;
           favoriteId: string;
           groupId: string;
           id: string;
         };
         Insert: {
+          createdAt?: string;
           favoriteId: string;
           groupId: string;
           id?: string;
         };
         Update: {
+          createdAt?: string;
           favoriteId?: string;
           groupId?: string;
           id?: string;
@@ -256,8 +259,10 @@ export type Database = {
       edit_favorite_group: {
         Args: {
           user_id: string;
+          user_name: string;
           group_id: string;
           group_title: string;
+          ispublished: boolean;
           articles: Json;
         };
         Returns: string;
@@ -283,6 +288,13 @@ export type Database = {
         };
         Returns: Json;
       };
+      fetch_favorite_groups_and_articles: {
+        Args: {
+          page?: number;
+          page_size?: number;
+        };
+        Returns: Json;
+      };
       fetch_favorites_articles_with_count: {
         Args: {
           user_id: string;
@@ -298,6 +310,12 @@ export type Database = {
           page?: number;
           page_size?: number;
           query?: string;
+        };
+        Returns: Json;
+      };
+      fetch_user_favorite_groups_and_articles: {
+        Args: {
+          user_id: string;
         };
         Returns: Json;
       };
