@@ -102,7 +102,7 @@ export const updateTestUser = async () => {
   }
 };
 
-export const addTestFavoriteGroup = async () => {
+export const addTestFavoriteGroup = async (returnFavoriteId = false) => {
   try {
     const supabase = await createClient();
 
@@ -120,9 +120,38 @@ export const addTestFavoriteGroup = async () => {
       articles: [groupArticle],
     });
 
+    if (returnFavoriteId) {
+      return { groupId: data, favoriteId: articleId };
+    }
     return data;
   } catch (error) {
     console.error(`Error adding favoriteGroup:`, error);
+    throw error;
+  }
+};
+
+export const groupPublished = async (groupId: string, favoriteId: string) => {
+  try {
+    const supabase = await createClient();
+
+    const sampleArticle = generateSampleArticle(1);
+
+    const groupArticle = {
+      favoriteId,
+      title: sampleArticle.title,
+    };
+
+    const { data } = await supabase.rpc("edit_favorite_group", {
+      user_id: process.env.NEXT_PUBLIC_TEST_USER_ID!,
+      user_name: "匿名",
+      group_id: groupId,
+      group_title: testTitle,
+      ispublished: true,
+      articles: [groupArticle],
+    });
+    return data;
+  } catch (error) {
+    console.error(`Error editing favoriteGroup:`, error);
     throw error;
   }
 };

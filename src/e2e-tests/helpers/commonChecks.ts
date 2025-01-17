@@ -19,7 +19,6 @@ export const checkDisplay = async (
 ) => {
   const { useAddArticleForm = false, useSearchForm = true } = options;
 
-  // await expect(page.locator("h2", { hasText })).toBeVisible();
   await expect(page.getByRole("heading", { name, exact: true, level: 2 })).toBeVisible();
   await expect(page.locator("h2", { hasText: "履歴" })).toBeVisible();
 

@@ -17,6 +17,20 @@ const generateMockArticles = (page: number, perPage: number) => {
   }));
 };
 
+const generateMockGroups = (page = 1, perPage = 10) => {
+  const start = (page - 1) * perPage;
+  return Array.from({ length: perPage }, (_, index) => ({
+    id: `group-${start + index + 1}`,
+    title: `Sample Group Title ${start + index + 1}`,
+    userId: `user-${start + index + 1}`,
+    articles: generateMockArticles(1, 3),
+    userName: "匿名",
+    created_at: new Date(Date.now() - index * 86400000).toISOString(),
+    updatedAt: new Date(Date.now() - index * 86400000).toISOString(),
+    isPublished: true,
+  }));
+};
+
 const mockExtraArticles = [
   {
     id: "article-1",
@@ -49,6 +63,28 @@ const getZennResponse = async (url: URL, options: { nextPage?: string | null } =
     headers: {
       "Content-Type": "application/json",
     },
+  });
+};
+
+export const mockGroups = async (next: NextFixture, total_count: number, page = 1) => {
+  next.onFetch(async (request) => {
+    if (request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/fetch_favorite_groups_and_articles`) {
+      return new Response(JSON.stringify(generateMockGroups(page)), {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    }
+
+    if (
+      request.url === `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/favoriteGroups?select=count&isPublished=eq.true`
+    ) {
+      return new Response(JSON.stringify([{ count: total_count }]), {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    }
   });
 };
 
