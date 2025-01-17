@@ -4,8 +4,8 @@ import {
   getCreateGroupArticles,
   getFavoriteEditGroup,
   getFavoriteGroup,
+  getFavoriteGroupAndArticles,
   getFavoriteGroupByUser,
-  getFavoriteGroupTitle,
 } from "@/actions/group";
 import { getSupabaseClientAndUser } from "@/lib/supabase/server";
 
@@ -17,6 +17,7 @@ const mockSupabase = {
   from: jest.fn(),
   rpc: jest.fn(),
 };
+const userName = "mockUserName";
 const userId = "mockUserId";
 const groupId = "mockGroupId";
 const title = "mockTitle";
@@ -30,6 +31,15 @@ const mockArticles = [
     title: "Example Article",
   },
 ];
+const mockArticle = {
+  createdAt: "2024-01-01",
+  id: "1",
+  isPublished: false,
+  title: "test",
+  updatedAt: "2024-01-01",
+  userId: "1",
+  userName: "testName",
+};
 
 describe("groupActions", () => {
   beforeEach(() => {
@@ -73,20 +83,20 @@ describe("groupActions", () => {
     mockSupabase.from.mockImplementation(() => ({
       select: jest.fn(() => ({
         eq: jest.fn(() => ({
-          single: jest.fn().mockResolvedValue({ data: { title } }),
+          single: jest.fn().mockResolvedValue({ data: mockArticle }),
         })),
       })),
     }));
 
-    const result = await getFavoriteGroupTitle(groupId);
+    const result = await getFavoriteGroup(groupId);
     expect(mockSupabase.from).toHaveBeenCalledWith("favoriteGroups");
-    expect(result).toBe(title);
+    expect(result).toBe(mockArticle);
   });
 
   it("should fetch articles by favorite group ID", async () => {
     mockSupabase.rpc.mockResolvedValue({ data: mockArticles });
 
-    const result = await getFavoriteGroup(groupId);
+    const result = await getFavoriteGroupAndArticles(groupId);
 
     expect(mockSupabase.rpc).toHaveBeenCalledWith("fetch_articles_by_favorite_group", {
       group_id: groupId,
@@ -95,26 +105,26 @@ describe("groupActions", () => {
   });
 
   it("should fetch articles by user ID", async () => {
-    mockSupabase.from.mockImplementation(() => ({
-      select: jest.fn(() => ({
-        eq: jest.fn().mockResolvedValue({ data: mockArticles }),
-      })),
-    }));
+    mockSupabase.rpc.mockResolvedValue({ data: mockArticles });
 
     const result = await getFavoriteGroupByUser();
-    expect(mockSupabase.from).toHaveBeenCalledWith("favoriteGroups");
+    expect(mockSupabase.rpc).toHaveBeenCalledWith("fetch_user_favorite_groups_and_articles", {
+      user_id: userId,
+    });
     expect(result).toBe(mockArticles);
   });
 
   it("should edit a favorite group successfully", async () => {
     mockSupabase.rpc.mockResolvedValue({ data: groupId });
 
-    const result = await editFavoriteGroup(mockArticles, title, groupId);
+    const result = await editFavoriteGroup(mockArticles, title, userName, true, groupId);
 
     expect(mockSupabase.rpc).toHaveBeenCalledWith("edit_favorite_group", {
       user_id: userId,
+      user_name: userName,
       group_id: groupId,
       group_title: title,
+      ispublished: true,
       articles: mockArticles,
     });
 

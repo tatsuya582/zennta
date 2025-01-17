@@ -28,8 +28,8 @@ jest.mock("@/components/layout/form/AddArticleForm", () => ({
   AddArticleForm: jest.fn(() => <div data-testid="add-article-form" />),
 }));
 
-jest.mock("@/components/layout/main/GroupList", () => ({
-  GroupList: jest.fn(() => <div data-testid="group-list" />),
+jest.mock("@/components/layout/main/FavoritePageGroupList", () => ({
+  FavoritePageGroupList: jest.fn(() => <div data-testid="group-list" />),
 }));
 
 describe("FavoritePage", () => {

@@ -30,18 +30,25 @@ const mockArticles = [
   },
 ];
 
-const mockTitle = "テストタイトル";
-const mockGroupId = "0001";
+const mockGroup = {
+  createdAt: "2024-01-01",
+  id: "1",
+  isPublished: true,
+  title: "test title",
+  updatedAt: "2024-01-01",
+  userId: "1",
+  userName: "test name",
+};
 
 describe("EditGroup Component", () => {
   it("renders component", async () => {
-    render(<EditGroup initArticles={mockArticles} initTitle={mockTitle} editGroupId={mockGroupId} />);
+    render(<EditGroup initArticles={mockArticles} group={mockGroup} />);
     expect(screen.getByTestId("loading-button")).toBeInTheDocument();
     expect(screen.getAllByTestId("selected-article-list")).toHaveLength(2);
   });
 
   it("passes correct props to SelectedArticleList component first", async () => {
-    render(<EditGroup initArticles={mockArticles} initTitle={mockTitle} editGroupId={mockGroupId} />);
+    render(<EditGroup initArticles={mockArticles} group={mockGroup} />);
     expect(SelectedArticleList).toHaveBeenCalled();
     const firstCallArgs = (SelectedArticleList as jest.Mock).mock.calls[0][0];
     expect(firstCallArgs.selectedArticles).toEqual(mockArticles);
@@ -49,12 +56,11 @@ describe("EditGroup Component", () => {
     expect(typeof firstCallArgs.setSelectedArticles).toBe("function");
     expect(typeof firstCallArgs.setDeleteArticles).toBe("function");
     expect(firstCallArgs.initArticles).toEqual(mockArticles);
-    expect(firstCallArgs.initTitle).toEqual(mockTitle);
-    expect(firstCallArgs.editGroupId).toEqual(mockGroupId);
+    expect(firstCallArgs.group).toEqual(mockGroup);
   });
 
   it("passes correct props to SelectedArticleList component second", async () => {
-    render(<EditGroup initArticles={mockArticles} initTitle={mockTitle} editGroupId={mockGroupId} />);
+    render(<EditGroup initArticles={mockArticles} group={mockGroup} />);
     expect(SelectedArticleList).toHaveBeenCalled();
     const secondCallArgs = (SelectedArticleList as jest.Mock).mock.calls[1][0];
     expect(secondCallArgs.selectedArticles).toEqual([]);
