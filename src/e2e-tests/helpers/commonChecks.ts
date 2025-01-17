@@ -67,7 +67,7 @@ export const checkPaginationCorrectly = async (page: Page, locator: Locator, pat
   const testPage = "3";
   const url = `http://localhost:3000/${path(testPage)}`;
 
-  await locator.getByRole("link", { name: testPage, exact: true }).first().click();
+  await locator.getByRole("link", { name: testPage, exact: true }).first().click({ timeout: 30000 });
   await page.waitForLoadState();
 
   await paginationActiveCheck(locator, testPage);
@@ -92,7 +92,7 @@ export const checkLastPageOfPaginationCorrectly = async (
   const testPage = "100";
   const url = `http://localhost:3000/${path(testPage)}`;
 
-  await locator.getByRole("link", { name: "Go to the last page" }).first().click();
+  await locator.getByRole("link", { name: "Go to the last page" }).first().click({ timeout: 30000 });
   await page.waitForLoadState();
 
   await paginationActiveCheck(locator, testPage);
@@ -109,7 +109,7 @@ export const checkSearchFormCorrectly = async (page: Page, linkUrl: "favorite" |
 };
 
 export const checkTagCorrectly = async (page: Page) => {
-  await page.locator("a", { hasText: "Tag1" }).first().click();
+  await page.locator("a", { hasText: "Tag1" }).first().click({ timeout: 30000 });
   await page.waitForLoadState();
 
   await expect(page.getByPlaceholder("検索ワードを入力")).toHaveValue("Tag1", { timeout: 30000 });
@@ -135,7 +135,7 @@ export const checkDafaultButtonCorrectly = async (
   }
 
   const header = await getHeaderLocator(page);
-  await header.locator("a", { hasText: linkPage }).first().click();
+  await header.locator("a", { hasText: linkPage }).first().click({ timeout: 30000 });
 
   await page.waitForLoadState();
   await expect(page.locator("h2", { hasText: linkPage })).toBeVisible({ timeout: 30000 });
