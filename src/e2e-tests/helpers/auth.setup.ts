@@ -9,7 +9,7 @@ setup("authenticate", async ({ page }) => {
   await page.goto("/signup");
   await page.locator('button:has-text("GitHubで会員登録")').click();
   await expect(page.locator("text=continue to Zennta_local")).toBeVisible();
-  console.log("Test user: ", process.env.NEXT_PUBLIC_TEST_USER!)
+  console.log("Test user: ", process.env.NEXT_PUBLIC_TEST_USER!);
   await page.fill('input[name="login"]', process.env.NEXT_PUBLIC_TEST_USER!);
   await page.fill('input[name="password"]', process.env.NEXT_PUBLIC_TEST_PASSWORD!);
   await page.click('input[name="commit"]');
@@ -22,6 +22,7 @@ setup("authenticate", async ({ page }) => {
     .catch(() => {
       // ボタンがなければ何もしない
     });
+  await page.screenshot({ path: `screenshot1.png`, fullPage: true });
   const header = await page.getByTestId("header");
   await expect(header.locator("text=Zennta")).toBeVisible({ timeout: 30000 });
 
