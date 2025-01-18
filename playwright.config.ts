@@ -45,7 +45,7 @@ export default defineConfig({
         // Use prepared auth state.
         storageState: "src/e2e-tests/.auth/user.json",
       },
-      dependencies: ["setup"],
+      // dependencies: ["setup"],
     },
 
     // {
