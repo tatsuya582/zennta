@@ -34,14 +34,6 @@ jobs:
       - name: Install pnpm
         run: npm install -g pnpm
 
-      - name: Cache pnpm modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
       - name: Install dependencies
         run: pnpm install
 
@@ -50,12 +42,6 @@ jobs:
 
       - name: Run Unit tests
         run: pnpm test
-
-      - name: Start application
-        run: pnpm start &
-
-      - name: Wait for application
-        run: npx wait-on http://localhost:3000
 
       - name: Run E2E tests
         run: pnpm e2e
