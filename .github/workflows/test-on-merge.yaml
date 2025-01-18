@@ -43,6 +43,11 @@ jobs:
       - name: Run Unit tests
         run: pnpm test
 
+      - name: Prepare authentication file
+        run: |
+          mkdir -p src/e2e-tests/.auth
+          echo "$NEXT_PUBLIC_AUTH_USER" > src/e2e-tests/.auth/user.json
+
       - name: Install Playwright browsers
         run: pnpm exec playwright install
 
