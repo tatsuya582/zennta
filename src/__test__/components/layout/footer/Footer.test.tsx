@@ -7,7 +7,6 @@ describe("Footer Component", () => {
 
     const contactLink = screen.getByText("お問い合わせフォーム");
     expect(contactLink).toBeInTheDocument();
-    console.log("FORM_URL: ", process.env.NEXT_PUBLIC_FORM_URL!);
     expect(contactLink).toHaveAttribute("href", process.env.NEXT_PUBLIC_FORM_URL!);
 
     const termsServiceLink = screen.getByText("利用規約");
