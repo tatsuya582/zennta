@@ -51,6 +51,12 @@ jobs:
           mkdir -p src/e2e-tests/.auth
           echo "$NEXT_PUBLIC_AUTH_USER" > src/e2e-tests/.auth/user.json
 
+      - name: Debug authentication variable
+        run: echo "$NEXT_PUBLIC_AUTH_USER"
+
+      - name: Display file structure
+        run: ls -la src/e2e-tests/.auth
+
       - name: Display authentication file content
         run: cat src/e2e-tests/.auth/user.json
 
