@@ -6,7 +6,7 @@ const authFile = path.join(__dirname, "../.auth/user.json");
 dotenv.config({ path: [".env.local", ".env"] });
 
 setup("authenticate", async ({ page }) => {
-  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
   await page.goto("/signup");
   await page.locator('button:has-text("GitHubで会員登録")').click();
   await expect(page.locator("text=continue to Zennta_local")).toBeVisible();
@@ -25,7 +25,7 @@ setup("authenticate", async ({ page }) => {
     .catch(() => {
       // ボタンがなければ何もしない
     });
-    await page.screenshot({ path: `screenshot2-${timestamp}.png`, fullPage: true });
+  await page.screenshot({ path: `screenshot2-${timestamp}.png`, fullPage: true });
   const header = await page.getByTestId("header");
   await expect(header.locator("text=Zennta")).toBeVisible({ timeout: 30000 });
 
