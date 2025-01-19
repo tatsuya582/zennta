@@ -31,6 +31,9 @@ jobs:
           echo "NEXT_PUBLIC_QIITA_API_TOKEN=${{ secrets.NEXT_PUBLIC_QIITA_API_TOKEN }}" >> .env.local
           echo "NEXT_PUBLIC_FORM_URL=${{ secrets.NEXT_PUBLIC_FORM_URL }}" >> .env.local
 
+      - name: Display .env.local content
+        run: cat .env.local
+
       - name: Install pnpm
         run: npm install -g pnpm
 
@@ -47,6 +50,12 @@ jobs:
         run: |
           mkdir -p src/e2e-tests/.auth
           echo "$NEXT_PUBLIC_AUTH_USER" > src/e2e-tests/.auth/user.json
+
+      - name: Display authentication file content
+        run: cat src/e2e-tests/.auth/user.json
+
+      - name: Display folder structure
+        run: ls -R
 
       - name: Install Playwright browsers
         run: pnpm exec playwright install
