@@ -21,9 +21,6 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Authenticate with GitHub
-        run: echo "${GH_TOKEN}" | gh auth login --with-token
-
       - name: Create .env.local file
         run: |
           echo "NEXT_PUBLIC_SUPABASE_URL=${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}" >> .env.local
