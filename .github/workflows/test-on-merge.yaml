@@ -30,6 +30,7 @@ jobs:
           echo "NEXT_PUBLIC_REDIRECT_URL=${{ secrets.NEXT_PUBLIC_REDIRECT_URL }}" >> .env.local
           echo "NEXT_PUBLIC_QIITA_API_TOKEN=${{ secrets.NEXT_PUBLIC_QIITA_API_TOKEN }}" >> .env.local
           echo "NEXT_PUBLIC_FORM_URL=${{ secrets.NEXT_PUBLIC_FORM_URL }}" >> .env.local
+          echo "NEXT_PUBLIC_AUTH_USER=${{ secrets.NEXT_PUBLIC_AUTH_USER }}" >> .env.local
 
       - name: Display .env.local content
         run: cat .env.local
