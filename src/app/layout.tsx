@@ -4,6 +4,7 @@ import { Sidebar } from "@/components/layout/sidebar/Sidebar";
 import { Header } from "@/components/layout/header/Header";
 import { Toaster } from "@/components/ui/toaster";
 import { Footer } from "@/components/layout/footer/Footer";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: {
@@ -44,6 +45,7 @@ export default function RootLayout({
             <Sidebar />
             <div className="w-full md:ml-auto md:w-3/4 md:mt-24 mt-12">
               <div className="md:p-12 px-0 py-4">{children}</div>
+              <Analytics />
               <div className="md:block hidden">
                 <Footer />
               </div>
