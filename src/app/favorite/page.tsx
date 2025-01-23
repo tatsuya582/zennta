@@ -1,12 +1,12 @@
 import { addFavoriteByUrl, getFavoriteArticles } from "@/actions/favorite";
+import { LinkButton } from "@/components/layout/button/LinkButton";
+import { LinkButtonWrapper } from "@/components/layout/button/LinkButtonWrapper";
 import { AddArticleForm } from "@/components/layout/form/AddArticleForm";
 import { SearchForm } from "@/components/layout/form/SearchForm";
 import { FavoritePageGroupList } from "@/components/layout/main/FavoritePageGroupList";
 import { StoredArticleList } from "@/components/layout/main/StoredArticleList";
 import { ArticleListSkeleton } from "@/components/layout/skeleton/ArticleListSkeleton";
-import { Button } from "@/components/ui/button";
 import { Metadata } from "next";
-import Link from "next/link";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
@@ -28,11 +28,9 @@ export default function FavoritePage({
 
   return (
     <>
-      <div className="flex justify-end md:mt-0 mt-4">
-        <Button variant="outline">
-          <Link href="/favorite/create">お気に入りグループ作成</Link>
-        </Button>
-      </div>
+      <LinkButtonWrapper>
+        <LinkButton href="/favorite/create">お気に入りグループ作成</LinkButton>
+      </LinkButtonWrapper>
       <SearchForm key={query} query={query} linkPage="favorite" />
       <AddArticleForm addAction={addFavoriteByUrl} />
       <div
