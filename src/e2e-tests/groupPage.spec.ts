@@ -82,8 +82,8 @@ test.describe("group page test", () => {
     });
 
     test.afterEach(async () => {
-      deleteAllTestArticles("favorites");
-      deleteAllTestArticles("favoriteGroups");
+      await deleteAllTestArticles("favorites");
+      await deleteAllTestArticles("favoriteGroups");
     });
 
     test("The title links to a detail page", async ({ page }) => {

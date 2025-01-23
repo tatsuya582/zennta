@@ -1,0 +1,54 @@
+name: Run Tests on Merge
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  unit-tests:
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Create .env.local file
+        run: |
+          echo "NEXT_PUBLIC_SUPABASE_URL=${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}" >> .env.local
+          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}" >> .env.local
+          echo "NEXT_PUBLIC_TEST_USER=${{ secrets.NEXT_PUBLIC_TEST_USER }}" >> .env.local
+          echo "NEXT_PUBLIC_TEST_PASSWORD=${{ secrets.NEXT_PUBLIC_TEST_PASSWORD }}" >> .env.local
+          echo "NEXT_PUBLIC_TEST_USER_ID=${{ secrets.NEXT_PUBLIC_TEST_USER_ID }}" >> .env.local
+          echo "NEXT_PUBLIC_TEST_ARTICLE_ID=${{ secrets.NEXT_PUBLIC_TEST_ARTICLE_ID }}" >> .env.local
+          echo "NEXT_PUBLIC_REDIRECT_URL=${{ secrets.NEXT_PUBLIC_REDIRECT_URL }}" >> .env.local
+          echo "NEXT_PUBLIC_QIITA_API_TOKEN=${{ secrets.NEXT_PUBLIC_QIITA_API_TOKEN }}" >> .env.local
+          echo "NEXT_PUBLIC_FORM_URL=${{ secrets.NEXT_PUBLIC_FORM_URL }}" >> .env.local
+          echo "NEXT_PUBLIC_TEST_USER_EMAIL=${{ secrets.NEXT_PUBLIC_TEST_USER_EMAIL }}" >> .env.local
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build the project
+        run: pnpm build
+
+      - name: Run Unit tests
+        run: pnpm test
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install
+
+      - name: Install Playwright dependencies
+        run: pnpm exec playwright install-deps
+
+      - name: Run E2E tests
+        run: pnpm e2e

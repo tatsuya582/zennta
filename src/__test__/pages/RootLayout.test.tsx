@@ -13,6 +13,10 @@ jest.mock("@/components/ui/toaster", () => ({
   Toaster: jest.fn(() => <div data-testid="toaster" />),
 }));
 
+jest.mock("@vercel/analytics/next", () => ({
+  Analytics: jest.fn(() => <div data-testid="analytics" />),
+}));
+
 describe("RootLayout", () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -25,6 +29,7 @@ describe("RootLayout", () => {
     expect(screen.getByTestId("sidebar")).toBeInTheDocument();
     expect(screen.getByTestId("header")).toBeInTheDocument();
     expect(screen.getByTestId("toaster")).toBeInTheDocument();
+    expect(screen.getByTestId("analytics")).toBeInTheDocument();
     expect(screen.getByText("test-children")).toBeInTheDocument();
   });
 
