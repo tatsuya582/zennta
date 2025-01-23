@@ -32,6 +32,7 @@ jobs:
           echo "NEXT_PUBLIC_REDIRECT_URL=${{ secrets.NEXT_PUBLIC_REDIRECT_URL }}" >> .env.local
           echo "NEXT_PUBLIC_QIITA_API_TOKEN=${{ secrets.NEXT_PUBLIC_QIITA_API_TOKEN }}" >> .env.local
           echo "NEXT_PUBLIC_FORM_URL=${{ secrets.NEXT_PUBLIC_FORM_URL }}" >> .env.local
+          echo "NEXT_PUBLIC_TEST_USER_EMAIL=${{ secrets.NEXT_PUBLIC_TEST_USER_EMAIL }}" >> .env.local
 
       - name: Install pnpm
         run: npm install -g pnpm
