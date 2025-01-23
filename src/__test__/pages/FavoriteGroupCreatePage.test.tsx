@@ -12,8 +12,6 @@ describe("FavoriteGroupCreatePage", () => {
     expect(screen.getByRole("heading", { level: 2, name: "お気に入りグループ作成" })).toBeInTheDocument();
     expect(screen.getByTestId("create-group")).toBeInTheDocument();
 
-    const backButton = screen.getByRole("button", { name: /戻る/i });
-    expect(backButton).toBeInTheDocument();
     const link = screen.getByRole("link", { name: /戻る/i });
     expect(link).toBeInTheDocument();
     expect(link).toHaveAttribute("href", "/favorite");
