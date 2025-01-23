@@ -2,6 +2,7 @@ import { checkDisplay } from "@/e2e-tests/helpers/commonChecks";
 import {
   checkLink,
   getFavoriteGroupLocator,
+  getLinkButtonLocator,
   getNotSelectedArticlesLocator,
   getSelectedArticlesLocator,
 } from "@/e2e-tests/helpers/locator";
@@ -33,8 +34,8 @@ test.describe("favorite group create page test", () => {
     mockStoredArticles(next, 30, "group");
     await page.goto("/favorite/create");
 
-    const button = await page.locator("button", { hasText: "戻る" });
-    await checkLink(page, button, "戻る", "favorite", { h2Text: "お気に入り" });
+    const linkButton = await getLinkButtonLocator(page);
+    await checkLink(page, linkButton, "戻る", "favorite", { h2Text: "お気に入り" });
   });
 
   test("should display Articles", async ({ page, next }) => {

@@ -6,6 +6,7 @@ import {
   checkSearchForm,
   getAddArticlesLocator,
   getDeletedArticlesLocator,
+  getLinkButtonLocator,
   getNotSelectedArticlesLocator,
   getSelectedArticlesLocator,
 } from "@/e2e-tests/helpers/locator";
@@ -47,8 +48,8 @@ test.describe("favoriteGroupEdit page test", () => {
   test("test back button", async ({ page }) => {
     await page.goto(`/favorite/${groupId}/edit`);
 
-    const button = await page.locator("button", { hasText: "戻る" });
-    await checkLink(page, button, "戻る", "favorite", { h2Text: "お気に入り" });
+    const linkButton = await getLinkButtonLocator(page);
+    await checkLink(page, linkButton, "戻る", "favorite", { h2Text: "お気に入り" });
   });
 
   test("Test whether the article moves when you press the button", async ({ page }) => {
