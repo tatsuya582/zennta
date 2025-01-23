@@ -17,12 +17,12 @@ test.describe("favoriteGroupEdit page test", () => {
   test.beforeEach(async ({ next }) => {
     beforeAction(next);
     groupId = await addTestFavoriteGroup();
-    addTestArticle("favorites", 2);
+    await addTestArticle("favorites", 2);
   });
 
   test.afterEach(async () => {
-    deleteAllTestArticles("favorites");
-    deleteAllTestArticles("favoriteGroups");
+    await deleteAllTestArticles("favorites");
+    await deleteAllTestArticles("favoriteGroups");
   });
 
   test("should display favoriteGroupEditpage", async ({ page }) => {

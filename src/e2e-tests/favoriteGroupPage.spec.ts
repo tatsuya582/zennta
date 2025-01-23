@@ -13,8 +13,8 @@ test.describe("favorite group page test", () => {
   });
 
   test.afterEach(async () => {
-    deleteAllTestArticles("favorites");
-    deleteAllTestArticles("favoriteGroups");
+    await deleteAllTestArticles("favorites");
+    await deleteAllTestArticles("favoriteGroups");
   });
 
   test("should display favorite group page", async ({ page }) => {
