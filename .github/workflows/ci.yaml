@@ -9,8 +9,6 @@ jobs:
   unit-tests:
     name: Run Tests
     runs-on: ubuntu-latest
-    env:
-      GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
     steps:
       - name: Checkout code
