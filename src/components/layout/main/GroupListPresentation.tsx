@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import clsx from "clsx";
 import { type groupByUser } from "@/types/databaseCustom.types";
+import { LinkButton } from "@/components/layout/button/LinkButton";
+import { LinkButtonWrapper } from "@/components/layout/button/LinkButtonWrapper";
 
 export const GroupListPresentation = ({
   groups,
@@ -49,9 +51,9 @@ export const GroupListPresentation = ({
               </div>
               {!isOtherUser && (
                 <div className="md:w-[132px] w-full flex gap-2 md:flex-row flex-col">
-                  <Button variant="outline" className="w-full md:w-[62px]">
-                    <Link href={`/favorite/${item.id}/edit`}>編集</Link>
-                  </Button>
+                  <LinkButtonWrapper hasTestId={false}>
+                    <LinkButton href={`/favorite/${item.id}/edit`}>編集</LinkButton>
+                  </LinkButtonWrapper>
                   <div className="w-full md:w-[62px]">
                     <FavoritePageDeleteButton id={item.id} actions={deleteFavoriteGroup} dialogTitle="グループ">
                       削除
