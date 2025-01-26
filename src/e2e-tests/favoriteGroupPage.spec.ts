@@ -1,6 +1,6 @@
 import { addTestFavoriteGroup, deleteAllTestArticles } from "@/e2e-tests/helpers/actions";
 import { checkDisplay } from "@/e2e-tests/helpers/commonChecks";
-import { checkLink, getFavoriteGroupLocator } from "@/e2e-tests/helpers/locator";
+import { checkLink, getFavoriteGroupLocator, getLinkButtonLocator } from "@/e2e-tests/helpers/locator";
 import { beforeAction } from "@/e2e-tests/helpers/mockHandlers";
 import { test, expect } from "next/experimental/testmode/playwright";
 
@@ -26,8 +26,8 @@ test.describe("favorite group page test", () => {
   test("links are set correctly", async ({ page }) => {
     await page.goto(`/favorite/${groupId}`);
 
-    const button = await page.locator("button", { hasText: "戻る" });
-    await checkLink(page, button, "戻る", "favorite", { h2Text: "お気に入り" });
+    const linkButton = await getLinkButtonLocator(page);
+    await checkLink(page, linkButton, "戻る", "favorite", { h2Text: "お気に入り" });
   });
 
   test("should display Articles", async ({ page }) => {

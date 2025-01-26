@@ -2,6 +2,7 @@ import { expect, type Page, type Locator } from "next/experimental/testmode/play
 
 export const getSearchFormLocator = async (page: Page) => await page.getByTestId("search-form");
 export const getAddArticleFormLocator = async (page: Page) => await page.getByTestId("add-article-form");
+export const getLinkButtonLocator = async (page: Page) => await page.getByTestId("link-button");
 export const getFavoriteArticlesLocator = async (page: Page) => await page.getByTestId("favorite-articles");
 export const getReadLaterArticlesLocator = async (page: Page) => await page.getByTestId("read-later-articles");
 export const getQiitaArticlesLocator = async (page: Page) => await page.getByTestId("qiita-articles");

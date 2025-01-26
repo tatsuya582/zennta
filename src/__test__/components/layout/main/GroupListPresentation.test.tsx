@@ -75,7 +75,6 @@ describe("GroupListPresentation", () => {
     expect(screen.getByText("test title2")).toBeInTheDocument();
     expect(screen.getByText("公開")).toBeInTheDocument();
     expect(screen.getByText("非公開")).toBeInTheDocument();
-    expect(screen.getAllByRole("button", { name: "編集" })).toHaveLength(2);
     expect(screen.getAllByTestId("favorite-page-delete-button")).toHaveLength(2);
     expect(screen.getAllByTestId("article")).toHaveLength(2);
   });

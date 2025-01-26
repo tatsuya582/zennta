@@ -22,6 +22,7 @@ import {
   getFirstArticleLocator,
   checkLink,
   getFavoriteGroupLocator,
+  getLinkButtonLocator,
 } from "@/e2e-tests/helpers/locator";
 import { beforeAction, mockStoredArticles } from "@/e2e-tests/helpers/mockHandlers";
 import { test, expect } from "next/experimental/testmode/playwright";
@@ -42,8 +43,8 @@ test.describe("favorite page test", () => {
   test("links are set correctly", async ({ page }) => {
     await page.goto("/favorite");
 
-    const button = await page.locator("button", { hasText: "お気に入りグループ作成" });
-    await checkLink(page, button, "お気に入りグループ作成", "favorite/create");
+    const linkButton = await getLinkButtonLocator(page);
+    await checkLink(page, linkButton, "お気に入りグループ作成", "favorite/create");
   });
 
   test("should display Articles", async ({ page, next }) => {
@@ -259,7 +260,7 @@ test.describe("favorite page test", () => {
       const favoriteGroup = await getFavoriteGroupLocator(page);
       await expect(favoriteGroup.locator("h2", { hasText: "お気に入りグループ" })).toBeVisible();
       await expect(favoriteGroup.locator("button", { hasText: "削除" })).toBeVisible();
-      await expect(favoriteGroup.locator("button", { hasText: "編集" })).toBeVisible();
+      await expect(favoriteGroup.locator("a", { hasText: "編集" })).toBeVisible();
       await checkLink(page, favoriteGroup, "テストタイトル", `favorite/${groupId}`);
     });
 
@@ -267,8 +268,7 @@ test.describe("favorite page test", () => {
       await page.goto("/favorite");
 
       const favoriteGroup = await getFavoriteGroupLocator(page);
-      const button = await favoriteGroup.locator("button", { hasText: "編集" });
-      await checkLink(page, button, "編集", `favorite/${groupId}/edit`, { h2Text: "テストタイトル 編集" });
+      await checkLink(page, favoriteGroup, "編集", `favorite/${groupId}/edit`, { h2Text: "テストタイトル 編集" });
     });
 
     test("test group delete button", async ({ page }) => {
