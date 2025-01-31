@@ -6,6 +6,9 @@ import { type fetchGroupArticles, type groupArticle } from "@/types/types";
 
 export const addFavoriteGroup = async (articles: groupArticle[], title: string) => {
   try {
+    if (articles.length >= 30) {
+      throw new Error("記事は30個までです");
+    }
     const { supabase, user } = await getSupabaseClientAndUser();
 
     if (!user) {
@@ -19,7 +22,7 @@ export const addFavoriteGroup = async (articles: groupArticle[], title: string) 
     });
 
     if (error) {
-      throw error;
+      throw new Error(error?.message);
     }
 
     return data;
@@ -37,6 +40,9 @@ export const editFavoriteGroup = async (
   groupId: string
 ) => {
   try {
+    if (articles.length >= 30) {
+      throw new Error("記事は30個までです");
+    }
     const { supabase, user } = await getSupabaseClientAndUser();
 
     if (!user) {
@@ -53,7 +59,7 @@ export const editFavoriteGroup = async (
     });
 
     if (error) {
-      throw error;
+      throw new Error(error?.message);
     }
     return data;
   } catch (error) {
