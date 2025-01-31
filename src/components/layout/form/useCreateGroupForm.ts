@@ -59,7 +59,7 @@ export const useCreateGroupForm = (
           initialArticles === articles &&
           group.userName === userName &&
           group.isPublished === isPublished) ||
-        (title === "無題" && articles.length === 0)
+        (!group.id && title === "無題" && articles.length === 0)
       ) {
         return;
       }
