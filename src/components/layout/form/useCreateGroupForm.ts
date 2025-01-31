@@ -53,9 +53,6 @@ export const useCreateGroupForm = (
       const title = values.title || "無題";
       const userName = values.userName || "匿名";
       const isPublished = values.isPublished || false;
-      console.log("タイトル: ", values.title);
-      console.log("名前: ", values.userName);
-      console.log("公開: ", values.isPublished);
       if (
         (group.id &&
           group.title === title &&
@@ -70,7 +67,7 @@ export const useCreateGroupForm = (
       const groupId = group.id
         ? await editFavoriteGroup(articles, title, userName, isPublished, group.id)
         : await addFavoriteGroup(articles, title);
-      router.push(`/favorite/${groupId}`);
+      router.push(`/favorite`);
       router.refresh();
       setTimeout(() => {
         toast({
