@@ -125,8 +125,10 @@ test.describe("favoriteGroupEdit page test", () => {
     await articleButtonClick(page, selectedArticles, "編集");
     await expect(page.locator("li", { hasText: "お気に入りグループを編集しました" })).toBeVisible({ timeout: 30000 });
 
-    await expect(page.getByRole("heading", { name: newTitle, level: 2, exact: true })).toBeVisible({ timeout: 30000 });
-    await expect(page.locator("text=Sample Article Title 2")).toBeVisible();
-    expect(page.url()).toBe(`http://localhost:3000/favorite/${groupId}`);
+    await expect(page.getByRole("heading", { name: "お気に入り", level: 2, exact: true })).toBeVisible({
+      timeout: 30000,
+    });
+    await expect(page.locator(`text=${newTitle}`)).toBeVisible();
+    expect(page.url()).toBe("http://localhost:3000/favorite");
   });
 });
