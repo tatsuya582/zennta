@@ -4,6 +4,7 @@ import { ArticleListSkeleton } from "@/components/layout/skeleton/ArticleListSke
 import { GroupArticleList } from "@/components/layout/group/GroupArticleList";
 import { LinkButtonWrapper } from "@/components/layout/button/LinkButtonWrapper";
 import { LinkButton } from "@/components/layout/button/LinkButton";
+import { NotArticleError } from "@/components/layout/main/NotArticleError";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { type Metadata } from "next";
@@ -37,7 +38,7 @@ export default async function FavoriteGroupPage({ params }: { params: { id: stri
         <Suspense fallback={<h2></h2>}>
           <h2>{group.title}</h2>
         </Suspense>
-        {articles && articles.length !== 0 && (
+        {articles && articles.length !== 0 ? (
           <div
             className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300"
             data-testid="favorite-group"
@@ -45,6 +46,10 @@ export default async function FavoriteGroupPage({ params }: { params: { id: stri
             <Suspense fallback={<ArticleListSkeleton />}>
               <GroupArticleList articles={articles} />
             </Suspense>
+          </div>
+        ) : (
+          <div className="w-full md:border border-y md:rounded-lg rounded-none p-2 mt-2 border-gray-300">
+            <NotArticleError />
           </div>
         )}
       </div>

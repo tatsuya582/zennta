@@ -1,12 +1,12 @@
 import { addFavoriteGroup, editFavoriteGroup } from "@/actions/group";
 import { useToast } from "@/hooks/use-toast";
-import { FavoriteGroup } from "@/types/databaseCustom.types";
 import { groupArticle } from "@/types/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { type FavoriteGroup } from "@/types/databaseCustom.types";
 
 const formSchema = z.object({
   title: z.string().max(40, {
@@ -53,38 +53,41 @@ export const useCreateGroupForm = (
       const title = values.title || "無題";
       const userName = values.userName || "匿名";
       const isPublished = values.isPublished || false;
-      console.log("タイトル: ", values.title);
-      console.log("名前: ", values.userName);
-      console.log("公開: ", values.isPublished);
       if (
         (group.id &&
           group.title === title &&
           initialArticles === articles &&
           group.userName === userName &&
           group.isPublished === isPublished) ||
-        (title === "無題" && articles.length === 0)
+        (!group.id && title === "無題" && articles.length === 0)
       ) {
         return;
       }
       setIsLoading(true);
-      const groupId = group.id
+      group.id
         ? await editFavoriteGroup(articles, title, userName, isPublished, group.id)
         : await addFavoriteGroup(articles, title);
-      router.push(`/favorite/${groupId}`);
+      router.push(`/favorite`);
       router.refresh();
       setTimeout(() => {
         toast({
           description: toastStr,
         });
       }, 2000);
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
       setIsLoading(false);
+      const errorMessage = error.message.includes("You can only have up to 10 favorite groups.")
+        ? "お気に入りグループの上限（10件）に達しました"
+        : error.message.includes("記事は30個までです")
+          ? "記事は30個までです"
+          : "エラーが発生しました";
       toast({
-        description: "エラーが発生しました",
+        description: errorMessage,
       });
     } finally {
-      setIsLoading(false);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
     }
   };
 

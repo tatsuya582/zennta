@@ -2,7 +2,6 @@ import { deleteFavoriteGroup } from "@/actions/group";
 import { addStoredItemHistory } from "@/actions/history";
 import { FavoritePageDeleteButton } from "@/components/layout/button/FavoritePageDeleteButton";
 import { Article } from "@/components/layout/main/Article";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import clsx from "clsx";
 import { type groupByUser } from "@/types/databaseCustom.types";
@@ -63,7 +62,7 @@ export const GroupListPresentation = ({
               )}
             </div>
             <div className="w-10/12 mx-auto mt-2">
-              {item.articles.map((item) => (
+              {item.articles?.map((item) => (
                 <div key={item.id}>
                   <Article item={item} onSubmit={addStoredItemHistory} displayTags={false} isGroup />
                 </div>
