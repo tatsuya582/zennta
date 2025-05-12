@@ -2,6 +2,15 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function updateSession(request: NextRequest) {
+  const userAgent = request.headers.get("user-agent") || "";
+
+  // ブロックしたいBot一覧
+  const blockedBots = ["ClaudeBot", "Amazonbot"];
+
+  if (blockedBots.some((bot) => userAgent.includes(bot))) {
+    return new NextResponse("Bot access blocked", { status: 403 });
+  }
+
   let supabaseResponse = NextResponse.next({
     request,
   });
